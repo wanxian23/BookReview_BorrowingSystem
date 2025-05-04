@@ -1,0 +1,109 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f6f8d0;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+header #burgerIcon {
+    display: none;
+}
+
+header #firstHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    font-size: 22px;
+    background-color: #f3fa78;
+}
+
+header img{
+    width: 16%;
+}
+
+header nav {
+    width: 40%;
+    margin: 18px 0 0 10px;
+}
+
+header #firstHeader a {
+    text-decoration: none;
+    padding: 0 30px;
+    color: black;
+}
+
+header #firstHeader a label {
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+    transition: 0.3s;
+}
+
+header #firstHeader a label:hover {
+    border-bottom: 5px solid red;
+}
+
+header #firstHeader a:active {
+    color: #f3fa78;
+}
+
+header #secondHeader {
+    height: 60px;
+    background-color: #b1def2;
+    font-size: 18px;
+}
+
+header #secondHeader nav{
+    margin-left: 20px;
+}
+
+header #secondHeader a{
+    text-decoration: none;
+    padding: 0 10px;
+    color: black;
+}
+
+header #secondHeader a label{
+    display: inline-block;
+    width: 12%;
+    text-align: center;
+    transition: 0.2s;
+}
+
+header #secondHeader a label:hover{
+    border-bottom: 5px solid;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    height: 220px;
+    background-color: lightgray;
+    padding: 20px 0;
+    
+}
+
+footer a {
+    margin: 0 auto;
+    background-image: url("image/socialMedia/insta.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    background-image: url("image/socialMedia/insta_clicked.png");
+}

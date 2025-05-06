@@ -44,7 +44,8 @@ header nav {
 }
 
 header #firstHeader nav {
-    text-align: right;
+    display: flex;
+    justify-content: right;
 }
 
 header #firstHeader nav span {
@@ -59,7 +60,8 @@ header #firstHeader span label {
 }
 
 header #firstHeader span .downArrow {
-    width: 8%;
+    margin-left: 10px;
+    width: 15%;
 }
 header #firstHeader span label:hover {
     border-bottom: 5px solid;
@@ -121,14 +123,6 @@ header .accessibility div.default {
 header .accessibility div.option:hover, .accessibility div.default:hover {
     background-color: rgb(236, 235, 235);
     cursor: pointer;
-}
-
-header .colorAccessibility {
-    right: 27%;
-}
-
-header .fontSizeAccessibility {
-    right: 15%;
 }
 
 header .support {
@@ -281,18 +275,6 @@ footer a:hover {
     header #secondHeader a label{
         font-size: 16px;
         width: 15%;
-    }
-
-    header .colorAccessibility {
-        right: 45%;
-    }
-    
-    header .fontSizeAccessibility {
-        right: 25%;
-    }
-    
-    header .support {
-        right: 4%;
     }
 
     footer {

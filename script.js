@@ -19,11 +19,16 @@ $(document).ready(function() {
 
     $("#burgerIcon").click(function() {
         if ($("aside").hasClass("visible")) {
-            $("aside").fadeOut(300, function() {
+            $("aside").animate({
+                marginLeft: "100%"
+            }, "slow", function() {
+                // This runs AFTER the animation finishes
                 $("aside").removeClass("visible");
             });
         } else {
-            $("aside").addClass("visible").hide().fadeIn(300);
+            $("aside").addClass("visible").animate({
+                marginLeft: "65%"
+            }, "slow");
         }
     });
 });

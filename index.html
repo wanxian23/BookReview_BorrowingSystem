@@ -5,7 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Free Icon Website -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- UI jQuery library, which include more animation effect -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script src="script.js"></script>
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
@@ -24,16 +32,41 @@
             <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo"></a>
 
             <nav>
-                <a href="">Color<box-icon name='chevron-down' class="downArrow"></box-icon></a>
-                <a href="">Font Size<box-icon name='chevron-down' class="downArrow"></box-icon></a>
-                <a href="">Support<box-icon name='chevron-down' class="downArrow"></box-icon></a>
+                <span id="colorButton"><label for="color">Color<box-icon name='chevron-down'
+                            class="downArrow"></box-icon></label></span>
+                <div class="accessibility" id="colorAccessibility">
+                    <div class="default">Default</div>
+                    <div>Light</div>
+                    <div>Dark</div>
+                </div>
+                <span id="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
+                            class="downArrow"></box-icon></label></span>
+                <div class="accessibility" id="fontSizeAccessibility">
+                    <div>Small</div>
+                    <div class="default">Default</div>
+                    <div>Large</div>
+                    <div>Very Large</div>
+                </div>
+                <span id="supportButton"><label for="support">Support<box-icon name='chevron-down'
+                            class="downArrow"></box-icon></label></span>
+                <div class="accessibility" id="support">
+                    <span>Follow Us At Instagram!</span>
+                    <div>
+                        <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                        <label for="bookSpare">@BookSpare</label>
+                    </div>
             </nav>
-            <box-icon name='menu' id="burgerIcon"></box-icon>
+            <box-icon name='menu' id="burgerIcon" size="50"></box-icon>
         </div>
+        <aside>
+            <span id="colorButton"><label for="color">Color</label></span>
+            <span id="fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <span id="supportButton"><label for="support">Support</label></span>
+        </aside>
         <div id="secondHeader">
             <nav>
-                <a href=""><label for="">Log In</label></a>
-                <a href=""><label for="">Sign Up</label></a>
+                <a href=""><label for="login">Log In</label></a>
+                <a href=""><label for="signup">Sign Up</label></a>
             </nav>
         </div>
     </header>

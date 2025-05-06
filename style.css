@@ -11,9 +11,14 @@ body {
 header {
     display: flex;
     flex-direction: column;
+    user-select: none;
 }
 
 header #burgerIcon {
+    display: none;
+}
+
+aside {
     display: none;
 }
 
@@ -21,7 +26,7 @@ header #firstHeader {
     display: flex;
     justify-content: space-between;
     padding: 10px 20px;
-    font-size: 22px;
+    font-size: 20px;
     background-color: #f3fa78;
 }
 
@@ -30,25 +35,29 @@ header img{
 }
 
 header nav {
-    width: 45%;
+    width: 28%;
     margin: 18px 0 0 10px;
 }
 
-header #firstHeader a {
+header #firstHeader nav span {
     text-decoration: none;
-    padding: 0 30px;
     color: black;
+    padding: 0 20px;
+}
+
+header #firstHeader span label {
+    cursor: pointer;
     transition: 0.3s;
 }
 
-header #firstHeader a .downArrow {
+header #firstHeader span .downArrow {
     width: 8%;
 }
-header #firstHeader a:hover {
-    text-shadow: 1px 1px 20px black;
+header #firstHeader span label:hover {
+    border-bottom: 5px solid;
 }
 
-header #firstHeader a:active {
+header #firstHeader span:active {
     color: #f3fa78;
 }
 
@@ -62,21 +71,61 @@ header #secondHeader nav{
     margin-left: 20px;
 }
 
-header #secondHeader a{
+header #secondHeader nav a{
     text-decoration: none;
-    padding: 0 10px;
+    padding: 0 30px 0 0;
     color: black;
 }
 
 header #secondHeader a label{
     display: inline-block;
-    width: 12%;
+    width: 15%;
     text-align: center;
+    cursor: pointer;
     transition: 0.2s;
 }
 
 header #secondHeader a label:hover{
     border-bottom: 5px solid;
+}
+
+header .accessibility {
+    position: absolute;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 20px 25px;
+    background-color: white;
+    margin-top: 10px;
+    text-align: center;
+    display: none;
+}
+
+header .accessibility div {
+    padding: 8px 5px;
+    width: 125px;
+}
+
+header .accessibility div.default {
+    background-color: lightgray;
+}
+
+header #fontSizeAccessibility {
+    margin-left: 130px;
+}
+
+header #support {
+    margin-left: 115px;
+}
+
+header #support div {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+header #support div label {
+    margin-top: 5px;
 }
 
 footer {
@@ -87,21 +136,88 @@ footer {
     height: 220px;
     background-color: lightgray;
     padding: 20px 0;
+    user-select: none;
     
 }
 
 footer a {
     margin: 0 auto;
-    background-image: url("image/socialMedia/insta.jpg");
+    background-image: url("image/socialMedia/ig.png");
     background-repeat: no-repeat;
     background-size: contain;
     width: 70px;
     height: 70px;
-    border-radius: 50px;
+    border-radius: 20px;
     transition: 0.3s;
 }
 
 footer a:hover {
-    background-image: url("image/socialMedia/insta_clicked.png");
+    background-image: url("image/socialMedia/ig_clicked.png");
 }
 
+@media (max-width: 600px) {
+    header #firstHeader img {
+        width: 30%;
+    }
+
+    header #burgerIcon {
+        display: block;
+        width: 20%;
+        cursor: pointer;
+    }
+
+    header #firstHeader nav {
+        display: none;
+    }
+
+    header #secondHeader nav {
+        font-size: 15px;
+        width: 50%;
+    }
+
+    header #secondHeader a label{
+        width: 30%;
+    }
+
+    aside {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        height: 100%;
+        gap: 25px;
+        margin: 14% 0 0 70%;
+        width: 30%;
+        text-align: right;
+        padding: 20px 30px 0 0;
+        background-color: white;
+    }
+
+    aside.visible {
+        display: inline-flex;
+    }
+
+    aside span {
+        padding: 5px 0;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    aside span label {
+        cursor: pointer;
+    }
+
+    aside span:hover {
+        border-left: 4px solid;
+    }
+
+    footer {
+        font-size: 13px;
+        height: 180px;
+    }
+
+    footer a {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;     
+    }
+}

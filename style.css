@@ -39,8 +39,12 @@ header #logoImage {
 }
 
 header nav {
-    width: 28%;
+    width: 70%;
     margin: 18px 0 0 10px;
+}
+
+header #firstHeader nav {
+    text-align: right;
 }
 
 header #firstHeader nav span {
@@ -72,7 +76,8 @@ header #secondHeader {
 }
 
 header #secondHeader nav{
-    margin-left: 20px;
+    text-align: left;
+    margin-top: 20px;
 }
 
 header #secondHeader nav a{
@@ -83,7 +88,7 @@ header #secondHeader nav a{
 
 header #secondHeader a label{
     display: inline-block;
-    width: 15%;
+    width: 8%;
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
@@ -118,13 +123,16 @@ header .accessibility div.option:hover, .accessibility div.default:hover {
     cursor: pointer;
 }
 
+header .colorAccessibility {
+    right: 27%;
+}
 
 header .fontSizeAccessibility {
-    margin-left: 130px;
+    right: 15%;
 }
 
 header .support {
-    margin-left: 115px;
+    right: 2%;
 }
 
 header .support img{
@@ -169,7 +177,7 @@ footer a:hover {
     background-image: url("image/socialMedia/ig_clicked.png");
 }
 
-@media (max-width: 600px) {
+@media (max-width: 620px) {
     header #firstHeader a{
         width: 25%;
     }
@@ -241,6 +249,50 @@ footer a:hover {
 
     aside span.accessibilityButton:active {
         color: white;
+    }
+
+    footer {
+        font-size: 13px;
+        height: 180px;
+    }
+
+    footer a {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;     
+    }
+}
+
+@media (min-width: 620px) and (max-width: 1250px) {
+    header nav {
+        width: 70%;
+        margin: 12px 0 0 10px;
+        font-size: 18px;
+    }
+
+    header #firstHeader a{
+        width: 13%;
+    }
+
+    header #secondHeader nav a {
+        padding: 0 5px 0 0;
+    }
+
+    header #secondHeader a label{
+        font-size: 16px;
+        width: 15%;
+    }
+
+    header .colorAccessibility {
+        right: 37%;
+    }
+    
+    header .fontSizeAccessibility {
+        right: 20%;
+    }
+    
+    header .support {
+        right: 3%;
     }
 
     footer {

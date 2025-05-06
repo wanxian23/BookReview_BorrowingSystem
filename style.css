@@ -34,7 +34,7 @@ header #firstHeader a{
     width: 10%;
 }
 
-header img{
+header #logoImage {
     width: 100%;
 }
 
@@ -95,7 +95,7 @@ header #secondHeader a label:hover{
 
 header .accessibility {
     position: absolute;
-    border: 1px solid;
+    border: 2px solid;
     border-radius: 10px;
     padding: 20px 25px;
     background-color: white;
@@ -113,22 +113,26 @@ header .accessibility div.default {
     background-color: lightgray;
 }
 
-header #fontSizeAccessibility {
+header .fontSizeAccessibility {
     margin-left: 130px;
 }
 
-header #support {
+header .support {
     margin-left: 115px;
 }
 
-header #support div {
+header .support img{
+    width: 20%;
+}
+
+header .support div {
     display: flex;
     justify-content: space-around;
     width: 100%;
     padding: 10px 20px;
 }
 
-header #support div label {
+header .support div label {
     margin-top: 5px;
 }
 
@@ -163,10 +167,6 @@ footer a:hover {
     header #firstHeader a{
         width: 25%;
     }
-    
-    header img{
-        width: 100%;
-    }
 
     header #burgerIcon {
         display: block;
@@ -187,8 +187,24 @@ footer a:hover {
         width: 30%;
     }
 
+    aside .accessibility {
+        position: absolute;
+        border: 0px;
+        border-radius: 0px;
+        text-align: center;
+        margin-top: 0px;
+        top: 0;
+        right: 140px;
+        background-color: rgb(247, 246, 246);
+    }
+
+    header .accessibility div {
+        padding: 8px 5px;
+        width: 150px;
+    }
+
     aside {
-        display: none;
+        display: inline-flex;
         flex-direction: column;
         position: fixed;
         height: 100%;

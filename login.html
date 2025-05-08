@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Page - BookSpare</title>
+    
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 0;
+        }
+
+        .login-container {
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .login-header {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .login-form {
+            padding: 20px 30px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-footer .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-footer .remember-me input {
+            margin-right: 8px;
+        }
+
+        .form-footer .forgot-password {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .form-footer .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-button:hover {
+            background-color: #444;
+        }
+
+        .signup-link {
+            text-align: center;
+        }
+
+        .signup-link a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 620px) {
+            .login-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="firstHeader">
+            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            
+            <nav>
+                <div>
+                    <span class="colorButton"><label for="color">Colour<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
+                    <div class="accessibility colorAccessibility">
+                        <div class="default option">Default</div>
+                        <div class="option">Light</div>
+                        <div class="option">Dark</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
+                    <div class="accessibility fontSizeAccessibility">
+                        <div class="option">Small</div>
+                        <div class="default option">Default</div>
+                        <div class="option">Large</div>
+                        <div class="option">Very Large</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
+                    <div class="accessibility support">
+                        <span>Follow Us At Instagram!</span>
+                        <div>
+                            <img src="image/socialMedia/ig2.png" alt="IG Logo">
+                            <label for="bookSpare">@BookSpare</label>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
+        </div>
+        
+        <aside>
+            <div class="accessibility colorAccessibility">
+                <div class="default option">Default</div>
+                <div class="option">Light</div>
+                <div class="option">Dark</div>
+            </div>
+            <span class="accessibilityButton colorButton"><label for="color">Colour</label></span>
+            <div class="accessibility fontSizeAccessibility">
+                <div class="option">Small</div>
+                <div class="default option">Default</div>
+                <div class="option">Large</div>
+                <div class="option">Very Large</div>
+            </div>
+            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <div class="accessibility support">
+                <span>Follow Us At Instagram!</span>
+                <div>
+                    <img src="image/socialMedia/ig2.png" alt="IG Logo">
+                    <label for="bookSpare">@BookSpare</label>
+                </div>
+            </div>
+            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+        </aside>
+        
+        <div id="secondHeader">
+            <nav>
+                <a href="login.html"><label for="login" style="border-bottom: 5px solid;">Log In</label></a>
+                <a href="signup.html"><label for="signup">Sign Up</label></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-header">
+                Log In
+            </div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="username">Username/ Email/ Phone</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-footer">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-button">Log In</button>
+                <div class="signup-link">
+                    Don't Have An Account? <a href="signup.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <h1>Follow Us At</h1>
+        <div class="social-container">
+            <a href="https://instagram.com/bookspare" class="social-link"></a>
+        </div>
+        <p>Copyright © 2025 BookSpare. All right reserved</p>
+    </footer>
+
+    <script src="script.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $(".login-button").click(function(e) {
+                let username = $("#username").val();
+                let password = $("#password").val();
+                let isValid = true;
+                
+                if (!username) {
+                    $("#username").css("border-color", "red");
+                    isValid = false;
+                } else {
+                    $("#username").css("border-color", "#ccc");
+                }
+                
+                if (!password) {
+                    $("#password").css("border-color", "red");
+                    isValid = false;
+                } else {
+                    $("#password").css("border-color", "#ccc");
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                alert("Login form submitted successfully!");
+            });
+        });
+    </script>
+</body>
+</html>

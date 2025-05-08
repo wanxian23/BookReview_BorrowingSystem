@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    
+
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
     <title>Login Page - BookSpare</title>
-    
+
     <style>
         main {
             display: flex;
@@ -128,10 +128,11 @@
     <header>
         <div id="firstHeader">
             <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
-            
+
             <nav>
                 <div>
-                    <span class="colorButton"><label for="color">Colour<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
+                    <span class="colorButton"><label for="color">Colour<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
                         <div class="default option">Default</div>
                         <div class="option">Light</div>
@@ -139,7 +140,8 @@
                     </div>
                 </div>
                 <div>
-                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
+                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
                     <div class="accessibility fontSizeAccessibility">
                         <div class="option">Small</div>
                         <div class="default option">Default</div>
@@ -148,7 +150,8 @@
                     </div>
                 </div>
                 <div>
-                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
+                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
                     <div class="accessibility support">
                         <span>Follow Us At Instagram!</span>
                         <div>
@@ -160,7 +163,7 @@
             </nav>
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
-        
+
         <aside>
             <div class="accessibility colorAccessibility">
                 <div class="default option">Default</div>
@@ -184,7 +187,7 @@
             </div>
             <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
         </aside>
-        
+
         <div id="secondHeader">
             <nav>
                 <a href="login.html"><label for="login" style="border-bottom: 5px solid;">Log In</label></a>
@@ -231,36 +234,37 @@
     </footer>
 
     <script src="script.js"></script>
-    
+
     <script>
-        $(document).ready(function() {
-            $(".login-button").click(function(e) {
+        $(document).ready(function () {
+            $(".login-button").click(function (e) {
                 let username = $("#username").val();
                 let password = $("#password").val();
                 let isValid = true;
-                
+
                 if (!username) {
                     $("#username").css("border-color", "red");
                     isValid = false;
                 } else {
                     $("#username").css("border-color", "#ccc");
                 }
-                
+
                 if (!password) {
                     $("#password").css("border-color", "red");
                     isValid = false;
                 } else {
                     $("#password").css("border-color", "#ccc");
                 }
-                
+
                 if (!isValid) {
                     e.preventDefault();
                     return false;
                 }
-                
+
                 alert("Login form submitted successfully!");
             });
         });
     </script>
 </body>
+
 </html>

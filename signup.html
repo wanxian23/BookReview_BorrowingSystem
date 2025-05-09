@@ -17,13 +17,119 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Login Page</title>
+    <title>Sign Up Page</title>
 
+    
+    
     <style>
         main {
-            margin: 10% 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ensures it takes full height */
+            padding: 50px 0;
+        }
+
+        .signup-container {
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .signup-header {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 23px;
+            padding: 20px 30px 30px;
+        }
+
+        .form-group {
+            flex: 1 1 45%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .checkbox-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0 10px 0;
+            font-size: 15px;
+        }
+
+
+        .signup-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signup-button:hover {
+            background-color: #444;
+        }
+
+        .login-link {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .login-link a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 620px) {
+            .signup-container {
+                width: 90%;
+            }
         }
     </style>
+
+
 </head>
 
 <body>
@@ -98,14 +204,123 @@
     </header>
 
     <main>
+        <div class="signup-container">
+          <div class="signup-header">Sign Up</div>
 
-    </main>
+          <div class="signup-form">
+
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" />
+            </div>
+
+            <div class="form-group">
+              <label for="country">Country/Region</label>
+              <select id="country">
+                <option value="">Select your country</option>
+                <option value="Malaysia">Malaysia</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" />
+            </div>
+
+            <div class="form-group">
+              <label for="contact">Contact Number</label>
+              <input type="tel" id="contact" />
+            </div>
+
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input type="date" id="dob" />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" />
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password">Re-enter Password</label>
+              <input type="password" id="confirm-password" />
+            </div>
+    
+            <div class="checkbox-container">
+                <input type="checkbox" id="terms" />
+                <label for="terms">Agree to <a href="#">Terms & Conditions</a></label>
+              </div>
+              
+            
+              
+    
+            <button class="signup-button">Sign Up</button>
+
+            <div class="login-link"> 
+                Already Have An Account? <a href="login.html">Log in</a>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      
 
     <footer>
         <h1>Our Social Media</h1>
         <a href=""></a>
         <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
     </footer>
+
+    <script>
+        $(document).ready(function () {
+            $(".signup-button").click(function (e) {
+                
+                let username = $("#username").val().trim();
+                let country = $("#country").val();
+                let email = $("#email").val().trim();
+                let contact = $("#contact").val().trim();
+                let dob = $("#dob").val();
+                let password = $("#password").val();
+                let rePassword = $("#confirm-password").val();
+                let termsChecked = $("#terms").is(":checked");
+                
+                let isValid = true;
+        
+                $("input, select").css("border-color", "#ccc");
+        
+                if (!username || !country || !email || !contact || !dob || !password || !rePassword) {
+                    alert("Please fill in all fields.");
+                    $("input, select").each(function () {
+                        if (!$(this).val()) {
+                            $(this).css("border-color", "red");
+                        }
+                    });
+                    isValid = false;
+                }
+
+                if (password && rePassword && password !== rePassword) {
+                    alert("Passwords do not match. Please re-enter your password.");
+                    $("#password, #confirm-password").css("border-color", "red");
+                    isValid = false;
+                }
+        
+                if (!termsChecked) {
+                    alert("You must agree to the terms and conditions.");
+                    isValid = false;
+                }
+        
+                if (!isValid) {
+                    e.preventDefault(); 
+                } else {
+                    alert("Signed Up successfully!");
+                }
+            });
+        });
+        </script>
+        
+
+
 </body>
 
 </html>

@@ -31,4 +31,35 @@ $(document).ready(function() {
             }, "slow");
         }
     });
+
+    // Apply saved theme on load (enhanced)
+    function applySavedTheme() {
+        const savedTheme = localStorage.getItem("theme") || "defaultColor";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        
+        // Highlight the selected option in the dropdown
+        $(".colorAccessibility .option").removeClass("default");
+
+        // String interpolation in js
+        $(`.colorAccessibility .option[data-value="${savedTheme}"]`).addClass("default");
+
+        if (savedTheme == "darkColor") {
+            $("header box-icon").attr("color", "white");
+        } else {
+            $("header box-icon").attr("color", "black");
+        }
+    }
+
+    // Run this on every page load
+    applySavedTheme();
+
+    // Theme selection handler (unchanged)
+    document.querySelectorAll(".colorAccessibility .option").forEach(option => {
+        option.addEventListener("click", function() {
+            const theme = this.getAttribute("data-value");
+            document.documentElement.setAttribute("data-theme", theme);
+            localStorage.setItem("theme", theme);
+            applySavedTheme(); // Update UI to reflect selection
+        });
+    });
 });

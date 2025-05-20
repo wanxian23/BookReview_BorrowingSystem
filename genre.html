@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="defaultColor">
 
 <head>
     <meta charset="UTF-8">
@@ -69,7 +69,8 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .genre-table th, .genre-table td {
+        .genre-table th,
+        .genre-table td {
             padding: 15px;
             text-align: center;
             border-bottom: 1px solid #ddd;
@@ -80,7 +81,7 @@
             font-weight: bold;
         }
 
-    
+
         .pagination {
             text-align: right;
             padding-right: 10px;
@@ -112,9 +113,9 @@
                     <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <div class="default option">Default</div>
-                        <div class="option">Light</div>
-                        <div class="option">Dark</div>
+                        <div class="default option" data-value="defaultColor">Default</div>
+                        <div class="option" data-value="lightColor">Light</div>
+                        <div class="option" data-value="darkColor">Dark</div>
                     </div>
                 </div>
                 <div>
@@ -144,9 +145,9 @@
         </div>
         <aside>
             <div class="accessibility colorAccessibility">
-                <div class="default option">Default</div>
-                <div class="option">Light</div>
-                <div class="option">Dark</div>
+                <div class="default option" data-value="defaultColor">Default</div>
+                <div class="option" data-value="lightColor">Light</div>
+                <div class="option" data-value="darkColor">Dark</div>
             </div>
             <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
             <div class="accessibility fontSizeAccessibility">
@@ -179,7 +180,6 @@
     </header>
 
     <main>
-
         <div class="genre-buttons">
             <button>ROMANCE</button>
             <button>HORROR</button>
@@ -201,18 +201,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><td colspan="2">&nbsp;</td></tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
             </tbody>
         </table>
 
         <div class="pagination">
-            <button><</button>
-            <span>1</span>
-            <button>></button>
+            <button>
+                << /button>
+                    <span>1</span>
+                    <button>></button>
         </div>
     </main>
 

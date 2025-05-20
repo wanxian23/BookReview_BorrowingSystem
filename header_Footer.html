@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="defaultColor">
 
 <head>
     <meta charset="UTF-8">
@@ -37,11 +37,12 @@
                     <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <div class="default option">Default</div>
-                        <div class="option">Light</div>
-                        <div class="option">Dark</div>
+                        <div class="default option" data-value="defaultColor">Default</div>
+                        <div class="option" data-value="lightColor">Light</div>
+                        <div class="option" data-value="darkColor">Dark</div>
                     </div>
                 </div>
+
                 <div>
                     <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
@@ -69,9 +70,9 @@
         </div>
         <aside>
             <div class="accessibility colorAccessibility">
-                <div class="default option">Default</div>
-                <div class="option">Light</div>
-                <div class="option">Dark</div>
+                <div class="default option" data-value="defaultColor">Default</div>
+                <div class="option" data-value="lightColor">Light</div>
+                <div class="option" data-value="darkColor">Dark</div>
             </div>
             <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
             <div class="accessibility fontSizeAccessibility">

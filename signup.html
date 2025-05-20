@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="defaultColor">
 
 <head>
     <meta charset="UTF-8">
@@ -19,24 +19,42 @@
     <link rel="stylesheet" href="style.css">
     <title>Sign Up Page</title>
 
-    
-    
+
+
     <style>
+        :root {
+            --signupContainerBgColor: white;
+            --signupContainerColor: black;
+            --signupContainerButtonColor: white;
+            --signupContainerButtonBgColor: #333;
+            --signupContainerButtonHoverBgColor: #444;
+            --signupContainerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+        }
+
+        [data-theme="darkColor"] {
+            --signupContainerBgColor: black;
+            --signupContainerColor: white;
+            --signupContainerButtonBgColor: rgb(157, 157, 157);
+            --signupContainerButtonColor: black;
+            --signupContainerButtonHoverBgColor: #8f8f8f;
+            --signupContainerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+        }
+
         main {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Ensures it takes full height */
-            padding: 50px 0;
+            padding: 70px 0;
         }
 
         .signup-container {
-            background-color: #f8f8f8;
+            background-color: var(--signupContainerBgColor);
             border-radius: 10px;
             width: 100%;
             max-width: 550px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--signupContainerBoxShadow);
             overflow: hidden;
+            color: var(--signupContainerColor);
         }
 
         .signup-header {
@@ -67,7 +85,7 @@
         .form-group label {
             margin-bottom: 8px;
             font-weight: 500;
-            color: #333;
+            color: var(--signupContainerColor);
         }
 
         .form-group input,
@@ -124,7 +142,7 @@
 
         @media (max-width: 620px) {
             .signup-container {
-                width: 90%;
+                width: 85%;
             }
         }
     </style>
@@ -142,9 +160,9 @@
                     <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <div class="default option">Default</div>
-                        <div class="option">Light</div>
-                        <div class="option">Dark</div>
+                        <div class="default option" data-value="defaultColor">Default</div>
+                        <div class="option" data-value="lightColor">Light</div>
+                        <div class="option" data-value="darkColor">Dark</div>
                     </div>
                 </div>
                 <div>
@@ -174,9 +192,9 @@
         </div>
         <aside>
             <div class="accessibility colorAccessibility">
-                <div class="default option">Default</div>
-                <div class="option">Light</div>
-                <div class="option">Dark</div>
+                <div class="default option" data-value="defaultColor">Default</div>
+                <div class="option" data-value="lightColor">Light</div>
+                <div class="option" data-value="darkColor">Dark</div>
             </div>
             <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
             <div class="accessibility fontSizeAccessibility">
@@ -205,66 +223,66 @@
 
     <main>
         <div class="signup-container">
-          <div class="signup-header">Sign Up</div>
+            <div class="signup-header">Sign Up</div>
 
-          <div class="signup-form">
+            <div class="signup-form">
 
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" />
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" />
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country/Region</label>
+                    <select id="country">
+                        <option value="">Select your country</option>
+                        <option value="Malaysia">Malaysia</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" />
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" />
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Re-enter Password</label>
+                    <input type="password" id="confirm-password" />
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="terms" />
+                    <label for="terms">Agree to <a href="#">Terms & Conditions</a></label>
+                </div>
+
+
+
+
+                <button class="signup-button">Sign Up</button>
+
+                <div class="login-link">
+                    Already Have An Account? <a href="login.html">Log in</a>
+                </div>
             </div>
-
-            <div class="form-group">
-              <label for="country">Country/Region</label>
-              <select id="country">
-                <option value="">Select your country</option>
-                <option value="Malaysia">Malaysia</option>
-              </select>
-            </div>
-
-            <div class="form-group full-width">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" />
-            </div>
-
-            <div class="form-group">
-              <label for="contact">Contact Number</label>
-              <input type="tel" id="contact" />
-            </div>
-
-            <div class="form-group">
-              <label for="dob">Date of Birth</label>
-              <input type="date" id="dob" />
-            </div>
-
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" />
-            </div>
-
-            <div class="form-group">
-              <label for="confirm-password">Re-enter Password</label>
-              <input type="password" id="confirm-password" />
-            </div>
-    
-            <div class="checkbox-container">
-                <input type="checkbox" id="terms" />
-                <label for="terms">Agree to <a href="#">Terms & Conditions</a></label>
-              </div>
-              
-            
-              
-    
-            <button class="signup-button">Sign Up</button>
-
-            <div class="login-link"> 
-                Already Have An Account? <a href="login.html">Log in</a>
-            </div>
-          </div>
         </div>
-      </main>
+    </main>
 
-      
+
 
     <footer>
         <h1>Our Social Media</h1>
@@ -275,7 +293,7 @@
     <script>
         $(document).ready(function () {
             $(".signup-button").click(function (e) {
-                
+
                 let username = $("#username").val().trim();
                 let country = $("#country").val();
                 let email = $("#email").val().trim();
@@ -284,11 +302,11 @@
                 let password = $("#password").val();
                 let rePassword = $("#confirm-password").val();
                 let termsChecked = $("#terms").is(":checked");
-                
+
                 let isValid = true;
-        
+
                 $("input, select").css("border-color", "#ccc");
-        
+
                 if (!username || !country || !email || !contact || !dob || !password || !rePassword) {
                     alert("Please fill in all fields.");
                     $("input, select").each(function () {
@@ -304,21 +322,21 @@
                     $("#password, #confirm-password").css("border-color", "red");
                     isValid = false;
                 }
-        
+
                 if (!termsChecked) {
                     alert("You must agree to the terms and conditions.");
                     isValid = false;
                 }
-        
+
                 if (!isValid) {
-                    e.preventDefault(); 
+                    e.preventDefault();
                 } else {
                     alert("Signed Up successfully!");
                 }
             });
         });
-        </script>
-        
+    </script>
+
 
 
 </body>

@@ -34,19 +34,22 @@ $(document).ready(function() {
 
     // Apply saved theme on load (enhanced)
     function applySavedTheme() {
-        const savedTheme = localStorage.getItem("theme") || "defaultColor";
-        document.documentElement.setAttribute("data-theme", savedTheme);
+        const savedTheme = localStorage.getItem("themeColor") || "defaultColor";
+        document.documentElement.setAttribute("data-themeColor", savedTheme);
         
         // Highlight the selected option in the dropdown
         $(".colorAccessibility .option").removeClass("default");
 
         // String interpolation in js
-        $(`.colorAccessibility .option[data-value="${savedTheme}"]`).addClass("default");
+        $(`.colorAccessibility .option[data-color="${savedTheme}"]`).addClass("default");
 
         if (savedTheme == "darkColor") {
             $("header box-icon").attr("color", "white");
+            $("#logoImage").attr("src", "image/logoTitle_dark.png");
+            
         } else {
             $("header box-icon").attr("color", "black");
+            $("#logoImage").attr("src", "image/logoTitle.png");
         }
     }
 
@@ -56,10 +59,32 @@ $(document).ready(function() {
     // Theme selection handler (unchanged)
     document.querySelectorAll(".colorAccessibility .option").forEach(option => {
         option.addEventListener("click", function() {
-            const theme = this.getAttribute("data-value");
-            document.documentElement.setAttribute("data-theme", theme);
-            localStorage.setItem("theme", theme);
+            const theme = this.getAttribute("data-color");
+            document.documentElement.setAttribute("data-themeColor", theme);
+            localStorage.setItem("themeColor", theme);
             applySavedTheme(); // Update UI to reflect selection
+        });
+    });
+
+    function applyFontSize() {
+        const savedFontSize = localStorage.getItem("fontSize") || "defaultFontSize";
+        document.documentElement.setAttribute("data-fontSize", savedFontSize);
+
+        $(".fontSizeAccessibility .option").removeClass("default");
+
+        // String interpolation in js
+        $(`.fontSizeAccessibility .option[data-setFontSize="${savedFontSize}"]`).addClass("default");
+    }
+
+    applyFontSize();
+
+    // Theme selection handler (unchanged)
+    document.querySelectorAll(".fontSizeAccessibility .option").forEach(option => {
+        option.addEventListener("click", function() {
+            const theme = this.getAttribute("data-setFontSize");
+            document.documentElement.setAttribute("data-fontSize", theme);
+            localStorage.setItem("fontSize", theme);
+            applyFontSize(); // Update UI to reflect selection
         });
     });
 });

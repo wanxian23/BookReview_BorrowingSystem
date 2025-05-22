@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="defaultColor">
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,7 @@
             --signupContainerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
         }
 
-        [data-theme="darkColor"] {
+        [data-themeColor="darkColor"] {
             --signupContainerBgColor: black;
             --signupContainerColor: white;
             --signupContainerButtonBgColor: rgb(157, 157, 157);
@@ -51,7 +51,7 @@
             background-color: var(--signupContainerBgColor);
             border-radius: 10px;
             width: 100%;
-            max-width: 550px;
+            max-width: 600px;
             box-shadow: var(--signupContainerBoxShadow);
             overflow: hidden;
             color: var(--signupContainerColor);
@@ -91,7 +91,6 @@
         .form-group input,
         .form-group select {
             padding: 12px;
-            font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 6px;
             width: 100%;
@@ -104,7 +103,6 @@
             align-items: center;
             gap: 10px;
             margin: 5px 0 10px 0;
-            font-size: 15px;
         }
 
 
@@ -115,7 +113,6 @@
             border-radius: 5px;
             padding: 14px;
             width: 100%;
-            font-size: 16px;
             cursor: pointer;
             text-align: center;
             margin-bottom: 20px;
@@ -127,7 +124,6 @@
 
         .login-link {
             text-align: center;
-            font-size: 14px;
             margin-top: 10px;
         }
 
@@ -160,26 +156,26 @@
                     <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <div class="default option" data-value="defaultColor">Default</div>
-                        <div class="option" data-value="lightColor">Light</div>
-                        <div class="option" data-value="darkColor">Dark</div>
+                        <div class="default option" data-color="defaultColor">Default</div>
+                        <div class="option" data-color="lightColor">Light</div>
+                        <div class="option" data-color="darkColor">Dark</div>
                     </div>
                 </div>
                 <div>
                     <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility fontSizeAccessibility">
-                        <div class="option">Small</div>
-                        <div class="default option">Default</div>
-                        <div class="option">Large</div>
-                        <div class="option">Very Large</div>
+                        <div class="option" data-setFontSize="smallFontSize">Small</div>
+                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                        <div class="option" data-setFontSize="largeFontSize">Large</div>
+                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
                     </div>
                 </div>
                 <div>
                     <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility support">
-                        <span>Follow Us At Instagram!</span>
+                        <span style="color: black;">Follow Us At Instagram!</span>
                         <div>
                             <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
                             <label for="bookSpare">@BookSpare</label>
@@ -192,20 +188,20 @@
         </div>
         <aside>
             <div class="accessibility colorAccessibility">
-                <div class="default option" data-value="defaultColor">Default</div>
-                <div class="option" data-value="lightColor">Light</div>
-                <div class="option" data-value="darkColor">Dark</div>
+                <div class="default option" data-color="defaultColor">Default</div>
+                <div class="option" data-color="lightColor">Light</div>
+                <div class="option" data-color="darkColor">Dark</div>
             </div>
             <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
             <div class="accessibility fontSizeAccessibility">
-                <div class="option">Small</div>
-                <div class="default option">Default</div>
-                <div class="option">Large</div>
-                <div class="option">Very Large</div>
+                <div class="option" data-setFontSize="smallFontSize">Small</div>
+                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                <div class="option" data-setFontSize="largeFontSize">Large</div>
+                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
             <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
             <div class="accessibility support">
-                <span>Follow Us At Instagram!</span>
+                <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
                     <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
                     <label for="bookSpare">@BookSpare</label>

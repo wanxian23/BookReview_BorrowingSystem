@@ -16,6 +16,8 @@
     --fontSize: 1em;
     --fontSizeTitle: 1.5em;
     --navLabelBorderSize: 150px;
+    
+    transition: 0.2s;
 }
 
 [data-themeColor="lightColor"] {
@@ -25,6 +27,8 @@
     --secondHeaderBgColor: #e7e7e7;
     --footerBgColor: #e7e7e7;
     --footerBoxShadow: 5px 5px 25px 0.5px black;
+
+    transition: 0.2s;
 }
 
 [data-themeColor="darkColor"] {
@@ -37,6 +41,8 @@
     --footerBgColor: black;
     --footerBoxShadow: 5px 5px 25px 0.5px white;
     --footerColor: white;
+
+    transition: 0.2s;
 }
 
 [data-fontSize = "smallFontSize"] {
@@ -275,12 +281,11 @@ footer a:hover {
     }
 
     header #secondHeader nav {
-        font-size: 15px;
-        width: 50%;
+        width: 70%;
     }
 
     header #secondHeader a label{
-        width: 30%;
+        width: 20%;
     }
 
     aside .accessibility {
@@ -334,7 +339,6 @@ footer a:hover {
     }
 
     footer {
-        font-size: 13px;
         height: 180px;
     }
 
@@ -346,6 +350,25 @@ footer a:hover {
 }
 
 @media (min-width: 620px) and (max-width: 1250px) {
+    [data-fontSize = "largeFontSize"] {
+        /* Get 18px */
+        --fontSize: 1.05em; 
+    
+        --fontSizeTitle: 1.5em;
+    
+        --navLabelBorderSize: 160px;
+    }
+    
+    
+    [data-fontSize = "veryLargeFontSize"] {
+        /* Get 14px */
+        --fontSize: 1.08em; 
+    
+        --fontSizeTitle: 1.5em;
+    
+        --navLabelBorderSize: 170px;
+    }
+
     header nav {
         width: 70%;
         margin: 12px 0 12px 10px;
@@ -361,12 +384,10 @@ footer a:hover {
     }
 
     header #secondHeader a label{
-        font-size: 16px;
         width: 15%;
     }
 
     footer {
-        font-size: 13px;
         height: 180px;
     }
 

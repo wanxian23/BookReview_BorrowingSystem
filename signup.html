@@ -17,7 +17,7 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Sign Up Page</title>
+    <title>Sign Up</title>
 
 
 
@@ -32,8 +32,8 @@
         }
 
         [data-themeColor="darkColor"] {
-            --signupContainerBgColor: black;
-            --signupContainerColor: white;
+            --signupContainerBgColor: rgb(50, 50, 50);
+            --signupContainerColor: rgb(213, 213, 213);
             --signupContainerButtonBgColor: rgb(157, 157, 157);
             --signupContainerButtonColor: black;
             --signupContainerButtonHoverBgColor: #8f8f8f;
@@ -139,6 +139,10 @@
         @media (max-width: 620px) {
             .signup-container {
                 width: 85%;
+            }
+
+            .form-group {
+                flex: 1 1 60%;
             }
         }
     </style>

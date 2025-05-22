@@ -44,11 +44,11 @@ $(document).ready(function() {
         $(`.colorAccessibility .option[data-color="${savedTheme}"]`).addClass("default");
 
         if (savedTheme == "darkColor") {
-            $("header box-icon").attr("color", "white");
+            $("box-icon").attr("color", "white");
             $("#logoImage").attr("src", "image/logoTitle_dark.png");
             
         } else {
-            $("header box-icon").attr("color", "black");
+            $("box-icon").attr("color", "black");
             $("#logoImage").attr("src", "image/logoTitle.png");
         }
     }

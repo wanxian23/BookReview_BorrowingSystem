@@ -17,12 +17,13 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Login Page</title>
+    <title>Main</title>
 
     <style>
         :root {
             --containerBgColor: white;
             --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
 
             --buttonColor: #a9a1ee;
             --buttonFontColor: black;
@@ -30,8 +31,9 @@
         }
 
         [data-themeColor="lightColor"] {
-            --containerBgColor: white;
+            --containerBgColor: rgb(244, 244, 244);
             --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
 
             --buttonColor: black;
             --buttonFontColor: white;
@@ -39,12 +41,15 @@
         }
 
         [data-themeColor="darkColor"] {
-            --containerBgColor: black;
-            --containerColor: white;
+            --containerBgColor: rgb(40, 39, 39);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
 
-            --buttonColor: #3e3d44;
+            --buttonColor: black;
             --buttonFontColor: white;
             --buttonHoverColor: #8d8c8c;
+
+            --anchorColor: rgb(149, 178, 241);
         }
 
         main {
@@ -78,6 +83,7 @@
         main div.threadPost {
             display: flex;
             gap: 5%;
+
         }
 
         main div.threadPost section {
@@ -87,12 +93,12 @@
             padding: 20px;
             font-size: 20px;
             color: var(--containerColor);
+            box-shadow: var(--containerBoxShadow);
         }
 
         section.threadContainer {
             display: inline-block;
             width: 20%;
-
         }
 
         section article {
@@ -117,6 +123,7 @@
 
         section.threadContainer article div a {
             text-decoration: none;
+            color: var(--anchorColor);
         }
 
         section.postContainer {
@@ -149,7 +156,7 @@
             border: 2px solid var(--containerColor);
             border-radius: 15px;
             padding: 15px;
-            width: 40%;
+            width: 50%;
         }
     </style>
 
@@ -240,6 +247,10 @@
                 </article>
 
                 <article>
+                    <div>
+                        <label for="">1</label><a href="">#xxxxx</a>
+                    </div>
+
                     <div>
                         <label for="">1</label><a href="">#xxxxx</a>
                     </div>

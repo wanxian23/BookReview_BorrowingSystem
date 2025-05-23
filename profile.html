@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Free Icon Website -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- UI jQuery library, which include more animation effect -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script src="script.js"></script>
+
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Page</title>
+
+    <style>
+        main {
+            margin: 10% 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div id="firstHeader">
+            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+
+            <nav>
+                <div>
+                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility colorAccessibility">
+                        <div class="default option" data-color="defaultColor">Default</div>
+                        <div class="option" data-color="lightColor">Light</div>
+                        <div class="option" data-color="darkColor">Dark</div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility fontSizeAccessibility">
+                        <div class="option" data-setFontSize="smallFontSize">Small</div>
+                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                        <div class="option" data-setFontSize="largeFontSize">Large</div>
+                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility support">
+                        <span style="color: black;">Follow Us At Instagram!</span>
+                        <div>
+                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                            <label for="bookSpare">@BookSpare</label>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
+        </div>
+        <aside>
+            <div class="accessibility colorAccessibility">
+                <div class="default option" data-color="defaultColor">Default</div>
+                <div class="option" data-color="lightColor">Light</div>
+                <div class="option" data-color="darkColor">Dark</div>
+            </div>
+            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <div class="accessibility fontSizeAccessibility">
+                <div class="option" data-setFontSize="smallFontSize">Small</div>
+                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                <div class="option" data-setFontSize="largeFontSize">Large</div>
+                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
+            </div>
+            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <div class="accessibility support">
+                <span style="color: black;">Follow Us At Instagram!</span>
+                <div>
+                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                    <label for="bookSpare">@BookSpare</label>
+                </div>
+            </div>
+            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+        </aside>
+        <div id="secondHeader">
+            <nav>
+                <a href="index.html"><label for="login">Login</label></a>
+                <a href="signup.html"><label for="signup">Signup</label></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class ="AccountInfo">
+            <box-icon name='user' class="downArrow"></box-icon>
+            <h3>Account Info</h3>
+            <div class="AvatarSection">
+                <div class="avatar pic"></div>
+                <a href="#" class="changeAvatar">Change Avatar</a>
+            </div>
+            <div class="Details"> 
+                <p><span>Full Name:</span> XXX <a href class="edit-link"  >Edit Name</a></p>
+                <p><span>Email Address:</span> XXX@mail.com <a href class="edit-link"  >Edit Email</a></p>
+                <p><span>Contact Number:</span> XXX-XXXXXXXX <a href class="edit-link"  >Edit No.Phone</a></p>
+            </div>
+        </div>
+
+        <div class="ProfileDetails">
+
+
+        </div>
+
+    </main>
+
+    <footer>
+        <h1>Our Social Media</h1>
+        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
+        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
+    </footer>
+</body>
+
+</html>

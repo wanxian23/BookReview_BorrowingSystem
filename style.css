@@ -19,6 +19,7 @@
     --fontSizeTitle: 1.5em;
     --navLabelBorderSize: 150px;
     
+    
     transition: 0.2s;
 }
 
@@ -57,7 +58,7 @@
 
     --fontSizeTitle: 1em;
 
-    --navLabelBorderSize: 130px;
+    --navLabelBorderSize: 120px;
 }
 
 [data-fontSize = "largeFontSize"] {
@@ -76,7 +77,7 @@
 
     --fontSizeTitle: 1.5em;
 
-    --navLabelBorderSize: 250px;
+    --navLabelBorderSize: 200px;
 }
 
 
@@ -413,26 +414,6 @@ footer a:hover {
 }
 
 @media (min-width: 620px) and (max-width: 1250px) {
-    [data-fontSize = "largeFontSize"] {
-        /* Get 18px */
-        --fontSize: 1.05em; 
-    
-        --fontSizeTitle: 1.5em;
-    
-        --navLabelBorderSize: 160px;
-    }
-    
-    
-    [data-fontSize = "veryLargeFontSize"] {
-        /* Get 14px */
-        --fontSize: 1.08em; 
-    
-        --fontSizeTitle: 1.5em;
-    
-        --navLabelBorderSize: 170px;
-    }
-    
-
     header #firstHeader a{
         width: 130px;
     }

@@ -55,7 +55,7 @@
 
         main {
             margin: 50px auto;
-            max-width: 1000px;
+            max-width: 90%;
             text-align: center;
         }
 
@@ -143,6 +143,12 @@
         .pagination button:hover {
             background-color: var(--buttonHoverColor);
         }
+
+        @media (max-width: 650px) {
+            .genre-buttons button {
+                flex: 45%;
+            }
+        }
     </style>
 
 </head>
@@ -150,7 +156,7 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -162,6 +168,7 @@
                         <div class="option" data-color="darkColor">Dark</div>
                     </div>
                 </div>
+
                 <div>
                     <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
@@ -188,19 +195,24 @@
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
         <aside>
+            <span id="mainButton"><label for="color">Main</label></span>
+            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
+
             <div class="accessibility colorAccessibility">
                 <div class="default option" data-color="defaultColor">Default</div>
                 <div class="option" data-color="lightColor">Light</div>
                 <div class="option" data-color="darkColor">Dark</div>
             </div>
-            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <span class="colorButton"><label for="color">Color</label></span>
+
             <div class="accessibility fontSizeAccessibility">
                 <div class="option" data-setFontSize="smallFontSize">Small</div>
                 <div class="default option" data-setFontSize="defaultFontSize">Default</div>
                 <div class="option" data-setFontSize="largeFontSize">Large</div>
                 <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
-            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
+
             <div class="accessibility support">
                 <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
@@ -208,7 +220,7 @@
                     <label for="bookSpare">@BookSpare</label>
                 </div>
             </div>
-            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+            <span class="supportButton"><label for="support">Support</label></span>
         </aside>
         <div id="secondHeader">
             <nav>
@@ -217,14 +229,9 @@
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>
-                <input type="text">
+                <input type="text" placeholder="Search by book name/ thread">
             </nav>
         </div>
-
-        <!--<div class="search-bar">
-            <input type="text" placeholder="Search">
-        </div>-->
-
     </header>
 
     <main>

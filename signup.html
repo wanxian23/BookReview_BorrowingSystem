@@ -107,8 +107,8 @@
 
 
         .signup-button {
-            background-color: #333;
-            color: #fff;
+            background-color: var(--signupContainerButtonBgColor);
+            color: var(--signupContainerButtonColor);
             border: none;
             border-radius: 5px;
             padding: 14px;
@@ -119,21 +119,7 @@
         }
 
         .signup-button:hover {
-            background-color: #444;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .login-link a {
-            color: #4285f4;
-            text-decoration: none;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
+            background-color: signupContainerButtonHoverBgColor;
         }
 
         @media (max-width: 620px) {

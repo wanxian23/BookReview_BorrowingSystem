@@ -20,121 +20,174 @@
     <title>Book Review Feedback</title>
 
     <style>
+        :root {
+            --containerBgColor: white;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: rgb(244, 244, 244);
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(40, 39, 39);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            --anchorColor: rgb(149, 178, 241);
+        }
+
         main {
-    margin: 5%; 
-}
+            margin: 5%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-.review-container {
-    background-color: white;
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 1000px;
-    width: 100%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin: 0 auto;
-}
+        .review-container {
+            background-color: var(--containerBgColor);
+            color: var(--containerColor);
+            border-radius: 12px;
+            padding: 30px 30px 10px 30px;
+            max-width: 1000px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            box-shadow: var(--containerBoxShadow);
+        }
 
-.review-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-}
+        .review-container p {
+            margin-bottom: 30px;
+        }
 
-.review-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-}
+        form label {
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
 
-.review-textarea {
-    width: 100%;
-    min-height: 200px; 
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    resize: vertical;
-}
+        form label:last-child {
+            font-weight: normal;
+        }
 
-.rating-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
+        form textarea {
+            margin-bottom: 15px;
+        }
 
-.rating-input {
-    padding: 8px 12px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    width: 80px;
-    text-align: center;
-    font-size: 16px;
-}
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
 
-.submit-btn {
-    background-color: #000;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
+        .review-title {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
 
+        .review-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            resize: vertical;
+        }
 
-.submit-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
+        .rating-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
 
-.header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #f1f1f1;
-    }
+        .rating-input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 80px;
+            text-align: center;
+            font-size: 16px;
+        }
 
-    .left-labels {
-      display: flex;
-      gap: 15px;
-    }
+        .submit-btn {
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-    /* searchbar */
-    .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: white;
-    padding: 6px 12px;
-    border-radius: 25px;
-    border: 1px solid #ccc;
-    width: 300px;
-    margin-top: auto;
-    margin-bottom: auto;
-}
+        .submit-btn:hover {
+            background-color: var(--buttonHoverColor);
+        }
 
-.search-bar input {
-    border: 1px;
-    outline: none;
-    font-size: 14px;
-    width: 100%;
-    border-radius: 50px;
-}
+        .submit-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
 
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+        }
+
+        .left-labels {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* searchbar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: white;
+            padding: 6px 12px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            width: 300px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .search-bar input {
+            border: 1px;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+            border-radius: 50px;
+        }
     </style>
 </head>
 
 <body>
 <header>
         <div id="firstHeader">
-            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -173,19 +226,24 @@
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
         <aside>
+            <span id="mainButton"><label for="color">Main</label></span>
+            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
+
             <div class="accessibility colorAccessibility">
                 <div class="default option" data-color="defaultColor">Default</div>
                 <div class="option" data-color="lightColor">Light</div>
                 <div class="option" data-color="darkColor">Dark</div>
             </div>
-            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <span class="colorButton"><label for="color">Color</label></span>
+
             <div class="accessibility fontSizeAccessibility">
                 <div class="option" data-setFontSize="smallFontSize">Small</div>
                 <div class="default option" data-setFontSize="defaultFontSize">Default</div>
                 <div class="option" data-setFontSize="largeFontSize">Large</div>
                 <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
-            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
+
             <div class="accessibility support">
                 <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
@@ -193,7 +251,7 @@
                     <label for="bookSpare">@BookSpare</label>
                 </div>
             </div>
-            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+            <span class="supportButton"><label for="support">Support</label></span>
         </aside>
         <div id="secondHeader">
             <nav>
@@ -202,42 +260,41 @@
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>
-                <input type="text">
+                <input type="text" placeholder="Search by book name/ thread">
             </nav>
         </div>
     </header>
     <main>
         <div class="review-container">
-    <div class="review-header">
-        <span style="font-size: 24px; ">xx</span>
-        <h2 class="review-title" style="font-family: Arial, Helvetica, sans-serif;">Book Review Feedback</h2>
-    </div>
-    
-    <p style="margin-bottom: auto; margin-top:auto; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">You are giving a Feedback Review for the book "XXXX".</p>
-    
-    <form>
-        <div style="margin-bottom: auto; margin-top:auto;">
-            <label style="display: block; font-family: Arial, Helvetica, sans-serif; margin-bottom: 8px; font-weight: bold;">Write a review:</label>
-            <textarea style="font-family: Arial, Helvetica, sans-serif;" class="review-textarea" placeholder="Write your comment here.... (Optional)"></textarea>
+            <div class="review-header">
+                <box-icon name='book' class="downArrow"></box-icon>
+                <h2 class="review-title" style="font-family: Arial, Helvetica, sans-serif;">Book Review Feedback</h2>
+            </div>
+
+            <p>You are giving a Feedback Review for the book "XXXX".</p>
+
+            <form>
+                <div>
+                    <label>Write a review:</label>
+                    <textarea style="font-family: Arial, Helvetica, sans-serif;" class="review-textarea"
+                        placeholder="Write your comment here.... (Optional)"></textarea>
+                </div>
+
+                <div class="rating-container">
+                    <div class="rating-left">
+                        <label>Rate (1-10):</label>
+                        <input type="number" class="rating-input" min="1" max="10">
+                        <label>/10</label>
+                    </div>
+                    <button type="submit" class="submit-btn">SUBMIT</button>
+                </div>
+            </form>
         </div>
-        
-        <div class="rating-container">
-    <div class="rating-left">
-        <label style="font-family: Arial, Helvetica, sans-serif; font-weight: bold;">Rate (1-10):</label>
-        <input type="number" class="rating-input" min="1" max="10">
-        <span style="font-family: Arial, Helvetica, sans-serif; font-weight: bold;">/10</span>
-    </div>
-    <button type="submit" class="submit-btn">SUBMIT</button>
-</div>
-
-
-    </form>
-</div>
     </main>
 
     <footer>
         <h1>Our Social Media</h1>
-        <a href=""></a>
+        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
         <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
     </footer>
 </body>

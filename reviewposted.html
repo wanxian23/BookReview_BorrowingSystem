@@ -20,48 +20,87 @@
     <title>Review Posted!</title>
 
     <style>
-        main {
-            margin: 5%;
-        }
-.review-container {
-    background-color: white;
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 1000px;
-    width: 100%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin: 0 auto;
-}
-.review-header {
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-}
-.confirm-btn {
-    background-color: #000;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.confirm-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+        :root {
+            --containerBgColor: white;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
 
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: rgb(244, 244, 244);
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(40, 39, 39);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            --anchorColor: rgb(149, 178, 241);
+        }
+
+        main {
+            margin: 5% 6%;
+        }
+
+        .review-container {
+            background-color: var(--containerBgColor);
+            color: var(--containerColor);
+            box-shadow: var(--containerBoxShadow);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .review-header {
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--containerColor);
+        }
+
+        .confirm-btn {
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .confirm-btn:hover {
+            background-color: var(--buttonHoverColor);
+        }
+
+        .confirm-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
    <header>
         <div id="firstHeader">
-            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -100,19 +139,24 @@
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
         <aside>
+            <span id="mainButton"><label for="color">Main</label></span>
+            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
+
             <div class="accessibility colorAccessibility">
                 <div class="default option" data-color="defaultColor">Default</div>
                 <div class="option" data-color="lightColor">Light</div>
                 <div class="option" data-color="darkColor">Dark</div>
             </div>
-            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <span class="colorButton"><label for="color">Color</label></span>
+
             <div class="accessibility fontSizeAccessibility">
                 <div class="option" data-setFontSize="smallFontSize">Small</div>
                 <div class="default option" data-setFontSize="defaultFontSize">Default</div>
                 <div class="option" data-setFontSize="largeFontSize">Large</div>
                 <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
-            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
+
             <div class="accessibility support">
                 <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
@@ -120,7 +164,7 @@
                     <label for="bookSpare">@BookSpare</label>
                 </div>
             </div>
-            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+            <span class="supportButton"><label for="support">Support</label></span>
         </aside>
         <div id="secondHeader">
             <nav>
@@ -129,28 +173,38 @@
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>
-                <input type="text">
+                <input type="text" placeholder="Search by book name/ thread">
             </nav>
         </div>
     </header>
 
+
     <main>
         <div class="review-container">
-    <div class="review-header">
-        <h2 class="review-success" style="font-family: Arial, Helvetica, sans-serif; text-align: center; font-size: x-large;">Success</h2>
-    </div>
-    
-    <p style="margin-bottom: auto; margin-top:auto; font-family: Arial, Helvetica, sans-serif; font-weight: bold; text-align: center; font-size: xx-large;">xx Successfully Posted!</p>
-    
-    <div class="confirm-container">
-    <button type="button" class="confirm-btn">CONFIRM</button>
-</div>
+            <div class="review-header">
+                <h2 class="review-success"
+                    style="font-family: Arial, Helvetica, sans-serif; text-align: center; font-size: 1.6em;">Success
+                </h2>
+            </div>
 
-</div>
+            <div style="display: flex; gap: 20px; width: 100%; justify-content: center;">
+                <box-icon name='check-circle' class="downArrow" color="green" size="lg"></box-icon>
+                <p
+                    style="display: inline-block; margin-bottom: auto; margin-top:auto; font-family: Arial, Helvetica, sans-serif; font-weight: bold; text-align: center; font-size: 1.6em;">
+                    Successfully Posted!
+                </p>
+            </div>
 
 
-    </form>
-</div>
+            <div class="confirm-container">
+                <button type="button" class="confirm-btn">CONFIRM</button>
+            </div>
+
+        </div>
+
+
+        </form>
+        </div>
 
     </main>
 

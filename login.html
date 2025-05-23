@@ -1,32 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- data-xxxx (The "xxxx" is optional - like a variable name) -->
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Free Icon Website -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- UI jQuery library, which include more animation effect -->
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script src="script.js"></script>
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Login Page - BookSpare</title>
+    <title>Login</title>
 
     <style>
+        :root {
+            --loginContainerBgColor: white;
+            --loginContainerColor: black;
+            --loginContainerButtonColor: white;
+            --loginContainerButtonBgColor: #333;
+            --loginContainerButtonHoverBgColor: #444;
+            --loginContainerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+        }
+
+        [data-themeColor="darkColor"] {
+            --loginContainerBgColor: rgb(50, 50, 50);
+            --loginContainerColor: rgb(213, 213, 213);
+            --loginContainerButtonBgColor: rgb(157, 157, 157);
+            --loginContainerButtonColor: black;
+            --loginContainerButtonHoverBgColor: #8f8f8f;
+            --loginContainerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+        }
+
         main {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 50px 0;
+            padding: 70px 0;
         }
 
         .login-container {
-            background-color: #f8f8f8;
+            background-color: var(--loginContainerBgColor);
+            columns: var(--loginContainerColor);
             border-radius: 10px;
             width: 100%;
-            max-width: 550px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            box-shadow: var(--loginContainerBoxShadow);
             overflow: hidden;
         }
 
@@ -36,6 +62,7 @@
             font-size: 24px;
             font-weight: bold;
             border-bottom: 1px solid #ddd;
+            color: var(--loginContainerColor);
         }
 
         .login-form {
@@ -50,7 +77,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #333;
+            color: var(--loginContainerColor);
         }
 
         .form-group input {
@@ -66,6 +93,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            color: var(--loginContainerColor);
         }
 
         .form-footer .remember-me {
@@ -87,8 +115,8 @@
         }
 
         .login-button {
-            background-color: #333;
-            color: white;
+            background-color: var(--loginContainerButtonBgColor);
+            color: var(--loginContainerButtonColor);
             border: none;
             border-radius: 5px;
             padding: 14px;
@@ -100,11 +128,12 @@
         }
 
         .login-button:hover {
-            background-color: #444;
+            background-color: var(--loginContainerButtonHoverBgColor)
         }
 
         .signup-link {
             text-align: center;
+            color: var(--loginContainerColor);
         }
 
         .signup-link a {
@@ -118,7 +147,7 @@
 
         @media (max-width: 620px) {
             .login-container {
-                width: 90%;
+                width: 85%;
             }
         }
     </style>
@@ -131,67 +160,68 @@
 
             <nav>
                 <div>
-                    <span class="colorButton"><label for="color">Colour<box-icon name='chevron-down'
+                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <div class="default option">Default</div>
-                        <div class="option">Light</div>
-                        <div class="option">Dark</div>
+                        <!-- Same, the data-color (The "color" is variable, you can change) -->
+                        <div class="default option" data-color="defaultColor">Default</div>
+                        <div class="option" data-color="lightColor">Light</div>
+                        <div class="option" data-color="darkColor">Dark</div>
                     </div>
                 </div>
+
                 <div>
                     <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility fontSizeAccessibility">
-                        <div class="option">Small</div>
-                        <div class="default option">Default</div>
-                        <div class="option">Large</div>
-                        <div class="option">Very Large</div>
+                        <div class="option" data-setFontSize="smallFontSize">Small</div>
+                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                        <div class="option" data-setFontSize="largeFontSize">Large</div>
+                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
                     </div>
                 </div>
                 <div>
                     <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility support">
-                        <span>Follow Us At Instagram!</span>
+                        <span style="color: black;">Follow Us At Instagram!</span>
                         <div>
-                            <img src="image/socialMedia/ig2.png" alt="IG Logo">
+                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
                             <label for="bookSpare">@BookSpare</label>
                         </div>
                     </div>
                 </div>
+
             </nav>
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
-
         <aside>
             <div class="accessibility colorAccessibility">
-                <div class="default option">Default</div>
-                <div class="option">Light</div>
-                <div class="option">Dark</div>
+                <div class="default option" data-color="defaultColor">Default</div>
+                <div class="option" data-color="lightColor">Light</div>
+                <div class="option" data-color="darkColor">Dark</div>
             </div>
-            <span class="accessibilityButton colorButton"><label for="color">Colour</label></span>
+            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
             <div class="accessibility fontSizeAccessibility">
-                <div class="option">Small</div>
-                <div class="default option">Default</div>
-                <div class="option">Large</div>
-                <div class="option">Very Large</div>
+                <div class="option" data-setFontSize="smallFontSize">Small</div>
+                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                <div class="option" data-setFontSize="largeFontSize">Large</div>
+                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
             <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
             <div class="accessibility support">
-                <span>Follow Us At Instagram!</span>
+                <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
-                    <img src="image/socialMedia/ig2.png" alt="IG Logo">
+                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
                     <label for="bookSpare">@BookSpare</label>
                 </div>
             </div>
             <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
         </aside>
-
         <div id="secondHeader">
             <nav>
-                <a href="login.html"><label for="login" style="border-bottom: 5px solid;">Log In</label></a>
-                <a href="signup.html"><label for="signup">Sign Up</label></a>
+                <a href="index.html"><label for="login">Login</label></a>
+                <a href="signup.html"><label for="signup">Signup</label></a>
             </nav>
         </div>
     </header>
@@ -226,14 +256,10 @@
     </main>
 
     <footer>
-        <h1>Follow Us At</h1>
-        <div class="social-container">
-            <a href="https://instagram.com/bookspare" class="social-link"></a>
-        </div>
-        <p>Copyright © 2025 BookSpare. All right reserved</p>
+        <h1>Our Social Media</h1>
+        <a href=""></a>
+        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
     </footer>
-
-    <script src="script.js"></script>
 
     <script>
         $(document).ready(function () {

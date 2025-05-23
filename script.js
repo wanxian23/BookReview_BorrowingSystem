@@ -32,6 +32,14 @@ $(document).ready(function() {
         }
     });
 
+    $("#mainButton").click(function () {
+        window.location = "main.html";
+    });
+
+    $("#genreButton").click(function () {
+        window.location = "genre.html";
+    });
+
     // Apply saved theme on load (enhanced)
     function applySavedTheme() {
         const savedTheme = localStorage.getItem("themeColor") || "defaultColor";

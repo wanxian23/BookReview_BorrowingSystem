@@ -217,13 +217,12 @@ header #secondHeader nav:nth-child(2) box-icon {
 }
 
 header #secondHeader nav:nth-child(2) input {
-    position: absolute;
-    height: 35px;
-    width: 35%;
+    vertical-align: top;
+    height: 34px;
+    width: 88%;
     border: none;
     outline: none;
     padding: 0 10px;
-    background-color: transparent;
 }
 
 header .accessibility {
@@ -322,6 +321,7 @@ footer a:hover {
     }
 
     header #secondHeader nav {
+        display: none;
         width: 70%;
     }
 
@@ -330,6 +330,7 @@ footer a:hover {
     }
 
     header #secondHeader nav:nth-child(2) {
+        display: inline-block;
         margin: 16px auto;
         width: 80%;
     }
@@ -340,8 +341,9 @@ footer a:hover {
     }
     
     header #secondHeader nav:nth-child(2) input {
-        height: 28px;
-        width: 70%;
+        height: 27px;
+        width: 82%;
+        padding: 0 10px;
     }
 
     aside .accessibility {
@@ -364,11 +366,10 @@ footer a:hover {
         flex-direction: column;
         position: fixed;
         height: 100%;
-        gap: 25px;
         margin: 16% 0 0 100%;
         width: 35%;
         text-align: right;
-        padding: 20px 30px 0 0;
+        padding: 20px 0;
         background-color: white;
     }
 
@@ -376,21 +377,27 @@ footer a:hover {
         display: inline-flex;
     }
 
-    aside span.accessibilityButton {
-        padding: 5px 0;
+    aside span {
         transition: 0.2s;
         cursor: pointer;
+        padding: 10px 30px 10px 0;
     }
 
-    aside span.accessibilityButton label {
+    aside span#mainButton,
+    aside span#genreButton
+    {
+        background-color: rgb(239, 239, 239);
+    }
+
+    aside span label {
         cursor: pointer;
     }
 
-    aside span.accessibilityButton:hover {
+    aside span:hover {
         border-left: 4px solid;
     }
 
-    aside span.accessibilityButton:active {
+    aside span:active {
         color: white;
     }
 
@@ -438,19 +445,9 @@ footer a:hover {
         width: 15%;
     }
 
-    header #secondHeader nav:nth-child(2) {
-        margin: 16px auto;
-        width: 40%;
-    }
-    
-    header #secondHeader nav:nth-child(2) box-icon {
-        margin: 3px 10px;
-        height: 82%;
-    }
-    
     header #secondHeader nav:nth-child(2) input {
-        height: 28px;
-        width: 70%;
+        width: 75%;
+        padding: 0 10px;
     }
 
     footer {

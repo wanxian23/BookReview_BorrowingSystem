@@ -12,6 +12,8 @@
     --headerAnchor: black;
     --headerSpan: black;
 
+    --iconColor: black;
+
     /* 1em get 16px (default) */
     --fontSize: 1em;
     --fontSizeTitle: 1.5em;
@@ -28,6 +30,8 @@
     --footerBgColor: #e7e7e7;
     --footerBoxShadow: 5px 5px 25px 0.5px black;
 
+    --iconColor: black;
+
     transition: 0.2s;
 }
 
@@ -41,6 +45,8 @@
     --footerBgColor: black;
     --footerBoxShadow: 5px 5px 25px 0.5px white;
     --footerColor: white;
+
+    --iconColor: white;
 
     transition: 0.2s;
 }
@@ -98,6 +104,10 @@ header {
     user-select: none;
 }
 
+box-icon {
+    fill: var(--iconColor);
+}
+
 header #burgerIcon {
     display: none;
 }
@@ -113,10 +123,11 @@ header #firstHeader {
     font-size: 20px;
     background-color: var(--firstHeaderBgColor);
     box-shadow: var(--firstHeaderBoxShadow);
+    height: 80px;
 }
 
 header #firstHeader a{
-    width: 10%;
+    width: 130px;
     color: var(--headerAnchor);
 }
 
@@ -163,22 +174,24 @@ header #secondHeader {
     height: 60px;
     background-color: var( --secondHeaderBgColor);
     font-size: 18px;
+    display: flex;
 }
 
 header #secondHeader nav{
     text-align: left;
     margin-top: 20px;
+    width: 30%; 
 }
 
 header #secondHeader nav a{
     text-decoration: none;
-    padding: 0 30px 0 0;
+    padding: 0 20px 0 0;
     color: var(--headerAnchor);
 }
 
 header #secondHeader a label{
     display: inline-block;
-    width: 6%;
+    width: 20%;
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
@@ -187,6 +200,30 @@ header #secondHeader a label{
 
 header #secondHeader a label:hover{
     border-bottom: 5px solid;
+}
+
+header #secondHeader nav:nth-child(2) {
+    border-radius: 5px;
+    border: 1px solid;
+    margin: 12px 0;
+    width: 39%; 
+    background-color: white;
+}
+
+header #secondHeader nav:nth-child(2) box-icon {
+    display: inline-block;
+    margin: 6px 10px;
+    fill: black;
+}
+
+header #secondHeader nav:nth-child(2) input {
+    position: absolute;
+    height: 35px;
+    width: 35%;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    background-color: transparent;
 }
 
 header .accessibility {
@@ -266,8 +303,12 @@ footer a:hover {
 }
 
 @media (max-width: 620px) {
+    header #firstHeader {
+        height: 70px;
+    }
+
     header #firstHeader a{
-        width: 25%;
+        width: 120px;
     }
 
     header #burgerIcon {
@@ -286,6 +327,21 @@ footer a:hover {
 
     header #secondHeader a label{
         width: 20%;
+    }
+
+    header #secondHeader nav:nth-child(2) {
+        margin: 16px auto;
+        width: 80%;
+    }
+    
+    header #secondHeader nav:nth-child(2) box-icon {
+        margin: 3px 10px;
+        height: 82%;
+    }
+    
+    header #secondHeader nav:nth-child(2) input {
+        height: 28px;
+        width: 70%;
     }
 
     aside .accessibility {
@@ -368,23 +424,33 @@ footer a:hover {
     
         --navLabelBorderSize: 170px;
     }
-
-    header nav {
-        width: 70%;
-        margin: 12px 0 12px 10px;
-        font-size: 18px;
-    }
+    
 
     header #firstHeader a{
-        width: 13%;
+        width: 130px;
     }
-
+    
     header #secondHeader nav a {
-        padding: 0 5px 0 0;
+        padding: 0 15px 0 0;
     }
 
     header #secondHeader a label{
         width: 15%;
+    }
+
+    header #secondHeader nav:nth-child(2) {
+        margin: 16px auto;
+        width: 40%;
+    }
+    
+    header #secondHeader nav:nth-child(2) box-icon {
+        margin: 3px 10px;
+        height: 82%;
+    }
+    
+    header #secondHeader nav:nth-child(2) input {
+        height: 28px;
+        width: 70%;
     }
 
     footer {

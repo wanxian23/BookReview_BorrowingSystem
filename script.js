@@ -44,11 +44,9 @@ $(document).ready(function() {
         $(`.colorAccessibility .option[data-color="${savedTheme}"]`).addClass("default");
 
         if (savedTheme == "darkColor") {
-            $("box-icon").attr("color", "white");
             $("#logoImage").attr("src", "image/logoTitle_dark.png");
             
         } else {
-            $("box-icon").attr("color", "black");
             $("#logoImage").attr("src", "image/logoTitle.png");
         }
     }

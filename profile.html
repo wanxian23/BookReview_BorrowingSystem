@@ -22,7 +22,43 @@
     <style>
         main {
             margin: 10% 0;
+            width: 500px;
+            
         }
+
+        .AccountInfo{
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: aliceblue;
+            text-align: center;
+           
+        }
+
+        div.head {
+            display: flex;
+            text-align: left;
+            border-bottom: 1px solid black;
+            height: 30px;
+            padding-top: 5px;
+            padding-left: 5px;
+        }
+
+        .ProfileDetails{
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: aliceblue;
+            text-align: center;
+            padding-top: 5px;
+
+        }
+
+        .SecurityPass{
+            border: 1px solid black;
+            border-radius: 20px;
+            background-color: aliceblue;
+            text-align: center;
+        }
+       
     </style>
 
 </head>
@@ -101,22 +137,36 @@
 
     <main>
         <div class ="AccountInfo">
+           <div class="head"> 
             <box-icon name='user' class="downArrow"></box-icon>
             <h3>Account Info</h3>
+           </div>
             <div class="AvatarSection">
                 <div class="avatar pic"></div>
-                <a href="#" class="changeAvatar">Change Avatar</a>
+                <a href class="changeAvatar">Change Avatar</a>
             </div>
             <div class="Details"> 
-                <p><span>Full Name:</span> XXX <a href class="edit-link"  >Edit Name</a></p>
-                <p><span>Email Address:</span> XXX@mail.com <a href class="edit-link"  >Edit Email</a></p>
-                <p><span>Contact Number:</span> XXX-XXXXXXXX <a href class="edit-link"  >Edit No.Phone</a></p>
+                <p><span>Full Name:</span> XXX <a href class="edit-link" >Edit Name</a></p>
+                <p><span>Email Address:</span> XXX@mail.com <a href class="edit-link" >Edit Email</a></p>
+                <p><span>Contact Number:</span> XXX-XXXXXXXX <a href class="edit-link" >Edit No.Phone</a></p>
             </div>
         </div>
 
         <div class="ProfileDetails">
+            <div class="head"> 
+            <box-icon name='detail' class="downArrow"></box-icon>
+            <h3>Profile Details</h3>
+           </div>
+            <p><span>Date of Birth:</span> XXX <a href class="edit-link" >Edit Date</a></p>
+            <p><span>Country/Region:</span> Malaysia <a href class="edit-link" >Edit Country</a></p>
+        </div>
 
-
+        <div class="SecurityPass">
+            <div class="head"> 
+            <box-icon name='lock' class="downArrow"></box-icon>
+            <h3>Security</h3>
+           </div>
+            <p><span>Passwords:</span> ******** <a href class="edit-link" >Edit Password</a></p>
         </div>
 
     </main>

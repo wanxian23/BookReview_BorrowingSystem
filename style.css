@@ -152,7 +152,6 @@ header #firstHeader nav span {
     color: var(--headerSpan);
     padding: 0 20px;
     width: var(--navLabelBorderSize);
-    border: 1px solid;
 }
 
 header #firstHeader span label {

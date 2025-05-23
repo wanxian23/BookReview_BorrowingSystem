@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Free Icon Website -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- UI jQuery library, which include more animation effect -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script src="script.js"></script>
+
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>Login Page</title>
+
+    <style>
+main {
+    margin: 2rem auto;
+    max-width: 960px;
+    padding: 1rem;
+    background-color: #efefef; 
+    border-radius: 10px;
+    border: 2px solid #000;
+    font-family: Arial, sans-serif;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 1rem;
+}
+
+.header-line {
+  border: none;
+  border-top: 1px solid #848484;
+  margin: 0.5rem 0 1rem;
+}
+
+.back-button {
+  font-size: 1.1rem;
+  font-weight: 600;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.back-button i {
+  font-size: 1.5rem;
+  color: black;
+}
+
+h1 {
+
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom:  1.2rem;
+}
+
+.book-container  {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    border-radius: 9px;
+    padding: 1rem;
+    background-color: white;
+    gap: 1.2rem;
+    margin: 1rem;
+    overflow: hidden;
+}
+
+.top-row {
+    display:flex;
+    gap: 1.2rem;
+    flex-wrap:wrap;
+    margin-bottom: 1rem;
+}
+
+.book-image img {
+    width: 100px;
+    height: auto;
+    border: 1px solid #000;
+    flex-shrink:0;
+}
+
+.book-image-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.book-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+}
+
+.arrow-icon {
+    font-size: 1.8rem;
+    color: #000;
+    display: block;
+    margin-top: 0.3rem;
+    text-align: center;
+}
+
+.vertical-line {
+    width: 1.1px;
+    background-color: #000;
+    
+}
+
+.book-details .book-review{
+    display: flex;
+    flex: 1;
+    display: flex;
+    flex-direction:r;
+    justify-content:left;
+}
+
+.book-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.book-rating {
+    float:inline-end;
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+.book-author,
+.book-genre {
+    font-size: 1rem;
+    align-self: flex-end;
+}
+
+.book-review {
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.synopsis-box {
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-break: break-word;
+    background-color: #f9f9f9;
+    clear: both;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #848484;
+    margin: 0.5rem 0;
+}
+</style>
+
+
+</head>
+
+<body>
+    <header>
+        <div id="firstHeader">
+            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+
+            <nav>
+                <div>
+                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility colorAccessibility">
+                        <div class="default option" data-color="defaultColor">Default</div>
+                        <div class="option" data-color="lightColor">Light</div>
+                        <div class="option" data-color="darkColor">Dark</div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility fontSizeAccessibility">
+                        <div class="option" data-setFontSize="smallFontSize">Small</div>
+                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                        <div class="option" data-setFontSize="largeFontSize">Large</div>
+                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility support">
+                        <span style="color: black;">Follow Us At Instagram!</span>
+                        <div>
+                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                            <label for="bookSpare">@BookSpare</label>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
+        </div>
+        <aside>
+            <div class="accessibility colorAccessibility">
+                <div class="default option" data-color="defaultColor">Default</div>
+                <div class="option" data-color="lightColor">Light</div>
+                <div class="option" data-color="darkColor">Dark</div>
+            </div>
+            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <div class="accessibility fontSizeAccessibility">
+                <div class="option" data-setFontSize="smallFontSize">Small</div>
+                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                <div class="option" data-setFontSize="largeFontSize">Large</div>
+                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
+            </div>
+            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <div class="accessibility support">
+                <span style="color: black;">Follow Us At Instagram!</span>
+                <div>
+                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                    <label for="bookSpare">@BookSpare</label>
+                </div>
+            </div>
+            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+        </aside>
+        <div id="secondHeader">
+            <nav>
+                <a href="index.html"><label for="login">Login</label></a>
+                <a href="signup.html"><label for="signup">Signup</label></a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="header-row">
+            <div class="back-button"><i class='bx bx-reply'></i> Back</div>
+            <h1>Detail of the Book</h1>
+        </div>
+
+        <hr class="header-line">
+        
+    <div class="book-container">
+        <div class="top-row">
+            <div class="book-image-wrapper">
+                <div class="book-image">
+                    <img src="image/bookCover.jpeg" alt="Book Cover">
+                </div>
+                <div class="arrow-icon">
+                    <i class="bx bx-caret-right"></i>
+                </div>
+            </div>
+
+        <div class="vertical-line"></div>
+
+        <div class="book-content">
+            <div>
+                <span class="book-title">Book Title</span>
+                <span class="book-rating">x.x/10</span><br>
+                <span class="book-author">Author</span><br>
+                <span class="book-genre">Genre</span>
+                <hr>
+                <div class="book-review">
+                    In my opinion, I think<br>
+                    xxxxxxxxxxxxxxxxxx<br>
+                    xxxxxx
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="synopsis-box">
+            Long synopsis here
+        </div>
+</div>
+
+    </div>
+    
+</main>
+
+    <footer>
+        <h1>Our Social Media</h1>
+        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
+        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
+    </footer>
+</body>
+
+</html>

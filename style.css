@@ -17,7 +17,7 @@
     /* 1em get 16px (default) */
     --fontSize: 1em;
     --fontSizeTitle: 1.5em;
-    --navLabelBorderSize: 150px;
+    --navLabelBorderSize: 160px;
     
     
     transition: 0.2s;

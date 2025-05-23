@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
     <meta charset="UTF-8">
@@ -59,7 +59,7 @@
 </head>
 
 <body>
-    <header>
+   <header>
         <div id="firstHeader">
             <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
@@ -68,26 +68,27 @@
                     <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <div class="default option">Default</div>
-                        <div class="option">Light</div>
-                        <div class="option">Dark</div>
+                        <div class="default option" data-color="defaultColor">Default</div>
+                        <div class="option" data-color="lightColor">Light</div>
+                        <div class="option" data-color="darkColor">Dark</div>
                     </div>
                 </div>
+
                 <div>
                     <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility fontSizeAccessibility">
-                        <div class="option">Small</div>
-                        <div class="default option">Default</div>
-                        <div class="option">Large</div>
-                        <div class="option">Very Large</div>
+                        <div class="option" data-setFontSize="smallFontSize">Small</div>
+                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                        <div class="option" data-setFontSize="largeFontSize">Large</div>
+                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
                     </div>
                 </div>
                 <div>
                     <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility support">
-                        <span>Follow Us At Instagram!</span>
+                        <span style="color: black;">Follow Us At Instagram!</span>
                         <div>
                             <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
                             <label for="bookSpare">@BookSpare</label>
@@ -100,20 +101,20 @@
         </div>
         <aside>
             <div class="accessibility colorAccessibility">
-                <div class="default option">Default</div>
-                <div class="option">Light</div>
-                <div class="option">Dark</div>
+                <div class="default option" data-color="defaultColor">Default</div>
+                <div class="option" data-color="lightColor">Light</div>
+                <div class="option" data-color="darkColor">Dark</div>
             </div>
             <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
             <div class="accessibility fontSizeAccessibility">
-                <div class="option">Small</div>
-                <div class="default option">Default</div>
-                <div class="option">Large</div>
-                <div class="option">Very Large</div>
+                <div class="option" data-setFontSize="smallFontSize">Small</div>
+                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                <div class="option" data-setFontSize="largeFontSize">Large</div>
+                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
             <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
             <div class="accessibility support">
-                <span>Follow Us At Instagram!</span>
+                <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
                     <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
                     <label for="bookSpare">@BookSpare</label>
@@ -121,17 +122,15 @@
             </div>
             <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
         </aside>
-        <div id="secondHeader" class="second-header">
-    <nav>
-                <a href="main.html"><label for="main" style="font-family: Arial, Helvetica, sans-serif;">Main</label></a>
-                <a href="genre.html"><label for="genre" style="font-family: Arial, Helvetica, sans-serif;">Genre</label></a>
+        <div id="secondHeader">
+            <nav>
+                <a href="main.html"><label for="main">Main</label></a>
+                <a href="genre.html"><label for="genre">Genre</label></a>
             </nav>
-    
-    <nav>
+            <nav>
                 <box-icon name='search-alt'></box-icon>
                 <input type="text">
             </nav>
-   
         </div>
     </header>
 

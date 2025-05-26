@@ -72,12 +72,22 @@
             font-weight: bold;
         }
 
+        .AvatarAndDetails{
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 10px 20px;
+        }
+
         .AvatarSection{
+            margin-left: 10px;
             display: flex;
             align-items: center;
+            flex-direction: column;
+            width:100px;
             gap: 10px;
             justify-content: center;
-            margin-top: 10px;
+            margin-top: 50px;
             margin-bottom: 15px;
         }
 
@@ -90,29 +100,41 @@
             align-items: center;
             font-size: 24px;
             font-weight: bold;
+            background-color: rgb(179, 160, 216);
             
         }
 
         .changeAvatar{
             font-size: 12px;
             text-decoration: none;
+            margin-top: 5px;
+            color:rgb(53, 84, 186);
+        }
+
+        .Details{
+            flex: 1;
         }
 
         .Details p, .ProfileDetails p, .SecurityPass p {
-            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 0 20px;
-            margin: 10px 0;
+            margin: 20px 0;
+            text-align: left;
+            
         }
 
         .AccountInfo, .ProfileDetails, .SecurityPass{
             padding: 10px 0 20px;
             margin-bottom: 20px;
+            text-align: left;
         }
 
-        .box-icon{
-            
+        .info-text{
+            text-align: left;
+            flex: 1;
         }
-
        
     </style>
 
@@ -196,32 +218,37 @@
             <box-icon name='user' class="downArrow"></box-icon>
             <h3>Account Info</h3>
            </div>
-            <div class="AvatarSection">
-                <div class="avatar pic">A</div>
-                <a href class="changeAvatar">Change Avatar</a>
-            </div>
-            <div class="Details"> 
-                <p><span>Full Name:</span> XXX <a href class="edit-link" >Edit Name</a></p>
-                <p><span>Email Address:</span> XXX@mail.com <a href class="edit-link" >Edit Email</a></p>
-                <p><span>Contact Number:</span> XXX-XXXXXXXX <a href class="edit-link" >Edit No.Phone</a></p>
+           <div class="AvatarAndDetails">
+               <div class="AvatarSection">
+                   <div class="avatar pic">A</div>
+                      <a href class="changeAvatar">Change Avatar</a>
+               </div>
+               <div class="Details"> 
+                   <p> <span class ="info-text">Full Name: XXX </span><a href class="edit-link" >Edit Name</a></p>
+                   <hr>
+                   <p> <span class ="info-text">Email Address: XXX@mail.com </span><a href class="edit-link" >Edit Email</a></p>
+                   <hr>
+                   <p> <span class ="info-text">Contact Number: XXX-XXXXXXXX </span><a href class="edit-link" >Edit No.Phone</a></p>
+               </div>
             </div>
         </div>
 
         <div class="ProfileDetails">
             <div class="head"> 
-            <box-icon name='detail' class="downArrow"></box-icon>
-            <h3>Profile Details</h3>
-           </div>
-            <p><span>Date of Birth:</span> XXX <a href class="edit-link" >Edit Date</a></p>
-            <p><span>Country/Region:</span> Malaysia <a href class="edit-link" >Edit Country</a></p>
+               <box-icon name='detail' class="downArrow"></box-icon>
+               <h3>Profile Details</h3>
+            </div>
+            <p><span class ="info-text">Date of Birth: XXX </span><a href class="edit-link" >Edit Date</a></p>
+            <hr>
+            <p><span class ="info-text">Country/Region: Malaysia </span><a href class="edit-link" >Edit Country</a></p>
         </div>
 
         <div class="SecurityPass">
             <div class="head"> 
-            <box-icon name='lock' class="downArrow"></box-icon>
-            <h3>Security</h3>
-           </div>
-            <p><span>Passwords:</span> ******** <a href class="edit-link" >Edit Password</a></p>
+               <box-icon name='lock' class="downArrow"></box-icon>
+               <h3>Security</h3>
+            </div>
+            <p><span class ="info-text">Passwords: ******** </span><a href class="edit-link" >Edit Password</a></p>
         </div>
 
     </main>

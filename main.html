@@ -56,7 +56,7 @@
             display: flex;
             flex-direction: column;
             gap: 40px;
-            margin: 4% 5%;
+            margin: 40px 5%;
         }
 
         main div.postButton {
@@ -83,7 +83,10 @@
         main div.threadPost {
             display: flex;
             gap: 5%;
+        }
 
+        main div.threadPost section:nth-child(1) {
+            display: block;
         }
 
         main div.threadPost section {
@@ -158,6 +161,42 @@
             padding: 15px;
             width: 50%;
         }
+
+        label#trendingWord {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                margin: 40px 7%;
+            }
+
+            main div.postButton {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            section.postContainer {
+                width: 100%;
+            }
+
+            main div.threadPost section:nth-child(1) {
+                display: none;
+            }
+
+            label#trendingWord {
+                display: none;
+            }
+
+            section.postContainer article:nth-of-type(2) {
+                flex-wrap: wrap;
+            }
+
+            section.postContainer article:nth-of-type(2) div {
+                width: 100%;
+                margin: 0 10px 15px 0;
+            }
+        }
     </style>
 
 </head>
@@ -165,7 +204,7 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -204,19 +243,24 @@
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
         <aside>
+            <span id="mainButton"><label for="color">Main</label></span>
+            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
+
             <div class="accessibility colorAccessibility">
                 <div class="default option" data-color="defaultColor">Default</div>
                 <div class="option" data-color="lightColor">Light</div>
                 <div class="option" data-color="darkColor">Dark</div>
             </div>
-            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <span class="colorButton"><label for="color">Color</label></span>
+
             <div class="accessibility fontSizeAccessibility">
                 <div class="option" data-setFontSize="smallFontSize">Small</div>
                 <div class="default option" data-setFontSize="defaultFontSize">Default</div>
                 <div class="option" data-setFontSize="largeFontSize">Large</div>
                 <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
             </div>
-            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
+
             <div class="accessibility support">
                 <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
@@ -224,7 +268,7 @@
                     <label for="bookSpare">@BookSpare</label>
                 </div>
             </div>
-            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+            <span class="supportButton"><label for="support">Support</label></span>
         </aside>
         <div id="secondHeader">
             <nav>
@@ -233,7 +277,7 @@
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>
-                <input type="text">
+                <input type="text" placeholder="Search by book name/ thread">
             </nav>
         </div>
     </header>
@@ -247,7 +291,7 @@
         <div class="threadPost">
             <section class="threadContainer">
                 <article style="border-bottom: 1px solid var(--containerColor);">
-                    <h1 class="center">Tranding Threads</h1>
+                    <h1 class="center">Trending Threads</h1>
                 </article>
 
                 <article>
@@ -292,7 +336,8 @@
                     </div>
 
                     <div>
-                        Top 10 Trending <box-icon name='chevron-down' class="downArrow"></box-icon>
+                        Top 10 <label for="" id="trendingWord">Trending</label> <box-icon name='chevron-down'
+                            class="downArrow"></box-icon>
                     </div>
 
                     <div>

@@ -93,4 +93,8 @@ $(document).ready(function() {
             applyFontSize(); // Update UI to reflect selection
         });
     });
+
+    $(".profile").click(function() {
+        window.location = "profile.html";
+    });
 });

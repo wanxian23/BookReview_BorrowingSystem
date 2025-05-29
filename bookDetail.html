@@ -17,123 +17,173 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <title>Login Page</title>
 
     <style>
         main {
-            margin: 25px auto;
-            width: 500px;
+            margin: 2rem auto;
+            max-width: 960px;
+            padding: 1rem;
+            background-color: #efefef;
+            border-radius: 10px;
+            border: 2px solid #000;
+            font-family: Arial, sans-serif;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-
+            position: relative;
+            gap: 1rem;
         }
 
-        .AccountInfo,
-        .ProfileDetails,
-        .SecurityPass {
-            padding: 10px 0 20px;
-            margin-bottom: 20px;
-            text-align: left;
-            border: 1px solid black;
-            border-radius: 20px;
-            background-color: aliceblue;
+        .header-line {
+            border: none;
+            border-top: 1px solid #848484;
+            margin: 0.5rem 0 1rem;
         }
 
-        div.head {
+        .back-button {
+            font-size: 1.1rem;
+            font-weight: 600;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
-            text-align: left;
-            border-bottom: 1px solid black;
-            height: 40px;
-            padding-top: 5px;
-            padding-left: 10px;
-            gap: 8px;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .edit-link {
-            color: rgb(53, 84, 186);
-
+        .back-button i {
+            font-size: 1.5rem;
+            color: black;
         }
 
-        span {
+        h1 {
+
+            margin: 0;
+            font-size: 1.3rem;
             font-weight: bold;
+            margin-bottom: 1.2rem;
         }
 
-        .ProfileDetails {
-            border: 1px solid black;
-            border-radius: 20px;
-            background-color: aliceblue;
-            text-align: center;
-            padding-top: 5px;
-
-        }
-
-        .SecurityPass {
-            border: 1px solid black;
-            border-radius: 20px;
-            background-color: aliceblue;
-            text-align: center;
-        }
-
-        .AvatarAndDetails {
+        .book-container {
             display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            padding: 10px 20px;
-        }
-
-        .AvatarSection {
-            margin-left: 10px;
-            display: flex;
-            align-items: center;
             flex-direction: column;
+            border: 1px solid #000;
+            border-radius: 9px;
+            padding: 1rem;
+            background-color: white;
+            gap: 1.2rem;
+            margin: 1rem;
+            overflow: hidden;
+        }
+
+        .top-row {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .book-image img {
             width: 100px;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 50px;
-            margin-bottom: 15px;
+            height: auto;
+            border: 1px solid #000;
+            flex-shrink: 0;
         }
 
-        .avatar.pic {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+        .book-image-wrapper {
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 24px;
+            gap: 0.5rem;
+        }
+
+        .arrow-icon {
+            font-size: 1.5rem;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .book-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .arrow-icon {
+            font-size: 1.8rem;
+            color: #000;
+            display: block;
+            margin-top: 0.3rem;
+            text-align: center;
+        }
+
+        .vertical-line {
+            width: 1.6px;
+            background-color: #848484;
+
+        }
+
+        .book-details .book-review {
+            display: flex;
+            flex: 1;
+            display: flex;
+            flex-direction: r;
+            justify-content: left;
+        }
+
+        .book-title {
+            font-size: 1.3rem;
             font-weight: bold;
-            background-color: rgb(179, 160, 216);
         }
 
-        .changeAvatar {
-            font-size: 12px;
-            text-decoration: none;
-            margin-top: 5px;
-            color: rgb(53, 84, 186);
+        .book-rating {
+            float: inline-end;
+            font-size: 1.9rem;
+            font-weight: bold;
         }
 
-        .Details {
-            flex: 1;
+        .book-author,
+        .book-genre {
+            font-size: 1rem;
+            align-self: flex-end;
         }
 
-        .Details p,
-        .ProfileDetails p,
-        .SecurityPass p {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            margin: 20px 0;
-            text-align: left;
-
+        .book-review {
+            border-radius: 5px;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            word-break: break-word;
         }
 
-        .info-text {
-            text-align: left;
-            flex: 1;
+        .synopsis-box {
+            border-radius: 5px;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-break: break-word;
+            background-color: #f9f9f9;
+            clear: both;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        hr {
+            border: none;
+            border-top: 1.6px solid #848484;
+            margin: 0.5rem 0;
         }
     </style>
-
 </head>
 
 <body>
@@ -234,44 +284,46 @@
     </header>
 
     <main>
-        <div class="AccountInfo">
-            <div class="head">
-                <box-icon name='user' class="downArrow"></box-icon>
-                <h3>Account Info</h3>
-            </div>
-            <div class="AvatarAndDetails">
-                <div class="AvatarSection">
-                    <div class="avatar pic">A</div>
-                    <a href class="changeAvatar">Change Avatar</a>
-                </div>
-                <div class="Details">
-                    <p> <span class="info-text">Full Name: XXX </span><a href class="edit-link">Edit Name</a></p>
-                    <hr>
-                    <p> <span class="info-text">Email Address: XXX@mail.com </span><a href class="edit-link">Edit
-                            Email</a></p>
-                    <hr>
-                    <p> <span class="info-text">Contact Number: XXX-XXXXXXXX </span><a href class="edit-link">Edit
-                            No.Phone</a></p>
-                </div>
-            </div>
+
+        <div class="header-row">
+            <div class="back-button"><i class='bx bx-reply'></i> Back</div>
+            <h1>Detail of the Book</h1>
         </div>
 
-        <div class="ProfileDetails">
-            <div class="head">
-                <box-icon name='detail' class="downArrow"></box-icon>
-                <h3>Profile Details</h3>
-            </div>
-            <p><span class="info-text">Date of Birth: XXX </span><a href class="edit-link">Edit Date</a></p>
-            <hr>
-            <p><span class="info-text">Country/Region: Malaysia </span><a href class="edit-link">Edit Country</a></p>
-        </div>
+        <hr class="header-line">
 
-        <div class="SecurityPass">
-            <div class="head">
-                <box-icon name='lock' class="downArrow"></box-icon>
-                <h3>Security</h3>
+        <div class="book-container">
+            <div class="top-row">
+                <div class="book-image-wrapper">
+                    <div class="book-image">
+                        <img src="image/bookCover.jpeg" alt="Book Cover">
+                    </div>
+                    <div class="arrow-icon">
+                        <i class="bx bx-caret-right"></i>
+                    </div>
+                </div>
+
+                <div class="vertical-line"></div>
+
+                <div class="book-content">
+                    <div>
+                        <span class="book-title">Book Title</span>
+                        <span class="book-rating">x.x/10</span><br>
+                        <span class="book-author">Author</span><br>
+                        <span class="book-genre">Genre</span>
+                        <hr>
+                        <div class="book-review">
+                            In my opinion, I think<br>
+                            xxxxxxxxxxxxxxxxxx<br>
+                            xxxxxx
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="synopsis-box">
+                    Long synopsis here
+                </div>
             </div>
-            <p><span class="info-text">Passwords: ******** </span><a href class="edit-link">Edit Password</a></p>
         </div>
 
     </main>

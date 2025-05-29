@@ -120,11 +120,12 @@ aside {
 header #firstHeader {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 0px 20px;
     font-size: 20px;
     background-color: var(--firstHeaderBgColor);
     box-shadow: var(--firstHeaderBoxShadow);
     height: 80px;
+    align-items: center;
 }
 
 header #firstHeader a{
@@ -139,6 +140,7 @@ header #logoImage {
 header nav {
     width: 70%;
     margin: 18px 0 18px 10px;
+    align-items: center;
 }
 
 header #firstHeader nav {
@@ -171,9 +173,30 @@ header #firstHeader span:active {
     color: #f3fa78;
 }
 
+header #firstHeader span.profile {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-left: 1px solid;
+    cursor: pointer;
+}
+
+header #firstHeader span.profile a {
+    display: inline-flex;
+    height: 50px;
+    width: 40%;
+    border: 6px solid rgb(198, 198, 198);
+    background-color: purple;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
 header #secondHeader {
     height: 60px;
-    background-color: var( --secondHeaderBgColor);
+    background-color: var(--secondHeaderBgColor);
     font-size: 18px;
     display: flex;
 }
@@ -396,6 +419,35 @@ footer a:hover {
 
     aside span:hover {
         border-left: 4px solid;
+    }
+
+    aside div#profile {
+        margin-bottom: 10px;
+    }
+
+    aside span.profile {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        cursor: pointer;
+        justify-content: right;
+    }
+    
+    aside span.profile a {
+        display: inline-flex;
+        height: 50px;
+        width: 36%;
+        border: 6px solid rgb(198, 198, 198);
+        background-color: purple;
+        border-radius: 50px;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        cursor: pointer;
+    }
+      
+    aside span.profile:hover {
+        border-left: 0;
     }
 
     aside span:active {

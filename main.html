@@ -32,6 +32,8 @@
             --postHeaderBgColor: rgb(220, 196, 238);
             --postBgColor: white;
 
+            --bookBoxShadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.225);
+
             --anchorColor: rgb(65, 116, 227);
         }
 
@@ -47,6 +49,8 @@
             --postHeaderBgColor: white;
             --postBgColor: white;
 
+            --bookBoxShadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.225);
+
             --anchorColor: rgb(65, 116, 227);
         }
 
@@ -61,6 +65,8 @@
 
             --postHeaderBgColor: rgb(1, 1, 1);
             --postBgColor: rgb(45, 45, 45);
+
+            --bookBoxShadow: 1px 1px 10px 3px rgba(237, 237, 237, 0.225);
 
             --anchorColor: rgb(149, 178, 241);
         }
@@ -217,6 +223,19 @@
             width: 70%;
         }
 
+        section.postContainer article:nth-of-type(2) div.post div.body div.right {
+            padding: 20px;
+            width: 30%;
+            display: flex;
+            justify-content: center;
+        }
+
+        section.postContainer article:nth-of-type(2) div.post div.body div.right img {
+            width: 80%;
+            height: 100%;
+            box-shadow: var(--bookBoxShadow);
+        }
+
         section.postContainer article:nth-of-type(2) div.post div.body div.left div.review {
             padding: 15px;
             border-bottom: 2px solid;
@@ -302,16 +321,30 @@
             }
 
             section.postContainer article:nth-of-type(2) div.post div.body {
-                height: 240px;
-            }
-
-            section.postContainer article:nth-of-type(2) div.post div.body div.left div.review h3 {
-                display: flex;
+                height: 550px;
                 flex-direction: column;
             }
 
+            section.postContainer article:nth-of-type(2) div.post div.body div.left div.review h3 {
+                flex-direction: column;
+            }
+
+            section.postContainer article:nth-of-type(2) div.post div.body div.left {
+                width: 100%;
+                order: 2;
+                border-top: 2px solid;
+                border-right: 0;
+            }
+
             section.postContainer article:nth-of-type(2) div.post div.body div.right {
-                width: 150px;
+                order: 1;
+                width: 100%;
+                align-items: center;
+            }
+
+            section.postContainer article:nth-of-type(2) div.post div.body div.right img {
+                width: 50%;
+                height: 85%;
             }
 
             section.postContainer article:nth-of-type(2) div.post div.bottom {
@@ -519,7 +552,7 @@
                                 </div>
                             </div>
                             <div class="right">
-
+                                <img src="image/bookCover.jpeg" alt="Book Cover">
                             </div>
                         </div>
                         <div class="bottom">
@@ -552,7 +585,7 @@
                                 </div>
                             </div>
                             <div class="right">
-
+                                <img src="image/bookCover.jpeg" alt="Book Cover">
                             </div>
                         </div>
                         <div class="bottom">

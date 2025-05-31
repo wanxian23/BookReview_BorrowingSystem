@@ -95,6 +95,6 @@ $(document).ready(function() {
     });
 
     $(".profile").click(function() {
-        window.location = "profile.html";
+        window.location = "profilemyposts.html";
     });
 });

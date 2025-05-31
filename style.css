@@ -184,7 +184,7 @@ header #firstHeader span.profile {
 header #firstHeader span.profile a {
     display: inline-flex;
     height: 50px;
-    width: 40%;
+    width: 50px;
     border: 6px solid rgb(198, 198, 198);
     background-color: purple;
     border-radius: 50px;
@@ -436,7 +436,7 @@ footer a:hover {
     aside span.profile a {
         display: inline-flex;
         height: 50px;
-        width: 36%;
+        width: 50px;
         border: 6px solid rgb(198, 198, 198);
         background-color: purple;
         border-radius: 50px;

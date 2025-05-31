@@ -194,6 +194,12 @@ header #firstHeader span.profile a {
     cursor: pointer;
 }
 
+header #firstHeader span.profile:active {
+    background-color: #f3fa78;
+    color: #f3fa78;
+    border: #f3fa78;
+}
+
 header #secondHeader {
     height: 60px;
     background-color: var(--secondHeaderBgColor);

@@ -17,41 +17,74 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Login Page</title>
+    <title>Edit Profile</title>
 
     <style>
-        main {
-            margin: 25px auto;
-            width: 500px;
-            justify-content: center;
-            align-items: center;
+        :root {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 20px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
 
+            --anchorColor: rgb(65, 116, 227);
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 20px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --anchorColor: rgb(65, 116, 227);
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(34, 34, 34);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 15px rgba(227, 227, 227, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
+
+            --anchorColor: rgb(149, 178, 241);
+        }
+
+        main {
+            padding: 50px;
+        }
+
+        article {
+            margin: 0px auto;
+            width: 50%;
         }
 
         .AccountInfo,
         .ProfileDetails,
         .SecurityPass {
-            padding: 10px 0 20px;
+            padding: 10px 0 10px;
             margin-bottom: 20px;
             text-align: left;
-            border: 1px solid black;
+            color: var(--containerColor);
+            border: 2px solid var(--containerColor);
             border-radius: 20px;
-            background-color: aliceblue;
+            background-color: var(--containerBgColor);
+            box-shadow: var(--containerBoxShadow);
         }
 
         div.head {
             display: flex;
             text-align: left;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid var(--containerColor);
             height: 40px;
-            padding-top: 5px;
-            padding-left: 10px;
+            padding: 10px 15px 20px;
             gap: 8px;
+            align-items: center;
         }
 
         .edit-link {
-            color: rgb(53, 84, 186);
-
+            text-decoration: none;
+            color: var(--anchorColor);
         }
 
         main span {
@@ -59,18 +92,12 @@
         }
 
         .ProfileDetails {
-            border: 1px solid black;
             border-radius: 20px;
-            background-color: aliceblue;
             text-align: center;
-            padding-top: 5px;
-
         }
 
         .SecurityPass {
-            border: 1px solid black;
             border-radius: 20px;
-            background-color: aliceblue;
             text-align: center;
         }
 
@@ -89,13 +116,13 @@
             width: 100px;
             gap: 10px;
             justify-content: center;
-            margin-top: 50px;
+            margin-top: 35px;
             margin-bottom: 15px;
         }
 
         .avatar.pic {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -103,17 +130,18 @@
             font-size: 24px;
             font-weight: bold;
             background-color: rgb(179, 160, 216);
+            border: 6px solid var(--containerColor);
         }
 
         .changeAvatar {
-            font-size: 12px;
             text-decoration: none;
             margin-top: 5px;
-            color: rgb(53, 84, 186);
+            color: var(--anchorColor);
         }
 
         .Details {
             flex: 1;
+            width: 100%;
         }
 
         .Details p,
@@ -125,12 +153,43 @@
             padding: 0 20px;
             margin: 20px 0;
             text-align: left;
-
         }
 
         .info-text {
             text-align: left;
             flex: 1;
+        }
+
+        .info-text label {
+            font-weight: normal;
+        }
+
+        hr {
+            background-color: var(--containerBgColor);
+        }
+
+        @media (max-width: 600px) {
+            article {
+                width: 100%;
+            }
+
+            .AvatarAndDetails {
+                flex-direction: column;
+            }
+
+            .AvatarSection {
+                margin: 20px auto 10px auto;
+            }
+        }
+
+        @media (min-width: 600px) and (max-width: 1100px) {
+            article {
+                width: fit-content;
+            }
+
+            .AvatarSection {
+                margin: 20px auto 10px auto;
+            }
         }
     </style>
 
@@ -234,45 +293,55 @@
     </header>
 
     <main>
-        <div class="AccountInfo">
-            <div class="head">
-                <box-icon name='user' class="downArrow"></box-icon>
-                <h3>Account Info</h3>
-            </div>
-            <div class="AvatarAndDetails">
-                <div class="AvatarSection">
-                    <div class="avatar pic">A</div>
-                    <a href class="changeAvatar">Change Avatar</a>
+        <article>
+            <div class="AccountInfo">
+                <div class="head">
+                    <box-icon name='user' class="downArrow"></box-icon>
+                    <h3>Account Info</h3>
                 </div>
-                <div class="Details">
-                    <p> <span class="info-text">Full Name: XXX </span><a href class="edit-link">Edit Name</a></p>
-                    <hr>
-                    <p> <span class="info-text">Email Address: XXX@mail.com </span><a href class="edit-link">Edit
-                            Email</a></p>
-                    <hr>
-                    <p> <span class="info-text">Contact Number: XXX-XXXXXXXX </span><a href class="edit-link">Edit
-                            No.Phone</a></p>
+                <div class="AvatarAndDetails">
+                    <div class="AvatarSection">
+                        <div class="avatar pic">A</div>
+                        <a href class="changeAvatar">Change Avatar</a>
+                    </div>
+                    <div class="Details">
+                        <p> <span class="info-text">Full Name: <label for="">XXX</label> </span><a href
+                                class="edit-link">Edit Name</a></p>
+                        <hr>
+                        <p> <span class="info-text">Email Address: <label for="">XXX@mail.com</label> </span><a href
+                                class="edit-link">Edit
+                                Email</a></p>
+                        <hr>
+                        <p> <span class="info-text">Contact Number: <label for="">XXX-XXXXXXXX</label> </span><a href
+                                class="edit-link">Edit
+                                No.Phone</a></p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="ProfileDetails">
-            <div class="head">
-                <box-icon name='detail' class="downArrow"></box-icon>
-                <h3>Profile Details</h3>
+            <div class="ProfileDetails">
+                <div class="head">
+                    <box-icon name='detail' class="downArrow"></box-icon>
+                    <h3>Profile Details</h3>
+                </div>
+                <p><span class="info-text">Date of Birth: <label for="">XXX</label> </span><a href
+                        class="edit-link">Edit Date</a></p>
+                <hr>
+                <p><span class="info-text">Country/Region: <label for="">Malaysia</label> </span><a href
+                        class="edit-link">Edit Country</a>
+                </p>
             </div>
-            <p><span class="info-text">Date of Birth: XXX </span><a href class="edit-link">Edit Date</a></p>
-            <hr>
-            <p><span class="info-text">Country/Region: Malaysia </span><a href class="edit-link">Edit Country</a></p>
-        </div>
 
-        <div class="SecurityPass">
-            <div class="head">
-                <box-icon name='lock' class="downArrow"></box-icon>
-                <h3>Security</h3>
+            <div class="SecurityPass">
+                <div class="head">
+                    <box-icon name='lock' class="downArrow"></box-icon>
+                    <h3>Security</h3>
+                </div>
+                <p><span class="info-text">Passwords: <label for="">********</label> </span><a href
+                        class="edit-link">Edit Password</a></p>
             </div>
-            <p><span class="info-text">Passwords: ******** </span><a href class="edit-link">Edit Password</a></p>
-        </div>
+
+        </article>
 
     </main>
 

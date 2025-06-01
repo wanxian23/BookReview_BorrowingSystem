@@ -1,19 +1,29 @@
+<?php 
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+}
+
+require("database/database.php");
+
+$username = $_SESSION['username'];
+
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'
+OR email = '$username' OR phone = '$username'";
+$runSQL = $conn->query(query: $sql);
+
+$user = $runSQL->fetch_assoc();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Free Icon Website -->
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- UI jQuery library, which include more animation effect -->
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-    <script src="script.js"></script>
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
@@ -196,101 +206,8 @@
 </head>
 
 <body>
-    <header>
-        <div id="firstHeader">
-            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
-
-            <nav>
-                <div>
-                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility colorAccessibility">
-                        <div class="default option" data-color="defaultColor">Default</div>
-                        <div class="option" data-color="lightColor">Light</div>
-                        <div class="option" data-color="darkColor">Dark</div>
-                    </div>
-                </div>
-
-                <div>
-                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility fontSizeAccessibility">
-                        <div class="option" data-setFontSize="smallFontSize">Small</div>
-                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                        <div class="option" data-setFontSize="largeFontSize">Large</div>
-                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-                    </div>
-                </div>
-                <div>
-                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility support">
-                        <span style="color: black;">Follow Us At Instagram!</span>
-                        <div>
-                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                            <label for="bookSpare">@BookSpare</label>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <span class="profile">
-                        XXX
-                        <a>
-                            A
-                        </a>
-                    </span>
-                </div>
-
-            </nav>
-            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
-        </div>
-        <aside>
-            <div id="profile">
-                <span class="profile">
-                    XXX
-                    <a>
-                        A
-                    </a>
-                </span>
-            </div>
-            <span id="mainButton"><label for="color">Main</label></span>
-            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
-
-            <div class="accessibility colorAccessibility">
-                <div class="default option" data-color="defaultColor">Default</div>
-                <div class="option" data-color="lightColor">Light</div>
-                <div class="option" data-color="darkColor">Dark</div>
-            </div>
-            <span class="colorButton"><label for="color">Color</label></span>
-
-            <div class="accessibility fontSizeAccessibility">
-                <div class="option" data-setFontSize="smallFontSize">Small</div>
-                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                <div class="option" data-setFontSize="largeFontSize">Large</div>
-                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-            </div>
-            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
-
-            <div class="accessibility support">
-                <span style="color: black;">Follow Us At Instagram!</span>
-                <div>
-                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                    <label for="bookSpare">@BookSpare</label>
-                </div>
-            </div>
-            <span class="supportButton"><label for="support">Support</label></span>
-        </aside>
-        <div id="secondHeader">
-            <nav>
-                <a href="main.html"><label for="main">Main</label></a>
-                <a href="genre.html"><label for="genre">Genre</label></a>
-            </nav>
-            <nav>
-                <box-icon name='search-alt'></box-icon>
-                <input type="text" placeholder="Search by book name/ thread">
-            </nav>
-        </div>
-    </header>
+   
+    <?php include("header.php"); ?>
 
     <main>
         <article>
@@ -301,18 +218,18 @@
                 </div>
                 <div class="AvatarAndDetails">
                     <div class="AvatarSection">
-                        <div class="avatar pic">A</div>
+                        <div class="avatar pic"><?php echo $user['username'][0]; ?></div>
                         <a href class="changeAvatar">Change Avatar</a>
                     </div>
                     <div class="Details">
-                        <p> <span class="info-text">Full Name: <label for="">XXX</label> </span><a href
+                        <p> <span class="info-text">Full Name: <label for=""><?php echo $user['username']; ?></label> </span><a href
                                 class="edit-link">Edit Name</a></p>
                         <hr>
-                        <p> <span class="info-text">Email Address: <label for="">XXX@mail.com</label> </span><a href
+                        <p> <span class="info-text">Email Address: <label for=""><?php echo $user['email']; ?></label> </span><a href
                                 class="edit-link">Edit
                                 Email</a></p>
                         <hr>
-                        <p> <span class="info-text">Contact Number: <label for="">XXX-XXXXXXXX</label> </span><a href
+                        <p> <span class="info-text">Contact Number: <label for=""><?php echo $user['phone']; ?></label> </span><a href
                                 class="edit-link">Edit
                                 No.Phone</a></p>
                     </div>
@@ -324,10 +241,10 @@
                     <box-icon name='detail' class="downArrow"></box-icon>
                     <h3>Profile Details</h3>
                 </div>
-                <p><span class="info-text">Date of Birth: <label for="">XXX</label> </span><a href
+                <p><span class="info-text">Date of Birth: <label for=""><?php echo $user['dateOfBirth']; ?></label> </span><a href
                         class="edit-link">Edit Date</a></p>
                 <hr>
-                <p><span class="info-text">Country/Region: <label for="">Malaysia</label> </span><a href
+                <p><span class="info-text">Country/Region: <label for=""><?php echo $user['country']; ?></label> </span><a href
                         class="edit-link">Edit Country</a>
                 </p>
             </div>
@@ -345,11 +262,8 @@
 
     </main>
 
-    <footer>
-        <h1>Our Social Media</h1>
-        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
-        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
-    </footer>
+    <?php include("footer.html"); ?>
+
 </body>
 
 </html>

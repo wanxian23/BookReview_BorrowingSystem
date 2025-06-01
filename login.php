@@ -1,3 +1,18 @@
+<?php 
+
+session_start(); 
+
+// If not null
+if (isset($_SESSION['username'])) {
+    // Clear all $_SESSION variables that create in other form
+    // Like username and password
+    $_SESSION = array();
+
+    // Destroy the session so that wont crash with others
+    session_destroy();
+}
+
+?>
 <!DOCTYPE html>
 <!-- data-xxxx (The "xxxx" is optional - like a variable name) -->
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
@@ -146,6 +161,10 @@
         }
 
         @media (max-width: 620px) {
+            header #secondHeader nav:nth-child(1) {
+                display: inline;
+            }
+
             .login-container {
                 width: 85%;
             }
@@ -156,14 +175,13 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="login.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
                     <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
                                 class="downArrow"></box-icon></label></span>
                     <div class="accessibility colorAccessibility">
-                        <!-- Same, the data-color (The "color" is variable, you can change) -->
                         <div class="default option" data-color="defaultColor">Default</div>
                         <div class="option" data-color="lightColor">Light</div>
                         <div class="option" data-color="darkColor">Dark</div>
@@ -220,14 +238,14 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="index.html"><label for="login">Login</label></a>
+                <a href="login.php"><label for="login">Login</label></a>
                 <a href="signup.html"><label for="signup">Signup</label></a>
             </nav>
         </div>
     </header>
 
     <main>
-        <div class="login-container">
+        <form class="login-container" action="backendLogic/loginHandle.php" method="POST">
             <div class="login-header">
                 Log In
             </div>
@@ -252,7 +270,7 @@
                     Don't Have An Account? <a href="signup.html">Sign Up</a>
                 </div>
             </div>
-        </div>
+        </form>
     </main>
 
     <footer>
@@ -261,7 +279,7 @@
         <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
     </footer>
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             $(".login-button").click(function (e) {
                 let username = $("#username").val();
@@ -290,7 +308,7 @@
                 alert("Login form submitted successfully!");
             });
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

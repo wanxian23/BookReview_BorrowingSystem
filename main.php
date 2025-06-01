@@ -1,3 +1,23 @@
+<?php 
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+}
+
+require("database/database.php");
+
+$username = $_SESSION['username'];
+
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'
+OR email = '$username' OR phone = '$username'";
+$runSQL = $conn->query(query: $sql);
+
+$user = $runSQL->fetch_assoc();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
@@ -5,18 +25,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Free Icon Website -->
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- UI jQuery library, which include more animation effect -->
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-    <script src="script.js"></script>
-
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
     <title>Main</title>
 
     <style>
@@ -118,32 +126,32 @@
             box-shadow: var(--containerBoxShadow);
         }
 
-        section.threadContainer {
+        main section.threadContainer {
             display: inline-block;
             width: 20%;
         }
 
-        section article {
+        main section article {
             padding: 20px 10px;
         }
 
-        section.threadContainer div {
+        main section.threadContainer div {
             border-bottom: 1px solid lightgray;
             padding: 10px 0;
         }
 
-        section.threadContainer article div:last-child {
+        main section.threadContainer article div:last-child {
             border: 0px;
             padding: 10px 0 0 0;
         }
 
-        section.threadContainer article div label {
+        main section.threadContainer article div label {
             display: inline-block;
             font-weight: bold;
             width: 30px;
         }
 
-        section.threadContainer article div a {
+        main section.threadContainer article div a {
             text-decoration: none;
             color: var(--anchorColor);
         }
@@ -372,101 +380,7 @@
 </head>
 
 <body>
-    <header>
-        <div id="firstHeader">
-            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
-
-            <nav>
-                <div>
-                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility colorAccessibility">
-                        <div class="default option" data-color="defaultColor">Default</div>
-                        <div class="option" data-color="lightColor">Light</div>
-                        <div class="option" data-color="darkColor">Dark</div>
-                    </div>
-                </div>
-
-                <div>
-                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility fontSizeAccessibility">
-                        <div class="option" data-setFontSize="smallFontSize">Small</div>
-                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                        <div class="option" data-setFontSize="largeFontSize">Large</div>
-                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-                    </div>
-                </div>
-                <div>
-                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility support">
-                        <span style="color: black;">Follow Us At Instagram!</span>
-                        <div>
-                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                            <label for="bookSpare">@BookSpare</label>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <span class="profile">
-                        XXX
-                        <a>
-                            A
-                        </a>
-                    </span>
-                </div>
-
-            </nav>
-            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
-        </div>
-        <aside>
-            <div id="profile">
-                <span class="profile">
-                    XXX
-                    <a>
-                        A
-                    </a>
-                </span>
-            </div>
-            <span id="mainButton"><label for="color">Main</label></span>
-            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
-
-            <div class="accessibility colorAccessibility">
-                <div class="default option" data-color="defaultColor">Default</div>
-                <div class="option" data-color="lightColor">Light</div>
-                <div class="option" data-color="darkColor">Dark</div>
-            </div>
-            <span class="colorButton"><label for="color">Color</label></span>
-
-            <div class="accessibility fontSizeAccessibility">
-                <div class="option" data-setFontSize="smallFontSize">Small</div>
-                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                <div class="option" data-setFontSize="largeFontSize">Large</div>
-                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-            </div>
-            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
-
-            <div class="accessibility support">
-                <span style="color: black;">Follow Us At Instagram!</span>
-                <div>
-                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                    <label for="bookSpare">@BookSpare</label>
-                </div>
-            </div>
-            <span class="supportButton"><label for="support">Support</label></span>
-        </aside>
-        <div id="secondHeader">
-            <nav>
-                <a href="main.html"><label for="main">Main</label></a>
-                <a href="genre.html"><label for="genre">Genre</label></a>
-            </nav>
-            <nav>
-                <box-icon name='search-alt'></box-icon>
-                <input type="text" placeholder="Search by book name/ thread">
-            </nav>
-        </div>
-    </header>
+    <?php include("header.php"); ?>
 
     <main>
         <div class="postButton">
@@ -548,7 +462,7 @@
                                 <div class="description">
                                     <p>
                                         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                        <a href="bookDetail.html">... Read More</a>
+                                        <a href="bookDetail.php">... Read More</a>
                                     </p>
                                 </div>
                             </div>
@@ -581,7 +495,7 @@
                                 <div class="description">
                                     <p>
                                         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                        <a href="bookDetail.html">... Read More</a>
+                                        <a href="bookDetail.php">... Read More</a>
                                     </p>
                                 </div>
                             </div>
@@ -602,11 +516,7 @@
         </div>
     </main>
 
-    <footer>
-        <h1>Our Social Media</h1>
-        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
-        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
-    </footer>
+   <?php include("footer.html"); ?>
 </body>
 
 </html>

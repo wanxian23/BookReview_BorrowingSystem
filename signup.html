@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="style.css">
     <title>Sign Up</title>
 
-
-
     <style>
         :root {
             --signupContainerBgColor: white;
@@ -137,13 +135,122 @@
         }
     </style>
 
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function (event) {
 
+                let inputInfoName = [
+                    "Username", "Country", "Email", "Contact", "Date Of Birth", "Password", "Re-Enter Password", "Policy & Terms"
+                ];
+
+                let inputInfo = [
+                    document.getElementById("username").value,
+                    document.getElementById("country").value,
+                    document.getElementById("email").value,
+                    document.getElementById("contact").value,
+                    document.getElementById("dob").value,
+                    document.getElementById("password").value,
+                    document.getElementById("confirm-password").value,
+                    document.getElementById("terms")
+                ];
+
+                if (!nullValidation(inputInfo, inputInfoName)) {
+                    // If put this command on top
+                    // It will prevent the form by submitting
+                    // So, put it here, the form only restricted from submit when error occur
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!usernameValidation(inputInfo[0])) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!contactValidation(inputInfo[3])) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!dateValidation(inputInfo[4])) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (!passwordValidation(pass, repass)) {
+                    event.preventDefault();
+                    return;
+                }
+
+            });
+
+            function nullValidation(inputInfo, inputInfoName) {
+                for (let i = 0; i < inputInfo.length; i++) {
+                    if (inputInfo[i] === "" && i != inputInfo.length - 1) {
+                        window.alert(inputInfoName[i] + " Cannot Be Null!");
+                        return false;
+                    } else if (!inputInfo[inputInfo.length - 1].checked) {
+                        window.alert(inputInfoName[inputInfo.length - 1] + " Must Be Tick!");
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            function usernameValidation(username) {
+                if (username.length > 16) {
+                    window.alert("Username Cannot Exceed 16 Characters!");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function contactValidation(contact) {
+                if (contact.length > 15 || contact.length < 10) {
+                    window.alert("Contact Number Must be In The Range 11 to 15!");
+                    return false;
+
+                    // Check if the contact is digit
+                } else if (!/^\d+$/.test(contact)) {
+                    window.alert("Contact Number Must be Number Only!");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function dateValidation(birth) {
+
+                // Initial format is YYYY-MM-DD
+                // So, split it by - to get year (index 0)
+                let birthYear = parseInt(birth.split("-")[0]);
+
+                if (birthYear < 1910 || birthYear > 2025) {
+                    window.alert("Birth Year Can Only In The Range 1910 To 2025!");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function passwordValidation(pass, repass) {
+                if (pass !== repass) {
+                    window.alert("Password Must Be The Same! Please Try Again!");
+                    return false;
+                }
+
+                return true;
+            }
+        });
+    </script>
 </head>
 
 <body>
     <header>
         <div id="firstHeader">
-            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="login.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -206,74 +313,69 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="index.html"><label for="login">Login</label></a>
+                <a href="login.php"><label for="login">Login</label></a>
                 <a href="signup.html"><label for="signup">Signup</label></a>
             </nav>
         </div>
     </header>
 
     <main>
-        <div class="signup-container">
+        <form class="signup-container" method="post" action="backendLogic/signupHandle.php">
             <div class="signup-header">Sign Up</div>
 
             <div class="signup-form">
 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" />
+                    <input type="text" id="username" name="username" autofocus required>
                 </div>
 
                 <div class="form-group">
                     <label for="country">Country/Region</label>
-                    <select id="country">
-                        <option value="">Select your country</option>
-                        <option value="Malaysia">Malaysia</option>
+                    <select id="country" name="country">
+                        <option value="" name="country">Select your country</option>
+                        <option value="Malaysia" name="country">Malaysia</option>
                     </select>
                 </div>
 
                 <div class="form-group full-width">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" />
+                    <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
                     <label for="contact">Contact Number</label>
-                    <input type="tel" id="contact" />
+                    <input type="tel" id="contact" name="contact" required>
                 </div>
 
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" />
+                    <input type="date" id="dob" name="dateBirth" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" />
+                    <input type="password" id="password" name="password" required>
                 </div>
 
                 <div class="form-group">
                     <label for="confirm-password">Re-enter Password</label>
-                    <input type="password" id="confirm-password" />
+                    <input type="password" id="confirm-password" required>
                 </div>
 
                 <div class="checkbox-container">
-                    <input type="checkbox" id="terms" />
+                    <input type="checkbox" value="terms" id="terms" required>
                     <label for="terms">Agree to <a href="#">Terms & Conditions</a></label>
                 </div>
 
-
-
-
-                <button class="signup-button">Sign Up</button>
+                <input type="submit" class="signup-button" id="submit" value="Sign Up">
 
                 <div class="login-link">
-                    Already Have An Account? <a href="login.html">Log in</a>
+                    Already Have An Account? <a href="login.php">Log in</a>
                 </div>
             </div>
-        </div>
+        </form>
     </main>
-
-
 
     <footer>
         <h1>Our Social Media</h1>
@@ -281,7 +383,7 @@
         <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
     </footer>
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             $(".signup-button").click(function (e) {
 
@@ -326,7 +428,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
 
 
 

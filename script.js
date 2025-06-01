@@ -33,11 +33,11 @@ $(document).ready(function() {
     });
 
     $("#mainButton").click(function () {
-        window.location = "main.html";
+        window.location = "main.php";
     });
 
     $("#genreButton").click(function () {
-        window.location = "genre.html";
+        window.location = "genre.php";
     });
 
     // Apply saved theme on load (enhanced)
@@ -95,6 +95,6 @@ $(document).ready(function() {
     });
 
     $(".profile").click(function() {
-        window.location = "profilemyposts.html";
+        window.location = "profilemyposts.php";
     });
 });

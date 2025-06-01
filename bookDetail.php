@@ -1,3 +1,23 @@
+<?php 
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+}
+
+require("database/database.php");
+
+$username = $_SESSION['username'];
+
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'
+OR email = '$username' OR phone = '$username'";
+$runSQL = $conn->query(query: $sql);
+
+$user = $runSQL->fetch_assoc();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
@@ -250,101 +270,8 @@
 </head>
 
 <body>
-    <header>
-        <div id="firstHeader">
-            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
-
-            <nav>
-                <div>
-                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility colorAccessibility">
-                        <div class="default option" data-color="defaultColor">Default</div>
-                        <div class="option" data-color="lightColor">Light</div>
-                        <div class="option" data-color="darkColor">Dark</div>
-                    </div>
-                </div>
-
-                <div>
-                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility fontSizeAccessibility">
-                        <div class="option" data-setFontSize="smallFontSize">Small</div>
-                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                        <div class="option" data-setFontSize="largeFontSize">Large</div>
-                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-                    </div>
-                </div>
-                <div>
-                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility support">
-                        <span style="color: black;">Follow Us At Instagram!</span>
-                        <div>
-                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                            <label for="bookSpare">@BookSpare</label>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <span class="profile">
-                        XXX
-                        <a>
-                            A
-                        </a>
-                    </span>
-                </div>
-
-            </nav>
-            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
-        </div>
-        <aside>
-            <div id="profile">
-                <span class="profile">
-                    XXX
-                    <a>
-                        A
-                    </a>
-                </span>
-            </div>
-            <span id="mainButton"><label for="color">Main</label></span>
-            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
-
-            <div class="accessibility colorAccessibility">
-                <div class="default option" data-color="defaultColor">Default</div>
-                <div class="option" data-color="lightColor">Light</div>
-                <div class="option" data-color="darkColor">Dark</div>
-            </div>
-            <span class="colorButton"><label for="color">Color</label></span>
-
-            <div class="accessibility fontSizeAccessibility">
-                <div class="option" data-setFontSize="smallFontSize">Small</div>
-                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                <div class="option" data-setFontSize="largeFontSize">Large</div>
-                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-            </div>
-            <span class="fontSizeButton"><label for="fontSize">Font Size</label></span>
-
-            <div class="accessibility support">
-                <span style="color: black;">Follow Us At Instagram!</span>
-                <div>
-                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                    <label for="bookSpare">@BookSpare</label>
-                </div>
-            </div>
-            <span class="supportButton"><label for="support">Support</label></span>
-        </aside>
-        <div id="secondHeader">
-            <nav>
-                <a href="main.html"><label for="main">Main</label></a>
-                <a href="genre.html"><label for="genre">Genre</label></a>
-            </nav>
-            <nav>
-                <box-icon name='search-alt'></box-icon>
-                <input type="text" placeholder="Search by book name/ thread">
-            </nav>
-        </div>
-    </header>
+    
+<?php include("header.php"); ?>
 
     <main>
         <article>
@@ -395,11 +322,8 @@
     </main>
 
 
-    <footer>
-        <h1>Our Social Media</h1>
-        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
-        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
-    </footer>
+    <?php include("footer.php"); ?>
+
 </body>
 
 </html>

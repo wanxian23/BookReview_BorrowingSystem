@@ -103,6 +103,8 @@ header {
     display: flex;
     flex-direction: column;
     user-select: none;
+    top: 0;
+    position: sticky;
 }
 
 box-icon {
@@ -179,6 +181,7 @@ header #firstHeader span.profile {
     align-items: center;
     border-left: 1px solid;
     cursor: pointer;
+    width: auto;
 }
 
 header #firstHeader span.profile a {
@@ -209,13 +212,17 @@ header #secondHeader {
 
 header #secondHeader nav{
     text-align: left;
-    margin-top: 20px;
     width: 30%; 
+    padding: 0 0 0 10px;
+}
+
+header #secondHeader nav:nth-child(3) {
+    text-align: right;
+    padding: 0 50px;
 }
 
 header #secondHeader nav a{
     text-decoration: none;
-    padding: 0 20px 0 0;
     color: var(--headerAnchor);
 }
 
@@ -225,7 +232,6 @@ header #secondHeader a label{
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
-    margin-left: 15px;
 }
 
 header #secondHeader a label:hover{

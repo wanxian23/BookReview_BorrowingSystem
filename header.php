@@ -17,13 +17,7 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Login Page</title>
-
-    <style>
-        main {
-            margin: 10% 0;
-        }
-    </style>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
 </head>
 
@@ -66,9 +60,9 @@
                 </div>
                 <div>
                     <span class="profile">
-                        XXX
+                        <?php echo $user['username']; ?>
                         <a>
-                            A
+                        <?php echo $user['username'][0]; ?>
                         </a>
                     </span>
                 </div>
@@ -79,9 +73,9 @@
         <aside>
             <div id="profile">
                 <span class="profile">
-                    XXX
+                    <?php echo $user['username']; ?>
                     <a>
-                        A
+                        <?php echo $user['username'][0]; ?>
                     </a>
                 </span>
             </div>
@@ -121,18 +115,12 @@
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread">
             </nav>
+            <nav>
+                <a href="logout.php"><label for="main">Logout</label></a>
+            </nav>
         </div>
     </header>
 
-    <main>
-
-    </main>
-
-    <footer>
-        <h1>Our Social Media</h1>
-        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
-        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
-    </footer>
 </body>
 
 </html>

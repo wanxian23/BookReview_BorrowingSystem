@@ -21,7 +21,10 @@
 
     <style>
         main {
-            margin: 2% 0;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
         }
 
         .profileContainer {
@@ -36,10 +39,9 @@
         .profile-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 235px;
-            margin-top: 30px;
-            margin-bottom: 30px;
+            justify-content: space-around;
+            width: 800px;
+            margin: 0 auto;
         }
 
         .profile-picture {
@@ -53,13 +55,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 5px solid black;
+            border: 8px solid black;
         }
 
         .profile-name {
             font-size: 35px;
             font-weight: bold;
-            margin-left: -215px;
+        }
+
+        .profile-picNname {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .edit-profile {
@@ -68,6 +75,11 @@
             background: white;
             border: 2px solid black;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .edit-profile:hover {
+            background-color: #e4e4e4;
         }
 
 
@@ -149,10 +161,6 @@
             border: 1px solid #ccc;
         }
 
-        .profile-header {
-            justify-content: center;
-        }
-
         .review-container {
             height: 70vh;
             overflow-y: auto;
@@ -186,6 +194,14 @@
     border-radius: 6px;
 } */
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $(".edit-profile").click(function () {
+                window.location = "profile.html";
+            });
+        });
+    </script>
 
 </head>
 
@@ -286,12 +302,16 @@
         </div>
     </header>
 
-    <div class="profile-header">
-        <div class="profile-picture">A</div>
-        <div class="profile-name">XXX</div>
-        <button class="edit-profile">Edit Profile</button>
-    </div>
     <main>
+        <div class="profile-header">
+            <div class="profile-picNname">
+                <div class="profile-picture">A</div>
+                <div class="profile-name">XXX</div>
+            </div>
+
+            <button class="edit-profile">Edit Profile</button>
+        </div>
+
         <section class="profileContainer">
             <div class="tabs">
                 <button class="tab">My Posts</button>

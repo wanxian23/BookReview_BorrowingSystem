@@ -1,3 +1,12 @@
+<?php 
+
+session_start();
+
+if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
+    header("Location: login.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 

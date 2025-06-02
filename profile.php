@@ -171,6 +171,13 @@ $user = $runSQL->fetch_assoc();
             text-align: left;
         }
 
+        .Details p span,
+        .ProfileDetails p span,
+        .SecurityPass p span{
+            display: flex;
+            gap: 7px;
+        }
+
         .info-text {
             text-align: left;
             flex: 1;

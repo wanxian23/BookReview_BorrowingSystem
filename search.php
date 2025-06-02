@@ -30,8 +30,6 @@ $user = $runSQL->fetch_assoc();
 
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-    <script src="script.js"></script>
-
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>

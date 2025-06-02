@@ -19,6 +19,32 @@ $runSQL = $conn->query(query: $sql);
 
 $user = $runSQL->fetch_assoc();
 
+// Thread Part --
+
+$sqlThread = "SELECT thread FROM Thread";
+$runSQLThread = $conn->query(query: $sqlThread);
+
+// If u use MYSQLI_ASSOC, it will return the name of the column
+// Like:
+// [
+//     ["thread" => "Book Talk"],
+//     ["thread" => "Recommendations"],
+//     ["thread" => "Off-topic"]
+// ]
+// So you can acceess them by $data['thread'] (Column name - Attribute)
+//
+// If u use fetch_all() only, it is equivalent to fetch_all(MYSQLI_NUM)
+// Which will return index
+// Like:
+// [
+//     [0 => "Book Talk"],
+//     [0 => "Recommendations"],
+//     [0 => "Off-topic"]
+// ]
+// So, u should access them use $data[0] (Index form)
+  
+$thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -399,37 +425,24 @@ $user = $runSQL->fetch_assoc();
                 </article>
 
                 <article>
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
+                    <?php 
 
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
+                        $i = 1;
+                        foreach ($thread as $data) {
 
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
+                            // Since Im using MYSQLI_ASSOC just now
+                            // So I can access by attribute name
+                            $value = $data['thread'];
+                            echo "<div>";
+                            echo "<label for=''>$i</label><a href=''>#$value</a>";
+                            echo "</div>";
+                            $i++;
+                            if ($i === 9) {
+                                break;
+                            }
+                        }
 
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
-
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
-
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
-
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
-
-                    <div>
-                        <label for="">1</label><a href="">#xxxxx</a>
-                    </div>
+                    ?>
                 </article>
             </section>
 

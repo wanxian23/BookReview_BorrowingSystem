@@ -2,16 +2,19 @@
 
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: login.php");
 }
 
 require("database/database.php");
 
 $username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$contact = $_SESSION['contact'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
-OR email = '$username' OR phone = '$username'";
+OR email = '$email' OR phone = '$contact'";
+
 $runSQL = $conn->query(query: $sql);
 
 $user = $runSQL->fetch_assoc();

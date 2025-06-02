@@ -2,16 +2,19 @@
 
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: login.php");
 }
 
 require("database/database.php");
 
 $username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$contact = $_SESSION['contact'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
-OR email = '$username' OR phone = '$username'";
+OR email = '$email' OR phone = '$contact'";
+
 $runSQL = $conn->query(query: $sql);
 
 $user = $runSQL->fetch_assoc();
@@ -65,6 +68,9 @@ $user = $runSQL->fetch_assoc();
         }
 
         article {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             margin: 0px auto;
             width: 50%;
         }
@@ -222,14 +228,16 @@ $user = $runSQL->fetch_assoc();
                         <a href class="changeAvatar">Change Avatar</a>
                     </div>
                     <div class="Details">
-                        <p> <span class="info-text">Full Name: <label for=""><?php echo $user['username']; ?></label> </span><a href
-                                class="edit-link">Edit Name</a></p>
+                        <p> <span class="info-text">Full Name: <label for=""><?php echo $user['username']; ?></label> </span>
+                        <a href="profileEdit/editUsername.php" class="edit-link">Edit Name</a></p>
                         <hr>
-                        <p> <span class="info-text">Email Address: <label for=""><?php echo $user['email']; ?></label> </span><a href
+                        <p> <span class="info-text">Email Address: <label for=""><?php echo $user['email']; ?></label> </span>
+                        <a href="profileEdit/editEmail.php"
                                 class="edit-link">Edit
                                 Email</a></p>
                         <hr>
-                        <p> <span class="info-text">Contact Number: <label for=""><?php echo $user['phone']; ?></label> </span><a href
+                        <p> <span class="info-text">Contact Number: <label for=""><?php echo $user['phone']; ?></label> </span>
+                        <a href="profileEdit/editContact.php"
                                 class="edit-link">Edit
                                 No.Phone</a></p>
                     </div>
@@ -241,10 +249,12 @@ $user = $runSQL->fetch_assoc();
                     <box-icon name='detail' class="downArrow"></box-icon>
                     <h3>Profile Details</h3>
                 </div>
-                <p><span class="info-text">Date of Birth: <label for=""><?php echo $user['dateOfBirth']; ?></label> </span><a href
+                <p><span class="info-text">Date of Birth: <label for=""><?php echo $user['dateOfBirth']; ?></label> </span>
+                <a href="profileEdit/editBirth.php"
                         class="edit-link">Edit Date</a></p>
                 <hr>
-                <p><span class="info-text">Country/Region: <label for=""><?php echo $user['country']; ?></label> </span><a href
+                <p><span class="info-text">Country/Region: <label for=""><?php echo $user['country']; ?></label> </span>
+                <a href="profileEdit/editCountry.php"
                         class="edit-link">Edit Country</a>
                 </p>
             </div>
@@ -254,7 +264,8 @@ $user = $runSQL->fetch_assoc();
                     <box-icon name='lock' class="downArrow"></box-icon>
                     <h3>Security</h3>
                 </div>
-                <p><span class="info-text">Passwords: <label for="">********</label> </span><a href
+                <p><span class="info-text">Passwords: <label for="">********</label> </span>
+                <a href="profileEdit/editPass.php"
                         class="edit-link">Edit Password</a></p>
             </div>
 

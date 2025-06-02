@@ -25,33 +25,39 @@
 
 require("../database/database.php");
 
-if (!isset($_SESSION['username']) && $_SERVER['REQUEST_METHOD'] == "POST") {
+if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact']) && $_SERVER['REQUEST_METHOD'] == "POST") {
     $_SESSION['username'] = $_POST['username'];
+    $_SESSION['email'] = $_POST['username'];
+    $_SESSION['contact'] = $_POST['username'];
     $_SESSION['pass'] = $_POST['password'];
 }
 
-if (isset($_SESSION['username'], $_SESSION['pass'])) {
+if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'], $_SESSION['pass'])) {
     $username = $_SESSION['username'];
+    $email = $_SESSION['email'];
+    $contact = $_SESSION['contact'];
     $pass = $_SESSION['pass'];
 
     $sql = "SELECT * FROM Reader_User WHERE username = '$username'
-            OR email = '$username' OR phone = '$username'";
+            OR email = '$email' OR phone = '$contact'";
     $runSQL = $conn->query(query: $sql);
 
     if ($runSQL->num_rows == 1) {
 
         $user = $runSQL->fetch_assoc();
+
+        $_SESSION['readerID'] = $user['readerID'];
         
         if (password_verify($pass, $user['password'])) {
             echo "Login Successful! Redirecting....";
-            echo "<meta http-equiv='refresh' content='3; URL=../main.php'>";
+            echo "<meta http-equiv='refresh' content='3; URL=/BookReview_BorrowingSystem/main.php'>";
         } else {
             echo "Login Failed! Wrong Password! Please Try Again...";
-            echo "<meta http-equiv='refresh' content='3; URL=../login.php'>";           
+            echo "<meta http-equiv='refresh' content='3; URL=/BookReview_BorrowingSystem/login.php'>";           
         }
     } else {
         echo "Login Failed! Account Doesn't Exist! Please Try Again...";
-        echo "<meta http-equiv='refresh' content='3; URL=../login.php'>";   
+        echo "<meta http-equiv='refresh' content='3; URL=/BookReview_BorrowingSystem/login.php'>";   
     }
 }
 

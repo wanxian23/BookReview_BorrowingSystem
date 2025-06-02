@@ -15,8 +15,8 @@
 
     <script src="script.js"></script>
 
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/BookReview_BorrowingSystem/image/logo.png">
+    <link rel="stylesheet" href="/style.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
 </head>
@@ -24,7 +24,7 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="main.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="/BookReview_BorrowingSystem/main.php" id="logo"><img src="/BookReview_BorrowingSystem/image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -108,15 +108,15 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="main.php"><label for="main">Main</label></a>
-                <a href="genre.php"><label for="genre">Genre</label></a>
+                <a href="/BookReview_BorrowingSystem/main.php"><label for="main">Main</label></a>
+                <a href="/BookReview_BorrowingSystem/genre.php"><label for="genre">Genre</label></a>
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread">
             </nav>
             <nav>
-                <a href="logout.php"><label for="main">Logout</label></a>
+                <a href="/BookReview_BorrowingSystem/logout.php"><label for="main">Logout</label></a>
             </nav>
         </div>
     </header>

@@ -1,32 +1,23 @@
-<?php 
-
-session_start();
-
-require("database/database.php");
-
-$username = $_SESSION['username'];
-$email = $_SESSION['email'];
-$contact = $_SESSION['contact'];
-
-$sql = "SELECT * FROM Reader_User WHERE username = '$username'
-OR email = '$email' OR phone = '$contact'";
-
-$runSQL = $conn->query(query: $sql);
-
-$user = $runSQL->fetch_assoc();
-
-?>
-
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    <!-- Free Icon Website -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- UI jQuery library, which include more animation effect -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script src="script.js"></script>
+
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Logout</title>
+    <title>Review Posted!</title>
 
     <style>
         :root {
@@ -104,32 +95,31 @@ $user = $runSQL->fetch_assoc();
             margin-top: 20px;
         }
     </style>
-
 </head>
-<body>
 
+<body>
     <?php include("header.php"); ?>
 
     <main>
         <div class="review-container">
             <div class="review-header">
                 <h2 class="review-success"
-                    style="font-family: Arial, Helvetica, sans-serif; text-align: center; font-size: 1.6em;">Logout
+                    style="font-family: Arial, Helvetica, sans-serif; text-align: center; font-size: 1.6em;">Success
                 </h2>
             </div>
 
             <div style="display: flex; gap: 20px; width: 100%; justify-content: center;">
-                <box-icon name='log-out'></box-icon>
+                <box-icon name='check-circle' class="downArrow" color="green" size="lg"></box-icon>
                 <p
                     style="display: inline-block; margin-bottom: auto; margin-top:auto; font-family: Arial, Helvetica, sans-serif; font-weight: bold; text-align: center; font-size: 1.6em;">
-                    Confirm To Logout?
+                    Successfully Posted!
                 </p>
             </div>
 
 
-            <form class="confirm-container" action="backendLogic/logoutHandle.php">
-                <input type="submit" class="confirm-btn" value="CONFIRM">
-            </form>
+            <div class="confirm-container">
+                <button type="button" class="confirm-btn">CONFIRM</button>
+            </div>
 
         </div>
 
@@ -139,7 +129,7 @@ $user = $runSQL->fetch_assoc();
 
     </main>
 
-    <?php include("footer.html"); ?>
-
+    <?php include("footer.php"); ?>
 </body>
+
 </html>

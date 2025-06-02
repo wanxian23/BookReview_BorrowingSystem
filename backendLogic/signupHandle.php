@@ -36,7 +36,7 @@
 
                 if ($runSQL->num_rows > 0) {
                     echo "Fail to Create Account! Username/ Email/ Phone Already Exist! Please Try Again....";
-                    echo "<meta http-equiv='refresh' content='3; URL=../signup.php'>";    
+                    echo "<meta http-equiv='refresh' content='3; URL=/BookReview_BorrowingSystem/signup.php'>";    
                 } else {
                     $sql = "INSERT INTO Reader_User(username, country, email, phone, dateOfBirth, password)
                         VALUES ('$username', '$country', '$email', '$contact', '$dateBirth', '$hashedPass')";
@@ -44,10 +44,10 @@
 
                     if ($runSQL) {
                         echo "Account Created Successfully! Please Login Again! Redirecting....";
-                        echo "<meta http-equiv='refresh' content='3; URL=../login.php'>";
+                        echo "<meta http-equiv='refresh' content='3; URL=/BookReview_BorrowingSystem/login.php'>";
                     } else {
                         echo "Fail to Create Account! Please Try Again....";
-                        echo "<meta http-equiv='refresh' content='3; URL=../signup.php'>";                 
+                        echo "<meta http-equiv='refresh' content='3; URL=/BookReview_BorrowingSystem/signup.php'>";                 
                     }
                 }
             }

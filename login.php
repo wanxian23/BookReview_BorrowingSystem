@@ -3,7 +3,7 @@
 session_start(); 
 
 // If not null
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     // Clear all $_SESSION variables that create in other form
     // Like username and password
     $_SESSION = array();
@@ -252,7 +252,7 @@ if (isset($_SESSION['username'])) {
             <div class="login-form">
                 <div class="form-group">
                     <label for="username">Username/ Email/ Phone</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" autofocus required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>

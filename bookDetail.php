@@ -96,11 +96,9 @@ $user = $runSQL->fetch_assoc();
         .back-button {
             font-size: 1.1em;
             font-weight: 600;
-            transform: translateY(-50%);
             display: flex;
             align-items: center;
             gap: 0.3rem;
-            margin-top: 15px;
             cursor: pointer;
         }
 
@@ -322,7 +320,7 @@ $user = $runSQL->fetch_assoc();
     </main>
 
 
-    <?php include("footer.php"); ?>
+    <?php include("footer.html"); ?>
 
 </body>
 

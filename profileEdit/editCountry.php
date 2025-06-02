@@ -192,7 +192,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         <div class="edit-container">
             <div class="edit-header">
                 <h2
-                    style="font-family: Arial, Helvetica, sans-serif; text-align: center; font-size: 1.6em;">Edit Country
+                    style="text-align: center; font-size: 1.6em;">Edit Country
                 </h2>
             </div>
 

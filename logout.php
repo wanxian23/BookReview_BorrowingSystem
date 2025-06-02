@@ -114,14 +114,14 @@ $user = $runSQL->fetch_assoc();
         <div class="review-container">
             <div class="review-header">
                 <h2 class="review-success"
-                    style="font-family: Arial, Helvetica, sans-serif; text-align: center; font-size: 1.6em;">Logout
+                    style="text-align: center; font-size: 1.6em;">Logout
                 </h2>
             </div>
 
             <div style="display: flex; gap: 20px; width: 100%; justify-content: center;">
                 <box-icon name='log-out'></box-icon>
                 <p
-                    style="display: inline-block; margin-bottom: auto; margin-top:auto; font-family: Arial, Helvetica, sans-serif; font-weight: bold; text-align: center; font-size: 1.6em;">
+                    style="display: inline-block; margin-bottom: auto; margin-top:auto; font-weight: bold; text-align: center; font-size: 1.6em;">
                     Confirm To Logout?
                 </p>
             </div>

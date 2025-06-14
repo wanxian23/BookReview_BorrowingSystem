@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3301
--- Generation Time: Jun 02, 2025 at 12:07 PM
+-- Generation Time: Jun 04, 2025 at 06:59 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.2.12
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `book_borrowed`
 --
 
+DROP TABLE IF EXISTS `book_borrowed`;
 CREATE TABLE `book_borrowed` (
   `bookBorrowCode` int(11) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
@@ -40,6 +41,7 @@ CREATE TABLE `book_borrowed` (
 -- Table structure for table `book_record`
 --
 
+DROP TABLE IF EXISTS `book_record`;
 CREATE TABLE `book_record` (
   `bookID` int(11) NOT NULL,
   `bookTitle` varchar(60) NOT NULL
@@ -51,6 +53,7 @@ CREATE TABLE `book_record` (
 -- Table structure for table `comment_rating`
 --
 
+DROP TABLE IF EXISTS `comment_rating`;
 CREATE TABLE `comment_rating` (
   `commentCode` int(11) NOT NULL,
   `postCode` int(11) DEFAULT NULL,
@@ -66,6 +69,7 @@ CREATE TABLE `comment_rating` (
 -- Table structure for table `nested_comment_rating`
 --
 
+DROP TABLE IF EXISTS `nested_comment_rating`;
 CREATE TABLE `nested_comment_rating` (
   `nestedCommentCode` int(11) NOT NULL,
   `comment` longtext NOT NULL,
@@ -80,6 +84,7 @@ CREATE TABLE `nested_comment_rating` (
 -- Table structure for table `post_review`
 --
 
+DROP TABLE IF EXISTS `post_review`;
 CREATE TABLE `post_review` (
   `postCode` int(11) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
@@ -97,6 +102,7 @@ CREATE TABLE `post_review` (
 -- Table structure for table `reader_user`
 --
 
+DROP TABLE IF EXISTS `reader_user`;
 CREATE TABLE `reader_user` (
   `readerID` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
@@ -104,15 +110,16 @@ CREATE TABLE `reader_user` (
   `phone` varchar(15) NOT NULL,
   `country` varchar(75) NOT NULL,
   `dateOfBirth` date NOT NULL,
-  `password` varchar(255) DEFAULT NULL
+  `password` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reader_user`
 --
 
-INSERT INTO `reader_user` (`readerID`, `username`, `email`, `phone`, `country`, `dateOfBirth`, `password`) VALUES
-(1, 'wanwan', 'wan@mail.com', '0122643499', 'Malaysia', '2005-04-23', '$2y$10$HNX9KP9WBi9vobIa3lthluZxFOAgnbvYy8RPBg/BoPqXVV3t9InGm');
+INSERT INTO `reader_user` (`readerID`, `username`, `email`, `phone`, `country`, `dateOfBirth`, `password`, `avatar`) VALUES
+(1, 'wanwan', 'wan@mail.com', '0122643499', 'Malaysia', '2005-04-23', '$2y$10$HNX9KP9WBi9vobIa3lthluZxFOAgnbvYy8RPBg/BoPqXVV3t9InGm', NULL);
 
 -- --------------------------------------------------------
 
@@ -120,10 +127,29 @@ INSERT INTO `reader_user` (`readerID`, `username`, `email`, `phone`, `country`, 
 -- Table structure for table `thread`
 --
 
+DROP TABLE IF EXISTS `thread`;
 CREATE TABLE `thread` (
   `threadID` int(11) NOT NULL,
   `thread` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `thread`
+--
+
+INSERT INTO `thread` (`threadID`, `thread`) VALUES
+(1, 'personalfav'),
+(2, 'romcom'),
+(3, 'badstory'),
+(4, 'famousauthor'),
+(5, 'omgoftheweek'),
+(6, 'underratedauthor'),
+(7, 'personalworst'),
+(8, 'recommend'),
+(9, 'booktodiefor'),
+(10, 'mustread'),
+(11, 'mustavoid'),
+(12, 'legendary');
 
 -- --------------------------------------------------------
 
@@ -131,6 +157,7 @@ CREATE TABLE `thread` (
 -- Table structure for table `thread_post`
 --
 
+DROP TABLE IF EXISTS `thread_post`;
 CREATE TABLE `thread_post` (
   `threadPostCode` int(11) NOT NULL,
   `postCode` int(11) DEFAULT NULL,
@@ -244,7 +271,7 @@ ALTER TABLE `reader_user`
 -- AUTO_INCREMENT for table `thread`
 --
 ALTER TABLE `thread`
-  MODIFY `threadID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `threadID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `thread_post`

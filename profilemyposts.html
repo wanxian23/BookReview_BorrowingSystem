@@ -24,16 +24,17 @@
         main {
             margin: 2% 0;
         }
+        
         .profile {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
 
-.profile-header {
+        .profile-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,149 +43,172 @@
     margin-bottom: 30px;
 }
 
-.profile-picture {
-    width: 110px;
-    height: 110px;
-    background: #e0c5ff;
-    border-radius: 50%;
-    font-size: 24px;
-    font-weight: bold;
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 5px solid black;
-}
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-.profile-name {
-    font-size: 35px;
-    font-weight: bold;
-    margin-left: -215px;
-}
+        .profile-picture {
+            width: 110px;
+            height: 110px;
+            background: #e0c5ff;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid black;
+        }
 
-.edit-profile {
-    padding: 8px 16px;
-    border-radius: 10px;
-    background: white;
-    border: 2px solid black;
-    cursor: pointer;
-}
+        .profile-name {
+            font-size: 35px;
+            font-weight: bold;
+        }
 
+        .edit-profile {
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: white;
+            border: 2px solid black;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.tabs {
-    display: flex;
-    border-bottom: 2px solid black;
-    margin-bottom: 0px;
-}
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid black;
+            margin-bottom: 0px;
+        }
 
-.tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    font-weight: bold;
-}
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-weight: bold;
+        }
 
-.tab.active {
-    border-bottom: 4px solid black;
-}
+        .tab.active {
+            border-bottom: 4px solid black;
+        }
 
-.tab-content {
-    height: 400px;
-    overflow-y: auto;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 12px 12px;
-}
+        .tab-content {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
 
-.tab-content .review-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    background: white;
-}
+        .review-card {
+            border: 2px solid #333;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            background: white;
+            overflow: hidden;
+        }
 
-.review-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
-}
+        .review-header {
+            background: #b19cd9;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.user-initial {
-    width: 30px;
-    height: 30px;
-    background: #aaa;
-    border-radius: 50%;
-    color: white;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .user-initial {
+            width: 35px;
+            height: 35px;
+            background: #333;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
 
-.review-header img {
-    width: 80px;
-    height: 120px;
-    object-fit: cover;
-    margin-left: auto;
-}
+        .user-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
 
-.review-body {
-    margin-bottom: 10px;
-}
+        .review-content {
+            display: flex;
+            padding: 15px;
+            gap: 15px;
+        }
 
-.review-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .review-left {
+            flex: 1;
+        }
 
-.review-footer input {
-    width: 70%;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+        .book-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
 
-.profile-header {
-    justify-content: center;
-}
+        .review-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
 
-.review-container {
-    height: 70vh;
-    overflow-y: auto; 
-    padding: 20px 40px 20px 20px; 
-    margin-top: 10px; 
-    /* scrollbar-color: #999 transparent; */
-}
-/* 
-.review-container::-webkit-scrollbar {
-    width: 16px;
-}
+        .review-text {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
 
-.review-container::-webkit-scrollbar-thumb {
-    background-color: #999;
-    border-radius: 4px;
-}
+        .read-more {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-.review-container::-webkit-scrollbar-track {
-    background: transparent;
-}
+        .book-image {
+            width: 80px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
 
+        .comment-section {
+            background: #f8f8f8;
+            padding: 10px 15px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.tab-content::-webkit-scrollbar-thumb {
-    background-color: #999;
-    border-radius: 6px;
-}
+        .comment-input {
+            width: 60%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
 
-.tab-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 6px;
-} */
-
+        .average-review {
+            font-size: 14px;
+            font-weight: bold;
+        }
     </style>
 
 </head>
@@ -266,13 +290,15 @@
     </header>
 
     <div class="profile-header">
-                <div class="profile-picture">A</div>
-                <div class="profile-name">XXX</div>
-                <button class="edit-profile">Edit Profile</button>
-            </div>
-    <main>
+    <div class="profile-left">
+        <div class="profile-picture">A</div>
+        <div class="profile-name">XXX</div>
+    </div>
+    <button class="edit-profile">Edit Profile</button>
+</div>
+     <main>
         <section class="profile">
-            
+            </div>
 
             <div class="tabs">
                 <button class="tab">My Posts</button>
@@ -283,44 +309,59 @@
                 <div class="review-card">
                     <div class="review-header">
                         <div class="user-initial">H</div>
-                        <div>
-                            <strong>Book Title: XXXX XXX</strong><br>
-                            Review: 9 / 10 &nbsp;&nbsp;&nbsp; Genre: Mystery
+                        <div class="user-name">XXX</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-left">
+                            <div class="book-title">Book Title: XXXX XXX</div>
+                            <div class="review-details">
+                                <span>Review: 7.5 / 10</span>
+                                <span>Genre: Horror</span>
+                            </div>
+                            <div class="review-text">
+                                In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
                         </div>
-                        <img src=".jpg" alt="Book Cover">
+                        <div class="book-image">
+                            Book Cover Image
+                        </div>
                     </div>
-                    <div class="review-body">
-                        In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
-                        <a href="#">Read More</a>
-                    </div>
-                    <div class="review-footer">
-                        <input type="text" placeholder="Comment">
-                        <span>Average Review : 2.4</span>
+                    <div class="comment-section">
+                        <input type="text" class="comment-input" placeholder="Comment">
+                        <span class="average-review">Average Review: 1.9</span>
                     </div>
                 </div>
 
                 <div class="review-card">
                     <div class="review-header">
                         <div class="user-initial">J</div>
-                        <div>
-                            <strong>Book Title: wswswswswsws</strong><br>
-                            Review: 8 / 10 &nbsp;&nbsp;&nbsp; Genre: Fiction
+                        <div class="user-name">XXX</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-left">
+                            <div class="book-title">Book Title: wswswswswsws</div>
+                            <div class="review-details">
+                                <span>Review: 8 / 10</span>
+                                <span>Genre: Fiction</span>
+                            </div>
+                            <div class="review-text">
+                                In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
                         </div>
-                        <img src="image.jpg" alt="Book Cover">
+                        <div class="book-image">
+                            Book Cover Image
+                        </div>
                     </div>
-                    <div class="review-body">
-                        In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
-                        <a href="#">Read More</a>
-                    </div>
-                    <div class="review-footer">
-                        <input type="text" placeholder="Comment">
-                        <span>Average Review : 2.4</span>
+                    <div class="comment-section">
+                        <input type="text" class="comment-input" placeholder="Comment">
+                        <span class="average-review">Average Review: 2.4</span>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
     <footer>
         <h1>Our Social Media</h1>
         <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>

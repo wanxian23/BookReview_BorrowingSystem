@@ -80,19 +80,21 @@
         .tabs {
             display: flex;
             border-bottom: 2px solid black;
-            margin-bottom: 0px;
+            margin-bottom: 25px;
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 20px 30px;
             cursor: pointer;
             border: none;
             background: transparent;
             font-weight: bold;
         }
 
-        .tab.active {
-            border-bottom: 4px solid black;
+         .tab.active {
+            text-decoration: underline;
+            text-decoration-thickness: 4px;
+            text-underline-offset: 8px;
         }
 
         .tab-content {
@@ -100,8 +102,7 @@
             overflow-y: auto;
             padding: 20px;
             border: 2px solid #ccc;
-            border-top: none;
-            border-radius: 0 0 12px 12px;
+            border-radius: 12px 12px 12px 12px;
         }
 
         .review-card {
@@ -114,7 +115,7 @@
 
         .review-header {
             background: #b19cd9;
-            padding: 10px 15px;
+            padding: 20px 15px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -187,7 +188,7 @@
             font-size: 12px;
             text-align: center;
         }
-        
+
         .comment-section {
             background: #f8f8f8;
             padding: 10px 15px;
@@ -301,8 +302,8 @@
             </div>
 
             <div class="tabs">
-                <button class="tab">My Posts</button>
-                <button class="tab active">Reviews</button>
+                <button class="tab active">My Posts</button>
+                <button class="tab">Reviews</button>
             </div>
 
             <div class="tab-content">

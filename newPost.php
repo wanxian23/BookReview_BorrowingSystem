@@ -10,8 +10,7 @@ require("database/database.php");
 
 $username = $_SESSION['username'];
 
-$sql = "SELECT * FROM Reader_User WHERE username = '$username'
-OR email = '$username' OR phone = '$username'";
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'OR email = '$username' OR phone = '$username'";
 $runSQL = $conn->query($sql);
 
 $user = $runSQL->fetch_assoc();
@@ -250,7 +249,7 @@ $user = $runSQL->fetch_assoc();
     <main>
         <section class="form-container">
             <h2><box-icon name='book-open'></box-icon> New Post</h2>
-            <form id="newPostForm">
+            <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/newPostHandling.php"); ?>" enctype="multipart/form-data">
                 <div class="toggle">
                     <span>Available for Borrow?</span>
                     <label class="switch">
@@ -285,13 +284,16 @@ $user = $runSQL->fetch_assoc();
                     <label for="genre">Genre</label>
                     <select id="genre" name="genre">
                         <option value="">-- Choose a Genre --</option>
-                        <option value="fiction">Fiction</option>
-                        <option value="non_fiction">Non-Fiction</option>
-                        <option value="fantasy">Fantasy</option>
-                        <option value="science_fiction">Science Fiction</option>
-                        <option value="mystery">Mystery</option>
-                        <option value="thriller">Thriller</option>
-                        <option value="romance">Romance</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Action">Action</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Sci-fi">Sci-fi</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Crime">Crime</option>
                     </select>
 
                     <label for="author" style="margin-top: 15px;">Author</label>
@@ -312,13 +314,13 @@ $user = $runSQL->fetch_assoc();
                     <div class="file-upload-container">
                         <label for="front_cover">Front Cover</label>
                         <label for="front_cover" class="custom-file-upload">Upload File</label>
-                        <input type="file" id="front_cover" name="front_cover" accept="image/*">
+                        <input type="file" id="front_cover" name="front_cover">
                     </div>
 
                     <div class="file-upload-container">
                         <label for="back_cover">Back Cover</label>
                         <label for="back_cover" class="custom-file-upload">Upload File</label>
-                        <input type="file" id="back_cover" name="back_cover" accept="image/*">
+                        <input type="file" id="back_cover" name="back_cover">
                     </div>
 
                     <div style="grid-column: span 2;">
@@ -355,9 +357,15 @@ $user = $runSQL->fetch_assoc();
                 let label = document.createElement("label");
                 label.textContent = thread; 
                 label.setAttribute("class","removeThread");
-                label.setAttribute("name","removeThread[]");
 
                 threadAdded.appendChild(label);
+
+                let hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "removeThread[]";
+                hiddenInput.value = thread; // thread is the value user added
+
+                document.getElementById("newPostForm").appendChild(hiddenInput);
 
                 document.getElementById("thread").value = "";
             });
@@ -387,6 +395,13 @@ $user = $runSQL->fetch_assoc();
                 
                 let frontCover = document.getElementById("front_cover");
                 let backCover = document.getElementById("back_cover");
+                let genreChoose = document.getElementById("genre");
+
+                if (genreChoose.selectedIndex === 0) {
+                    event.preventDefault(); // prevent form submission
+                    window.alert("Please choose a valid genre!");
+                    return;                   
+                }
 
                 if (borrowCheckbox.is(':checked')) {
                     if (frontCover.files.length === 0) {

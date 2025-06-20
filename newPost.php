@@ -16,28 +16,15 @@ $runSQL = $conn->query($sql);
 
 $user = $runSQL->fetch_assoc();
 
-include("header.php");
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Post</title>
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script src="script.js"></script>
+
+<?php include("headDetails.html"); ?>
+
     <style>
-        body {
-            background-color: #fdf4cc;
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
 
         .form-container {
             background: white;
@@ -62,7 +49,7 @@ include("header.php");
             gap: 15px;
         }
 
-        form div, label {
+        form div, form label {
             display: flex;
             flex-direction: column;
             font-weight: bold;
@@ -78,7 +65,7 @@ include("header.php");
 
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 115px;
         }
 
         .form-container input[type="checkbox"] {
@@ -91,16 +78,6 @@ include("header.php");
           border: 1px solid #ccc;
           font-size: 0.95rem;
           width: 100%;
-        }
-
-        footer {
-            background-color: #aaa;
-            color: white;
-            padding: 20px;
-        }
-
-        footer h1 {
-            margin: 10px 0;
         }
 
         .toggle {
@@ -204,8 +181,6 @@ include("header.php");
             font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
-            
-            
         }
 
         .clear-btn {
@@ -227,15 +202,55 @@ include("header.php");
             background-color: #333;
         }
 
+        div.threadWrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
 
+        input[type="text"]#thread {
+            width: 200px;
+        }
+        
+        #threadButton {
+            width: 100px;
+        }
 
+        div.threadAddedWrapper {
+            display: none;
+        }
+
+        div.threadAddedLabelWrapper {
+            display: flex;
+            flex-direction: row;   
+            flex-wrap: wrap;    
+            gap: 10px;   
+            margin-top: 5px;
+        }
+
+        div.threadAddedLabelWrapper label {
+            font-weight: normal;
+            background-color:rgb(243, 243, 243);
+            border: 2px solid rgb(190, 190, 190);
+            word-wrap: break-word;
+            padding: 5px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        div.threadAddedLabelWrapper label:hover {
+            border: 2px solid gray;
+        }
     </style>
 </head>
 <body>
+    
+<?php include("header.php"); ?>
+
     <main>
         <section class="form-container">
             <h2><box-icon name='book-open'></box-icon> New Post</h2>
-            <form>
+            <form id="newPostForm">
                 <div class="toggle">
                     <span>Available for Borrow?</span>
                     <label class="switch">
@@ -253,10 +268,17 @@ include("header.php");
 
                 <div style="grid-row: span 4;">
                     <label for="book_title">Book Title</label>
-                    <input type="text" id="book_title" name="book_title" placeholder="Enter Title of the book">
+                    <input type="text" id="book_title" name="book_title" placeholder="Enter Title of the book" required>
 
                     <label for="your_opinion" style="margin-top: 15px;">Your Opinion</label>
-                    <textarea id="your_opinion" name="your_opinion" placeholder="Opinion about the book...."></textarea>
+                    <textarea id="your_opinion" name="your_opinion" placeholder="Opinion about the book...." required></textarea>
+
+                    
+                    <label for="thread" style="margin-top: 15px;">Thread</label>
+                    <div class="threadWrapper">
+                        <input type="text" id="thread" name="thread" placeholder="Add related thread">
+                        <button id="threadButton" type="button">Add Thread</button>
+                    </div>
                 </div>
 
                 <div>
@@ -273,17 +295,18 @@ include("header.php");
                     </select>
 
                     <label for="author" style="margin-top: 15px;">Author</label>
-                    <input type="text" id="author" name="author" placeholder="Enter Author Name">
-
-                    <label for="thread" style="margin-top: 15px;">Thread</label>
-                    <input type="text" id="thread" name="thread" placeholder="Add related thread">
+                    <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
 
                     <label for="review" style="margin-top: 15px;">Review</label>
-                    <input type="number" id="review" name="review" min="1" max="5" placeholder="1-5">
+                    <input type="number" id="review" name="review" min="1" max="5" placeholder="1-5" required>
+
+                    <div class="threadAddedWrapper">
+                        <label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>
+                        <div class="threadAddedLabelWrapper">
+
+                        </div>
+                    </div>
                 </div>
-
-
-
 
                 <div id="borrow_details_section" style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                     <div class="file-upload-container">
@@ -305,8 +328,8 @@ include("header.php");
                 </div>
 
                 <div class="buttons-wrapper">
-                    <button type="reset" class="clear-btn">CLEAR</button>
-                    <button type="submit" class="submit-btn">SUBMIT</button>
+                    <input type="reset" class="clear-btn" value="CLEAR">
+                    <input type="submit" class="submit-btn" value="SUBMIT">
                 </div>
 
             </form>
@@ -316,12 +339,41 @@ include("header.php");
 
     <script>
         $(document).ready(function() {
+
+            // Let user add thread
+            $("#threadButton").click(function (e) {
+                e.preventDefault(); 
+
+                let thread = document.getElementById("thread").value.trim();
+
+                if (thread === "") return; // Prevent adding empty thread
+
+                $(".threadAddedWrapper").css("display", "block");
+
+                let threadAdded = document.querySelector(".threadAddedLabelWrapper");
+
+                let label = document.createElement("label");
+                label.textContent = thread; 
+                label.setAttribute("class","removeThread");
+                label.setAttribute("name","removeThread[]");
+
+                threadAdded.appendChild(label);
+
+                document.getElementById("thread").value = "";
+            });
+
+            // If user wanna remove thread (Dynamic method cuz thread added after document load)
+            $(document).on("click", ".removeThread", function () {
+                $(this).remove();
+            });
+
             const borrowCheckbox = $('#available_for_borrow_checkbox');
             const borrowDetailsSection = $('#borrow_details_section');
 
             function toggleBorrowDetails() {
                 if (borrowCheckbox.is(':checked')) {
                     borrowDetailsSection.show();
+                    document.getElementById("synopsis").setAttribute("required","required");
                 } else {
                     borrowDetailsSection.hide();
                 }
@@ -330,6 +382,26 @@ include("header.php");
             toggleBorrowDetails();
 
             borrowCheckbox.on('change', toggleBorrowDetails);
+
+            $("#newPostForm").submit(function(event) {
+                
+                let frontCover = document.getElementById("front_cover");
+                let backCover = document.getElementById("back_cover");
+
+                if (borrowCheckbox.is(':checked')) {
+                    if (frontCover.files.length === 0) {
+                        event.preventDefault(); // prevent form submission
+                        window.alert("Please upload the front cover file.");
+                        return;
+                    }
+
+                    if (backCover.files.length === 0) {
+                        event.preventDefault(); // prevent form submission
+                        window.alert("Please upload the back cover file.");
+                        return;
+                    }
+                }
+            });
         });
     </script>
 </body>

@@ -15,14 +15,14 @@ $contact = $_SESSION['contact'];
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
 
-$runSQL = $conn->query(query: $sql);
+$runSQL = $conn->query($sql);
 
 $user = $runSQL->fetch_assoc();
 
 // Thread Part --
 
 $sqlThread = "SELECT thread FROM Thread";
-$runSQLThread = $conn->query(query: $sqlThread);
+$runSQLThread = $conn->query($sqlThread);
 
 // If u use MYSQLI_ASSOC, it will return the name of the column
 // Like:
@@ -51,10 +51,7 @@ $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="icon" href="image/logo.png">
+    <?php include("headDetails.html"); ?>
     <title>Main</title>
 
     <style>
@@ -440,6 +437,7 @@ $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
                             if ($i === 9) {
                                 break;
                             }
+
                         }
 
                     ?>
@@ -534,6 +532,18 @@ $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
     </main>
 
    <?php include("footer.html"); ?>
+
+   <script>
+        $(document).ready(function() {
+            $("#myPost").click(function() {
+
+            });
+
+            $("#newPost").click(function() {
+                window.location = "newPost.php";
+            });
+        });
+    </script>
 </body>
 
 </html>

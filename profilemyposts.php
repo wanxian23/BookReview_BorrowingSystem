@@ -25,14 +25,7 @@ $user = $runSQL->fetch_assoc();
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
+    <?php include("headDetails.html"); ?>
     <title>Profile Page</title>
 
     <style>

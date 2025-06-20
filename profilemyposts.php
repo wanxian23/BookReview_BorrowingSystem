@@ -20,7 +20,6 @@ $runSQL = $conn->query(query: $sql);
 $user = $runSQL->fetch_assoc();
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
@@ -28,36 +27,47 @@ $user = $runSQL->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Free Icon Website -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <!-- put link to jquery library by using google CDN or Microsoft CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+    <!-- UI jQuery library, which include more animation effect -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script src="script.js"></script>
+
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Profile Page</title>
+    <title>Login Page</title>
 
     <style>
         main {
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
+            margin: 2% 0;
         }
-
-        .profileContainer {
+        
+        .profile {
             max-width: 800px;
             margin: auto;
             padding: 20px;
             background: #fff;
             border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 235px; 
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+        .profile-left {
             display: flex;
             align-items: center;
-            justify-content: space-around;
-            width: 800px;
-            margin: 0 auto;
+            gap: 20px;
         }
 
         .profile-picture {
@@ -71,18 +81,12 @@ $user = $runSQL->fetch_assoc();
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 8px solid black;
+            border: 5px solid black;
         }
 
         .profile-name {
             font-size: 35px;
             font-weight: bold;
-        }
-
-        .profile-picNname {
-            display: flex;
-            align-items: center;
-            gap: 30px;
         }
 
         .edit-profile {
@@ -91,30 +95,27 @@ $user = $runSQL->fetch_assoc();
             background: white;
             border: 2px solid black;
             cursor: pointer;
-            transition: 0.2s;
+            font-weight: bold;
         }
-
-        .edit-profile:hover {
-            background-color: #e4e4e4;
-        }
-
 
         .tabs {
             display: flex;
             border-bottom: 2px solid black;
-            margin-bottom: 0px;
+            margin-bottom: 25px;
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 20px 30px;
             cursor: pointer;
             border: none;
             background: transparent;
             font-weight: bold;
         }
 
-        .tab.active {
-            border-bottom: 4px solid black;
+         .tab.active {
+            text-decoration: underline;
+            text-decoration-thickness: 4px;
+            text-underline-offset: 8px;
         }
 
         .tab-content {
@@ -122,93 +123,114 @@ $user = $runSQL->fetch_assoc();
             overflow-y: auto;
             padding: 20px;
             border: 2px solid #ccc;
-            border-top: none;
-            border-radius: 0 0 12px 12px;
+            border-radius: 12px 12px 12px 12px;
         }
 
-        .tab-content .review-card {
-            border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+        .review-card {
+            border: 2px solid #333;
+            border-radius: 15px;
+            margin-bottom: 20px;
             background: white;
+            overflow: hidden;
         }
 
         .review-header {
+            background: #b19cd9;
+            padding: 20px 15px;
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 10px;
         }
 
         .user-initial {
-            width: 30px;
-            height: 30px;
-            background: #aaa;
+            width: 35px;
+            height: 35px;
+            background: #333;
             border-radius: 50%;
             color: white;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 18px;
         }
 
-        .review-header img {
-            width: 80px;
+        .user-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .review-content {
+            display: flex;
+            padding: 15px;
+            gap: 15px;
+        }
+
+        .review-left {
+            flex: 1;
+        }
+
+        .book-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .review-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .review-text {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+         .book-image {
+            width: 120px;
             height: 120px;
             object-fit: cover;
-            margin-left: auto;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
         }
 
-        .review-body {
-            margin-bottom: 10px;
-        }
-
-        .review-footer {
+        .comment-section {
+            background: #f8f8f8;
+            padding: 10px 15px;
+            border-top: 1px solid #ddd;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .review-footer input {
-            width: 70%;
-            padding: 5px;
-            border-radius: 5px;
+        .comment-input {
+            width: 60%;
+            padding: 8px;
             border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
-        .review-container {
-            height: 70vh;
-            overflow-y: auto;
-            padding: 20px 40px 20px 20px;
-            margin-top: 10px;
-            /* scrollbar-color: #999 transparent; */
+        .average-review {
+            font-size: 14px;
+            font-weight: bold;
         }
-
-        /* 
-.review-container::-webkit-scrollbar {
-    width: 16px;
-}
-
-.review-container::-webkit-scrollbar-thumb {
-    background-color: #999;
-    border-radius: 4px;
-}
-
-.review-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-
-.tab-content::-webkit-scrollbar-thumb {
-    background-color: #999;
-    border-radius: 6px;
-}
-
-.tab-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 6px;
-} */
     </style>
 
     <script>
@@ -219,74 +241,164 @@ $user = $runSQL->fetch_assoc();
         });
     </script>
 
+
 </head>
 
 <body>
-    
-    <?php include("header.php"); ?>
+  <?php include("header.php"); ?>
+    <header>
+        <div id="firstHeader">
+            <a href="index.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
-    <main>
-        <div class="profile-header">
-            <div class="profile-picNname">
-                <div class="profile-picture"><?php echo $user['username'][0] ?></div>
-                <div class="profile-name"><?php echo $user['username'] ?></div>
+            <nav>
+                <div>
+                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility colorAccessibility">
+                        <div class="default option" data-color="defaultColor">Default</div>
+                        <div class="option" data-color="lightColor">Light</div>
+                        <div class="option" data-color="darkColor">Dark</div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility fontSizeAccessibility">
+                        <div class="option" data-setFontSize="smallFontSize">Small</div>
+                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                        <div class="option" data-setFontSize="largeFontSize">Large</div>
+                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
+                    </div>
+                </div>
+                <div>
+                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
+                                class="downArrow"></box-icon></label></span>
+                    <div class="accessibility support">
+                        <span style="color: black;">Follow Us At Instagram!</span>
+                        <div>
+                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                            <label for="bookSpare">@BookSpare</label>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
+        </div>
+        <aside>
+            <div class="accessibility colorAccessibility">
+                <div class="default option" data-color="defaultColor">Default</div>
+                <div class="option" data-color="lightColor">Light</div>
+                <div class="option" data-color="darkColor">Dark</div>
+            </div>
+            <span class="accessibilityButton colorButton"><label for="color">Color</label></span>
+            <div class="accessibility fontSizeAccessibility">
+                <div class="option" data-setFontSize="smallFontSize">Small</div>
+                <div class="default option" data-setFontSize="defaultFontSize">Default</div>
+                <div class="option" data-setFontSize="largeFontSize">Large</div>
+                <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
+            </div>
+            <span class="accessibilityButton fontSizeButton"><label for="fontSize">Font Size</label></span>
+            <div class="accessibility support">
+                <span style="color: black;">Follow Us At Instagram!</span>
+                <div>
+                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                    <label for="bookSpare">@BookSpare</label>
+                </div>
+            </div>
+            <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
+        </aside>
+        <div id="secondHeader">
+            <nav>
+                <a href="main.html"><label for="main">Main</label></a>
+                <a href="genre.html"><label for="genre">Genre</label></a>
+            </nav>
+            <nav>
+                <box-icon name='search-alt'></box-icon>
+                <input type="text">
+            </nav>
+        </div>
+    </header>
+
+    <div class="profile-header">
+    <div class="profile-left">
+        <div class="profile-picture">A</div>
+        <div class="profile-name">XXX</div>
+    </div>
+    <button class="edit-profile">Edit Profile</button>
+</div>
+     <main>
+        <section class="profile">
             </div>
 
-            <button class="edit-profile">Edit Profile</button>
-        </div>
-
-        <section class="profileContainer">
             <div class="tabs">
-                <button class="tab">My Posts</button>
-                <button class="tab active">Reviews</button>
+                <button class="tab active">My Posts</button>
+                <button class="tab">Reviews</button>
             </div>
 
             <div class="tab-content">
                 <div class="review-card">
                     <div class="review-header">
                         <div class="user-initial">H</div>
-                        <div>
-                            <strong>Book Title: XXXX XXX</strong><br>
-                            Review: 9 / 10 &nbsp;&nbsp;&nbsp; Genre: Mystery
+                        <div class="user-name">XXX</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-left">
+                            <div class="book-title">Book Title: XXXX XXX</div>
+                            <div class="review-details">
+                                <span>Review: 7.5 / 10</span>
+                                <span>Genre: Horror</span>
+                            </div>
+                            <div class="review-text">
+                                In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
                         </div>
-                        <img src=".jpg" alt="Book Cover">
+                        <div class="book-image">
+                            Book Cover Image
+                        </div>
                     </div>
-                    <div class="review-body">
-                        In my opinion, I think
-                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
-                        <a href="#">Read More</a>
-                    </div>
-                    <div class="review-footer">
-                        <input type="text" placeholder="Comment">
-                        <span>Average Review : 2.4</span>
+                    <div class="comment-section">
+                        <input type="text" class="comment-input" placeholder="Comment">
+                        <span class="average-review">Average Review: 1.9</span>
                     </div>
                 </div>
 
                 <div class="review-card">
                     <div class="review-header">
                         <div class="user-initial">J</div>
-                        <div>
-                            <strong>Book Title: wswswswswsws</strong><br>
-                            Review: 8 / 10 &nbsp;&nbsp;&nbsp; Genre: Fiction
+                        <div class="user-name">XXX</div>
+                    </div>
+                    <div class="review-content">
+                        <div class="review-left">
+                            <div class="book-title">Book Title: wswswswswsws</div>
+                            <div class="review-details">
+                                <span>Review: 8 / 10</span>
+                                <span>Genre: Fiction</span>
+                            </div>
+                            <div class="review-text">
+                                In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
                         </div>
-                        <img src="image.jpg" alt="Book Cover">
+                        <div class="book-image">
+                            Book Cover Image
+                        </div>
                     </div>
-                    <div class="review-body">
-                        In my opinion, I think
-                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
-                        <a href="#">Read More</a>
-                    </div>
-                    <div class="review-footer">
-                        <input type="text" placeholder="Comment">
-                        <span>Average Review : 2.4</span>
+                    <div class="comment-section">
+                        <input type="text" class="comment-input" placeholder="Comment">
+                        <span class="average-review">Average Review: 2.4</span>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
-   <?php include("footer.html"); ?>
-
+    <footer>
+        <h1>Our Social Media</h1>
+        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
+        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
+    </footer>
 </body>
 
 </html>

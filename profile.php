@@ -232,7 +232,8 @@ $user = $runSQL->fetch_assoc();
                 <div class="AvatarAndDetails">
                     <div class="AvatarSection">
                         <div class="avatar pic"><?php echo $user['username'][0]; ?></div>
-                        <a href class="changeAvatar">Change Avatar</a>
+                       <a href="/BookReview_BorrowingSystem/profileEdit/change_avatar.php" class="changeAvatar">Change Avatar</a>
+
                     </div>
                     <div class="Details">
                         <p> <span class="info-text">Full Name: <label for=""><?php echo $user['username']; ?></label> </span>

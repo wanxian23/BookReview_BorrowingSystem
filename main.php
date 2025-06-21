@@ -45,6 +45,16 @@ $runSQLThread = $conn->query($sqlThread);
   
 $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
 
+$sqlGetPostDetails = "SELECT 
+                          post.*,
+                          reader.username,
+                          book.bookTitle
+                      FROM post_review post
+                      INNER JOIN reader_user reader USING (readerID)
+                      INNER JOIN book_record book USING (bookID)";
+$resultGetPostDetails = $conn->query($sqlGetPostDetails);
+$post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -461,71 +471,85 @@ $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
                 </article>
 
                 <article class="post">
-                    <div class="post">
-                        <div class="head">
-                            <div class="postProfile">
-                                <a href="">A</a>
-                                XXX
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="left">
-                                <div class="review">
-                                    <h2>Book Title: XXXXX</h2>
-                                    <h3><label for="">Review: 7.5/10</label><label for="">Genre: Horror</label></h3>
-                                </div>
-                                <div class="description">
-                                    <p>
-                                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                        <a href="bookDetail.php">... Read More</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="right">
-                                <img src="image/bookCover.jpeg" alt="Book Cover">
-                            </div>
-                        </div>
-                        <div class="bottom">
-                            <div class="left">
-                                <box-icon name='message-minus' id="burgerIcon" size="10"></box-icon>
-                                <input type="text" name="comment" id="comment" placeholder="Comment">
-                            </div>
-                            <h3>Average Review: 1.9</h3>
-                        </div>
-                    </div>
+                    
+                    <?php 
 
-                    <div class="post">
-                        <div class="head">
-                            <div class="postProfile">
-                                <a href="">A</a>
-                                XXX
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="left">
-                                <div class="review">
-                                    <h2>Book Title: XXXXX</h2>
-                                    <h3><label for="">Review: 7.5/10</label><label for="">Genre: Horror</label></h3>
-                                </div>
-                                <div class="description">
-                                    <p>
-                                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                        <a href="bookDetail.php">... Read More</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="right">
-                                <img src="image/bookCover.jpeg" alt="Book Cover">
-                            </div>
-                        </div>
-                        <div class="bottom">
-                            <div class="left">
-                                <box-icon name='message-minus' id="burgerIcon" size="10"></box-icon>
-                                <input type="text" name="comment" id="comment" placeholder="Comment">
-                            </div>
-                            <h3>Average Review: 1.9</h3>
-                        </div>
-                    </div>
+                        foreach ($post as $row) {
+                            if ($row['frontCover_img'] != null) {
+                                echo '<div class="post">';
+                                echo '    <div class="head">';
+                                echo '        <div class="postProfile">';
+                                echo '            <a href="">A</a>';
+                                echo $row['username'];
+                                echo '        </div>';
+                                echo '    </div>';
+        
+                                echo '    <div class="body">';
+                                echo '        <div class="left">';
+                                echo '            <div class="review">';
+                                echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
+                                echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: Horror</label></h3>';
+                                echo '            </div>';
+                                echo '            <div class="description">';
+                                echo '                <p>';
+                                echo $row['ownerOpinion'];
+                                echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
+                                echo '                </p>';
+                                echo '            </div>';
+                                echo '        </div>';
+                                echo '        <div class="right">';
+                                echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+                                echo '        </div>';
+                                echo '    </div>';
+        
+                                echo '    <div class="bottom">';
+                                echo '        <div class="left">';
+                                echo '            <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                                echo '            <input type="text" name="comment" id="comment" placeholder="Comment">';
+                                echo '        </div>';
+                                echo '        <h3>Average Review: 1.9</h3>';
+                                echo '    </div>';
+                                echo '</div>';
+                            } else {
+                                echo '<div class="post">';
+                                echo '    <div class="head">';
+                                echo '        <div class="postProfile">';
+                                echo '            <a href="">A</a>';
+                                echo $row['username'];
+                                echo '        </div>';
+                                echo '    </div>';
+        
+                                echo '    <div class="body">';
+                                echo '        <div class="left">';
+                                echo '            <div class="review">';
+                                echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
+                                echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: Horror</label></h3>';
+                                echo '            </div>';
+                                echo '            <div class="description">';
+                                echo '                <p>';
+                                echo $row['ownerOpinion'];
+                                echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
+                                echo '                </p>';
+                                echo '            </div>';
+                                echo '        </div>';
+                                echo '        <div class="right">';
+                                echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                                echo '        </div>';
+                                echo '    </div>';
+        
+                                echo '    <div class="bottom">';
+                                echo '        <div class="left">';
+                                echo '            <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                                echo '            <input type="text" name="comment" id="comment" placeholder="Comment">';
+                                echo '        </div>';
+                                echo '        <h3>Average Review: 1.9</h3>';
+                                echo '    </div>';
+                                echo '</div>';
+                            }
+                        }
+
+                    ?>
+
                 </article>
             </section>
         </div>
@@ -536,7 +560,7 @@ $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
    <script>
         $(document).ready(function() {
             $("#myPost").click(function() {
-
+                window.location = "mainmyposts.php";
             });
 
             $("#newPost").click(function() {

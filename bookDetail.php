@@ -13,8 +13,21 @@ $username = $_SESSION['username'];
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$username' OR phone = '$username'";
 $runSQL = $conn->query(query: $sql);
-
 $user = $runSQL->fetch_assoc();
+
+$postCode = $_REQUEST['postCode'];
+
+$sqlGetPostDetails = "SELECT 
+                          post.*,
+                          reader.username,
+                          book.bookTitle
+                      FROM post_review post
+                      INNER JOIN reader_user reader USING (readerID)
+                      INNER JOIN book_record book USING (bookID)
+                      WHERE post.postCode = '$postCode'";
+$resultGetPostDetails = $conn->query($sqlGetPostDetails);
+$post = $resultGetPostDetails->fetch_assoc();
+
 
 ?>
 
@@ -260,44 +273,72 @@ $user = $runSQL->fetch_assoc();
         <article>
 
             <div class="header-row">
-                <div class="back-button"><i class='bx bx-reply'></i> Back</div>
+                <div class="back-button"><i class='bx bx-reply'></i>Back</div>
                 <h1>Detail of the Book</h1>
             </div>
 
             <hr class="header-line">
 
             <div class="book-container">
-                <div class="top-row">
-                    <div class="book-image-wrapper">
-                        <div class="book-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="arrow-icon">
-                            <i class="bx bx-caret-right"></i>
-                        </div>
-                    </div>
 
+            <?php
+            
+                if ($post['frontCover_img'] != null) {
+                    echo '<div class="top-row">';
+                    echo '    <div class="book-image-wrapper">';
+                    echo '        <div class="book-image">';
+                    echo '            <img src="'.$post['frontCover_img'].'" alt="Book Cover">';
+                    echo '        </div>';
+                    echo '        <div class="arrow-icon">';
+                    echo '            <i class="bx bx-caret-right"></i>';
+                    echo '        </div>';
+                    echo '    </div>';
+    
+                    echo '    <div class="vertical-line"></div>';
+    
+                    echo '    <div class="book-content">';
+                    echo '        <div class="bookTitleReview">';
+                    echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
+                    echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
+                    echo '            <span class="book-author">Author</span><br>';
+                    echo '            <span class="book-genre">Genre</span>';
+                    echo '        </div>';
+                    echo '        <div class="book-review">';
+                    echo $post['ownerOpinion'];
+                    echo '        </div>';
+                    echo '    </div>';
+                    echo '</div>';
+    
+                    echo '<div class="synopsis-box">';
+                    echo $post['synopsis'];
+                    echo '</div>';
+                } else {
+                    echo '<div class="top-row">';
+                    echo '    <div class="book-image-wrapper" style="justify-content: center;">';
+                    echo '        <div class="book-image">';
+                    echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                    echo '        </div>';
+                    echo '    </div>';
+                    echo '    <div class="vertical-line"></div>';
+                    echo '    <div class="book-content">';
+                    echo '        <div class="bookTitleReview">';
+                    echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
+                    echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
+                    echo '            <span class="book-author">Author: </span><br>';
+                    echo '            <span class="book-genre">Genre: </span>';
+                    echo '        </div>';
+                    echo '        <div class="book-review">';
+                    echo $post['ownerOpinion'];
+                    echo '        </div>';
+                    echo '    </div>';
+                    echo '</div>';
+    
+                    echo '<div class="synopsis-box">';
+                    echo $post['synopsis'];
+                    echo '</div>';
+                }
 
-                    <div class="vertical-line"></div>
-
-                    <div class="book-content">
-                        <div class="bookTitleReview">
-                            <span class="book-title">Book Title</span>
-                            <span class="book-rating">x.x/10</span><br>
-                            <span class="book-author">Author</span><br>
-                            <span class="book-genre">Genre</span>
-                        </div>
-                        <div class="book-review">
-                            In my opinion, I think<br>
-                            xxxxxxxxxxxxxxxxxx<br>
-                            xxxxxx
-                        </div>
-
-                    </div>
-                </div>
-                <div class="synopsis-box">
-                    Long synopsis here
-                </div>
+            ?>
 
             </div>
 

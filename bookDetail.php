@@ -19,14 +19,23 @@ $postCode = $_REQUEST['postCode'];
 
 $sqlGetPostDetails = "SELECT 
                           post.*,
-                          reader.username,
-                          book.bookTitle
+                          reader.*,
+                          book.*
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
                       WHERE post.postCode = '$postCode'";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_assoc();
+
+$sqlGetThreads = "SELECT
+                    thread.*
+                  FROM Thread_Post threadPost
+                  INNER JOIN Thread thread USING (threadID)
+                  INNER JOIN Post_Review post USING (postCode)
+                  WHERE threadPost.postCode = '$postCode'";
+$resultGetThreads = $conn->query($sqlGetThreads);
+$thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
 
 
 ?>
@@ -214,17 +223,169 @@ $post = $resultGetPostDetails->fetch_assoc();
         }
 
         .synopsis-box {
-            border-radius: 5px;
             padding: 20px;
             font-size: 1em;
             word-break: break-word;
             width: 100%;
+            border-bottom: 1px solid;
+        }
+
+        .thread-box {
+            padding: 20px;
+            font-size: 1em;
+            word-break: break-word;
+            width: 100%;
+            border-bottom: 1px solid;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: left;
+        }
+
+        .thread-box label {
+            padding: 5px 20px;
+            background-color: lightgray;
+            border-radius: 8px;
+            box-shadow: 1px 3px 3px rgb(184, 184, 184);
+        }
+
+        .button-box {
+            padding: 20px;
+            font-size: 1em;
+            word-break: break-word;
+            width: 100%;
+            border-bottom: 1px solid;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .button-box label {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comment-box {
+            padding: 20px;
+            font-size: 1em;
+            word-break: break-word;
+            width: 100%;
+            border-bottom: 1px solid;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .comment-box form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            flex-direction: column;
+        }
+        
+        .comment-box form div.inputContainer {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .comment-box form div.inputContainer:nth-child(2) {
+            justify-content: space-between;
+        }
+
+        .comment-box form div.inputContainer div {
+            display: flex;
+            gap: 12px;         
+        }
+
+        .comment-box textarea, .comment-box input[type="number"] {
+            min-height: 30px;
+            border-radius: 6px;
+            padding: 3px 10px;
+            width: 50%;
+            resize: vertical;
+            overflow: auto; 
+        }
+
+        .comment-box input[type="submit"] {
+            padding: 8px 15px;
+            border-radius: 6px;
+            background-color: #a9a1ee;
+        }
+
+        .comment-box input[type="submit"]:hover {
+            background-color: #d8d5ec;
         }
 
         hr {
             border: none;
             border-top: 1.6px solid #848484;
             margin: 0.5rem 0;
+        }
+
+        .viewComment-box {
+            border-radius: 5px;
+            padding: 0 20px;
+            font-size: 1em;
+            word-break: break-word;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px
+        }
+
+        .viewComment-box .commentContainer {
+            border-bottom: 1px solid;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .viewComment-box .commentContainer:last-child {
+            margin-bottom: 20px;
+        }
+
+        .viewComment-box div.postProfile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .viewComment-box div.postProfile img {
+            display: inline-block;
+            border-radius: 40px;
+            height: 100%;
+            width: 100%;    
+        }
+
+        .viewComment-box div.postProfile a {
+            display: inline-flex;
+            text-decoration: none;
+            border-radius: 40px;
+            height: 40px;
+            width: 40px;
+            border: 4px solid var(--containerColor);
+            background-color: rgb(202, 28, 57);
+            align-items: center;
+            justify-content: center;
+            color: black;
+        }
+
+        .viewComment-box div.postProfile label {
+            font-size: 1.4em;
+        }
+
+        .viewComment-box .commentContent {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .viewComment-box .commentContent label:nth-child(2) {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         @media (max-width: 700px) {
@@ -312,6 +473,57 @@ $post = $resultGetPostDetails->fetch_assoc();
                     echo '<div class="synopsis-box">';
                     echo $post['synopsis'];
                     echo '</div>';
+
+                    echo '<div class="thread-box">';
+                    if (!empty($thread)) {
+                        foreach ($thread as $data) {
+                            echo "<label>{$data['thread']}</label>";
+                        }
+                    } else {
+                        echo "No Thread Listed...";
+                    }
+                    echo '</div>';
+                    echo '<div class="button-box">';
+                    if ($post['statusPhone'] == "YES") {
+                        echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
+                        echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank'>{$post['phone']}</a></label>";
+                    } else {
+                        echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
+                    }
+                    echo '</div>';
+
+                    echo '<div class="comment-box">';
+                    echo '<form>';
+                    echo '<div>';
+                    echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                    echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                    echo '</div>';
+                    echo '</form>';
+                    echo '<form>';
+                    echo '<div>';
+                    echo 'Rate: ';
+                    echo '<input type="number" name="rating" placeholder="Rate 1 - 10 Of This Book">';
+                    echo '</div>';
+                    echo '<input type="submit" name="addComment" value="Add Comment">';
+                    echo '</form>';
+                    echo '</div>';
+
+                    echo '<div class="viewComment-box">';
+                    echo '  <div class="commentContainer">';
+                    echo '      <div class="postProfile">';
+                    echo '          <a href="">A</a>';  
+                    echo '          <label>xxxxxx</label>';                             
+                    echo '      </div>';
+                    echo '      <div class="commentContent">';
+                    echo '          <label>';
+                    echo '              <b>Rating:</b> XX / 10';
+                    echo '          </label>';
+                    echo '          <label>';
+                    echo '              <b>Comment:</b> xxxxxxxxxxxxxxxxxxxxxx';
+                    echo '          </label>';
+                    echo '      </label>';
+                    echo '  </div>';
+                    echo '</div>';
                 } else {
                     echo '<div class="top-row">';
                     echo '    <div class="book-image-wrapper" style="justify-content: center;">';
@@ -335,6 +547,58 @@ $post = $resultGetPostDetails->fetch_assoc();
     
                     echo '<div class="synopsis-box">';
                     echo 'No Synopsis Here...';
+                    echo '</div>';
+
+                    echo '<div class="thread-box">';
+                    if (!empty($thread)) {
+                        foreach ($thread as $data) {
+                            echo "<label>{$data['thread']}</label>";
+                        }
+                    } else {
+                        echo "No Thread Listed...";
+                    }
+                    echo '</div>';
+
+                    echo '<div class="button-box">';
+                    if ($post['statusPhone'] == "YES") {
+                        echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
+                        echo "<label>My Contact Number: <a href=''>{$post['phone']}</a></label>";
+                    } else {
+                        echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
+                    }
+                    echo '</div>';
+
+                    echo '<div class="comment-box">';
+                    echo '<form method="POST" action="' . htmlspecialchars("commentHandling.php?postcode=" . $postCode) . '">';
+                    echo '<div class="inputContainer">';
+                    echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                    echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                    echo '</div>';
+                    echo '<div class="inputContainer">';
+                    echo '<div>';
+                    echo 'Rate: ';
+                    echo '<input type="number" name="rating" placeholder="Rate 1 - 10 Of This Book">';
+                    echo '</div>';
+                    echo '<input type="submit" name="addComment" value="Add Comment">';
+                    echo '</div>';
+                    echo '</form>';
+                    echo '</div>';
+
+                    echo '<div class="viewComment-box">';
+                    echo '  <div class="commentContainer">';
+                    echo '      <div class="postProfile">';
+                    echo '          <a href="">A</a>';  
+                    echo '          <label>xxxxxx</label>';                             
+                    echo '      </div>';
+                    echo '      <div class="commentContent">';
+                    echo '          <label>';
+                    echo '              <b>Rating:</b> XX / 10';
+                    echo '          </label>';
+                    echo '          <label>';
+                    echo '              <b>Comment:</b> xxxxxxxxxxxxxxxxxxxxxx';
+                    echo '          </label>';
+                    echo '      </label>';
+                    echo '  </div>';
                     echo '</div>';
                 }
 

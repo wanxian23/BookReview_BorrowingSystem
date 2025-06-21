@@ -94,8 +94,8 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="/BookReview_BorrowingSystem/main.php"><label for="main">Main</label></a>
-                <a href="/BookReview_BorrowingSystem/genre.php"><label for="genre">Genre</label></a>
+                <a href="main.php"><label for="">Main</label></a>
+                <a href="genre.php"><label for="">Genre</label></a>
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>

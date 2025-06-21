@@ -34,3 +34,36 @@ VALUES('mustavoid');
 
 INSERT INTO Thread(thread)
 VALUES('legendary');
+
+-- Book Data Script
+INSERT INTO book_record(bookTitle)
+VALUES ('Alice In The Wonderland');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Little Mermaid');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Rapunzal');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Coco');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Cinderella');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Mulan');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Tangle');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Beauty And The Beast');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Lion King');
+
+INSERT INTO book_record(bookTitle)
+VALUES ('Aladdin');
+
+-- Genre Script

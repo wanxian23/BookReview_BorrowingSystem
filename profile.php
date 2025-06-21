@@ -25,11 +25,7 @@ $user = $runSQL->fetch_assoc();
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
+    <?php include("headDetails.html"); ?>
     <title>Edit Profile</title>
 
     <style>

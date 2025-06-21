@@ -11,22 +11,8 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Free Icon Website -->
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- UI jQuery library, which include more animation effect -->
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-    <script src="script.js"></script>
-
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
-    <title>Review Posted!</title>
+    <?php include("headDetails.html"); ?>
+    <title>Review Posted</title>
 
     <style>
         :root {

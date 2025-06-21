@@ -10,7 +10,7 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="main.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="../main.php" id="logo"><img src="../image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -53,7 +53,7 @@
                             if ($user['avatar'] == null) {
                                 echo $user['username'][0]; 
                             } else {
-                                echo "<img src=".$user['avatar']." alt='Profile Image'>";
+                                echo "<img src=../".$user['avatar']." alt='Profile Image'>";
                             }
                         ?>
                         </a>
@@ -101,15 +101,15 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="main.php"><label for="">Main</label></a>
-                <a href="genre.php"><label for="">Genre</label></a>
+                <a href="../main.php"><label for="">Main</label></a>
+                <a href="../genre.php"><label for="">Genre</label></a>
             </nav>
             <nav>
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread">
             </nav>
             <nav>
-                <a href="logout.php"><label for="main">Logout</label></a>
+                <a href="../logout.php"><label for="main">Logout</label></a>
             </nav>
         </div>
     </header>

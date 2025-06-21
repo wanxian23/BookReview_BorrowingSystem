@@ -300,7 +300,7 @@ $user = $runSQL->fetch_assoc();
                     <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
 
                     <label for="review" style="margin-top: 15px;">Review</label>
-                    <input type="number" id="review" name="review" min="1" max="5" placeholder="1-5" required>
+                    <input type="number" id="review" name="review" min="1" max="10" placeholder="1-10" required>
 
                     <div class="threadAddedWrapper">
                         <label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>
@@ -363,6 +363,8 @@ $user = $runSQL->fetch_assoc();
                 let hiddenInput = document.createElement("input");
                 hiddenInput.type = "hidden";
                 hiddenInput.name = "removeThread[]";
+                hiddenInput.className = "removeThread";
+                hiddenInput.value = thread;
                 hiddenInput.value = thread; // thread is the value user added
 
                 document.getElementById("newPostForm").appendChild(hiddenInput);
@@ -371,8 +373,18 @@ $user = $runSQL->fetch_assoc();
             });
 
             // If user wanna remove thread (Dynamic method cuz thread added after document load)
+            // Remove both on click (Label and hidden input)
             $(document).on("click", ".removeThread", function () {
-                $(this).remove();
+                let valueToRemove = $(this).text(); // get the thread text
+
+                $(".removeThread").each(function () {
+                    if (
+                        $(this).is("input") && $(this).val() === valueToRemove || // hidden input
+                        $(this).is("label") && $(this).text() === valueToRemove    // label
+                    ) {
+                        $(this).remove();
+                    }
+                });
             });
 
             const borrowCheckbox = $('#available_for_borrow_checkbox');

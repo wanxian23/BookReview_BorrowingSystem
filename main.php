@@ -47,8 +47,8 @@ $thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
 
 $sqlGetPostDetails = "SELECT 
                           post.*,
-                          reader.username,
-                          book.bookTitle
+                          reader.*,
+                          book.*
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)";
@@ -243,6 +243,13 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             display: flex;
             align-items: center;
             gap: 20px;
+        }
+
+        section.postContainer article:nth-of-type(2) div.post div.head div.postProfile img {
+            display: inline-block;
+            border-radius: 40px;
+            height: 100%;
+            width: 100%;    
         }
 
         section.postContainer article:nth-of-type(2) div.post div.head div.postProfile a {
@@ -479,7 +486,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '<div class="post">';
                                 echo '    <div class="head">';
                                 echo '        <div class="postProfile">';
-                                echo '            <a href="">A</a>';
+                                if ($row['avatar'] != null) {
+                                    echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                } else {
+                                    echo '            <a href="">A</a>';                               
+                                }
                                 echo $row['username'];
                                 echo '        </div>';
                                 echo '    </div>';
@@ -488,7 +499,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '        <div class="left">';
                                 echo '            <div class="review">';
                                 echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-                                echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: Horror</label></h3>';
+                                echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
                                 echo '            </div>';
                                 echo '            <div class="description">';
                                 echo '                <p>';
@@ -514,7 +525,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '<div class="post">';
                                 echo '    <div class="head">';
                                 echo '        <div class="postProfile">';
-                                echo '            <a href="">A</a>';
+                                if ($row['avatar'] != null) {
+                                    echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                } else {
+                                    echo '            <a href="">A</a>';                               
+                                }
                                 echo $row['username'];
                                 echo '        </div>';
                                 echo '    </div>';
@@ -523,7 +538,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '        <div class="left">';
                                 echo '            <div class="review">';
                                 echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-                                echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: Horror</label></h3>';
+                                echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
                                 echo '            </div>';
                                 echo '            <div class="description">';
                                 echo '                <p>';

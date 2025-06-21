@@ -199,6 +199,13 @@ header #firstHeader span.profile a {
     cursor: pointer;
 }
 
+header #firstHeader span.profile img{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 50px;
+}
+
 header #firstHeader span.profile:active {
     background-color: #f3fa78;
     color: #f3fa78;

@@ -300,8 +300,8 @@ $post = $resultGetPostDetails->fetch_assoc();
                     echo '        <div class="bookTitleReview">';
                     echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
                     echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
-                    echo '            <span class="book-author">Author</span><br>';
-                    echo '            <span class="book-genre">Genre</span>';
+                    echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
+                    echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
                     echo '        </div>';
                     echo '        <div class="book-review">';
                     echo $post['ownerOpinion'];
@@ -324,8 +324,8 @@ $post = $resultGetPostDetails->fetch_assoc();
                     echo '        <div class="bookTitleReview">';
                     echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
                     echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
-                    echo '            <span class="book-author">Author: </span><br>';
-                    echo '            <span class="book-genre">Genre: </span>';
+                    echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
+                    echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
                     echo '        </div>';
                     echo '        <div class="book-review">';
                     echo $post['ownerOpinion'];
@@ -334,7 +334,7 @@ $post = $resultGetPostDetails->fetch_assoc();
                     echo '</div>';
     
                     echo '<div class="synopsis-box">';
-                    echo $post['synopsis'];
+                    echo 'No Synopsis Here...';
                     echo '</div>';
                 }
 

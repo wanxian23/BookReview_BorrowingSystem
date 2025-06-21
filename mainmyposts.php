@@ -18,11 +18,12 @@ $user = $runSQL->fetch_assoc();
 
 $sqlGetPostDetails = "SELECT 
                           post.*,
-                          reader.username,
-                          book.bookTitle
+                          reader.*,
+                          book.*
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
+                      WHERE post.readerID = '$readerID'
                       ORDER BY post.postCode DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -91,8 +92,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
     main {
-        padding: 20px;
-        max-width: 1300px;
+        padding: 20px 100px;
         margin: 2% auto;
     }
 
@@ -118,10 +118,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         border-bottom: 2px solid black;
     }
     
-.back-button {
+    .back-button {
         position: absolute;
         left: 20px;
-        font-size: 16px;
+        font-size: 1.3em;
         font-weight: bold;
         color: #333;
         display: flex;
@@ -160,7 +160,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         border: 2px solid black;
         border-radius: 15px;
         padding: 20px;
-        height: 700px;
+        height: 860px;
     }
 
     .results-grid {
@@ -171,134 +171,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         margin-top: 30px;
         overflow-y: scroll;
         padding: 15px;
-        height: 83%;
-    }
-
-    .review-card {
-        border: 2px solid #333;
-        border-radius: 15px;
-        background: white;
-        overflow: hidden;
-        width: 100%;
-        height: 350px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .review-header {
-        background: #b19cd9;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .user-initial {
-        width: 35px;
-        height: 35px;
-        background: #333;
-        border-radius: 50%;
-        color: white;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-    }
-
-    .user-name {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .review-content {
-        display: flex;
-        padding: 15px;
-        gap: 15px;
-        overflow-y: auto;
-        flex: 1;
-    }
-
-    .review-left {
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .book-title {
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 8px;
-        color: #333;
-    }
-
-    .review-details {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .review-text {
-        font-size: 14px;
-        line-height: 1.4;
-        margin-bottom: 10px;
-        color: #333;
-    }
-
-    .read-more {
-        color: #888;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-.book-image {
-            width: 120px;
-            height: 170px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 12px;
-            text-align: center;
-        }
-
-    .comment-section {
-        background: #f8f8f8;
-        padding: 15px;
-        border-top: 1px solid #ddd;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .comment-input-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .comment-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .comment-input {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        font-size: 14px;
-        width: 200px;
-    }
-
-    .average-review {
-        font-size: 14px;
-        font-weight: bold;
-        color: #333;
+        height: 86%;
     }
 
     @media (max-width: 768px) {
@@ -328,6 +201,13 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             align-items: center;
             gap: 20px;
         }
+
+    div.post div.head div.postProfile img {
+        display: inline-block;
+        border-radius: 40px;
+        height: 100%;
+        width: 100%;    
+    }
 
     div.post div.head div.postProfile a {
             display: inline-flex;
@@ -430,7 +310,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         <div class="results-container">
             <div class="my-posts-header">
                 <a class="back-button" onclick="window.history.back()">
-                    <box-icon name='arrow-left'></box-icon>Back
+                <div class="back-button"><i class='bx bx-reply'></i>Back</div>
                 </a>
                 <span class="my-posts-title">My Posts</span>
             </div>
@@ -445,7 +325,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '<div class="post">';
                             echo '    <div class="head">';
                             echo '        <div class="postProfile">';
-                            echo '            <a href="">A</a>';
+                            if ($row['avatar'] != null) {
+                                echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                            } else {
+                                echo '            <a href="">A</a>';                               
+                            }
                             echo $row['username'];
                             echo '        </div>';
                             echo '    </div>';
@@ -453,7 +337,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '        <div class="left">';
                             echo '            <div class="review">';
                             echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: Horror</label></h3>';
+                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
                             echo '            </div>';
                             echo '            <div class="description">';
                             echo '                <p>';
@@ -479,7 +363,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '<div class="post">';
                             echo '    <div class="head">';
                             echo '        <div class="postProfile">';
-                            echo '            <a href="">A</a>';
+                            if ($row['avatar'] != null) {
+                                echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                            } else {
+                                echo '            <a href="">A</a>';                               
+                            }
                             echo $row['username'];
                             echo '        </div>';
                             echo '    </div>';
@@ -487,7 +375,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '        <div class="left">';
                             echo '            <div class="review">';
                             echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: Horror</label></h3>';
+                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
                             echo '            </div>';
                             echo '            <div class="description">';
                             echo '                <p>';

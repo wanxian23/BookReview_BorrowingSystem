@@ -12,7 +12,7 @@ $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
 
-$sql = "SELECT * FROM Reader_User WHERE username = '$username'
+$sql = "SELECT * FROM Reader_User WHERE username = '$username' 
 OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query(query: $sql);
 
@@ -29,7 +29,8 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 <head>
 
     <?php include("headDetails.html"); ?>
-    <title>Edit Username</title>
+
+    <title>Change Avatar</title>
 
     <style>
         :root {
@@ -80,11 +81,30 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         }
 
         .edit-header {
+            text-align: center;
             align-items: center;
+            font-size: 1.4em;
             gap: 12px;
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--containerColor);
+        }
+
+        div.oldAvatarContainer {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: column;
+            width: 50%;
+            border-bottom: 1px solid;
+            padding: 30px;
+        }
+
+        div.oldAvatarContainer img {
+            border: 8px solid;
+            border-radius: 100px;
+            width: 150px;
+            height: 150px;
         }
 
         .confirm-btn {
@@ -114,10 +134,15 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         .formEdit p {
             display: flex;
             gap: 20px;
-            width: 50%;
+            width: 60%;
             font-size: 1.3em;
             text-align: left;
             font-weight: bold;
+        }
+
+        .formEdit label {
+            font-weight: bold;
+            font-size: 1.2em;
         }
 
         .formEdit input {
@@ -136,23 +161,32 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
     <script>
         $(document).ready(function() {
             $("#confirmBtn").click(function(event) {
-                let username = document.getElementById("username").value;
+                let fileInput = document.getElementById("avatar");
+                let file = fileInput.files[0];
 
-                if (username === "") {
-                    window.alert("Username Cannot Be Null!");
+                if (!file) {
+                    window.alert("Please select an image to upload");
                     event.preventDefault();
                     return;
                 }
+                
+               const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+               const maxSize = 2 * 1024 * 1024; // 2MB
 
-                if (username.length > 16) {
-                    window.alert("Username Cannot Exceed 16 Characters!");
-                    event.preventDefault();
-                    return;
-                }
+               if(!allowedTypes.includes(file.type)){
+                window.alert("Only JPG, PNG< JPEG images are allowed.");
+                event.preventDefault();
+                return;
+               }
+
+               if(file.size > maxSize){
+                window.alert("File size must be 2MB or less.");
+                event.preventDefault();
+                return;
+               }
             });
         });
     </script>
-
 </head>
 
 <body>
@@ -162,29 +196,34 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
     <div class="phpHandle" style="<?php echo $showPHPHandle ? 'display: flex;' : 'display: none;'; ?>">
     <?php 
 
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-        $readerID = $_SESSION['readerID'];
-        $newUsername = $_POST['username'];
-
-        $sql = "UPDATE Reader_User SET username = '$newUsername' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
-
-        if ($runSQL) {
-            $_SESSION['username'] = $newUsername;
-            echo "Username Changed Successfully! Back to profile....";
-
-            // If u use meta, even has 3s load, but since it load every second
-            // So u cant apply css (display show or hide)
-            // U should use js to make delay
-            echo "<script>
-                    setTimeout(function() {
-                        window.location.href = '/BookReview_BorrowingSystem/profile.php';
-                    }, 3000);
-                </script>";    
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_FILES['avatar'])) {
+        $targetDir = "avatarUploads/";
+        if(!file_exists("../".$targetDir)){
+            mkdir("../".$targetDir, 0755, true);
         }
-    }
 
+        $file = $_FILES['avatar'];
+        $fileName = uniqid("img_")."_".basename($file["name"]);
+        $targetFile = $targetDir.$fileName;
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png'];
+
+         if (in_array($imageFileType, $allowedTypes) && $file["size"] <= 2 * 1024 * 1024) {
+                if (move_uploaded_file($file["tmp_name"], "../".$targetFile)) {
+                    $updateSQL = "UPDATE Reader_User SET avatar = '$targetFile' WHERE username = '$username'";
+                    if ($conn->query($updateSQL)) {
+                        echo "Avatar updated successfully! Redirecting...";
+                        echo "<script>setTimeout(() => window.location.href = '../profile.php', 3000);</script>";
+                    } else {
+                        echo "Database update failed.";
+                    }
+                } else {
+                    echo "Failed to upload file.";
+                }
+            } else {
+                echo "Invalid file type or size exceeds 2MB.";
+            }
+        }
     ?>
     </div>
 
@@ -192,32 +231,37 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
     <main style="<?php echo $showPHPHandle ? 'display: none;' : 'display: block;'; ?>">
         <div class="edit-container">
             <div class="edit-header">
-                <h2
-                    style="text-align: center; font-size: 1.6em;">Edit Username
-                </h2>
+                <h2>Change Avatar</h2>
             </div>
 
-            <form class="formEdit" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <p>
-                    Old Username: <label for="" style="font-weight: normal;"><?php echo $user['username']; ?></label>
-                </p>
+            <form class="formEdit" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+                <div class="oldAvatarContainer">
+                <?php 
+                    if ($user['avatar'] != null) {
+                        echo "<img src='../".$user['avatar']."' alt='Profile Image'>";
+                    } else {
+                        echo '<div class="profile-picture">A</div>';
+                    }
+                ?>
+                    <label>
+                        Old Avatar
+                    </label>                   
+                </div>
 
-                <p>
-                    New Username: <label for="" style="font-weight: normal;"><input type="text" placeholder="New Username" id="username" name="username" autofocus required></label>
-                </p>
-
+                <label>
+                    New Avatar: 
+                    <input type="file" id="avatar" name="avatar" accept="image/*" required>
+                </label>
                 <input type="submit" class="confirm-btn" value="CONFIRM" id="confirmBtn">
             </form>
-
         </div>
-
-
-        </form>
-        </div>
-
     </main>
 
     <?php include("../footer.html"); ?>
 </body>
 
 </html>
+
+
+
+

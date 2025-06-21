@@ -14,8 +14,7 @@ $contact = $_SESSION['contact'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
-
-$runSQL = $conn->query(query: $sql);
+$runSQL = $conn->query($sql);
 
 $user = $runSQL->fetch_assoc();
 
@@ -25,11 +24,8 @@ $user = $runSQL->fetch_assoc();
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
+    <?php include("headDetails.html"); ?>
     <title>Edit Profile</title>
 
     <style>
@@ -149,6 +145,14 @@ $user = $runSQL->fetch_assoc();
             border: 6px solid var(--containerColor);
         }
 
+        .AvatarSection img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            border: 6px solid var(--containerColor);
+        }
+
         .changeAvatar {
             text-decoration: none;
             margin-top: 5px;
@@ -231,7 +235,17 @@ $user = $runSQL->fetch_assoc();
                 </div>
                 <div class="AvatarAndDetails">
                     <div class="AvatarSection">
-                        <div class="avatar pic"><?php echo $user['username'][0]; ?></div>
+                            <?php 
+
+                                if ($user['avatar'] != null) {
+                                    echo "<img src=".$user['avatar']." alt='Profile Image'>";
+                                } else {
+                                    echo '<div class="avatar pic">';
+                                    echo $user['username'][0]; 
+                                    echo '</div>';
+                                }
+
+                            ?>
                         <a href="profileEdit/changeAvatar.php" class="changeAvatar">Change Avatar</a>
                     </div>
                     <div class="Details">

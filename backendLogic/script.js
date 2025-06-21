@@ -33,11 +33,11 @@ $(document).ready(function() {
     });
 
     $("#mainButton").click(function () {
-        window.location = "/BookReview_BorrowingSystem/main.php";
+        window.location = "../main.php";
     });
 
     $("#genreButton").click(function () {
-        window.location = "genre.php";
+        window.location = "../genre.php";
     });
 
     // Apply saved theme on load (enhanced)
@@ -52,10 +52,10 @@ $(document).ready(function() {
         $(`.colorAccessibility .option[data-color="${savedTheme}"]`).addClass("default");
 
         if (savedTheme == "darkColor") {
-            $("#logoImage").attr("src", "image/logoTitle_dark.png");
+            $("#logoImage").attr("src", "../image/logoTitle_dark.png");
             
         } else {
-            $("#logoImage").attr("src", "image/logoTitle.png");
+            $("#logoImage").attr("src", "../image/logoTitle.png");
         }
     }
 
@@ -95,6 +95,6 @@ $(document).ready(function() {
     });
 
     $(".profile").click(function() {
-        window.location = "profilemyposts.php";
+        window.location = "../profilemyposts.php";
     });
 });

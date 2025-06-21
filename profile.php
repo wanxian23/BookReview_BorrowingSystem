@@ -25,7 +25,11 @@ $user = $runSQL->fetch_assoc();
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <?php include("headDetails.html"); ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="style.css">
     <title>Edit Profile</title>
 
     <style>
@@ -228,8 +232,7 @@ $user = $runSQL->fetch_assoc();
                 <div class="AvatarAndDetails">
                     <div class="AvatarSection">
                         <div class="avatar pic"><?php echo $user['username'][0]; ?></div>
-                       <a href="/BookReview_BorrowingSystem/profileEdit/change_avatar.php" class="changeAvatar">Change Avatar</a>
-
+                        <a href="profileEdit/changeAvatar.php" class="changeAvatar">Change Avatar</a>
                     </div>
                     <div class="Details">
                         <p> <span class="info-text">Full Name: <label for=""><?php echo $user['username']; ?></label> </span>

@@ -72,7 +72,7 @@ $user = $runSQL->fetch_assoc();
                 $post = $resultGetPostDetails->fetch_assoc();
 
                 $sqlComment = "INSERT INTO Comment_Rating (postCode, readerID, comment, dateComment, timeComment)
-                               VALUES ('{$post['postCode']}','{$post['readerID']}','$comment','$todayDate','$todayTime')";
+                               VALUES ('{$post['postCode']}','$readerId','$comment','$todayDate','$todayTime')";
                 $resultSqlComment = $conn->query($sqlComment);
 
                 if ( $resultSqlComment) {

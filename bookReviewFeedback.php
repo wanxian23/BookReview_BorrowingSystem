@@ -2,21 +2,8 @@
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Free Icon Website -->
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- UI jQuery library, which include more animation effect -->
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-    <script src="script.js"></script>
-
-    <link rel="icon" href="image/logo.png">
-    <link rel="stylesheet" href="style.css">
+    <?php include("headDetails.html"); ?>
     <title>Book Review Feedback</title>
 
     <style>
@@ -28,6 +15,8 @@
             --buttonColor: black;
             --buttonFontColor: white;
             --buttonHoverColor: #646368;
+
+            --headerBoxShadow: 1px 1px 30px darkblue;
         }
 
         [data-themeColor="lightColor"] {
@@ -38,6 +27,8 @@
             --buttonColor: black;
             --buttonFontColor: white;
             --buttonHoverColor: #646368;
+
+            --headerBoxShadow: 1px 1px 30px black;
         }
 
         [data-themeColor="darkColor"] {
@@ -50,6 +41,8 @@
             --buttonHoverColor: #8d8c8c;
 
             --anchorColor: rgb(149, 178, 241);
+
+            --headerBoxShadow: 1px 1px 30px white;
         }
 
         main {
@@ -181,13 +174,18 @@
             width: 100%;
             border-radius: 50px;
         }
+
+        header #firstHeader {
+            box-shadow: var(--headerBoxShadow) !important;
+        }
     </style>
 </head>
 
 <body>
+
 <header>
         <div id="firstHeader">
-            <a href="main.html" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="main.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -221,27 +219,10 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <span class="profile">
-                        XXX
-                        <a>
-                            A
-                        </a>
-                    </span>
-                </div>
-
             </nav>
             <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
         </div>
         <aside>
-            <div id="profile">
-                <span class="profile">
-                    XXX
-                    <a>
-                        A
-                    </a>
-                </span>
-            </div>
             <span id="mainButton"><label for="color">Main</label></span>
             <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
 
@@ -269,17 +250,8 @@
             </div>
             <span class="supportButton"><label for="support">Support</label></span>
         </aside>
-        <div id="secondHeader">
-            <nav>
-                <a href="main.html"><label for="main">Main</label></a>
-                <a href="genre.html"><label for="genre">Genre</label></a>
-            </nav>
-            <nav>
-                <box-icon name='search-alt'></box-icon>
-                <input type="text" placeholder="Search by book name/ thread">
-            </nav>
-        </div>
     </header>
+
     <main>
         <div class="review-container">
             <div class="review-header">
@@ -308,11 +280,7 @@
         </div>
     </main>
 
-    <footer>
-        <h1>Our Social Media</h1>
-        <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
-        <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
-    </footer>
+    <?php include("footer.html"); ?>
 </body>
 
 </html>

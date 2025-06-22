@@ -186,6 +186,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             border-radius: 15px;
             width: 95%;
             background-color: var(--postBgColor);
+            height: 320px;
         }
 
 

@@ -97,7 +97,7 @@ $user = $runSQL->fetch_assoc();
                 
                 if (isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) {
                     $bookUploads = "bookUploads/";
-                    if (!is_dir($bookUploads)) mkdir($bookUploads, "0755", true);
+                    if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
 
                     $frontCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['front_cover']['name']);
 
@@ -106,7 +106,7 @@ $user = $runSQL->fetch_assoc();
 
                 if (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0) {
                     $bookUploads = "bookUploads/";
-                    if (!is_dir($bookUploads)) mkdir($bookUploads, "0755", true);
+                    if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
 
                     $backCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['back_cover']['name']);
 
@@ -150,6 +150,7 @@ $user = $runSQL->fetch_assoc();
                 $runSqlCreatePost = $conn->query($sqlCreatePost);
 
                 if ($runSqlCreatePost) {
+
                     // Return the most latest post
                     $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerId' ORDER BY postCode DESC LIMIT 1;";
                     $resultGetPost = $conn->query($sqlGetPost);

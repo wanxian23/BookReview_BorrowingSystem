@@ -128,8 +128,9 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     </style>
 </head>
 
+<body>
 
- <header>
+<header>
         <div id="firstHeader">
             <a href="login.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
@@ -193,48 +194,12 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
             <span class="accessibilityButton supportButton"><label for="support">Support</label></span>
         </aside>
         <div id="secondHeader">
-           
+            <nav>
+                <a href="login.php"><label for="login">Login</label></a>
+                <a href="signup.html"><label for="signup">Signup</label></a>
+            </nav>
         </div>
     </header>
-
-
-
-
-
-
-
-
-
-
-
-
-<body>
-    <!-- HEADER copied from login.php -->
-    <!-- <header>
-        <div id="firstHeader">
-            <a href="login.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
-            <nav>
-                <div>
-                    <span class="colorButton"><label for="color">Color<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
-                    <div class="accessibility colorAccessibility">
-                        <div class="default option" data-color="defaultColor">Default</div>
-                        <div class="option" data-color="lightColor">Light</div>
-                        <div class="option" data-color="darkColor">Dark</div>
-                    </div>
-                </div>
-                <div>
-                    <span class="fontSizeButton"><label for="fontSize">Font Size<box-icon name='chevron-down' class="downArrow"></box-icon></label></span>
-                    <div class="accessibility fontSizeAccessibility">
-                        <div class="option" data-setFontSize="smallFontSize">Small</div>
-                        <div class="default option" data-setFontSize="defaultFontSize">Default</div>
-                        <div class="option" data-setFontSize="largeFontSize">Large</div>
-                        <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
-                    </div>
-                </div>
-            </nav>
-            <box-icon name='menu' id="burgerIcon" size="10"></box-icon>
-        </div>
-    </header> -->
 
     <!-- MAIN FORGOT PASSWORD FORM -->
     <main>

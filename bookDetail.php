@@ -135,13 +135,29 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .book-edit-container {
             display: flex;
             gap: 20px;
-            justify-content: right;
+            justify-content: space-between;
             border-radius: 9px;
             margin: 30px;
             overflow: hidden;
+            align-items: center;
         }
 
-        .book-edit-container a {
+        .book-edit-container div {
+            display: flex;
+            gap: 20px;
+        }
+
+        .book-edit-container div:first-child a {
+            color: blue;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .book-edit-container div:first-child a:hover {
+            color: black;
+        }
+
+        .book-edit-container div:nth-child(2) a {
             text-decoration: none;
             padding: 10px 20px;
             background-color: #a9a1ee;
@@ -150,7 +166,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             transition: 0.2s;
         }
 
-        .book-edit-container a:hover {
+        .book-edit-container div:nth-child(2) a:hover {
             text-decoration: none;
             padding: 10px 20px;
             background-color:rgb(205, 201, 237);
@@ -515,11 +531,19 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
             <?php
 
+                // If the post belongs to user that login
+                // Then the post allow modification and deletion
                 if ($post['readerID'] == $readerID) {
 
                     echo '<div class="book-edit-container">';
-                    echo '<a href="">Edit Post</a>';
-                    echo '<a href="">Delete Post</a>';
+                    echo '<div>';
+                    echo '<label>Share Link For Borrower To Review: </label>';
+                    echo '<a shareLink="http://localhost:8080/BookReview_BorrowingSystem/bookreviewfeedback.php?postCode='.$postCode.'" target="_blank" id="shareLink">Click To Copy Link For Share</a>';
+                    echo '</div>';
+                    echo '<div>';
+                    echo '<a href="editPost.php?postCode='.$post['postCode'].'">Edit Post</a>';
+                    echo '<a href="confirmationDeletePost.php?postCode='.$post['postCode'].'">Delete Post</a>';
+                    echo '</div>';
                     echo '</div>';
 
                     echo '<div class="book-container">';
@@ -686,6 +710,9 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '</div>';
                     }
                     echo '</div>';
+
+                // If the post not belongs to user
+                // Then cant modify or delete
                 } else {
                     echo '<div class="book-container">';
                     if ($post['frontCover_img'] != null) {
@@ -869,6 +896,19 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                     window.alert("Comment Cannot Be Empty Before Submit!");
                     return;
                 }
+            });
+            
+            $("#shareLink").click(function(event) {
+                event.preventDefault(); // Prevent the anchor from navigating
+                const linkToCopy = this.getAttribute("sharelink");
+
+                navigator.clipboard.writeText(linkToCopy)
+                    .then(() => {
+                        alert("Link copied to clipboard!");
+                    })
+                    .catch(err => {
+                        alert("Failed to copy: " + err);
+                    });
             });
 
         });

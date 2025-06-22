@@ -1,3 +1,41 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    $_SESSION['bookReviewLogin'] = $_SERVER['REQUEST_URI'];  // Save current URL
+    header("Location: login.php");
+    exit();
+}
+
+require("database/database.php");
+
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$contact = $_SESSION['contact'];
+$readerId = $_SESSION['readerID'];
+
+$sql = "SELECT * FROM Reader_User WHERE username = '$username' 
+OR email = '$email' OR phone = '$contact'";
+$runSQL = $conn->query($sql);
+
+$user = $runSQL->fetch_assoc();
+
+$postCode = $_REQUEST['postCode'];
+
+$sqlGetPostDetails = "SELECT 
+                          post.*,
+                          reader.*,
+                          book.*
+                      FROM post_review post
+                      INNER JOIN reader_user reader USING (readerID)
+                      INNER JOIN book_record book USING (bookID)
+                      WHERE post.postCode = '$postCode'";
+$resultGetPostDetails = $conn->query($sqlGetPostDetails);
+$post = $resultGetPostDetails->fetch_assoc();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
@@ -183,7 +221,7 @@
 
 <body>
 
-<header>
+    <header>
         <div id="firstHeader">
             <a href="main.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
@@ -253,34 +291,69 @@
     </header>
 
     <main>
-        <div class="review-container">
-            <div class="review-header">
-                <box-icon name='book' class="downArrow"></box-icon>
-                <h2 class="review-title" style="font-family: Arial, Helvetica, sans-serif;">Book Review Feedback</h2>
-            </div>
 
-            <p>You are giving a Feedback Review for the book "XXXX".</p>
+    <?php 
 
-            <form>
-                <div>
-                    <label>Write a review:</label>
-                    <textarea style="font-family: Arial, Helvetica, sans-serif;" class="review-textarea"
-                        placeholder="Write your comment here.... (Optional)"></textarea>
-                </div>
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-                <div class="rating-container">
-                    <div class="rating-left">
-                        <label>Rate (1-10):</label>
-                        <input type="number" class="rating-input" min="1" max="10">
-                        <label>/10</label>
-                    </div>
-                    <button type="submit" class="submit-btn">SUBMIT</button>
-                </div>
-            </form>
-        </div>
+        $comment = $_POST['comment'];
+        $rating = $_POST['rating'];
+
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $todayDate = date("l, F j, Y");
+        $todayTime = date("H:i:s");
+
+        $sqlInputBorrower = "INSERT INTO book_borrowed (readerID, postCode, ratingFeedback) VALUES ('$readerId','$postCode','$rating')";
+        $resultInputBorrower = $conn->query($sqlInputBorrower);
+
+        $sqlGetBorrowerDetails = "SELECT * FROM book_borrowed WHERE readerID = '$readerId' AND postCode = '$postCode' ORDER BY bookBorrowCode DESC LIMIT 1";
+        $resultGetBorrowerDetails = $conn->query($sqlGetBorrowerDetails);
+        $borrower = $resultGetBorrowerDetails->fetch_assoc();
+
+        $sqlInputComment = "INSERT INTO comment_rating (postCode, readerID, comment, dateComment, timeComment, bookBorrowCode) VALUES ('$postCode', '$readerId', '$comment', '$todayDate', '$todayTime', '{$borrower['bookBorrowCode']}')";
+        $resultInputComment = $conn->query($sqlInputComment);
+
+        if ($resultInputBorrower && $resultInputComment) {
+            echo "<label>Comment Rating Saved Successfully!</label>";
+            echo "<meta http-equiv='refresh' content='3; URL=profilemyposts.php'>";
+        } else {
+            echo "<label>Failed To Comment/ Rate!</label>";
+            echo "<meta http-equiv='refresh' content='3; URL=profilemyposts.php'>";
+        }
+
+    } else {
+        echo '<div class="review-container">';
+        echo '    <div class="review-header">';
+        echo '        <box-icon name="book" class="downArrow"></box-icon>';
+        echo '        <h2 class="review-title" style="font-family: Arial, Helvetica, sans-serif;">Book Review Feedback</h2>';
+        echo '    </div>';
+        
+        echo '    <p>You are giving a Feedback Review for the book "' . $post['bookTitle'] . '".</p>';
+        
+        echo '    <form id="reviewForm" method="POST" action="' . htmlspecialchars("bookReviewFeedback.php?postCode=" . $post['postCode']) . '">';
+        echo '        <div>';
+        echo '            <label>Write a review:</label>';
+        echo '            <textarea style="font-family: Arial, Helvetica, sans-serif;" class="review-textarea" placeholder="Write your comment here.... (Optional)" name="comment" id="comment" required></textarea>';
+        echo '        </div>';
+        
+        echo '        <div class="rating-container">';
+        echo '            <div class="rating-left">';
+        echo '                <label>Rate (1-10):</label>';
+        echo '                <input type="number" class="rating-input" min="1" max="10" name="rating" id="rating" required>';
+        echo '                <label>/10</label>';
+        echo '            </div>';
+        echo '            <input type="submit" class="submit-btn" value="SUBMIT">';
+        echo '        </div>';
+        echo '    </form>';
+        echo '</div>';        
+    }
+
+    ?>
+
     </main>
 
     <?php include("footer.html"); ?>
+
 </body>
 
 </html>

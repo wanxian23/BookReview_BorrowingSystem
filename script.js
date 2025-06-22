@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
 
     $("#mainButton").click(function () {
-        window.location = "/BookReview_BorrowingSystem/main.php";
+        window.location = "main.php";
     });
 
     $("#genreButton").click(function () {

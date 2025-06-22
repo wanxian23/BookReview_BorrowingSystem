@@ -520,8 +520,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         
                                 echo '    <div class="bottom">';
                                 echo '        <div class="left">';
-                                echo '            <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
-                                echo '            <input type="text" name="comment" id="comment" placeholder="Comment">';
                                 echo '        </div>';
                                 echo '        <h3>Average Review: 1.9</h3>';
                                 echo '    </div>';
@@ -559,8 +557,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         
                                 echo '    <div class="bottom">';
                                 echo '        <div class="left">';
-                                echo '            <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
-                                echo '            <input type="text" name="comment" id="comment" placeholder="Comment">';
                                 echo '        </div>';
                                 echo '        <h3>Average Review: 1.9</h3>';
                                 echo '    </div>';

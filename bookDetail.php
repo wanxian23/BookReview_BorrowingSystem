@@ -9,6 +9,7 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
 require("database/database.php");
 
 $username = $_SESSION['username'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$username' OR phone = '$username'";
@@ -129,6 +130,30 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             margin: 0;
             font-size: 1.3em;
             font-weight: bold;
+        }
+
+        .book-edit-container {
+            display: flex;
+            gap: 20px;
+            justify-content: right;
+            border-radius: 9px;
+            margin: 30px;
+            overflow: hidden;
+        }
+
+        .book-edit-container a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #a9a1ee;
+            border-radius: 8px;
+            border: 2px solid;
+            transition: 0.2s;
+        }
+
+        .book-edit-container a:hover {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color:rgb(205, 201, 237);
         }
 
         .book-container {
@@ -488,176 +513,347 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
             <hr class="header-line">
 
-            <div class="book-container">
-
             <?php
-            
-                if ($post['frontCover_img'] != null) {
-                    echo '<div class="top-row">';
-                    echo '    <div class="book-image-wrapper">';
-                    echo '        <div class="book-image">';
-                    echo '            <img src="'.$post['frontCover_img'].'" alt="Book Cover">';
-                    echo '        </div>';
-                    echo '        <div class="arrow-icon">';
-                    echo '            <i class="bx bx-caret-right"></i>';
-                    echo '        </div>';
-                    echo '    </div>';
-    
-                    echo '    <div class="vertical-line"></div>';
-    
-                    echo '    <div class="book-content">';
-                    echo '        <div class="bookTitleReview">';
-                    echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
-                    echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
-                    echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
-                    echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
-                    echo '        </div>';
-                    echo '        <div class="button-box">';
-                    if ($post['statusPhone'] == "YES") {
-                        echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
-                        echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank'>{$post['phone']}</a></label>";
-                    } else {
-                        echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
-                    }
-                    echo '        </div>';
-                    echo '    </div>';
-                    echo '</div>';
-   
-                    echo '<div class="synopsis-box">';
-                    echo '<h2>Opinion Of The Book</h2>';
-                    echo $post['ownerOpinion'];
+
+                if ($post['readerID'] == $readerID) {
+
+                    echo '<div class="book-edit-container">';
+                    echo '<a href="">Edit Post</a>';
+                    echo '<a href="">Delete Post</a>';
                     echo '</div>';
 
-                    echo '<div class="synopsis-box">';
-                    echo '<h2>Synopsis Of The Book</h2>';
-                    echo $post['synopsis'];
-                    echo '</div>';
-
-                    echo '<div class="thread-box">';
-                    if (!empty($thread)) {
-                        foreach ($thread as $data) {
-                            echo "<label>{$data['thread']}</label>";
+                    echo '<div class="book-container">';
+                    if ($post['frontCover_img'] != null) {
+                        echo '<div class="top-row">';
+                        echo '    <div class="book-image-wrapper">';
+                        echo '        <div class="book-image">';
+                        echo '            <img src="'.$post['frontCover_img'].'" alt="Book Cover">';
+                        echo '        </div>';
+                        echo '        <div class="arrow-icon">';
+                        echo '            <i class="bx bx-caret-right"></i>';
+                        echo '        </div>';
+                        echo '    </div>';
+        
+                        echo '    <div class="vertical-line"></div>';
+        
+                        echo '    <div class="book-content">';
+                        echo '        <div class="bookTitleReview">';
+                        echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
+                        echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
+                        echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
+                        echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
+                        echo '        </div>';
+                        echo '        <div class="button-box">';
+                        if ($post['statusPhone'] == "YES") {
+                            echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
+                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank'>{$post['phone']}</a></label>";
+                        } else {
+                            echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
                         }
-                    } else {
-                        echo "No Thread Listed...";
-                    }
-                    echo '</div>';
-
-                    echo '<div class="comment-box">';
-                    echo '<form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
-                    echo '<div class="inputContainer">';
-                    echo '<div>';
-                    echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
-                    echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
-                    echo '</div>';
-                    echo '<input type="submit" name="addComment" value="Add Comment">';
-                    echo '</div>';
-                    echo '</form>';
-                    echo '</div>';
-
-                    echo '<div class="viewComment-box">';
-                    echo '<form class="commentOption" method="GET" action="bookDetail.php">';
-                    echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
-                    $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
-                    $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
-                    
-                    echo '    <button type="submit" name="section" value="user" class="' . $userActive . '" id="userCommentBt">User Comment</button>';
-                    echo '    <button type="submit" name="section" value="borrower" class="' . $borrowerActive . '" id="borrowerRatingBt">Borrower Comment & Rating</button>';
-                    
-                    echo '</form>';                    
-                    if (isset($_GET['section'])) {
-                        if ($_GET['section'] === 'user') {
-                            include 'bookDetailsSection/commentSection.php';
-                        } elseif ($_GET['section'] === 'borrower') {
-                            include 'bookDetailsSection/ratingSection.php';
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '</div>';
+       
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Opinion Of The Book</h2>';
+                        echo $post['ownerOpinion'];
+                        echo '</div>';
+    
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Synopsis Of The Book</h2>';
+                        echo $post['synopsis'];
+                        echo '</div>';
+    
+                        echo '<div class="thread-box">';
+                        if (!empty($thread)) {
+                            foreach ($thread as $data) {
+                                echo "<label>{$data['thread']}</label>";
+                            }
+                        } else {
+                            echo "No Thread Listed...";
                         }
+                        echo '</div>';
+    
+                        echo '<div class="comment-box">';
+                        echo '<form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
+                        echo '<div class="inputContainer">';
+                        echo '<div>';
+                        echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                        echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                        echo '</div>';
+                        echo '<input type="submit" name="addComment" value="Add Comment">';
+                        echo '</div>';
+                        echo '</form>';
+                        echo '</div>';
+    
+                        echo '<div class="viewComment-box">';
+                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
+                        $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
+                        $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
+                        
+                        echo '    <button type="submit" name="section" value="user" class="' . $userActive . '" id="userCommentBt">User Comment</button>';
+                        echo '    <button type="submit" name="section" value="borrower" class="' . $borrowerActive . '" id="borrowerRatingBt">Borrower Comment & Rating</button>';
+                        
+                        echo '</form>';                    
+                        if (isset($_GET['section'])) {
+                            if ($_GET['section'] === 'user') {
+                                include 'bookDetailsSection/commentSection.php';
+                            } elseif ($_GET['section'] === 'borrower') {
+                                include 'bookDetailsSection/ratingSection.php';
+                            }
+                        } else {
+                            include 'bookDetailsSection/commentSection.php'; // default section
+                        }
+                        echo '</div>';
                     } else {
-                        include 'bookDetailsSection/commentSection.php'; // default section
+                        echo '<div class="top-row">';
+                        echo '    <div class="book-image-wrapper" style="justify-content: center;">';
+                        echo '        <div class="book-image">';
+                        echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '    <div class="vertical-line"></div>';
+                        echo '    <div class="book-content">';
+                        echo '        <div class="bookTitleReview">';
+                        echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
+                        echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
+                        echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
+                        echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
+                        echo '        </div>';
+                        echo '        <div class="button-box">';
+                        if ($post['statusPhone'] == "YES") {
+                            echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
+                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank' >{$post['phone']}</a></label>";
+                        } else {
+                            echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
+                        }
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '</div>';
+    
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Opinion Of The Book</h2>';
+                        echo $post['ownerOpinion'];
+                        echo '</div>';
+        
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Synopsis Of The Book</h2>';
+                        echo 'No Synopsis Here...';
+                        echo '</div>';
+    
+                        echo '<div class="thread-box">';
+                        if (!empty($thread)) {
+                            foreach ($thread as $data) {
+                                echo "<label>{$data['thread']}</label>";
+                            }
+                        } else {
+                            echo "No Thread Listed...";
+                        }
+                        echo '</div>';
+    
+                        echo '<div class="comment-box">';
+                        echo '<form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
+                        echo '<div class="inputContainer">';
+                        echo '<div>';
+                        echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                        echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                        echo '</div>';
+                        echo '<input type="submit" name="addComment" value="Add Comment">';
+                        echo '</div>';
+                        echo '</form>';
+                        echo '</div>';
+    
+                        echo '<div class="viewComment-box">';
+                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
+                        $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
+                        $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
+                        
+                        echo '    <button type="submit" name="section" value="user" class="' . $userActive . '" id="userCommentBt">User Comment</button>';
+                        echo '    <button type="submit" name="section" value="borrower" class="' . $borrowerActive . '" id="borrowerRatingBt">Borrower Comment & Rating</button>';
+                        
+                        echo '</form>';                    
+                        if (isset($_GET['section'])) {
+                            if ($_GET['section'] === 'user') {
+                                include 'bookDetailsSection/commentSection.php';
+                            } elseif ($_GET['section'] === 'borrower') {
+                                include 'bookDetailsSection/ratingSection.php';
+                            }
+                        } else {
+                            include 'bookDetailsSection/commentSection.php'; // default section
+                        }
+                        echo '</div>';
                     }
                     echo '</div>';
                 } else {
-                    echo '<div class="top-row">';
-                    echo '    <div class="book-image-wrapper" style="justify-content: center;">';
-                    echo '        <div class="book-image">';
-                    echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                    echo '        </div>';
-                    echo '    </div>';
-                    echo '    <div class="vertical-line"></div>';
-                    echo '    <div class="book-content">';
-                    echo '        <div class="bookTitleReview">';
-                    echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
-                    echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
-                    echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
-                    echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
-                    echo '        </div>';
-                    echo '        <div class="button-box">';
-                    if ($post['statusPhone'] == "YES") {
-                        echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
-                        echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank' >{$post['phone']}</a></label>";
-                    } else {
-                        echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
-                    }
-                    echo '        </div>';
-                    echo '    </div>';
-                    echo '</div>';
-
-                    echo '<div class="synopsis-box">';
-                    echo '<h2>Opinion Of The Book</h2>';
-                    echo $post['ownerOpinion'];
-                    echo '</div>';
+                    echo '<div class="book-container">';
+                    if ($post['frontCover_img'] != null) {
+                        echo '<div class="top-row">';
+                        echo '    <div class="book-image-wrapper">';
+                        echo '        <div class="book-image">';
+                        echo '            <img src="'.$post['frontCover_img'].'" alt="Book Cover">';
+                        echo '        </div>';
+                        echo '        <div class="arrow-icon">';
+                        echo '            <i class="bx bx-caret-right"></i>';
+                        echo '        </div>';
+                        echo '    </div>';
+        
+                        echo '    <div class="vertical-line"></div>';
+        
+                        echo '    <div class="book-content">';
+                        echo '        <div class="bookTitleReview">';
+                        echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
+                        echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
+                        echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
+                        echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
+                        echo '        </div>';
+                        echo '        <div class="button-box">';
+                        if ($post['statusPhone'] == "YES") {
+                            echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
+                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank'>{$post['phone']}</a></label>";
+                        } else {
+                            echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
+                        }
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '</div>';
+       
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Opinion Of The Book</h2>';
+                        echo $post['ownerOpinion'];
+                        echo '</div>';
     
-                    echo '<div class="synopsis-box">';
-                    echo '<h2>Synopsis Of The Book</h2>';
-                    echo 'No Synopsis Here...';
-                    echo '</div>';
-
-                    echo '<div class="thread-box">';
-                    if (!empty($thread)) {
-                        foreach ($thread as $data) {
-                            echo "<label>{$data['thread']}</label>";
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Synopsis Of The Book</h2>';
+                        echo $post['synopsis'];
+                        echo '</div>';
+    
+                        echo '<div class="thread-box">';
+                        if (!empty($thread)) {
+                            foreach ($thread as $data) {
+                                echo "<label>{$data['thread']}</label>";
+                            }
+                        } else {
+                            echo "No Thread Listed...";
                         }
-                    } else {
-                        echo "No Thread Listed...";
-                    }
-                    echo '</div>';
-
-                    echo '<div class="comment-box">';
-                    echo '<form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
-                    echo '<div class="inputContainer">';
-                    echo '<div>';
-                    echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
-                    echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
-                    echo '</div>';
-                    echo '<input type="submit" name="addComment" value="Add Comment">';
-                    echo '</div>';
-                    echo '</form>';
-                    echo '</div>';
-
-                    echo '<div class="viewComment-box">';
-                    echo '<form class="commentOption" method="GET" action="bookDetail.php">';
-                    echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
-                    $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
-                    $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
-                    
-                    echo '    <button type="submit" name="section" value="user" class="' . $userActive . '" id="userCommentBt">User Comment</button>';
-                    echo '    <button type="submit" name="section" value="borrower" class="' . $borrowerActive . '" id="borrowerRatingBt">Borrower Comment & Rating</button>';
-                    
-                    echo '</form>';                    
-                    if (isset($_GET['section'])) {
-                        if ($_GET['section'] === 'user') {
-                            include 'bookDetailsSection/commentSection.php';
-                        } elseif ($_GET['section'] === 'borrower') {
-                            include 'bookDetailsSection/ratingSection.php';
+                        echo '</div>';
+    
+                        echo '<div class="comment-box">';
+                        echo '<form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
+                        echo '<div class="inputContainer">';
+                        echo '<div>';
+                        echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                        echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                        echo '</div>';
+                        echo '<input type="submit" name="addComment" value="Add Comment">';
+                        echo '</div>';
+                        echo '</form>';
+                        echo '</div>';
+    
+                        echo '<div class="viewComment-box">';
+                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
+                        $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
+                        $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
+                        
+                        echo '    <button type="submit" name="section" value="user" class="' . $userActive . '" id="userCommentBt">User Comment</button>';
+                        echo '    <button type="submit" name="section" value="borrower" class="' . $borrowerActive . '" id="borrowerRatingBt">Borrower Comment & Rating</button>';
+                        
+                        echo '</form>';                    
+                        if (isset($_GET['section'])) {
+                            if ($_GET['section'] === 'user') {
+                                include 'bookDetailsSection/commentSection.php';
+                            } elseif ($_GET['section'] === 'borrower') {
+                                include 'bookDetailsSection/ratingSection.php';
+                            }
+                        } else {
+                            include 'bookDetailsSection/commentSection.php'; // default section
                         }
+                        echo '</div>';
                     } else {
-                        include 'bookDetailsSection/commentSection.php'; // default section
+                        echo '<div class="top-row">';
+                        echo '    <div class="book-image-wrapper" style="justify-content: center;">';
+                        echo '        <div class="book-image">';
+                        echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '    <div class="vertical-line"></div>';
+                        echo '    <div class="book-content">';
+                        echo '        <div class="bookTitleReview">';
+                        echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
+                        echo '            <span class="book-rating">'.$post['ownerRating'].'/10</span><br>';
+                        echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
+                        echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
+                        echo '        </div>';
+                        echo '        <div class="button-box">';
+                        if ($post['statusPhone'] == "YES") {
+                            echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
+                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank' >{$post['phone']}</a></label>";
+                        } else {
+                            echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
+                        }
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '</div>';
+    
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Opinion Of The Book</h2>';
+                        echo $post['ownerOpinion'];
+                        echo '</div>';
+        
+                        echo '<div class="synopsis-box">';
+                        echo '<h2>Synopsis Of The Book</h2>';
+                        echo 'No Synopsis Here...';
+                        echo '</div>';
+    
+                        echo '<div class="thread-box">';
+                        if (!empty($thread)) {
+                            foreach ($thread as $data) {
+                                echo "<label>{$data['thread']}</label>";
+                            }
+                        } else {
+                            echo "No Thread Listed...";
+                        }
+                        echo '</div>';
+    
+                        echo '<div class="comment-box">';
+                        echo '<form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
+                        echo '<div class="inputContainer">';
+                        echo '<div>';
+                        echo '<box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                        echo '<textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                        echo '</div>';
+                        echo '<input type="submit" name="addComment" value="Add Comment">';
+                        echo '</div>';
+                        echo '</form>';
+                        echo '</div>';
+    
+                        echo '<div class="viewComment-box">';
+                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
+                        $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
+                        $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
+                        
+                        echo '    <button type="submit" name="section" value="user" class="' . $userActive . '" id="userCommentBt">User Comment</button>';
+                        echo '    <button type="submit" name="section" value="borrower" class="' . $borrowerActive . '" id="borrowerRatingBt">Borrower Comment & Rating</button>';
+                        
+                        echo '</form>';                    
+                        if (isset($_GET['section'])) {
+                            if ($_GET['section'] === 'user') {
+                                include 'bookDetailsSection/commentSection.php';
+                            } elseif ($_GET['section'] === 'borrower') {
+                                include 'bookDetailsSection/ratingSection.php';
+                            }
+                        } else {
+                            include 'bookDetailsSection/commentSection.php'; // default section
+                        }
+                        echo '</div>';
                     }
                     echo '</div>';
                 }
 
             ?>
-
-            </div>
 
         </article>
     </main>

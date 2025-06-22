@@ -127,7 +127,7 @@ $user = $runSQL->fetch_assoc();
             </div>
 
 
-            <form class="confirm-container" action="backendLogic/logoutHandle.php"> !!!
+            <form class="confirm-container" action="backendLogic/deleteposthandle.php">
                 <input type="submit" class="confirm-btn" value="CONFIRM">
             </form>
 

@@ -263,7 +263,7 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
                         <input type="checkbox" id="remember" name="remember">
                         <label for="remember">Remember Me</label>
                     </div>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <a href="forgotPassword.php" class="forgot-password">Forgot Password?</a>
                 </div>
                 <button type="submit" class="login-button">Log In</button>
                 <div class="signup-link">

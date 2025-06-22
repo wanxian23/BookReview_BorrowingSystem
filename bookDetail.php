@@ -512,12 +512,6 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             </div>
 
             <hr class="header-line">
-            
-<!-- <form action="deletepost.php" method="GET">
-    <input type="hidden" name="postCode" value="<?php echo $postCode; ?>">
-    <input type="hidden" name="redirect_to" value="bookDetail.php">
-    <button type="submit">Delete Post</button>
-</form> -->
 
             <?php
 

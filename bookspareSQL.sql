@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3301
--- Generation Time: Jun 22, 2025 at 02:00 PM
+-- Generation Time: Jun 22, 2025 at 03:52 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.2.12
 
@@ -355,7 +355,7 @@ ALTER TABLE `book_borrowed`
 -- AUTO_INCREMENT for table `book_record`
 --
 ALTER TABLE `book_record`
-  MODIFY `bookID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `bookID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `comment_rating`
@@ -379,7 +379,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `post_review`
 --
 ALTER TABLE `post_review`
-  MODIFY `postCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `postCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `reader_user`

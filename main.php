@@ -21,7 +21,12 @@ $user = $runSQL->fetch_assoc();
 
 // Thread Part --
 
-$sqlThread = "SELECT thread FROM Thread";
+$sqlThread = "SELECT 
+              thread 
+              FROM Thread_Post threadPost
+              INNER JOIN Thread thread USING (threadID)
+              GROUP BY threadPost.threadID
+              ORDER BY COUNT(*) DESC";
 $runSQLThread = $conn->query($sqlThread);
 
 // If u use MYSQLI_ASSOC, it will return the name of the column
@@ -448,7 +453,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             // So I can access by attribute name
                             $value = $data['thread'];
                             echo "<div>";
-                            echo "<label for=''>$i</label><a href=''>#$value</a>";
+                            echo "<label for=''>$i</label><a href='".htmlspecialchars("search.php?thread=$value")."'>#$value</a>";
                             echo "</div>";
                             $i++;
                             if ($i === 9) {
@@ -503,7 +508,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '            </div>';
                                 echo '            <div class="description">';
                                 echo '                <p>';
-                                echo $row['ownerOpinion'];
+                                echo substr($row['ownerOpinion'], 0, 180);
                                 echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
                                 echo '                </p>';
                                 echo '            </div>';
@@ -542,7 +547,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '            </div>';
                                 echo '            <div class="description">';
                                 echo '                <p>';
-                                echo $row['ownerOpinion'];
+                                echo substr($row['ownerOpinion'], 0, 180);
                                 echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
                                 echo '                </p>';
                                 echo '            </div>';

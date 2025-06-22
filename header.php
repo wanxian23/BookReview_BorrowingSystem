@@ -104,10 +104,10 @@
                 <a href="main.php"><label for="">Main</label></a>
                 <a href="genre.php"><label for="">Genre</label></a>
             </nav>
-            <nav>
+            <form method="POST" action="search.php">
                 <box-icon name='search-alt'></box-icon>
-                <input type="text" placeholder="Search by book name/ thread">
-            </nav>
+                <input type="text" placeholder="Search by book name/ thread" name="search">
+            </form>
             <nav>
                 <a href="logout.php"><label for="main">Logout</label></a>
             </nav>

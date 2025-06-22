@@ -13,7 +13,6 @@ $username = $_SESSION['username'];
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$username' OR phone = '$username'";
 $runSQL = $conn->query(query: $sql);
-
 $user = $runSQL->fetch_assoc();
 
 ?>
@@ -59,7 +58,7 @@ $user = $runSQL->fetch_assoc();
 
         article {
             margin: 0px auto;
-            max-width: 960px;
+            max-width: 1000px;
             padding: 20px;
             background-color: var(--containerBgColor);
             color: var(--containerColor);
@@ -161,7 +160,7 @@ $user = $runSQL->fetch_assoc();
             background-color: var(--postHeaderBgColor); /* Add this line */
         }
 
-        .book-post-header .icon {
+        .book-post-header icon {
             background-color: #a0c0e0;
             color: white;
             border-radius: 50%;
@@ -172,6 +171,21 @@ $user = $runSQL->fetch_assoc();
             justify-content: center;
             font-size: 0.9em;
             font-weight: bold;
+            border: 3px solid;           
+        }
+
+        .book-post-header img {
+            background-color: #a0c0e0;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: bold;
+            border: 3px solid;        
         }
 
         .book-post-header .title {
@@ -309,134 +323,161 @@ $user = $runSQL->fetch_assoc();
 
     <main>
         <article>
-            <div class="header-row">
-                <div class="back-button"><i class='bx bx-reply'></i> Back</div>
-                <h1>Result post based on search "xxx"</h1>
-            </div>
 
-            <hr class="header-line">
+            <?php
 
-            <div class="book-posts-wrapper">
-                <div class="book-post">
-                    <div class="book-post-header">
-                        <div class="icon">H</div>
-                        <div class="title">XXX</div>
-                    </div>
-                    <div class="book-post-content">
-                        <div class="book-post-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="book-details">
-                            <div class="book-title-display">Book Title: XXXX XXX</div>
-                            <div class="book-review-score">Review: 7.5 / 10</div>
-                            <div class="book-genre">Genre: Horror</div>
-                            <div class="description">
-                                In my opinion, I think xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
-                            </div>
-                            <div class="read-more">Read More</div>
-                        </div>
-                    </div>
-                    <div class="book-post-footer">
-                        <div class="comment-box">
-                            <i class='bx bx-message-square-dots'></i>
-                            <input type="text" placeholder="Comment">
-                        </div>
-                        <div class="average-review">Average Review : 1.9</div>
-                    </div>
-                </div>
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-                <div class="book-post">
-                    <div class="book-post-header">
-                        <div class="icon">H</div>
-                        <div class="title">XXX</div>
-                    </div>
-                    <div class="book-post-content">
-                        <div class="book-post-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="book-details">
-                            <div class="book-title-display">Book Title: XXXX XXX</div>
-                            <div class="book-review-score">Review: 7.5 / 10</div>
-                            <div class="book-genre">Genre: Horror</div>
-                            <div class="description">
-                                In my opinion, I think xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
-                            </div>
-                            <div class="read-more">Read More</div>
-                        </div>
-                    </div>
-                    <div class="book-post-footer">
-                        <div class="comment-box">
-                            <i class='bx bx-message-square-dots'></i>
-                            <input type="text" placeholder="Comment">
-                        </div>
-                        <div class="average-review">Average Review : 1.9</div>
-                    </div>
-                </div>
+        if (!empty($_POST['search'])) {
 
-                <div class="book-post">
-                    <div class="book-post-header">
-                        <div class="icon">H</div>
-                        <div class="title">XXX</div>
-                    </div>
-                    <div class="book-post-content">
-                        <div class="book-post-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="book-details">
-                            <div class="book-title-display">Book Title: XXXX XXX</div>
-                            <div class="book-review-score">Review: 7.5 / 10</div>
-                            <div class="book-genre">Genre: Horror</div>
-                            <div class="description">
-                                In my opinion, I think xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
-                            </div>
-                            <div class="read-more">Read More</div>
-                        </div>
-                    </div>
-                    <div class="book-post-footer">
-                        <div class="comment-box">
-                            <i class='bx bx-message-square-dots'></i>
-                            <input type="text" placeholder="Comment">
-                        </div>
-                        <div class="average-review">Average Review : 1.9</div>
-                    </div>
-                </div>
+            $search = trim($_POST['search']);
 
-                <div class="book-post">
-                    <div class="book-post-header">
-                        <div class="icon">H</div>
-                        <div class="title">XXX</div>
-                    </div>
-                    <div class="book-post-content">
-                        <div class="book-post-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="book-details">
-                            <div class="book-title-display">Book Title: XXXX XXX</div>
-                            <div class="book-review-score">Review: 7.5 / 10</div>
-                            <div class="book-genre">Genre: Horror</div>
-                            <div class="description">
-                                In my opinion, I think xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
-                            </div>
-                            <div class="read-more">Read More</div>
-                        </div>
-                    </div>
-                    <div class="book-post-footer">
-                        <div class="comment-box">
-                            <i class='bx bx-message-square-dots'></i>
-                            <input type="text" placeholder="Comment">
-                        </div>
-                        <div class="average-review">Average Review : 1.9</div>
-                    </div>
-                </div>
-            </div>
+            $sqlGetPostDetails = "SELECT 
+                    post.*,
+                    reader.*,
+                    book.*,
+                    thread.*
+                FROM post_review post
+                INNER JOIN reader_user reader USING (readerID)
+                INNER JOIN book_record book USING (bookID)
+                LEFT JOIN thread_post threadPost USING (postCode)
+                LEFT JOIN thread thread USING (threadID)
+                WHERE book.bookTitle LIKE '%$search%'
+                OR thread.thread LIKE '%$search%'
+                GROUP BY post.postCode";
+            $resultGetPostDetails = $conn->query($sqlGetPostDetails);
+            $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+
+            echo '<div class="header-row">';
+            echo '    <div class="back-button"><i class="bx bx-reply"></i> Back</div>';
+            echo '    <h1>Result post based on search &quot;' . htmlspecialchars($search) . '&quot;</h1>';
+            echo '</div>';
+            echo '<hr class="header-line">';
+            echo '<div class="book-posts-wrapper">';
+
+            foreach ($post as $row) {
+                echo '<div class="book-post">';
+                echo '    <div class="book-post-header">';
+                if ($row['avatar'] != null) {
+                    echo '<img src="'.$row['avatar'].'" alt="Profile Image">';
+                } else {
+                    echo '<a href="" class="icon"></a>';
+                }
+                echo '        <div class="title">'.$row['username'].'</div>';
+                echo '    </div>';
+                echo '    <div class="book-post-content">';
+                echo '        <div class="book-post-image">';
+                if ($row['frontCover_img'] != null) {
+                    echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+                } else {
+                    echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                }
+                echo '        </div>';
+                echo '        <div class="book-details">';
+                echo '            <div class="book-title-display">Book Title: '.$row['bookTitle'].'</div>';
+                echo '            <div class="book-review-score">Review: '.$row['ownerRating'].' / 10</div>';
+                echo '            <div class="book-genre">Genre: '.$row['genre'].'</div>';
+                echo '            <div class="description">';
+                echo substr($row['ownerOpinion'], 0, 155);
+                echo '            </div>';
+                echo '            <a href="'.htmlspecialchars("bookDetail.php?postCode={$row['postCode']}").'" class="read-more">Read More</a>';
+                echo '        </div>';
+                echo '    </div>';
+                echo '    <div class="book-post-footer">';
+                echo '        <div class="comment-box">';
+                echo "            <i class='bx bx-message-square-dots'></i>";
+                echo '            <input type="text" placeholder="Comment">';
+                echo '        </div>';
+                echo '        <div class="average-review">Average Review : 1.9</div>';
+                echo '    </div>';
+                echo '</div>';
+
+            } 
+
+            echo '</div>';
+            
+        } else {
+            echo '<div class="book-posts-wrapper" style="grid-template-columns: 1fr;">';
+            echo "<label style='text-align: center;'>No Search Result Found</label>";
+            echo '</div>';
+        }
+
+    } else if (isset($_REQUEST['thread'])) {
+
+        $thread = $_REQUEST['thread'];
+
+            $sqlGetPostDetails = "SELECT 
+                post.*,
+                reader.*,
+                book.*,
+                thread.*
+            FROM post_review post
+            INNER JOIN reader_user reader USING (readerID)
+            INNER JOIN book_record book USING (bookID)
+            INNER JOIN thread_post threadPost USING (postCode)
+            INNER JOIN thread thread USING (threadID)
+            WHERE thread.thread ='$thread'
+            GROUP BY post.postCode";
+        $resultGetPostDetails = $conn->query($sqlGetPostDetails);
+        $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+
+        if ($resultGetPostDetails->num_rows > 0) {
+            echo '<div class="header-row">';
+            echo '    <div class="back-button"><i class="bx bx-reply"></i> Back</div>';
+            echo '    <h1>Result post based on thread &quot;' . htmlspecialchars($thread) . '&quot;</h1>';
+            echo '</div>';
+            echo '<hr class="header-line">';
+            echo '<div class="book-posts-wrapper">';
+
+            foreach ($post as $row) {
+                echo '<div class="book-post">';
+                echo '    <div class="book-post-header">';
+                if ($row['avatar'] != null) {
+                    echo '<img src="'.$row['avatar'].'" alt="Profile Image">';
+                } else {
+                    echo '<a href="" class="icon"></a>';
+                }
+                echo '        <div class="title">'.$row['username'].'</div>';
+                echo '    </div>';
+                echo '    <div class="book-post-content">';
+                echo '        <div class="book-post-image">';
+                if ($row['frontCover_img'] != null) {
+                    echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+                } else {
+                    echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                }
+                echo '        </div>';
+                echo '        <div class="book-details">';
+                echo '            <div class="book-title-display">Book Title: '.$row['bookTitle'].'</div>';
+                echo '            <div class="book-review-score">Review: '.$row['ownerRating'].' / 10</div>';
+                echo '            <div class="book-genre">Genre: '.$row['genre'].'</div>';
+                echo '            <div class="description">';
+                echo substr($row['ownerOpinion'], 0, 155);
+                echo '            </div>';
+                echo '            <a href="'.htmlspecialchars("bookDetail.php?postCode={$row['postCode']}").'" class="read-more">Read More</a>';
+                echo '        </div>';
+                echo '    </div>';
+                echo '    <div class="book-post-footer">';
+                echo '        <div class="comment-box">';
+                echo "            <i class='bx bx-message-square-dots'></i>";
+                echo '            <input type="text" placeholder="Comment">';
+                echo '        </div>';
+                echo '        <div class="average-review">Average Review : 1.9</div>';
+                echo '    </div>';
+                echo '</div>';
+
+            } 
+
+            echo '</div>';
+        } else {
+            echo '<div class="book-posts-wrapper" style="grid-template-columns: 1fr;">';
+            echo "<label style='text-align: center;'>No Post Result Found Based on Thread</label>";
+            echo '</div>';          
+        }
+
+    }
+
+            ?>
         </article>
     </main>
 

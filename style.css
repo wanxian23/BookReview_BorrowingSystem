@@ -247,7 +247,7 @@ header #secondHeader a label:hover{
     border-bottom: 5px solid;
 }
 
-header #secondHeader nav:nth-child(2) {
+header #secondHeader form {
     border-radius: 5px;
     border: 1px solid;
     margin: 12px 0;
@@ -255,13 +255,13 @@ header #secondHeader nav:nth-child(2) {
     background-color: white;
 }
 
-header #secondHeader nav:nth-child(2) box-icon {
+header #secondHeader form box-icon {
     display: inline-block;
     margin: 6px 10px;
     fill: black;
 }
 
-header #secondHeader nav:nth-child(2) input {
+header #secondHeader form input {
     vertical-align: top;
     height: 34px;
     width: 88%;

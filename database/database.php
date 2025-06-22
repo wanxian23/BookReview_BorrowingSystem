@@ -1,7 +1,7 @@
 <?php
 
 $server = "localhost:3301";
-$root = "cwx";
+$root = "root";
 $password = "";
 $tableDB = "bookspare";
 

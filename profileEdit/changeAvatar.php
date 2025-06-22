@@ -174,7 +174,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                const maxSize = 2 * 1024 * 1024; // 2MB
 
                if(!allowedTypes.includes(file.type)){
-                window.alert("Only JPG, PNG< JPEG images are allowed.");
+                window.alert("Only JPG, PNG, JPEG images are allowed.");
                 event.preventDefault();
                 return;
                }

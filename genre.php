@@ -88,6 +88,11 @@ $user = $runSQL->fetch_assoc();
             transition: 0.2s;
         }
 
+        .genre-buttons button.active {
+            background-color: lightgray;
+            border: 2px solid gray;
+        }
+
         .genre-buttons button:hover {
             background-color: var(--buttonHoverColor);
         }
@@ -125,6 +130,16 @@ $user = $runSQL->fetch_assoc();
 
         .genre-table td {
             background-color: var(--tdBgColor);
+        }
+
+        .genre-table td a {
+            text-decoration: none;
+            color: blue;
+            transition: 0.2s;
+        }
+
+        .genre-table td a:hover {
+            color: black;
         }
 
         .genre-table th {
@@ -167,58 +182,116 @@ $user = $runSQL->fetch_assoc();
         <?php include("header.php"); ?>
 
     <main>
-        <div class="genre-buttons">
-            <button>ROMANCE</button>
-            <button>HORROR</button>
-            <button>FANTASY</button>
-            <button>SCI-FI</button>
-            <button>THRILLER</button>
-            <button>COMEDY</button>
-            <button>MYSTERY</button>
-            <button>ACTION</button>
-            <button>CRIME</button>
-            <button>EDUCATIONAL</button>
-        </div>
+        <form class="genre-buttons" action="<?php echo htmlspecialchars("genre.php"); ?>" method="GET">
+            
+        <?php
 
-        <table class="genre-table">
-            <thead>
-                <tr>
-                    <th>TITLE</th>
-                    <th>REVIEWS</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-            </tbody>
-        </table>
+            $romanceActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Romance') ? 'active' : '';
+            $horrorActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Horror') ? 'active' : '';
+            $fantasyActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Fantasy') ? 'active' : '';
+            $scifiActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Scifi') ? 'active' : '';
+            $crimeActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Crime') ? 'active' : '';
+            $comedyActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Comedy') ? 'active' : '';
+            $mysteryActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Mystery') ? 'active' : '';
+            $actionActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Action') ? 'active' : '';
+            $dramaActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Drama') ? 'active' : '';
+            $historicalActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Historical') ? 'active' : '';
 
-        <div class="pagination">
-            <button>
-                <!-- Escape value for '<' -->
-                &lt;
-            </button>
-            <span>1</span>
-            <button>></button>
-        </div>
+        ?>
+            <button type="submit" value="Romance" name="genreSection" class="<?php echo $romanceActive ?>">ROMANCE</button>
+            <button type="submit" value="Horror" name="genreSection" class="<?php echo $horrorActive ?>">HORROR</button>
+            <button type="submit" value="Fantasy" name="genreSection" class="<?php echo $fantasyActive ?>">FANTASY</button>
+            <button type="submit" value="Scifi" name="genreSection" class="<?php echo $scifiActive ?>">SCI-FI</button>
+            <button type="submit" value="Crime" name="genreSection" class="<?php echo $crimeActive ?>">CRIME</button>
+            <button type="submit" value="Comedy" name="genreSection" class="<?php echo $comedyActive ?>">COMEDY</button>
+            <button type="submit" value="Mystery" name="genreSection" class="<?php echo $mysteryActive ?>">MYSTERY</button>
+            <button type="submit" value="Action" name="genreSection" class="<?php echo $actionActive ?>">ACTION</button>
+            <button type="submit" value="Drama" name="genreSection" class="<?php echo $dramaActive ?>">DRAMA</button>
+            <button type="submit" value="Historical" name="genreSection" class="<?php echo $historicalActive ?>">HISTORICAL</button>
+        </form>
+
+        <?php 
+            if (isset($_GET['genreSection'])) {
+                
+                $genreSelection = $_GET['genreSection'];
+
+                $sqlGetPostDetails = "SELECT 
+                                        post.*,
+                                        reader.*,
+                                        book.*
+                                    FROM post_review post
+                                    INNER JOIN reader_user reader USING (readerID)
+                                    INNER JOIN book_record book USING (bookID)
+                                    WHERE post.genre LIKE '%$genreSelection%'";
+                $resultGetPostDetails = $conn->query($sqlGetPostDetails);
+                $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+
+                include 'genreSection.php';
+
+                // if ($_GET['genreSection'] === 'Romance') {
+                //     include 'genreSection/romanceSection.php';
+                // } elseif ($_GET['genreSection'] === 'Horror') {
+                //     include 'genreSection/horrorSection.php';
+                // } elseif ($_GET['genreSection'] === 'Fantasy') {
+                //     include 'genreSection/fantasySection.php';
+                // } elseif ($_GET['genreSection'] === 'Scifi') {
+                //     include 'genreSection/scifiSection.php';
+                // } elseif ($_GET['genreSection'] === 'Crime') {
+                //     include 'genreSection/crimeSection.php';
+                // } elseif ($_GET['genreSection'] === 'Comedy') {
+                //     include 'genreSection/comedySection.php';
+                // } elseif ($_GET['genreSection'] === 'Mystery') {
+                //     include 'genreSection/mysterySection.php';
+                // } elseif ($_GET['genreSection'] === 'Action') {
+                //     include 'genreSection/actionSection.php';
+                // } elseif ($_GET['genreSection'] === 'Drama') {
+                //     include 'genreSection/dramaSection.php';
+                // } elseif ($_GET['genreSection'] === 'Historical') {
+                //     include 'genreSection/historicalSection.php';
+                // }
+            } else {
+
+                echo '<table class="genre-table">';  
+                echo '    <thead>';  
+                echo '        <tr>';  
+                echo '            <th>TITLE</th>';  
+                echo '            <th>REVIEWS</th>';  
+                echo '        </tr>';  
+                echo '    </thead>';  
+                echo '    <tbody>';  
+                echo '        <tr>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '        </tr>';  
+                echo '        <tr>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '        </tr>';  
+                echo '        <tr>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '        </tr>';  
+                echo '        <tr>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '        </tr>';  
+                echo '        <tr>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '            <td>&nbsp;</td>';  
+                echo '        </tr>';  
+                echo '    </tbody>';  
+                echo '</table>';  
+
+                echo '<div class="pagination">';  
+                echo '    <button>';  
+                echo '        &lt;';  
+                echo '    </button>';  
+                echo '    <span>1</span>';  
+                echo '    <button>&gt;</button>';  
+                echo '</div>';
+        }
+        ?>
+
     </main>
 
     <?php include("footer.html"); ?>

@@ -41,14 +41,15 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
 $sqlGetComment = "SELECT
                     comment.*,
                     post.*,
-                    reader.*
+                    reader.*,
+                    bookBorrow.*
                   FROM Comment_Rating comment
                   INNER JOIN Post_Review post ON comment.postCode = post.postCode
                   INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
+                  INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
                   WHERE comment.postCode = '$postCode'";
 $resultGetComemnt = $conn->query($sqlGetComment);
 $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-
 
 ?>
 
@@ -457,7 +458,6 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
         .viewComment-box .commentContent label:nth-child(2) {
             display: flex;
-            flex-direction: column;
             gap: 8px;
         }
 
@@ -588,7 +588,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '</div>';
     
                         echo '<div class="viewComment-box">';
-                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '<form class="commentOption" method="GET" action="'.htmlspecialchars("bookDetail.php").'">';
                         echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
                         $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
                         $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';

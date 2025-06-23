@@ -10,7 +10,7 @@ if (!empty($comment)) {
         if ($rowComment['avatar'] != null) {
             echo '<img src="'.$rowComment['avatar'].'" alt="Profile Image">';
         } else {
-            echo 'A';  
+            echo $rowComment['username'][0];  
         }
         echo '</a>';  
         echo '          <label>'.$rowComment['username'].'</label>';                             
@@ -19,8 +19,7 @@ if (!empty($comment)) {
         echo '          <label>';
         echo '              <b>Comment:</b> '.$rowComment['comment'].'';
         echo '          </label>';
-        echo '      </label>';
-        echo '  </div>';
+        echo '      </div>';
         echo '  </div>';
     }
 } else {

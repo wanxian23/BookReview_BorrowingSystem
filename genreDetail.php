@@ -76,6 +76,8 @@ $user = $runSQL->fetch_assoc();
             gap: 20px; /* Reduced gap */
             padding: 5px 0;
             margin-bottom: 20px;
+            justify-content: space-between !important;
+            width: 55%;
         }
 
         .header-line {
@@ -99,13 +101,11 @@ $user = $runSQL->fetch_assoc();
             color: var(--containerColor);
         }
 
-        h1 {
+        .header-row h1 {
             margin: 0;
             font-size: 1.3em;
             font-weight: bold;
-            text-align: center;
             /* Adjusted width to allow for back button and still center title */
-            flex-grow: 1; 
         }
 
         .book-posts-wrapper {
@@ -314,7 +314,8 @@ $user = $runSQL->fetch_assoc();
         <article>
             <div class="header-row">
                 <div class="back-button"><i class='bx bx-reply'></i> Back</div>
-                <h1>Twisted Love</h1> </div>
+                <h1>Twisted Love</h1> 
+            </div>
 
             <hr class="header-line">
 

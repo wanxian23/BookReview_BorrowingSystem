@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require("../database/database.php");
+require("database/database.php");
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: ../login.php");

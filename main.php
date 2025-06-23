@@ -11,6 +11,7 @@ require("database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
@@ -526,10 +527,18 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             
                             $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
 
-                            if (!empty($row['avatar'])) {
-                                echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                            if ($row['readerID'] != $readerID) {
+                                if (!empty($row['avatar'])) {
+                                    echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                } else {
+                                    echo '<a href="'.$profileLink.'">A</a>';
+                                }
                             } else {
-                                echo '<a href="'.$profileLink.'">A</a>';
+                                if (!empty($row['avatar'])) {
+                                    echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                } else {
+                                    echo '<a href="profilemyposts.php">A</a>';
+                                }                                
                             }
 
                             echo $row['username'];

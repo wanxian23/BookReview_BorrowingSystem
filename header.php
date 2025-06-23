@@ -45,6 +45,23 @@
                     </div>
                 </div>
                 <div>
+                    <span class="notificationButton"><label for="notification"><i class='bx  bx-bell' ></i> </label></span>
+                    <div class="accessibility notification">
+                        <span style="color: black;">Notification</span>
+                        <div class="notificationContentContainer">
+                            <div class="notificationContent">
+                                <label for="bookSpare">@hrllo</label>
+                            </div>
+                            <div class="notificationContent">
+                                <label for="bookSpare">@hrllo</label>
+                            </div>
+                            <div class="notificationContent">
+                                <label for="bookSpare">@hrllo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
                     <span class="profile">
                         <?php echo $user['username']; ?>
                         <a>

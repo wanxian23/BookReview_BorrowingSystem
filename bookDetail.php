@@ -518,7 +518,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                 if ($post['readerID'] == $readerID) {
 
                     echo '<div class="book-edit-container">';
-                    echo '<a href="">Edit Post</a>';
+                    echo '<a href="editPost.php?postCode='.$post['postCode'].'">Edit Post</a>';
                     echo '<a href="">Delete Post</a>';
                     
                     echo '</div>';

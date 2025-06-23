@@ -14,9 +14,7 @@ $contact = $_SESSION['contact'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
-
 $runSQL = $conn->query($sql);
-
 $user = $runSQL->fetch_assoc();
 
 // Thread Part --
@@ -534,9 +532,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 } else {
                                     echo '<a href="'.$profileLink.'">A</a>';
                                 }
-
-                                echo $row['username'];
-
 
                                 echo $row['username'];
                                 echo '        </div>';

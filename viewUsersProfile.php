@@ -3,10 +3,19 @@ session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: login.php");
-    exit();
 }
 
 require("database/database.php");
+
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$contact = $_SESSION['contact'];
+$readerID = $_SESSION['readerID'];
+
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'
+OR email = '$email' OR phone = '$contact'";
+$runSQL = $conn->query($sql);
+$user = $runSQL->fetch_assoc();
 
 // Get the readerID from URL
 if (!isset($_GET['readerID'])) {
@@ -14,10 +23,10 @@ if (!isset($_GET['readerID'])) {
     exit();
 }
 
-$readerID = $_GET['readerID'];
+$userReaderID = $_GET['readerID'];
 
 // Fetch selected user's profile data
-$sql = "SELECT * FROM Reader_User WHERE readerID = '$readerID'";
+$sql = "SELECT * FROM Reader_User WHERE readerID = '$userReaderID'";
 $runSQL = $conn->query($sql);
 $viewedUser = $runSQL->fetch_assoc();
 
@@ -34,7 +43,7 @@ $sqlGetPostDetails = "SELECT
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
-                      WHERE post.readerID = '$readerID'
+                      WHERE post.readerID = '$userReaderID'
                       ORDER BY post.postCode DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -243,7 +252,29 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         </div>
 
         <div class="tab-content">
-            <?php foreach ($post as $row): ?>
+            <?php foreach ($post as $row): 
+            
+            
+            $averageRating = 0;
+            if (!empty($comment)) {
+
+                    $i = 0;
+                    foreach($comment as $commentData) {
+
+                        if ($commentData['bookBorrowCode'] != null) {
+                            $averageRating += $commentData['ratingFeedback'];
+                            $i++;
+                        }
+
+                    }
+                    
+                    if ($i != 0) {
+                        $averageRating = $averageRating / $i;
+                    }
+
+            }
+                
+            ?>
                 <div class="post">
                     <div class="head">
                         <div class="postProfile">
@@ -286,7 +317,13 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                     </div>
 
                     <div class="bottom">
-                        <h3>Average Review: 1.9</h3>
+                    <?php
+                        if ($averageRating != 0) {
+                            echo '<h3>Average Review: '.$averageRating.'</h3>';
+                        } else {
+                            echo '<h3>Average Review: No Rating</h3>';
+                        }
+                    ?>
                     </div>
                 </div>
             <?php endforeach; ?>

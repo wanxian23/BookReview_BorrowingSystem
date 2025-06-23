@@ -46,7 +46,7 @@ foreach ($post as $row) {
         }
 
         echo '        <tr>';  
-        echo '            <td><a href="genreDetail.php?genre='.$row['bookTitle'].'">'.$row['bookTitle'].'</a></td>';  
+        echo '            <td><a href="genreDetail.php?book='.$row['bookTitle'].'">'.$row['bookTitle'].'</a></td>';  
         echo '            <td>'.$averageRating.'</td>';  
         echo '        </tr>'; 
     }

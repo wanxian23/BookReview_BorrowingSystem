@@ -387,7 +387,7 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
                     <input type="text" id="book_title" name="book_title" placeholder="Enter Title of the book" value="<?php echo $post['bookTitle'] ?>" required>
 
                     <label for="your_opinion" style="margin-top: 15px;">Your Opinion</label>
-                    <textarea id="your_opinion" name="your_opinion" placeholder="Opinion about the book...." required></textarea>
+                    <textarea id="your_opinion" name="your_opinion" placeholder="Opinion about the book...."  required><?php echo $post['ownerOpinion'] ?></textarea>
 
                     <div class="threadAddedWrapper">
                             <?php
@@ -420,10 +420,10 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
                     </select>
 
                     <label for="author" style="margin-top: 15px;">Author</label>
-                    <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
+                    <input type="text" id="author" name="author" placeholder="Enter Author Name" value="<?php echo $post['author']; ?>" required>
 
                     <label for="review" style="margin-top: 15px;">Review</label>
-                    <input type="number" id="review" name="review" min="1" max="10" placeholder="1-10" required>
+                    <input type="number" id="review" name="review" min="1" max="10" placeholder="1-10" value="<?php echo $post['ownerRating']; ?>" required>
 
                     <label for="thread" style="margin-top: 15px;">Thread</label>
                     <div class="threadWrapper">

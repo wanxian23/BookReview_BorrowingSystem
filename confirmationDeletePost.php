@@ -139,7 +139,7 @@ if (!$postCode) {
                 <input type="hidden" name="postCode" value="<?php echo $postCode; ?>">
                 <div style="display: flex; gap: 20px;">
                     <button type="submit" class="confirm-btn">Yes, Delete</button>
-                    <a href="../bookDetail.php?postCode=<?php echo $postCode; ?>" class="cancel-btn">Cancel</a>
+                    <a href="bookDetail.php?postCode=<?php echo $postCode; ?>" class="cancel-btn">Cancel</a>
                 </div>
             </form>
         </div>

@@ -160,7 +160,8 @@ $user = $runSQL->fetch_assoc();
             background-color: var(--postHeaderBgColor); /* Add this line */
         }
 
-        .book-post-header icon {
+        .book-post-header .icon {
+            text-decoration: none;
             background-color: #a0c0e0;
             color: white;
             border-radius: 50%;
@@ -501,7 +502,7 @@ $user = $runSQL->fetch_assoc();
                 if ($row['avatar'] != null) {
                     echo '<img src="'.$row['avatar'].'" alt="Profile Image">';
                 } else {
-                    echo '<a href="" class="icon"></a>';
+                    echo '<a href="" class="icon">'.$row['username'][0].'</a>';
                 }
                 echo '        <div class="title">'.$row['username'].'</div>';
                 echo '    </div>';

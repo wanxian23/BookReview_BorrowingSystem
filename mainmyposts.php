@@ -354,86 +354,48 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
                         }
 
-                        if ($row['frontCover_img'] != null) {
-                            echo '<div class="post">';
-                            echo '    <div class="head">';
-                            echo '        <div class="postProfile">';
-                            if ($row['avatar'] != null) {
-                                echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '            <a href="">A</a>';                               
-                            }
-                            echo $row['username'];
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="body">';
-                            echo '        <div class="left">';
-                            echo '            <div class="review">';
-                            echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                            echo '            </div>';
-                            echo '            <div class="description">';
-                            echo '                <p>';
-                            echo substr($row['ownerOpinion'], 0, 260);
-                            echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                            echo '                </p>';
-                            echo '            </div>';
-                            echo '        </div>';
-                            echo '        <div class="right">';
-                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="bottom">';
-                            echo '        <div class="left">';
-                            echo '        </div>';
-                            if ($averageRating != 0) {
-                                echo '<h3>Average Review: '.$averageRating.'</h3>';
-                            } else {
-                                echo '<h3>Average Review: No Rating</h3>';
-                            }
-                            echo '    </div>';
-                            echo '</div>';
+                        echo '<div class="post">';
+                        echo '    <div class="head">';
+                        echo '        <div class="postProfile">';
+                        if ($row['avatar'] != null) {
+                            echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
                         } else {
-              
-                            echo '<div class="post">';
-                            echo '    <div class="head">';
-                            echo '        <div class="postProfile">';
-                            if ($row['avatar'] != null) {
-                                echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '            <a href="">A</a>';                               
-                            }
-                            echo $row['username'];
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="body">';
-                            echo '        <div class="left">';
-                            echo '            <div class="review">';
-                            echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                            echo '            </div>';
-                            echo '            <div class="description">';
-                            echo '                <p>';
-                            echo substr($row['ownerOpinion'], 0, 260);
-                            echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                            echo '                </p>';
-                            echo '            </div>';
-                            echo '        </div>';
-                            echo '        <div class="right">';
-                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="bottom">';
-                            echo '        <div class="left">';
-                            echo '        </div>';
-                            if ($averageRating != 0) {
-                                echo '<h3>Average Review: '.$averageRating.'</h3>';
-                            } else {
-                                echo '<h3>Average Review: No Rating</h3>';
-                            }
-                            echo '    </div>';
-                            echo '</div>';
+                            echo '            <a href="">A</a>';                               
                         }
+                        echo $row['username'];
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '    <div class="body">';
+                        echo '        <div class="left">';
+                        echo '            <div class="review">';
+                        echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
+                        echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
+                        echo '            </div>';
+                        echo '            <div class="description">';
+                        echo '                <p>';
+                        echo substr($row['ownerOpinion'], 0, 260);
+                        echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
+                        echo '                </p>';
+                        echo '            </div>';
+                        echo '        </div>';
+                        echo '        <div class="right">';
+                        if ($row['frontCover_img'] != null) {
+                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+                        }  else {
+                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                        }
+                        echo '        </div>';
+                        echo '    </div>';
+                        echo '    <div class="bottom">';
+                        echo '        <div class="left">';
+                        echo '        </div>';
+                        if ($averageRating != 0) {
+                            echo '<h3>Average Review: '.$averageRating.'</h3>';
+                        } else {
+                            echo '<h3>Average Review: No Rating</h3>';
+                        }
+                        echo '    </div>';
+                        echo '</div>';
                                                 
                     }
 

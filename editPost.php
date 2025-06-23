@@ -271,7 +271,7 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
 
     <?php if ($post['frontCover_img'] != null) { ?>
         <section class="form-container">
-            <h2><box-icon name='book-open'></box-icon> New Post</h2>
+            <h2><box-icon name='book-open'></box-icon> Edit Post</h2>
             <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/editPostHandling.php?postCode=$postCode"); ?>" enctype="multipart/form-data">
                 <div class="toggle">
                     <span>Public Your Phone Number?</span>
@@ -303,6 +303,10 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
                                     echo '<label>'.$theadData['thread'].'</label>';
                                 }
                                 echo '</div>';
+                            } else {
+                                echo '<label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>';
+                                echo '<div class="threadAddedLabelWrapper">';  
+                                echo '</div>';                            
                             }
                         ?>
                 </div>
@@ -366,7 +370,7 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
 
         <?php } else { ?>
             <section class="form-container">
-            <h2><box-icon name='book-open'></box-icon> New Post</h2>
+            <h2><box-icon name='book-open'></box-icon> Edit Post</h2>
             <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/editPostHandling.php?postCode=$postCode"); ?>" enctype="multipart/form-data">
                 <div class="toggle">
                     <span>Public Your Phone Number?</span>
@@ -398,6 +402,10 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
                                     echo '<label>'.$theadData['thread'].'</label>';
                                 }
                                 echo '</div>';
+                            } else {
+                                echo '<label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>';
+                                echo '<div class="threadAddedLabelWrapper">';  
+                                echo '</div>';                            
                             }
                             ?>
                     </div>             

@@ -9,6 +9,7 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
 require("database/database.php");
 
 $username = $_SESSION['username'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$username' OR phone = '$username'";
@@ -54,35 +55,41 @@ if ($resultChart && $resultChart->num_rows > 0) {
     <link rel="stylesheet" href="style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        <style>
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html, body {
-        height: 100%;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #fdf4cc;
-        overflow-x: hidden;
-    }
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fdf4cc;
+            overflow-x: hidden;
+        }
 
-    .chart-container {
-        width: 90%;
-        max-width: 700px;
-        margin: 60px auto 80px auto; /* Top: 60px, Bottom: 80px */
-        padding: 20px;
-        background-color: #fff8e7;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+        .chart-container {
+            width: 90%;
+            max-width: 700px;
+            margin: 60px auto 80px auto;
+            padding: 20px;
+            background-color: #fff8e7;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    canvas {
-        width: 100% !important;
-        height: auto !important;
-    }
-</style>
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+
+        #firstHeader {
+            box-shadow: none;
+        }
+        </style>
+
 
 </head>
 <body>

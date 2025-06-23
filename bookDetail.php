@@ -71,6 +71,17 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
             --contentBgColor: white;
             --borderColor: black;
+
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="lightColor"] {
@@ -79,6 +90,18 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
             --contentBgColor: white;
             --borderColor: black;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="darkColor"] {
@@ -87,6 +110,17 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
             --contentBgColor: rgb(53, 53, 53);
             --borderColor: white;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: rgb(119, 167, 190);
         }
 
         main {
@@ -153,34 +187,34 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
         .book-edit-container div:first-child a {
             text-decoration: none;
-            color: blue;
+            color: var(--linkColor);
             transition: 0.2s;
         }
 
         .book-edit-container div:first-child a:hover {
-            color: black;
+            color: var(--borderColor);
         }
 
         .book-edit-container div:nth-child(2) a {
             text-decoration: none;
             padding: 10px 20px;
-            background-color: #a9a1ee;
+            background-color: var(--buttonColor);
             border-radius: 8px;
-            border: 2px solid;
-            color: black;
+            border: 2px solid var(--commentButtonFontColorActive);
+            color: var(--buttonFontColor);
             transition: 0.2s;
         }
 
         .book-edit-container div:nth-child(2) a:hover {
             text-decoration: none;
             padding: 10px 20px;
-            background-color:rgb(205, 201, 237);
+            background-color: var(--buttonHoverColor);
         }
 
         .book-container {
             display: flex;
             flex-direction: column;
-            border: 1px solid var(--borderColor);
+            border: 1px solid var(--commentButtonFontColorActive);
             border-radius: 9px;
             background-color: var(--contentBgColor);
             color: var(--containerColor);
@@ -311,6 +345,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             background-color: lightgray;
             border-radius: 8px;
             box-shadow: 1px 3px 3px rgb(184, 184, 184);
+            color: black;
         }
 
         .book-review {
@@ -372,12 +407,14 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .comment-box input[type="submit"] {
             padding: 8px 15px;
             border-radius: 6px;
-            background-color: #a9a1ee;
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
+            border: 2px solid var(--commentButtonFontColorActive);
             transition: 0.2s;
         }
 
         .comment-box input[type="submit"]:hover {
-            background-color: rgb(198, 194, 238);
+            background-color: var(--buttonHoverColor);
         }
 
         hr {
@@ -408,9 +445,11 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .viewComment-box .commentOption button {
             text-decoration: none;
             padding: 10px 20px;
-            background-color:rgb(161, 178, 238);
+            background-color: var(--commentButtonColor);
             border-radius: 10px;
-            border: 2px solid;
+            border: 2px solid var(--commentButtonFontColor);
+            color: var(--commentButtonFontColor);
+            border: 2px solid var(--commentButtonFontColorActive);
             transition: 0.2s;
         }
 
@@ -418,14 +457,14 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .viewComment-box .commentOption button:hover {
             text-decoration: none;
             padding: 10px 20px;
-            background-color:rgb(205, 212, 234);
+            background-color:var(--commentButtonHoverColor);
             border-radius: 10px;
         }
         
         .viewComment-box .commentOption .active,
         .viewComment-box .commentOption .active {
             font-weight: bold;
-            border-bottom: 5px solid;
+            border-bottom: 5px solid var(--commentButtonFontColorActive);
         }
 
         .viewComment-box .commentContainer,

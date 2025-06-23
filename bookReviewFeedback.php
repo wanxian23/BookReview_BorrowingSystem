@@ -92,6 +92,8 @@ $post = $resultGetPostDetails->fetch_assoc();
             text-align: center;
             font-size: 1.5em;
             margin: 0 auto;
+            display: inline-block;
+            width: 100%;
         }
 
         .review-container {

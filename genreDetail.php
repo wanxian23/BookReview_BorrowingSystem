@@ -42,14 +42,26 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     <title>Genre Details</title>
 
     <style>
-        :root {
+:root {
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
             --contentBgColor: white;
             --borderColor: black;
-            --postHeaderBgColor: #E0BBE4; /* Adjusted to a lavender/light purple */
+
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
+
+            --postHeaderBgColor: rgb(220, 196, 238);
             --postBgColor: white;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="lightColor"] {
@@ -58,6 +70,20 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
             --contentBgColor: white;
             --borderColor: black;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+
+            --postHeaderBgColor: white;
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="darkColor"] {
@@ -66,6 +92,21 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
             --contentBgColor: rgb(53, 53, 53);
             --borderColor: white;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            
+            --postHeaderBgColor: rgb(1, 1, 1);
+            --postBgColor: rgb(45, 45, 45);
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: rgb(119, 167, 190);
         }
 
         main {
@@ -74,7 +115,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         article {
             margin: 0px auto;
-            max-width: 960px;
+            max-width: 1250px;
             padding: 20px;
             background-color: var(--containerBgColor);
             color: var(--containerColor);
@@ -133,7 +174,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             box-sizing: border-box;
         }
 
-        
         .book-posts-wrapper::-webkit-scrollbar {
             width: 12px; 
         }
@@ -317,6 +357,127 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                 align-self: center;
             }
         }
+
+        div.post {
+            margin: 0 25px 15px 25px;
+            border: 2px solid var(--containerColor);
+            border-radius: 15px;
+            width: 95%;
+            background-color: var(--postBgColor);
+            height: 320px;
+        }
+
+
+    div.head {
+            border-bottom: 2px solid;
+            padding: 15px;
+            background-color: var(--postHeaderBgColor);
+            border-radius: 15px 15px 0 0;
+        }
+
+    div.post div.head div.postProfile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+    div.post div.head div.postProfile img {
+        display: inline-block;
+        border-radius: 40px;
+        height: 100%;
+        width: 100%;    
+    }
+
+    div.post div.head div.postProfile a {
+            display: inline-flex;
+            text-decoration: none;
+            border-radius: 40px;
+            height: 40px;
+            width: 40px;
+            border: 4px solid var(--containerColor);
+            background-color: rgb(202, 28, 57);
+            align-items: center;
+            justify-content: center;
+            color: black;
+        }
+
+    div.post div.body {
+            display: flex;
+            border-bottom: 2px solid;
+            height: 200px;
+        }
+
+    div.post div.body div.left {
+            border-right: 2px solid;
+            width: 70%;
+        }
+
+    div.post div.body div.right {
+            padding: 20px;
+            width: 30%;
+            display: flex;
+            justify-content: center;
+        }
+
+    div.post div.body div.right img {
+            width: 80%;
+            height: 100%;
+            box-shadow: var(--bookBoxShadow);
+        }
+
+    div.post div.body div.left div.review {
+            padding: 15px;
+            border-bottom: 2px solid;
+        }
+
+    div.post div.body div.left div.review h3 {
+            display: flex;
+            justify-content: space-between;
+        }
+
+    div.post div.body div.left div.description {
+            overflow-wrap: anywhere;
+            padding: 15px;
+        }
+
+    div.post div.body div.left div.description p a {
+            text-decoration: none;
+            color: var(--anchorColor);
+        }
+
+    div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
+            padding: 10px;
+        }
+
+    div.post div.bottom {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+    div.post div.bottom h3 {
+            font-size: 0.8em;
+        }
+
+
+    div.post div.bottom div.left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+    div.post div.bottom input {
+            width: 70%;
+            font-size: 0.7em;
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid var(--postHeaderBgColor);
+            transition: 0.3s;
+        }
+
+    div.post div.bottom input:active {
+            border: 1px solid black;
+        }
     </style>
 
 </head>
@@ -372,43 +533,48 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 
                                         }
 
-                        echo '<div class="book-post">';  
-                        echo '    <div class="book-post-header">';  
-                        if ($row['avatar'] != null) {
-                            echo '<img src="'.$row['avatar'].'" alt="Profile Image" class="icon">';
-                        } else {
-                            echo '<a href="" class="icon"></a>';
-                        }
-                        echo '        <div class="title">'.$row['username'].'</div>';
-                        echo '    </div>';  
-                        echo '    <div class="book-post-content">';  
-                        echo '        <div class="book-post-image">';  
-                        if ($row['frontCover_img'] != null) {
-                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-                        } else {
-                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                        }
-                        echo '        </div>';  
-                        echo '        <div class="book-details">';  
-                        echo '            <div class="book-title-display">Book Title: '.$row['bookTitle'].'</div> <div class="book-review-score">Review: '.$row['ownerRating'].' / 10</div>';  
-                        echo '            <div class="description">';  
-                        echo substr($row['ownerOpinion'], 0, 180);
-                        echo '            </div>';  
-                        echo '            <a href="'.htmlspecialchars("bookDetail.php?postCode={$row['postCode']}").'" class="read-more">Read More</a>';  
-                        echo '        </div>';  
-                        echo '    </div>';  
-                        echo '    <div class="book-post-footer">';  
-                        echo '        <div class="comment-box">';  
-                        echo "            <i class='bx bx-message-square-dots'></i>";  
-                        echo '            <input type="text" placeholder="Comment">';  
-                        echo '        </div>';  
-                        if ($averageRating != 0) {
-                            echo '        <div class="average-review">Average Review : '.$averageRating.'</div>';  
-                        } else {
-                            echo '        <div class="average-review">Average Review : No Rating</div>';  
-                        }
-                        echo '    </div>';  
-                        echo '</div>';
+                                        echo '<div class="post">';
+                                        echo '    <div class="head">';
+                                        echo '        <div class="postProfile">';
+                                        if ($row['avatar'] != null) {
+                                            echo '            <a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                        } else {
+                                            echo '            <a href="">A</a>';                               
+                                        }
+                                        echo $row['username'];
+                                        echo '        </div>';
+                                        echo '    </div>';
+                                        echo '    <div class="body">';
+                                        echo '        <div class="left">';
+                                        echo '            <div class="review">';
+                                        echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
+                                        echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
+                                        echo '            </div>';
+                                        echo '            <div class="description">';
+                                        echo '                <p>';
+                                        echo substr($row['ownerOpinion'], 0, 260);
+                                        echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
+                                        echo '                </p>';
+                                        echo '            </div>';
+                                        echo '        </div>';
+                                        echo '        <div class="right">';
+                                        if ($row['frontCover_img'] != null) {
+                                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+                                        }  else {
+                                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                                        }
+                                        echo '        </div>';
+                                        echo '    </div>';
+                                        echo '    <div class="bottom">';
+                                        echo '        <div class="left">';
+                                        echo '        </div>';
+                                        if ($averageRating != 0) {
+                                            echo '<h3>Average Review: '.number_format($averageRating, 1).'</h3>';
+                                        } else {
+                                            echo '<h3>Average Review: No Rating</h3>';
+                                        }
+                                        echo '    </div>';
+                                        echo '</div>';
                     }
 
                 ?>

@@ -3,6 +3,7 @@
 
 if (!empty($comment)) {
 
+    $a = 0;
     foreach ($comment as $rowComment) {
 
         $sqlGetNestedComment = "SELECT nestedComment.*,
@@ -71,8 +72,14 @@ if (!empty($comment)) {
                 echo '  </div>';
                 echo '</div>';
             }
-
+            $a++;
         }
+    }
+
+    if ($a == 0) {
+        echo '  <div class="commentContainer">';
+        echo "No Comment Here!";
+        echo '  </div>';
     }
 } else {
     echo '  <div class="commentContainer">';

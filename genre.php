@@ -29,6 +29,12 @@ $user = $runSQL->fetch_assoc();
 
     <style>
         :root {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
             --buttonColor: white;
             --buttonFontColor: black;
             --buttonHoverColor: #d4d4d4;
@@ -37,20 +43,46 @@ $user = $runSQL->fetch_assoc();
             --tableBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
             --thBgColor: #acaedeec;
             --tdBgColor: white;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: rgb(201, 206, 228);
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="lightColor"] {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
             --buttonColor: rgb(237, 237, 237);
             --buttonFontColor: rgb(0, 0, 0);
             --buttonHoverColor: #c3c3c3;
 
             --tableFontColor: black;
             --tableBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
-            --thBgColor: rgb(209, 208, 208);
+            --thBgColor: rgb(238, 238, 238);
             --tdBgColor: white;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(191, 191, 191);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(34, 34, 34);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
+
             --buttonColor: black;
             --buttonFontColor: rgb(221, 221, 221);
             --buttonHoverColor: #414141;
@@ -59,6 +91,13 @@ $user = $runSQL->fetch_assoc();
             --tableBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
             --thBgColor: black;
             --tdBgColor: rgb(53, 53, 53);
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(95, 92, 92);
+            --commentButtonHoverColor: rgb(97, 96, 96);
+
+            --linkColor: rgb(119, 167, 190);
         }
 
         main {
@@ -77,7 +116,7 @@ $user = $runSQL->fetch_assoc();
 
         .genre-buttons button {
             flex: 18%;
-            border: 2px solid #d4d4d4;
+            border: 2px solid var(--borderColor);
             border-radius: 20px;
             padding: 10px 20px;
             color: var(--buttonFontColor);
@@ -88,8 +127,8 @@ $user = $runSQL->fetch_assoc();
         }
 
         .genre-buttons button.active {
-            background-color: lightgray;
-            border: 2px solid gray;
+            background-color: var(--commentButtonFontColorActive);
+            border: 2px solid var(--borderColor);
         }
 
         .genre-buttons button:hover {
@@ -133,12 +172,12 @@ $user = $runSQL->fetch_assoc();
 
         .genre-table td a {
             text-decoration: none;
-            color: blue;
+            color: var(--linkColor);
             transition: 0.2s;
         }
 
         .genre-table td a:hover {
-            color: black;
+            color: var(--borderColor);
         }
 
         .genre-table th {

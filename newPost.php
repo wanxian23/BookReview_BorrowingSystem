@@ -28,12 +28,81 @@ $user = $runSQL->fetch_assoc();
 
     <style>
 
+:root {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
+
+            --postHeaderBgColor: rgb(220, 196, 238);
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+
+            --postHeaderBgColor: white;
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(34, 34, 34);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            
+            --postHeaderBgColor: rgb(1, 1, 1);
+            --postBgColor: rgb(45, 45, 45);
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: rgb(119, 167, 190);
+        }
+
         .form-container {
-            background: white;
-            border: 1px solid #aaa;
+            background: var(--containerBgColor);
+            border: 1px solid var(--containercolor);
+            color: var(--containerColor);
+            box-shadow: var(--containerBoxShadow);
             border-radius: 10px;
             max-width: 700px;
-            margin: 30px auto;
+            margin: 50px auto;
             padding: 20px;
         }
 
@@ -186,22 +255,22 @@ $user = $runSQL->fetch_assoc();
         }
 
         .clear-btn {
-            background-color: white;
-            color: #444;
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
             border: 2px solid #aaa;
         }
 
         .clear-btn:hover {
-            background-color: #eee;
+            background-color: var(--buttonHoverColor);
         }
 
         .submit-btn {
-            background-color: black;
-            color: white;
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
         }
 
         .submit-btn:hover {
-            background-color: #333;
+            background-color: var(--buttonHoverColor);
         }
 
         div.threadWrapper {

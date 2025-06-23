@@ -319,6 +319,18 @@ $post = $resultGetPostDetails->fetch_assoc();
         $sqlInputComment = "INSERT INTO comment_rating (postCode, readerID, comment, dateComment, timeComment, bookBorrowCode) VALUES ('$postCode', '$readerId', '$comment', '$todayDate', '$todayTime', '{$borrower['bookBorrowCode']}')";
         $resultInputComment = $conn->query($sqlInputComment);
 
+        $sqlGetCommentDetails = "SELECT *
+                                 FROM Comment_Rating
+                                 WHERE postCode = '{$post['postCode']}' AND
+                                 readerID = '$readerId'
+                                 ORDER BY commentCode DESC";
+        $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
+        $commentDetails = $resultGetCommentDetails->fetch_assoc();
+
+        $sqlNotification = "INSERT INTO Notification (postCode, readerID, commentCode, status) 
+                            VALUES ('{$post['postCode']}','$readerId','{$commentDetails['commentCode']}','UNREAD')";
+        $resultNotification = $conn->query($sqlNotification);
+
         if ($resultInputBorrower && $resultInputComment) {
             echo "<label class='output'>Comment Rating Saved Successfully!</label>";
             echo "<meta http-equiv='refresh' content='3; URL=profilemyposts.php'>";

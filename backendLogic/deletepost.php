@@ -1,12 +1,50 @@
 <?php
 session_start();
 
-require("database/database.php");
+require("../database/database.php");
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: ../login.php");
-    exit();
+    header("Location: login.php");
 }
+
+require("../database/database.php");
+
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$contact = $_SESSION['contact'];
+$readerId = $_SESSION['readerID'];
+
+$sql = "SELECT * FROM Reader_User WHERE username = '$username' 
+OR email = '$email' OR phone = '$contact'";
+$runSQL = $conn->query($sql);
+$user = $runSQL->fetch_assoc();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <?php include("headDetails.html"); ?>
+    <title>Redirecting..</title>
+
+    <style>
+        
+        main {
+            text-align: center;
+            margin: 5% 6%;
+            font-size: 1.3em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <?php include("header.php"); ?>
+
+    <main>
+
+<?php 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postCode = isset($_POST['postCode']) ? intval($_POST['postCode']) : null;
@@ -33,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows === 0) {
         $_SESSION['error_message'] = "You do not have permission to delete this post.";
-        header("Location: ../bookDetail.php?postCode=" . urlencode($postCode));
+        echo "<meta http-equiv='refresh' content='3; url=../bookDetail.php?postCode=" . urlencode($postCode)."'>";
         exit();
     }
 
@@ -44,16 +82,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtDelete->bind_param("i", $postCode);
    
     if ($stmtDelete->execute()) {
-        $_SESSION['success_message'] = "Post deleted successfully.";
-        header("Location: ../profilemyposts.php");
+        echo "Post deleted successfully.";
+        echo "<meta http-equiv='refresh' content='3; url=../profilemyposts.php'>";
     }else {
-        $_SESSION['error_message'] = "Failed to delete post.";
-       header("Location: ../bookDetail.php?postCode=" . urlencode($postCode));
+        echo "Failed to delete post.";
+        echo "<meta http-equiv='refresh' content='3; url=../bookDetail.php?postCode=" . urlencode($postCode)."'>";
     }   
     
    $stmtDelete->close();
    $conn->close();
-   exit();
 }
 ?>
 
+</main>
+
+<?php include("../footer.html"); ?>
+
+</body>
+</html>

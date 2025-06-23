@@ -75,7 +75,19 @@ $user = $runSQL->fetch_assoc();
                                VALUES ('{$post['postCode']}','$readerId','$comment','$todayDate','$todayTime')";
                 $resultSqlComment = $conn->query($sqlComment);
 
-                if ( $resultSqlComment) {
+                $sqlGetCommentDetails = "SELECT *
+                                         FROM Comment_Rating
+                                         WHERE postCode = '{$post['postCode']}' AND
+                                         readerID = '$readerId'
+                                         ORDER BY commentCode DESC";
+                $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
+                $commentDetails = $resultGetCommentDetails->fetch_assoc();
+
+                $sqlNotification = "INSERT INTO Notification (postCode, readerID, commentCode, status) 
+                                    VALUES ('{$post['postCode']}','$readerId','{$commentDetails['commentCode']}','UNREAD')";
+                $resultNotification = $conn->query($sqlNotification);
+
+                if ($resultSqlComment && $resultNotification) {
                     echo "Comment Posted Successfully!";
                     echo "<meta http-equiv='refresh' content='3; url=../bookDetail.php?postCode=$postCode'>";
                 } else {

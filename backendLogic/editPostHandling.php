@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: login.php");
 }
 
@@ -16,7 +16,6 @@ $readerId = $_SESSION['readerID'];
 $sql = "SELECT * FROM Reader_User WHERE username = '$username' 
 OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
-
 $user = $runSQL->fetch_assoc();
 
 $postCode = $_REQUEST['postCode'];

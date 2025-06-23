@@ -1,3 +1,18 @@
+<?php
+
+    $sqlGetPostDetailsHeader = "SELECT 
+                            post.*,
+                            reader.*,
+                            book.*
+                        FROM post_review post
+                        INNER JOIN reader_user reader USING (readerID)
+                        INNER JOIN book_record book USING (bookID)
+                        WHERE post.readerID = '$readerID'
+                        ORDER BY post.postCode DESC";
+    $resultGetPostDetailsHeader = $conn->query($sqlGetPostDetailsHeader);
+    $getPost = $resultGetPostDetailsHeader->fetch_all(MYSQLI_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
 
@@ -49,15 +64,42 @@
                     <div class="accessibility notification">
                         <span style="color: black;">Notification</span>
                         <div class="notificationContentContainer">
-                            <div class="notificationContent">
-                                <label for="bookSpare">@hrllo</label>
-                            </div>
-                            <div class="notificationContent">
-                                <label for="bookSpare">@hrllo</label>
-                            </div>
-                            <div class="notificationContent">
-                                <label for="bookSpare">@hrllo</label>
-                            </div>
+
+                            <?php
+
+                                foreach ($getPost as $postRow) {
+
+                                    $sqlGetNotificationHeader = "SELECT *
+                                                            FROM Notification noti
+                                                            INNER JOIN Post_Review post USING (postCode)
+                                                            INNER JOIN Comment_Rating comment USING (commentCode)
+                                                            WHERE noti.postCode = '{$postRow['postCode']}'";
+                                    $resultGetNotificationHeader = $conn->query($sqlGetNotificationHeader);
+                                    $notification = $resultGetNotificationHeader->fetch_all(MYSQLI_ASSOC);
+
+                                    foreach ($notification as $notiRow) {
+                                        
+                                        $sqlGetCommentUserHeader = "SELECT * FROM Reader_User WHERE readerID = '{$notiRow['readerID']}'";
+                                        $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
+                                        $commentUser = $resultGetCommentUserHeader->fetch_assoc();
+                                            
+                                        if ($notiRow['bookBorrowCode'] == null) {
+                                            echo '    <div class="notificationContent">';  
+                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                            echo '        <label for="bookSpare">Leave A New Comment!</label>';  
+                                            echo '    </div>';
+                                        } else {
+                                            echo '    <div class="notificationContent">';  
+                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                            echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
+                                            echo '    </div>';                                         
+                                        }
+                                        
+                                    }
+                                }
+
+                            ?>
+                            
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,4 @@
 <?php 
-
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
@@ -13,90 +12,121 @@ $username = $_SESSION['username'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$username' OR phone = '$username'";
-$runSQL = $conn->query(query: $sql);
-
+$runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
-?>
+// Fetch book borrow data
+$chartLabels = [];
+$chartData = [];
 
+$sqlChart = "SELECT book_record.bookTitle AS title, COUNT(book_record.bookID) AS borrow_count
+             FROM book_borrowed
+             JOIN post_review ON book_borrowed.postCode = post_review.postCode
+             JOIN book_record ON post_review.bookID = book_record.bookID
+             GROUP BY book_record.bookID
+             ORDER BY borrow_count DESC
+             LIMIT 5";
+
+
+$resultChart = $conn->query($sqlChart);
+
+if ($resultChart && $resultChart->num_rows > 0) {
+    while ($row = $resultChart->fetch_assoc()) {
+        $chartLabels[] = $row['title'];
+        $chartData[] = $row['borrow_count'];
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Most Borrowed Books</title>
 
-    <!-- Free Icon Website -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <!-- put link to jquery library by using google CDN or Microsoft CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- UI jQuery library, which include more animation effect -->
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-  <style>
-    body {
-      font-family: Arial;
-      padding: 0;
-      margin: 0;
-      background-color: #fdf4cc; 
+
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
+
+    html, body {
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fdf4cc;
+        overflow-x: hidden;
+    }
+
     .chart-container {
-      width: 600px;
-      margin: 40px auto 40px auto;
-      background: transparent;
+        width: 90%;
+        max-width: 700px;
+        margin: 60px auto 80px auto; /* Top: 60px, Bottom: 80px */
+        padding: 20px;
+        background-color: #fff8e7;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
-  </style>
+
+    canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+</style>
+
 </head>
 <body>
 
-  <?php include("header.php"); ?>
+<?php include("header.php"); ?>
 
-  <div class="chart-container">
+<div class="chart-container">
     <canvas id="myBarChart"></canvas>
-  </div>
+</div>
 
-  <script>
+<script>
     const ctx = document.getElementById('myBarChart').getContext('2d');
     const myBarChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Book A', 'Book B', 'Book C', 'Book D', 'Book E'],
-        datasets: [{
-          label: 'Books Borrowed',
-          data: [10, 30, 20, 14, 25],
-          backgroundColor: 'rgba(100, 137, 196, 0.74)',
-          borderRadius: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Most Borrowed Books'
-          },
-          legend: {
-            display: true
-          }
+        type: 'bar',
+        data: {
+            labels: <?= json_encode($chartLabels); ?>,
+            datasets: [{
+                label: 'Books Borrowed',
+                data: <?= json_encode($chartData); ?>,
+                backgroundColor: 'rgba(100, 137, 196, 0.74)',
+                borderRadius: 5
+            }]
         },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Most Borrowed Books'
+                },
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
-      }
     });
-  </script>
+</script>
 
-  <?php include("footer.html"); ?>
+<?php include("footer.html"); ?>
 
 </body>
 </html>

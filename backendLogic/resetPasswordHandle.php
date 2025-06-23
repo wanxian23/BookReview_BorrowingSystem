@@ -1,5 +1,5 @@
 <?php
-include ('database/database.php');
+include ('backendLogic/database.php');
 
 $username = $_POST['username'];
 $email = $_POST['email'];

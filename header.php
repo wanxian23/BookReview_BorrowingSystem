@@ -133,6 +133,7 @@
             </div>
             <span id="mainButton"><label for="color">Main</label></span>
             <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
+            <span id="mainButton"><label for="color" id="InsightsButton">Insights</label></span>
 
             <div class="accessibility colorAccessibility">
                 <div class="default option" data-color="defaultColor">Default</div>
@@ -162,6 +163,7 @@
             <nav>
                 <a href="main.php"><label for="">Main</label></a>
                 <a href="genre.php"><label for="">Genre</label></a>
+                <a href="barChart.php"><label for="">Insights</label></a>
             </nav>
             <form method="POST" action="search.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>

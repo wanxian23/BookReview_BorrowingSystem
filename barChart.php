@@ -119,10 +119,15 @@ if ($resultChart && $resultChart->num_rows > 0) {
             },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    }
                 }
             }
         }
+
     });
 </script>
 

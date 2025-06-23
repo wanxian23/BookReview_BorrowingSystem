@@ -44,15 +44,15 @@ $sqlGetComment = "SELECT
                     comment.*,
                     post.*,
                     reader.*,
-                    bookBorrow.*
+                    bookBorrow.*,
+                    reader.readerID AS commentReaderID
                   FROM Comment_Rating comment
                   INNER JOIN Post_Review post ON comment.postCode = post.postCode
                   INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                  INNER JOIN Book_Borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
+                  LEFT JOIN Book_Borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
                   WHERE comment.postCode = '$postCode'";
 $resultGetComemnt = $conn->query($sqlGetComment);
 $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-
 
 ?>
 
@@ -167,6 +167,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             background-color: #a9a1ee;
             border-radius: 8px;
             border: 2px solid;
+            color: black;
             transition: 0.2s;
         }
 
@@ -407,7 +408,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .viewComment-box .commentOption button {
             text-decoration: none;
             padding: 10px 20px;
-            background-color: #a9a1ee;
+            background-color:rgb(161, 178, 238);
             border-radius: 10px;
             border: 2px solid;
             transition: 0.2s;
@@ -417,7 +418,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .viewComment-box .commentOption button:hover {
             text-decoration: none;
             padding: 10px 20px;
-            background-color:rgb(198, 194, 238);
+            background-color:rgb(205, 212, 234);
             border-radius: 10px;
         }
         
@@ -427,7 +428,8 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             border-bottom: 5px solid;
         }
 
-        .viewComment-box .commentContainer {
+        .viewComment-box .commentContainer,
+        .viewComment-box .nestedCommentContainer {
             border-bottom: 1px solid;
             padding: 0 20px 20px 20px;
             display: flex;
@@ -439,10 +441,39 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             margin-bottom: 20px;
         }
 
+        .viewComment-box .nestedCommentContainer {
+            width: 95%;
+            border-bottom: 0;
+            border-top: 1px solid;
+            padding: 20px 30px 0 30px;
+            margin: 0 auto;
+        }
+
         .viewComment-box div.postProfile {
             display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .viewComment-box div.postProfile div,
+        .viewComment-box div.postProfile form.replyComemntForm {
+            display: flex;
+            align-items: center;
+            gap: 20px;           
+        }
+
+        .viewComment-box div.postProfile div:nth-child(2) a {
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: #a9a1ee;
+            color: black;
+            border-radius: 5px;
+            border: 2px solid;
+            transition: 0.2s;
+        }
+
+        .viewComment-box div.postProfile div:nth-child(2) a:hover {
+            background-color:rgb(209, 206, 239);
         }
 
         .viewComment-box div.postProfile img {
@@ -452,7 +483,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             width: 100%;    
         }
 
-        .viewComment-box div.postProfile a {
+        .viewComment-box div.postProfile div:first-child a {
             display: inline-flex;
             text-decoration: none;
             border-radius: 40px;

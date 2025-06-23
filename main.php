@@ -170,6 +170,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         main section.threadContainer {
             display: inline-block;
             width: 20%;
+            /* height: 500px; */
         }
 
         main section article {

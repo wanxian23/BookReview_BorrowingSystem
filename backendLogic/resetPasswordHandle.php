@@ -1,5 +1,5 @@
 <?php
-include ('backendLogic/database.php');
+include('../database/database.php');
 
 $username = $_POST['username'];
 $email = $_POST['email'];
@@ -18,7 +18,7 @@ if ($newPassword !== $rePassword) {
 
 
 // Check if user exists
-$sql = "SELECT * FROM users WHERE username=? AND email=? AND phone=?";
+$sql = "SELECT * FROM reader_user WHERE username=? AND email=? AND phone=?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sss", $username, $email, $phone);
 $stmt->execute();
@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     // User da jumpa → update password
     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-    $update = "UPDATE users SET password=? WHERE username=?";
+    $update = "UPDATE reader_user SET password=? WHERE username=?";
     $updateStmt = $conn->prepare($update);
     $updateStmt->bind_param("ss", $hashedPassword, $username);
 

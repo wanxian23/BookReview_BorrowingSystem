@@ -21,8 +21,8 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
 
     <script>
         function validatePasswords() {
-            let pass = document.getElementById("new_password").value;
-            let repass = document.getElementById("confirm_password").value;
+            let pass = document.getElementById("newpassword").value;
+            let repass = document.getElementById("confirmpassword").value;
             if (pass !== repass) {
                 alert("Passwords do not match!");
                 return false;
@@ -219,18 +219,25 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
                     <input type="text" id="phone" name="phone" required>
                 </div>
                 <div class="form-group">
-                    <label for="new_password">New Password</label>
-                    <input type="password" id="new_password" name="new_password" required>
+                    <label for="newpassword">New Password</label>
+                    <input type="password" id="newpassword" name="newpassword" required>
                 </div>
                 <div class="form-group">
-                    <label for="confirm_password">Re-enter Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
+                    <label for="confirmpassword">Re-enter Password</label>
+                    <input type="password" id="confirmpassword" name="confirmpassword" required>
                 </div>
                 <button type="submit" class="login-button">Reset Password</button>
             </div>
         </form>
     </main>
 
+
+
+
+
+
+
+    
     <footer>
         <h1>Our Social Media</h1>
         <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>

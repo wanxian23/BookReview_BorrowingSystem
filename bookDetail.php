@@ -9,11 +9,13 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
 require("database/database.php");
 
 $username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$contact = $_SESSION['contact'];
 $readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
-OR email = '$username' OR phone = '$username'";
-$runSQL = $conn->query(query: $sql);
+OR email = '$email' OR phone = '$contact'";
+$runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
 $postCode = $_REQUEST['postCode'];
@@ -41,10 +43,12 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
 $sqlGetComment = "SELECT
                     comment.*,
                     post.*,
-                    reader.*
+                    reader.*,
+                    bookBorrow.*
                   FROM Comment_Rating comment
                   INNER JOIN Post_Review post ON comment.postCode = post.postCode
                   INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
+                  INNER JOIN Book_Borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
                   WHERE comment.postCode = '$postCode'";
 $resultGetComemnt = $conn->query($sqlGetComment);
 $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
@@ -135,13 +139,29 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
         .book-edit-container {
             display: flex;
             gap: 20px;
-            justify-content: right;
+            justify-content: space-between;
+            align-items: center;
             border-radius: 9px;
             margin: 30px;
             overflow: hidden;
         }
 
-        .book-edit-container a {
+        .book-edit-container div {
+            display: flex;
+            gap: 10px;
+        }
+
+        .book-edit-container div:first-child a {
+            text-decoration: none;
+            color: blue;
+            transition: 0.2s;
+        }
+
+        .book-edit-container div:first-child a:hover {
+            color: black;
+        }
+
+        .book-edit-container div:nth-child(2) a {
             text-decoration: none;
             padding: 10px 20px;
             background-color: #a9a1ee;
@@ -150,7 +170,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             transition: 0.2s;
         }
 
-        .book-edit-container a:hover {
+        .book-edit-container div:nth-child(2) a:hover {
             text-decoration: none;
             padding: 10px 20px;
             background-color:rgb(205, 201, 237);
@@ -518,9 +538,14 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                 if ($post['readerID'] == $readerID) {
 
                     echo '<div class="book-edit-container">';
-                    echo '<a href="">Edit Post</a>';
-                    echo '<a href="confirmationDeletePost.php?postCode=' . urlencode($postCode) . '">Delete Post</a>';
-                    
+                    echo '<div>';
+                    echo '<label>Share Link For Borrower To Review: </label>';
+                    echo '<a shareLink="http://localhost:8080/BookReview_BorrowingSystem/bookreviewfeedback.php?postCode='.$postCode.'" target="_blank" id="shareLink">Click To Copy Link For Share</a>';
+                    echo '</div>';
+                    echo '<div>';
+                    echo '<a href="editPost.php?postCode='.$post['postCode'].'">Edit Post</a>';
+                    echo '<a href="confirmationDeletePost.php?postCode='.$post['postCode'].'">Delete Post</a>';
+                    echo '</div>';
                     echo '</div>';
 
                     echo '<div class="book-container">';
@@ -870,6 +895,19 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                     window.alert("Comment Cannot Be Empty Before Submit!");
                     return;
                 }
+            });
+
+            $("#shareLink").click(function(event) {
+                event.preventDefault(); // Prevent the anchor from navigating
+                const linkToCopy = this.getAttribute("sharelink");
+
+                navigator.clipboard.writeText(linkToCopy)
+                    .then(() => {
+                        alert("Link copied to clipboard!");
+                    })
+                    .catch(err => {
+                        alert("Failed to copy: " + err);
+                    });
             });
 
         });

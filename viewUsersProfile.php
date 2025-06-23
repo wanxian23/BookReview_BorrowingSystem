@@ -134,12 +134,13 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
         .post {
-            margin: 0 25px 15px 25px;
+            width: 95%;
+            margin: 0 auto 15px auto;
             border: 2px solid black;
             border-radius: 15px;
-            width: 95%;
             background-color: white;
         }
+
 
         .head {
             border-bottom: 2px solid;
@@ -177,7 +178,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             display: flex;
             border-bottom: 2px solid;
             height: 200px;
-        }
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+          }
 
         .body .left {
             border-right: 2px solid;
@@ -219,6 +223,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         .bottom {
             padding: 10px;
+            margin-bottom
             display: flex;
             justify-content: space-between;
         }
@@ -226,6 +231,12 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         .bottom h3 {
             font-size: 0.8em;
         }
+
+        footer {
+            margin-top: 50px; /* Adjust the gap as needed */
+            text-align: center;
+        }
+
     </style>
 </head>
 

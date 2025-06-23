@@ -11,14 +11,12 @@ require("database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
-
-$runSQL = $conn->query(query: $sql);
-
+$runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
-
 ?>
 
 <!DOCTYPE html>

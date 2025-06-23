@@ -340,6 +340,10 @@ header .notification div.notificationContentContainer {
 }
 
 header .notification div.notificationContentContainer div.notificationContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 10px;
     width: 90%;
     background-color: #eeeeee;
     box-shadow: 1px 1px 5px rgb(176, 176, 176);
@@ -349,6 +353,17 @@ header .notification div.notificationContentContainer div.notificationContent {
 header .notification div.notificationContentContainer div.notificationContent:hover {
     background-color: #dddddd;
     box-shadow: 1px 1px 5px rgb(121, 121, 121);
+}
+
+header .notification div.notificationContentContainer div.notificationContent label {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+header .notification div.notificationContentContainer div.notificationContent label:nth-child(2) {
+    font-weight: normal;
+    font-size: 0.8em;  
 }
 
 .read {

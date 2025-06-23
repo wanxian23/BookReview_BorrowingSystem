@@ -323,7 +323,7 @@ $user = $runSQL->fetch_assoc();
             <h2><box-icon name='book-open'></box-icon> New Post</h2>
             <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/newPostHandling.php"); ?>" enctype="multipart/form-data">
                 <div class="toggle">
-                    <span>Available for Borrow?</span>
+                    <span>Upload Book Covers?</span>
                     <label class="switch">
                         <input type="checkbox" id="available_for_borrow_checkbox" name="available_for_borrow">
                         <span class="slider round"></span>

@@ -32,7 +32,7 @@
                 $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
                 $sql = "SELECT * FROM Reader_User WHERE username = '$username' OR email = '$email' OR phone = '$contact'";
-                $runSQL = $conn->query(query: $sql);
+                $runSQL = $conn->query($sql);
 
                 if ($runSQL->num_rows > 0) {
                     echo "Fail to Create Account! Username/ Email/ Phone Already Exist! Please Try Again....";
@@ -40,7 +40,7 @@
                 } else {
                     $sql = "INSERT INTO Reader_User(username, country, email, phone, dateOfBirth, password)
                         VALUES ('$username', '$country', '$email', '$contact', '$dateBirth', '$hashedPass')";
-                    $runSQL = $conn->query(query: $sql);
+                    $runSQL = $conn->query($sql);
 
                     if ($runSQL) {
                         echo "Account Created Successfully! Please Login Again! Redirecting....";

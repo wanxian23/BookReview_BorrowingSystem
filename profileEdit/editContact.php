@@ -174,7 +174,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $newContact = $_POST['contact'];
 
         $sql = "UPDATE Reader_User SET phone = '$newContact' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
+        $runSQL = $conn->query($sql);
 
         if ($runSQL) {
             $_SESSION['contact'] = $newContact;

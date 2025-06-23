@@ -1,9 +1,9 @@
 <?php
 
 $server = "localhost";
-$root = "root";
-$password = "";
-$tableDB = "bookspare";
+$root = "bookSpare";
+$password = "1234";
+$tableDB = "student_bookspare";
 
 $conn = new mysqli($server, $root, $password, $tableDB);
 

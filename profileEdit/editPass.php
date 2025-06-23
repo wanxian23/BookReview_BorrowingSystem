@@ -165,7 +165,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $hashedNewPass = password_hash($newPass, PASSWORD_DEFAULT);
 
         $sql = "UPDATE Reader_User SET password = '$hashedNewPass' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
+        $runSQL = $conn->query($sql);
 
         if ($runSQL) {
             $_SESSION['pass'] = $newPass;

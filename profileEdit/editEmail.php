@@ -162,7 +162,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $newEmail = $_POST['email'];
 
         $sql = "UPDATE Reader_User SET email = '$newEmail' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
+        $runSQL = $conn->query($sql);
 
         if ($runSQL) {
             $_SESSION['email'] = $newEmail;

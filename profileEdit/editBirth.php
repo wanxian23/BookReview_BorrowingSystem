@@ -169,7 +169,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $newBirth = $_POST['birth'];
 
         $sql = "UPDATE Reader_User SET dateOfBirth = '$newBirth' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
+        $runSQL = $conn->query($sql);
 
         if ($runSQL) {
             echo "Date Of Birth Changed Successfully! Back to profile....";

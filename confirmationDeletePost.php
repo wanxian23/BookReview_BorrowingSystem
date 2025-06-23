@@ -15,7 +15,7 @@ $contact = $_SESSION['contact'];
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
 
-$runSQL = $conn->query(query: $sql);
+$runSQL = $conn->query($sql);
 
 $user = $runSQL->fetch_assoc();
 

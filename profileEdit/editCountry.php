@@ -162,7 +162,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $newCountry = $_POST['country'];
 
         $sql = "UPDATE Reader_User SET country = '$newCountry' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
+        $runSQL = $conn->query($sql);
 
         if ($runSQL) {
             echo "Country Changed Successfully! Back to profile....";

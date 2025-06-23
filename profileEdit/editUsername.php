@@ -168,7 +168,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $newUsername = $_POST['username'];
 
         $sql = "UPDATE Reader_User SET username = '$newUsername' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query(query: $sql);
+        $runSQL = $conn->query($sql);
 
         if ($runSQL) {
             $_SESSION['username'] = $newUsername;

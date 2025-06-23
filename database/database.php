@@ -1,6 +1,6 @@
 <?php
 
-$server = "localhost:3301";
+$server = "localhost";
 $root = "root";
 $password = "";
 $tableDB = "bookspare";

@@ -429,7 +429,9 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
+
     <?php include("header.php"); ?>
+   
 
     <main>
         <div class="postButton">
@@ -487,6 +489,39 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                     <?php 
 
                         foreach ($post as $row) {
+
+                            $sqlGetComment = "SELECT
+                                comment.*,
+                                post.*,
+                                reader.*,
+                                bookBorrow.*
+                            FROM Comment_Rating comment
+                            INNER JOIN Post_Review post ON comment.postCode = post.postCode
+                            INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
+                            INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
+                            WHERE comment.postCode = '{$row['postCode']}'";
+                            $resultGetComemnt = $conn->query($sqlGetComment);
+                            $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+
+                            $averageRating = 0;
+                            if (!empty($comment)) {
+
+                                    $i = 0;
+                                    foreach($comment as $commentData) {
+
+                                        if ($commentData['bookBorrowCode'] != null) {
+                                            $averageRating += $commentData['ratingFeedback'];
+                                            $i++;
+                                        }
+
+                                    }
+                                    
+                                    if ($i != 0) {
+                                        $averageRating = $averageRating / $i;
+                                    }
+
+                            }
+
                             if ($row['frontCover_img'] != null) {
                                 echo '<div class="post">';
                                 echo '    <div class="head">';
@@ -521,7 +556,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '    <div class="bottom">';
                                 echo '        <div class="left">';
                                 echo '        </div>';
-                                echo '        <h3>Average Review: 1.9</h3>';
+                                if ($averageRating != 0) {
+                                    echo '<h3>Average Review: '.$averageRating.'</h3>';
+                                } else {
+                                    echo '<h3>Average Review: No Rating</h3>';
+                                }
                                 echo '    </div>';
                                 echo '</div>';
                             } else {
@@ -558,7 +597,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '    <div class="bottom">';
                                 echo '        <div class="left">';
                                 echo '        </div>';
-                                echo '        <h3>Average Review: 1.9</h3>';
+                                if ($averageRating != 0) {
+                                    echo '<h3>Average Review: '.$averageRating.'</h3>';
+                                } else {
+                                    echo '<h3>Average Review: No Rating</h3>';
+                                }
                                 echo '    </div>';
                                 echo '</div>';
                             }

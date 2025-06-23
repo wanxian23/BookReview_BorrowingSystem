@@ -491,11 +491,18 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 echo '<div class="post">';
                                 echo '    <div class="head">';
                                 echo '        <div class="postProfile">';
-                                if ($row['avatar'] != null) {
-                                    echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                
+                                $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
+
+                                if (!empty($row['avatar'])) {
+                                    echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
                                 } else {
-                                    echo '            <a href="">A</a>';                               
+                                    echo '<a href="'.$profileLink.'">A</a>';
                                 }
+
+                                echo $row['username'];
+
+
                                 echo $row['username'];
                                 echo '        </div>';
                                 echo '    </div>';

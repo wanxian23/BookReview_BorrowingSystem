@@ -3,8 +3,6 @@
 
 if (!empty($comment)) {
 
-    $noRating = false;
-
     foreach ($comment as $rowComment) {
         
         if ($rowComment['bookBorrowCode'] != null) {
@@ -14,33 +12,23 @@ if (!empty($comment)) {
             if ($rowComment['avatar'] != null) {
                 echo '<img src="'.$rowComment['avatar'].'" alt="Profile Image">';
             } else {
-                echo 'A';  
+                echo $rowComment['username'][0];  
             }
             echo '</a>';   
-            echo '          <label>xxxxxx</label>';                             
+            echo '          <label>'.$rowComment['username'].'</label>';                             
             echo '      </div>';
             echo '      <div class="commentContent">';
             echo '          <label>';
-            echo '              <b>Rating:</b> XX / 10';
+            echo '              <b>Rating:</b> '.$rowComment['ratingFeedback'].' / 10';
             echo '          </label>';
             echo '          <label>';
-            echo '              <b>Comment:</b> xxxxxxxxxxxxxxxxxxxxxx';
+            echo '              <b>Comment:</b>'.$rowComment['comment'].'';
             echo '          </label>';
-            echo '      </label>';
-            echo '  </div>';
+            echo '      </div>';
             echo ' </div>';
 
-            $noRating = false;
-        } else {
-            $noRating = true;
         }
 
-    }
-
-    if ($noRating) {
-        echo '  <div class="commentContainer">';
-        echo "No Comment & Rating Here!";
-        echo '  </div>';
     }
 } else {
     echo '  <div class="commentContainer">';

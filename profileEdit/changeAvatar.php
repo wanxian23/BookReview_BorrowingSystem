@@ -107,6 +107,20 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
             height: 150px;
         }
 
+        div.oldAvatarContainer .profile-picture {
+            border: 10px solid black;
+            border-radius: 100px;
+            width: 150px;
+            height: 150px;
+            display: flex;      
+            align-items: center; 
+            justify-content: center;   
+            background-color: purple;
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+        }
+
         .confirm-btn {
             background-color: var(--buttonColor);
             color: var(--buttonFontColor);
@@ -240,7 +254,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                     if ($user['avatar'] != null) {
                         echo "<img src='../".$user['avatar']."' alt='Profile Image'>";
                     } else {
-                        echo '<div class="profile-picture">A</div>';
+                        echo '<div class="profile-picture">'.$user['username'][0].'</div>';
                     }
                 ?>
                     <label>

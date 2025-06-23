@@ -212,6 +212,14 @@ header #firstHeader span.profile:active {
     border: #f3fa78;
 }
 
+header #firstHeader nav span.notificationButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    padding: 0 50px 0 0;
+}
+
 header #secondHeader {
     height: 60px;
     background-color: var(--secondHeaderBgColor);
@@ -283,7 +291,6 @@ header .accessibility {
 
 header .accessibility div {
     padding: 8px 5px;
-    width: 125px;
 }
 
 header .accessibility div.default {
@@ -296,7 +303,7 @@ header .accessibility div.option:hover, .accessibility div.default:hover {
 }
 
 header .support {
-    right: 2%;
+    right: 13%;
 }
 
 header .support img{
@@ -312,6 +319,40 @@ header .support div {
 
 header .support div label {
     margin-top: 5px;
+}
+
+header .notification {
+    right: 8%;
+}
+
+header .notification span {
+    margin-bottom: 10px;
+}
+
+header .notification div.notificationContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 350px;
+    padding: 20px 0;
+    border-top: 1px solid;
+}
+
+header .notification div.notificationContentContainer div.notificationContent {
+    width: 90%;
+    background-color: #eeeeee;
+    box-shadow: 1px 1px 5px rgb(176, 176, 176);
+    transition: 0.2s;
+}
+
+header .notification div.notificationContentContainer div.notificationContent:hover {
+    background-color: #dddddd;
+    box-shadow: 1px 1px 5px rgb(121, 121, 121);
+}
+
+.read {
+    background-color: #c1c0c0;
 }
 
 footer {

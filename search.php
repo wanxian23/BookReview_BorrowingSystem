@@ -160,7 +160,8 @@ $user = $runSQL->fetch_assoc();
             background-color: var(--postHeaderBgColor); /* Add this line */
         }
 
-        .book-post-header icon {
+        .book-post-header .icon {
+            text-decoration: none;
             background-color: #a0c0e0;
             color: white;
             border-radius: 50%;
@@ -356,6 +357,39 @@ $user = $runSQL->fetch_assoc();
             echo '<div class="book-posts-wrapper">';
 
             foreach ($post as $row) {
+
+                $sqlGetComment = "SELECT
+                    comment.*,
+                    post.*,
+                    reader.*,
+                    bookBorrow.*
+                FROM Comment_Rating comment
+                INNER JOIN Post_Review post ON comment.postCode = post.postCode
+                INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
+                INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
+                WHERE comment.postCode = '{$row['postCode']}'";
+                $resultGetComemnt = $conn->query($sqlGetComment);
+                $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+
+                $averageRating = 0;
+                if (!empty($comment)) {
+
+                        $i = 0;
+                        foreach($comment as $commentData) {
+
+                            if ($commentData['bookBorrowCode'] != null) {
+                                $averageRating += $commentData['ratingFeedback'];
+                                $i++;
+                            }
+
+                        }
+                        
+                        if ($i != 0) {
+                            $averageRating = $averageRating / $i;
+                        }
+
+                }
+
                 echo '<div class="book-post">';
                 echo '    <div class="book-post-header">';
                 if ($row['avatar'] != null) {
@@ -384,7 +418,11 @@ $user = $runSQL->fetch_assoc();
                 echo '        </div>';
                 echo '    </div>';
                 echo '    <div class="book-post-footer">';
-                echo '        <div class="average-review">Average Review : 1.9</div>';
+                if ($averageRating != 0) {
+                    echo '        <div class="average-review">Average Review : '.$averageRating.'</div>';
+                } else {
+                    echo '<div class="average-review">Average Review: No Rating</div>';
+                }
                 echo '    </div>';
                 echo '</div>';
 
@@ -426,12 +464,45 @@ $user = $runSQL->fetch_assoc();
             echo '<div class="book-posts-wrapper">';
 
             foreach ($post as $row) {
+
+                $sqlGetComment = "SELECT
+                    comment.*,
+                    post.*,
+                    reader.*,
+                    bookBorrow.*
+                FROM Comment_Rating comment
+                INNER JOIN Post_Review post ON comment.postCode = post.postCode
+                INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
+                INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
+                WHERE comment.postCode = '{$row['postCode']}'";
+                $resultGetComemnt = $conn->query($sqlGetComment);
+                $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+
+                $averageRating = 0;
+                if (!empty($comment)) {
+
+                        $i = 0;
+                        foreach($comment as $commentData) {
+
+                            if ($commentData['bookBorrowCode'] != null) {
+                                $averageRating += $commentData['ratingFeedback'];
+                                $i++;
+                            }
+
+                        }
+                        
+                        if ($i != 0) {
+                            $averageRating = $averageRating / $i;
+                        }
+
+                }
+
                 echo '<div class="book-post">';
                 echo '    <div class="book-post-header">';
                 if ($row['avatar'] != null) {
                     echo '<img src="'.$row['avatar'].'" alt="Profile Image">';
                 } else {
-                    echo '<a href="" class="icon"></a>';
+                    echo '<a href="" class="icon">'.$row['username'][0].'</a>';
                 }
                 echo '        <div class="title">'.$row['username'].'</div>';
                 echo '    </div>';
@@ -454,7 +525,11 @@ $user = $runSQL->fetch_assoc();
                 echo '        </div>';
                 echo '    </div>';
                 echo '    <div class="book-post-footer">';
-                echo '        <div class="average-review">Average Review : 1.9</div>';
+                if ($averageRating != 0) {
+                    echo '        <div class="average-review">Average Review : '.$averageRating.'</div>';
+                } else {
+                    echo '<div class="average-review">Average Review: No Rating</div>';
+                }
                 echo '    </div>';
                 echo '</div>';
 

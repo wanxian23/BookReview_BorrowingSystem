@@ -88,6 +88,12 @@ $post = $resultGetPostDetails->fetch_assoc();
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        main label.output {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 0 auto;
+        }
+
         .review-container {
             background-color: var(--containerBgColor);
             color: var(--containerColor);
@@ -314,14 +320,15 @@ $post = $resultGetPostDetails->fetch_assoc();
         $resultInputComment = $conn->query($sqlInputComment);
 
         if ($resultInputBorrower && $resultInputComment) {
-            echo "<label>Comment Rating Saved Successfully!</label>";
+            echo "<label class='output'>Comment Rating Saved Successfully!</label>";
             echo "<meta http-equiv='refresh' content='3; URL=profilemyposts.php'>";
         } else {
-            echo "<label>Failed To Comment/ Rate!</label>";
+            echo "<label class='output'>Failed To Comment/ Rate!</label>";
             echo "<meta http-equiv='refresh' content='3; URL=profilemyposts.php'>";
         }
 
     } else {
+        
         echo '<div class="review-container">';
         echo '    <div class="review-header">';
         echo '        <box-icon name="book" class="downArrow"></box-icon>';

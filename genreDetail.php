@@ -16,6 +16,19 @@ $runSQL = $conn->query(query: $sql);
 
 $user = $runSQL->fetch_assoc();
 
+$bookSelected = $_GET['book'];
+
+$sqlGetPostDetails = "SELECT 
+post.*,
+reader.*,
+book.*
+FROM post_review post
+INNER JOIN reader_user reader USING (readerID)
+INNER JOIN book_record book USING (bookID)
+WHERE book.bookTitle LIKE '%$bookSelected%'";
+$resultGetPostDetails = $conn->query($sqlGetPostDetails);
+$post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +89,8 @@ $user = $runSQL->fetch_assoc();
             gap: 20px; /* Reduced gap */
             padding: 5px 0;
             margin-bottom: 20px;
+            justify-content: space-between !important;
+            width: 55%;
         }
 
         .header-line {
@@ -99,13 +114,11 @@ $user = $runSQL->fetch_assoc();
             color: var(--containerColor);
         }
 
-        h1 {
+        .header-row h1 {
             margin: 0;
             font-size: 1.3em;
             font-weight: bold;
-            text-align: center;
             /* Adjusted width to allow for back button and still center title */
-            flex-grow: 1; 
         }
 
         .book-posts-wrapper {
@@ -257,7 +270,7 @@ $user = $runSQL->fetch_assoc();
         .book-post-footer .comment-box input {
             border: none;
             background: transparent;
-            width: 100%;
+            width: 100px;
             outline: none;
             color: var(--containerColor);
         }
@@ -314,67 +327,91 @@ $user = $runSQL->fetch_assoc();
         <article>
             <div class="header-row">
                 <div class="back-button"><i class='bx bx-reply'></i> Back</div>
-                <h1>Twisted Love</h1> </div>
+                <h1><?php echo $bookSelected ?></h1> 
+            </div>
 
             <hr class="header-line">
 
             <div class="book-posts-wrapper">
-                <div class="book-post">
-                    <div class="book-post-header">
-                        <div class="icon">H</div>
-                        <div class="title">XXX</div>
-                    </div>
-                    <div class="book-post-content">
-                        <div class="book-post-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="book-details">
-                            <div class="book-title-display">Book Title: Twisted Love</div> <div class="book-review-score">Review: 7.5 / 10</div>
-                            <div class="description">
-                                In my opinion, I think xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
-                            </div>
-                            <div class="read-more">Read More</div>
-                        </div>
-                    </div>
-                    <div class="book-post-footer">
-                        <div class="comment-box">
-                            <i class='bx bx-message-square-dots'></i>
-                            <input type="text" placeholder="Comment">
-                        </div>
-                        <div class="average-review">Average Review : 1.9</div>
-                    </div>
-                </div>
 
-                <div class="book-post">
-                    <div class="book-post-header">
-                        <div class="icon">H</div>
-                        <div class="title">XXX</div>
-                    </div>
-                    <div class="book-post-content">
-                        <div class="book-post-image">
-                            <img src="image/bookCover.jpeg" alt="Book Cover">
-                        </div>
-                        <div class="book-details">
-                            <div class="book-title-display">Book Title: Twisted Love</div> <div class="book-review-score">Review: 9.0 / 10</div> <div class="description">
-                                In my opinion, I think xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxx
-                                xxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxx
-                            </div>
-                            <div class="read-more">Read More</div>
-                        </div>
-                    </div>
-                    <div class="book-post-footer">
-                        <div class="comment-box">
-                            <i class='bx bx-message-square-dots'></i>
-                            <input type="text" placeholder="Comment">
-                        </div>
-                        <div class="average-review">Average Review : 1.9</div>
-                    </div>
-                </div>
+                <?php
 
-                </div>
+                    foreach($post as $row) {
+
+                        $sqlGetComment = "SELECT
+                                            comment.*,
+                                            post.*,
+                                            reader.*,
+                                            bookBorrow.*
+                                        FROM Comment_Rating comment
+                                        INNER JOIN Post_Review post ON comment.postCode = post.postCode
+                                        INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
+                                        INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
+                                        WHERE post.postCode LIKE '{$row['postCode']}'";
+                                        $resultGetComemnt = $conn->query($sqlGetComment);
+                                        $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+                                
+                                        $averageRating = 0;
+                                        if (!empty($comment)) {
+                                
+                                                $i = 0;
+                                                foreach($comment as $commentData) {
+                                
+                                                    if ($commentData['bookBorrowCode'] != null) {
+                                                        $averageRating += $commentData['ratingFeedback'];
+                                                        $i++;
+                                                    }
+                                
+                                                }
+                                                
+                                                if ($i != 0) {
+                                                    $averageRating = $averageRating / $i;
+                                                }
+                                
+                                        }
+
+                        echo '<div class="book-post">';  
+                        echo '    <div class="book-post-header">';  
+                        if ($row['avatar'] != null) {
+                            echo '<img src="'.$row['avatar'].'" alt="Profile Image" class="icon">';
+                        } else {
+                            echo '<a href="" class="icon"></a>';
+                        }
+                        echo '        <div class="title">'.$row['username'].'</div>';
+                        echo '    </div>';  
+                        echo '    <div class="book-post-content">';  
+                        echo '        <div class="book-post-image">';  
+                        if ($row['frontCover_img'] != null) {
+                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+                        } else {
+                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+                        }
+                        echo '        </div>';  
+                        echo '        <div class="book-details">';  
+                        echo '            <div class="book-title-display">Book Title: '.$row['bookTitle'].'</div> <div class="book-review-score">Review: '.$row['ownerRating'].' / 10</div>';  
+                        echo '            <div class="description">';  
+                        echo substr($row['ownerOpinion'], 0, 180);
+                        echo '            </div>';  
+                        echo '            <a href="'.htmlspecialchars("bookDetail.php?postCode={$row['postCode']}").'" class="read-more">Read More</a>';  
+                        echo '        </div>';  
+                        echo '    </div>';  
+                        echo '    <div class="book-post-footer">';  
+                        echo '        <div class="comment-box">';  
+                        echo "            <i class='bx bx-message-square-dots'></i>";  
+                        echo '            <input type="text" placeholder="Comment">';  
+                        echo '        </div>';  
+                        if ($averageRating != 0) {
+                            echo '        <div class="average-review">Average Review : '.$averageRating.'</div>';  
+                        } else {
+                            echo '        <div class="average-review">Average Review : No Rating</div>';  
+                        }
+                        echo '    </div>';  
+                        echo '</div>';
+                    }
+
+                ?>
+
+             </div>
         </article>
     </main>
 

@@ -519,7 +519,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
                     echo '<div class="book-edit-container">';
                     echo '<a href="">Edit Post</a>';
-                    echo '<a href="">Delete Post</a>';
+                    echo '<a href="confirmationDeletePost.php?postCode=' . urlencode($postCode) . '">Delete Post</a>';
                     
                     echo '</div>';
 

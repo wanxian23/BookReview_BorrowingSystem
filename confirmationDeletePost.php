@@ -4,6 +4,7 @@ session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: login.php");
+    exit();
 }
 
 require("database/database.php");
@@ -18,6 +19,14 @@ OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query(query: $sql);
 
 $user = $runSQL->fetch_assoc();
+
+$postCode = isset($_GET['postCode']) ? intval($_GET['postCode']) : null;
+
+if (!$postCode) {
+    $_SESSION['error_message'] = "Post code missing.";
+    header("Location: ../profilemyposts.php");
+    exit();
+}
 
 ?>
 
@@ -111,32 +120,15 @@ $user = $runSQL->fetch_assoc();
     <?php include("header.php"); ?>
 
     <main>
-        <div class="review-container">
-            <div class="review-header">
-                <h2 class="review-success"
-                    style="text-align: center; font-size: 1.6em;">Delete Post
-                </h2>
-            </div>
-
-            <div style="display: flex; gap: 20px; width: 100%; justify-content: center;">
-                <box-icon name='log-out'></box-icon>
-                <p
-                    style="display: inline-block; margin-bottom: auto; margin-top:auto; font-weight: bold; text-align: center; font-size: 1.6em;">
-                    Confirm To Delete Post?
-                </p>
-            </div>
-
-
-            <form class="confirm-container" action="backendLogic/deleteposthandle.php">
-                <input type="submit" class="confirm-btn" value="CONFIRM">
+        <div class="confirm-box">
+            <h2>Delete Confirmation</h2>
+            <p>Are you sure you want to delete this post?</p>
+            <form method="POST" action="deletepost.php">
+                <input type="hidden" name="postCode" value="<?php echo $postCode; ?>">
+                <button type="submit" class="btn-confirm">Yes, Delete</button>
             </form>
-
+            <a href="../bookDetail.php?postCode=<?php echo $postCode; ?>" class="btn-cancel">Cancel</a>
         </div>
-
-
-        </form>
-        </div>
-
     </main>
 
     <?php include("footer.html"); ?>

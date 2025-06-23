@@ -67,9 +67,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         .profile-left {
             display: flex;
+            flex-direction: column; 
             align-items: center;
-            gap: 20px;
+            justify-content: center;
         }
+
 
         .profile-left img {
             width: 110px;

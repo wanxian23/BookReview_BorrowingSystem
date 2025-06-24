@@ -54,11 +54,11 @@ $comments = [
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
             --contentBgColor: white;
-            --borderColor: black;
+            --borderColor: black; /* Used for borders that should change with theme */
 
-            --buttonColor: black;
-            --buttonFontColor: white;
-            --buttonHoverColor: #646368;
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
 
             --postHeaderBgColor: rgb(220, 196, 238);
             --postBgColor: white;
@@ -70,14 +70,93 @@ $comments = [
 
             --linkColor: blue;
 
-            /* Specific colors from the provided HTML that are not in the existing color template variables */
-            --headerBgColor: #ffe96b;
-            --tabBarBgColor: #d3dbe3;
-            --mainBgColor: #fff8dc; /* body background */
-            --bookDetailBorderColor: black; /* Border for main, book-details, comments-box */
-            --commentsBoxBg: #f9f9f9;
-            --footerBgColor: #e5e5e5;
-            --avatarBgColor: #e2c3e9;
+            /* Specific colors from the original book_detail.php HTML which are not theme-controlled initially */
+            --headerBgColorDefault: #ffe96b;
+            --tabBarBgColorDefault: #d3dbe3;
+            --bodyBgColorDefault: #fff8dc;
+            --commentsBoxBgDefault: #f9f9f9;
+            --footerBgColorDefault: #e5e5e5;
+            --avatarBgColorDefault: #e2c3e9;
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: black; /* Changed to black for light theme */
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+
+            --postHeaderBgColor: white;
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
+
+            /* Light theme still uses default specific colors for now as per previous instruction */
+            --headerBgColor: var(--headerBgColorDefault);
+            --tabBarBgColor: var(--tabBarBgColorDefault);
+            --bodyBgColor: var(--bodyBgColorDefault);
+            --commentsBoxBg: var(--commentsBoxBgDefault);
+            --footerBgColor: var(--footerBgColorDefault);
+            --avatarBgColor: var(--avatarBgColorDefault);
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(34, 34, 34);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+            
+            --postHeaderBgColor: rgb(1, 1, 1);
+            --postBgColor: rgb(45, 45, 45);
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: rgb(119, 167, 190);
+
+            /* Dark theme specific color overrides for header, etc. */
+            --headerBgColor: #444;
+            --tabBarBgColor: #555;
+            --bodyBgColor: #222;
+            --commentsBoxBg: #333;
+            --footerBgColor: #3a3a3a;
+            --avatarBgColor: #666;
+        }:root {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
+
+            --postHeaderBgColor: rgb(220, 196, 238);
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
         }
 
         [data-themeColor="lightColor"] {
@@ -100,15 +179,6 @@ $comments = [
             --commentButtonHoverColor: rgb(91, 87, 87);
 
             --linkColor: blue;
-
-            /* Light theme overrides for new colors */
-            --headerBgColor: #ffe96b; /* Could also be adapted to a lighter tone if needed */
-            --tabBarBgColor: #d3dbe3; /* Could also be adapted to a lighter tone if needed */
-            --mainBgColor: #fff8dc;
-            --bookDetailBorderColor: black;
-            --commentsBoxBg: #f9f9f9;
-            --footerBgColor: #e5e5e5;
-            --avatarBgColor: #e2c3e9;
         }
 
         [data-themeColor="darkColor"] {
@@ -122,6 +192,7 @@ $comments = [
             --buttonFontColor: white;
             --buttonHoverColor: #8d8c8c;
 
+            
             --postHeaderBgColor: rgb(1, 1, 1);
             --postBgColor: rgb(45, 45, 45);
 
@@ -131,31 +202,22 @@ $comments = [
             --commentButtonHoverColor: rgb(91, 87, 87);
 
             --linkColor: rgb(119, 167, 190);
-
-            /* Dark theme overrides for new colors */
-            --headerBgColor: #444; /* Darker header */
-            --tabBarBgColor: #555; /* Darker tab bar */
-            --mainBgColor: #222; /* Darker body background */
-            --bookDetailBorderColor: white; /* White border for dark theme */
-            --commentsBoxBg: #333; /* Darker comments box background */
-            --footerBgColor: #3a3a3a; /* Darker footer */
-            --avatarBgColor: #666; /* Darker avatar background */
         }
 
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: var(--mainBgColor);
-            color: var(--containerColor); /* Apply text color from variables */
+            background-color: var(--bodyBgColor, var(--bodyBgColorDefault)); /* Use themed or default */
+            color: var(--containerColor);
         }
 
         header {
-            background-color: var(--headerBgColor);
+            background-color: var(--headerBgColor, var(--headerBgColorDefault)); /* Use themed or default */
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 30px;
-            color: var(--containerColor); /* Apply text color from variables */
+            color: var(--containerColor);
         }
 
         .logo {
@@ -170,42 +232,47 @@ $comments = [
         }
 
         .tab-bar {
-            background-color: var(--tabBarBgColor);
+            background-color: var(--tabBarBgColor, var(--tabBarBgColorDefault)); /* Use themed or default */
             padding: 10px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--containerColor); /* Apply text color from variables */
+            color: var(--containerColor);
         }
 
         .tabs span {
             margin-right: 20px;
             font-weight: bold;
-            border-bottom: 2px solid var(--borderColor); /* Use variable for border */
+            border-bottom: 2px solid var(--borderColor);
         }
 
-        .tabs span[style*="color: gray"] { /* Target specific span for no border/normal font weight */
+        .tabs span[style*="color: gray"] {
             border-bottom: none;
             font-weight: normal;
-            color: gray; /* Keep gray color as it's a specific instruction */
+            color: gray;
         }
 
         .search input {
             padding: 5px 10px;
             border-radius: 4px;
             border: 1px solid #ccc;
-            background-color: var(--contentBgColor); /* Input background */
-            color: var(--containerColor); /* Input text color */
+            background-color: var(--contentBgColor);
+            color: var(--containerColor);
         }
+        .search input::placeholder {
+            color: var(--containerColor); /* Adjust placeholder color for readability */
+            opacity: 0.7;
+        }
+
 
         main {
             max-width: 900px;
             margin: 30px auto;
-            background: var(--contentBgColor); /* Main background */
-            border: 2px solid var(--bookDetailBorderColor); /* Border for main */
+            background: var(--contentBgColor);
+            border: 2px solid var(--borderColor); /* Use borderColor for consistency */
             border-radius: 15px;
             padding: 20px;
-            color: var(--containerColor); /* Apply text color from variables */
+            color: var(--containerColor);
         }
 
         .back-button {
@@ -214,16 +281,18 @@ $comments = [
             gap: 10px;
             font-weight: bold;
             margin-bottom: 20px;
+            color: var(--linkColor); /* Use linkColor for navigation buttons */
+            cursor: pointer; /* Indicate it's clickable */
         }
 
         .book-details {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border: 1px solid var(--bookDetailBorderColor); /* Border for book details */
+            border: 1px solid var(--borderColor); /* Use borderColor for consistency */
             padding: 20px;
             border-radius: 10px;
-            background-color: var(--containerBgColor); /* Lighter background for the card */
+            background-color: var(--containerBgColor);
         }
 
         .book-details img {
@@ -249,10 +318,10 @@ $comments = [
         .comments-box {
             max-height: 250px;
             overflow-y: auto;
-            border: 1px solid var(--bookDetailBorderColor); /* Border for comments box */
+            border: 1px solid var(--borderColor); /* Use borderColor for consistency */
             padding: 20px;
             border-radius: 10px;
-            background-color: var(--commentsBoxBg); /* Comments box background */
+            background-color: var(--commentsBoxBg, var(--commentsBoxBgDefault)); /* Use themed or default */
         }
 
         .comment {
@@ -266,17 +335,17 @@ $comments = [
             height: 40px;
             width: 40px;
             border-radius: 50%;
-            background-color: var(--avatarBgColor); /* Avatar background */
+            background-color: var(--avatarBgColor, var(--avatarBgColorDefault)); /* Use themed or default */
             font-weight: bold;
-            color: black; /* Specific color for avatar text from screenshot */
+            color: black; /* Keep black as it's a specific instruction for avatar text */
         }
 
         .footer {
-            background-color: var(--footerBgColor);
+            background-color: var(--footerBgColor, var(--footerBgColorDefault)); /* Use themed or default */
             padding: 30px;
             text-align: center;
             margin-top: 50px;
-            color: var(--containerColor); /* Apply text color from variables */
+            color: var(--containerColor);
         }
 
         .footer p {
@@ -287,12 +356,12 @@ $comments = [
         @media (max-width: 768px) {
             header, .tab-bar {
                 padding: 10px 15px;
-                flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+                flex-wrap: wrap;
             }
 
             .menu {
                 gap: 10px;
-                margin-top: 10px; /* Push menu down if wrapped */
+                margin-top: 10px;
                 justify-content: center;
                 width: 100%;
             }
@@ -301,7 +370,7 @@ $comments = [
                 margin-top: 10px;
                 width: 100%;
                 justify-content: center;
-                display: flex; /* For tabs and search */
+                display: flex;
             }
 
             .book-details {
@@ -330,7 +399,7 @@ $comments = [
             <div>Support ▼</div>
             <div>🔔</div>
             <div><?php echo htmlspecialchars($user['username'] ?? 'User'); ?></div>
-            <div class="avatar" style="background-color: var(--avatarBgColor); border-radius: 50%; padding: 10px;">
+            <div class="avatar" style="background-color: var(--avatarBgColor, var(--avatarBgColorDefault));">
                 <?php echo htmlspecialchars(substr($user['username'] ?? 'U', 0, 1)); ?>
             </div>
         </div>

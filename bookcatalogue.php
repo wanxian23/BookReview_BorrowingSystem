@@ -7,26 +7,25 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     exit();
 }
 
-require("database/database.php");
+// Use require_once to prevent multiple inclusions of database connection
+require_once("database/database.php"); 
 
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
 $readerID = $_SESSION['readerID'];
 
+// Fetch user details for the header
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
-// Assuming you'll pass a book ID via GET request, e.g., book_detail.php?id=123
 $bookId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 $bookDetails = null;
 if ($bookId > 0) {
-    // Example query to fetch book details
-    // You'll need to replace 'YourBooksTable' and its columns with your actual table and column names
-    $stmt = $conn->prepare("SELECT book_title, author, genre, available_for_borrow, review_score, front_cover_path, back_cover_path, synopsis FROM YourBooksTable WHERE book_id = ?");
+    $stmt = $conn->prepare("SELECT book_title, author, genre, available_for_borrow, review_score, front_cover_path, synopsis FROM YourBooksTable WHERE book_id = ?");
     $stmt->bind_param("i", $bookId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -34,12 +33,10 @@ if ($bookId > 0) {
     $stmt->close();
 }
 
-// Example comments data (replace with actual database fetch later)
 $comments = [
     ['user' => 'XXX', 'comment' => 'In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.'],
     ['user' => 'XXX2', 'comment' => 'In my opinion, I think yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy.'],
 ];
-
 ?>
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
@@ -47,8 +44,10 @@ $comments = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookSpare - Book Detail</title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    
+    <?php include("headDetails.html"); ?>
+
     <style>
         :root {
             --containerBgColor: #f5f5f5;
@@ -147,15 +146,6 @@ $comments = [
             color: var(--containerColor);
         }
 
-        header {
-            background-color: var(--headerBgColor, var(--headerBgColorDefault)); /* Use themed or default */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 30px;
-            color: var(--containerColor);
-        }
-
         .logo {
             font-weight: bold;
             font-size: 1.3em;
@@ -182,22 +172,10 @@ $comments = [
             border-bottom: 2px solid var(--borderColor);
         }
 
-        .tabs span.inactive-tab {
+        .tabs span.inactive-tab { /* Corrected class name */
             border-bottom: none;
             font-weight: normal;
             color: gray;
-        }
-
-        .search input {
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background-color: var(--contentBgColor);
-            color: var(--containerColor);
-        }
-        .search input::placeholder {
-            color: var(--containerColor); /* Adjust placeholder color for readability */
-            opacity: 0.7;
         }
 
 
@@ -212,13 +190,12 @@ $comments = [
         }
 
         .back-button {
+            font-size: 1.1em;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: var(--linkColor); /* Use linkColor for navigation buttons */
-            cursor: pointer; /* Indicate it's clickable */
+            gap: 0.3rem;
+            cursor: pointer;
         }
 
         .book-details {
@@ -276,14 +253,6 @@ $comments = [
             color: black; /* Keep black as it's a specific instruction for avatar text */
         }
 
-        .footer {
-            background-color: var(--footerBgColor, var(--footerBgColorDefault)); /* Use themed or default */
-            padding: 30px;
-            text-align: center;
-            margin-top: 50px;
-            color: var(--containerColor);
-        }
-
         .footer p {
             margin: 10px 0;
         }
@@ -325,12 +294,18 @@ $comments = [
             }
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
+
 <body>
-    <?php include("header.php"); ?>
+
+<?php include("header.php"); ?>
 
     <main>
-        <div class="back-button" onclick="history.back()">⬅ Back</div>
+        <div class="header-row">
+                <div class="back-button"><i class='bx bx-reply'></i>Back</div>
+            </div>
         <h2>Detail of the Book</h2>
         <div class="book-details">
             <?php if ($bookDetails && $bookDetails['front_cover_path']): ?>
@@ -338,16 +313,14 @@ $comments = [
             <?php else: ?>
                 <img src="https://via.placeholder.com/120x180?text=No+Cover" alt="No Book cover available">
             <?php endif; ?>
-            
             <div class="book-info">
-                <div><strong><?php echo htmlspecialchars($bookDetails['book_title'] ?? 'N/A'); ?></strong></div>
-                <div>Author: <?php echo htmlspecialchars($bookDetails['author'] ?? 'N/A'); ?></div>
-                <div>Genre: <?php echo htmlspecialchars($bookDetails['genre'] ?? 'N/A'); ?></div>
+                <div><strong><?php echo htmlspecialchars($bookDetails['book_title'] ?? 'Book Title: '); ?></strong></div>
+                <div>Author: <?php echo htmlspecialchars($bookDetails['author'] ?? 'Author: '); ?></div>
+                <div>Genre: <?php echo htmlspecialchars($bookDetails['genre'] ?? 'Genre: '); ?></div>
                 <div>Available for borrowing?: <?php echo ($bookDetails['available_for_borrow'] ?? 0) ? 'Yes' : 'No'; ?></div>
             </div>
             <div class="rating"><?php echo htmlspecialchars(number_format($bookDetails['review_score'] ?? 0, 1)); ?>/10</div>
         </div>
-        
         <?php if ($bookDetails && $bookDetails['synopsis']): ?>
         <div class="comments-section" style="margin-top: 20px;">
             <h3>Synopsis:</h3>
@@ -356,7 +329,6 @@ $comments = [
             </div>
         </div>
         <?php endif; ?>
-
         <div class="comments-section">
             <h3>Comments:</h3>
             <div class="comments-box">

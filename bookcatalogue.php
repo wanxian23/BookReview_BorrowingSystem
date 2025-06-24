@@ -7,7 +7,6 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     exit();
 }
 
-// Use require_once to prevent multiple inclusions of database connection
 require_once("database/database.php"); 
 
 $username = $_SESSION['username'];
@@ -15,7 +14,6 @@ $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
 $readerID = $_SESSION['readerID'];
 
-// Fetch user details for the header
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
@@ -45,9 +43,7 @@ $comments = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookSpare - Book Detail</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    
     <?php include("headDetails.html"); ?>
-
     <style>
         :root {
             --containerBgColor: #f5f5f5;
@@ -299,27 +295,30 @@ $comments = [
 </head>
 
 <body>
-
 <?php include("header.php"); ?>
-
     <main>
         <div class="header-row">
-                <div class="back-button"><i class='bx bx-reply'></i>Back</div>
+            <div class="back-button"><i class='bx bx-reply'></i>Back</div>
+        </div>
+        <h2 style="text-align: center; margin-top: 0; font-size: 1.8em;">Detail of the Book</h2>
+        <div class="book-details" style="flex-direction: row; align-items: stretch;">
+            <div style="display: flex; flex-direction: row; align-items: center; flex: 1;">
+                <?php if ($bookDetails && $bookDetails['front_cover_path']): ?>
+                    <img src="<?php echo htmlspecialchars($bookDetails['front_cover_path']); ?>" alt="Book cover">
+                <?php else: ?>
+                    <img src="https://via.placeholder.com/120x180?text=No+Cover" alt="No Book cover available">
+                <?php endif; ?>
+                <div class="book-info" style="padding-left: 30px; border-left: 1px solid var(--borderColor);">
+
+                    <div><strong><?php echo htmlspecialchars($bookDetails['book_title'] ?? 'Book Title: '); ?></strong></div>
+                    <div>Author: <?php echo htmlspecialchars($bookDetails['author'] ?? '_ '); ?></div>
+                    <div>Genre: <?php echo htmlspecialchars($bookDetails['genre'] ?? '_ '); ?></div>
+                    <div>Available for borrowing?: <?php echo ($bookDetails['available_for_borrow'] ?? 0) ? 'Yes' : 'No'; ?></div>
+                </div>
             </div>
-        <h2>Detail of the Book</h2>
-        <div class="book-details">
-            <?php if ($bookDetails && $bookDetails['front_cover_path']): ?>
-                <img src="<?php echo htmlspecialchars($bookDetails['front_cover_path']); ?>" alt="Book cover">
-            <?php else: ?>
-                <img src="https://via.placeholder.com/120x180?text=No+Cover" alt="No Book cover available">
-            <?php endif; ?>
-            <div class="book-info">
-                <div><strong><?php echo htmlspecialchars($bookDetails['book_title'] ?? 'Book Title: '); ?></strong></div>
-                <div>Author: <?php echo htmlspecialchars($bookDetails['author'] ?? 'Author: '); ?></div>
-                <div>Genre: <?php echo htmlspecialchars($bookDetails['genre'] ?? 'Genre: '); ?></div>
-                <div>Available for borrowing?: <?php echo ($bookDetails['available_for_borrow'] ?? 0) ? 'Yes' : 'No'; ?></div>
+            <div class="rating" style="display: flex; align-items: center; padding-left: 20px;"> 
+                <?php echo htmlspecialchars(number_format($bookDetails['review_score'] ?? 0, 1)); ?>/10
             </div>
-            <div class="rating"><?php echo htmlspecialchars(number_format($bookDetails['review_score'] ?? 0, 1)); ?>/10</div>
         </div>
         <?php if ($bookDetails && $bookDetails['synopsis']): ?>
         <div class="comments-section" style="margin-top: 20px;">

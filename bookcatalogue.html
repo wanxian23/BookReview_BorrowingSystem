@@ -180,14 +180,13 @@
             </div>
         </div>
     </main>
-
-
+    
+    <?php include("footer.html"); ?>
 </body>
 </html>
 
 <style>
-       
-:root {
+        :root {
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
@@ -284,15 +283,6 @@
             color: var(--containerColor);
         }
 
-        header {
-            background-color: var(--headerBgColor, var(--headerBgColorDefault)); /* Use themed or default */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 30px;
-            color: var(--containerColor);
-        }
-
         .logo {
             font-weight: bold;
             font-size: 1.3em;
@@ -319,22 +309,10 @@
             border-bottom: 2px solid var(--borderColor);
         }
 
-        .tabs span.inactive-tab {
+        .tabs span.inactive-tab { /* Corrected class name */
             border-bottom: none;
             font-weight: normal;
             color: gray;
-        }
-
-        .search input {
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            background-color: var(--contentBgColor);
-            color: var(--containerColor);
-        }
-        .search input::placeholder {
-            color: var(--containerColor); /* Adjust placeholder color for readability */
-            opacity: 0.7;
         }
 
 
@@ -349,13 +327,12 @@
         }
 
         .back-button {
+            font-size: 1.1em;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: var(--linkColor); /* Use linkColor for navigation buttons */
-            cursor: pointer; /* Indicate it's clickable */
+            gap: 0.3rem;
+            cursor: pointer;
         }
 
         .book-details {
@@ -411,14 +388,6 @@
             background-color: var(--avatarBgColor, var(--avatarBgColorDefault)); /* Use themed or default */
             font-weight: bold;
             color: black; /* Keep black as it's a specific instruction for avatar text */
-        }
-
-        .footer {
-            background-color: var(--footerBgColor, var(--footerBgColorDefault)); /* Use themed or default */
-            padding: 30px;
-            text-align: center;
-            margin-top: 50px;
-            color: var(--containerColor);
         }
 
         .footer p {

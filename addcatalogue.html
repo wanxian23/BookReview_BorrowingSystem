@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookSpare - Add Book to Catalogue</title>
+    <style>
+       
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1 class="form-header">Add Book to Catalogue</h1>
+        <form id="bookForm">
+            <div class="toggle-container">
+                <span class="toggle-label">Available for Borrow?</span>
+                <div class="toggle-switch active" onclick="toggleSwitch(this)">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Book Title</label>
+                    <input type="text" class="form-input" placeholder="Enter Title of the book">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Genre</label>
+                    <select class="form-select">
+                        <option>-- Choose a Genre --</option>
+                        <option>Fiction</option>
+                        <option>Non-Fiction</option>
+                        <option>Mystery</option>
+                        <option>Romance</option>
+                        <option>Sci-Fi</option>
+                        <option>Fantasy</option>
+                        <option>Biography</option>
+                        <option>History</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Author</label>
+                <input type="text" class="form-input" placeholder="Enter Author Name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Thread</label>
+                <input type="text" class="form-input" placeholder="Add related thread">
+            </div>
+            <div class="upload-section">
+                <div class="upload-group">
+                    <label class="upload-label">Front Cover</label>
+                    <div class="upload-btn" onclick="document.getElementById('frontCover').click()">Upload File</div>
+                    <input type="file" id="frontCover" style="display: none;" accept="image/*">
+                </div>
+                <div class="upload-group">
+                    <label class="upload-label">Back Cover</label>
+                    <div class="upload-btn" onclick="document.getElementById('backCover').click()">Upload File</div>
+                    <input type="file" id="backCover" style="display: none;" accept="image/*">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Synopsis</label>
+                <textarea class="synopsis-textarea" placeholder="Synopsis of the Book... (Optional)"></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" class="btn btn-clear" onclick="clearForm()">CLEAR</button>
+                <button type="submit" class="btn btn-submit">SUBMIT</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+        function clearForm() {
+            document.getElementById('bookForm').reset();
+            document.querySelector('.toggle-switch').classList.add('active');
+        }
+        document.getElementById('bookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Form submitted successfully!');
+        });
+        document.getElementById('frontCover').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                e.target.parentElement.querySelector('.upload-btn').textContent = e.target.files[0].name;
+            }
+        });
+        document.getElementById('backCover').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                e.target.parentElement.querySelector('.upload-btn').textContent = e.target.files[0].name;
+            }
+        });
+    </script>
+</body>
+</html>

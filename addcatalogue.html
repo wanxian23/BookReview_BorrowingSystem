@@ -5,7 +5,291 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookSpare - Add Book to Catalogue</title>
     <style>
-       
+
+:root {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
+
+            --postHeaderBgColor: rgb(220, 196, 238);
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+
+            --postHeaderBgColor: white;
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(34, 34, 34);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            
+            --postHeaderBgColor: rgb(1, 1, 1);
+            --postBgColor: rgb(45, 45, 45);
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: rgb(119, 167, 190);
+        }
+
+        .form-container {
+            background: var(--containerBgColor);
+            border: 1px solid var(--containercolor);
+            color: var(--containerColor);
+            box-shadow: var(--containerBoxShadow);
+            border-radius: 10px;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .form-container h2 {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            grid-column: 1 / -1;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        form div, form label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            gap: 5px;
+        }
+
+        input[type="text"], input[type="file"], select, textarea {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 115px;
+        }
+
+        .form-container input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="number"] {
+          padding: 8px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          font-size: 0.95rem;
+          width: 100%;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            background-color: #ccc;
+            border-radius: 34px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #333;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .file-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .file-upload-container input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            color: #333;
+            font-weight: normal;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #d0d0d0;
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            grid-column: span 2;
+            margin-top: 30px;
+            flex-wrap: nowrap;
+        }
+
+        .clear-btn,
+        .submit-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .clear-btn {
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
+            border: 2px solid #aaa;
+        }
+
+        .clear-btn:hover {
+            background-color: var(--buttonHoverColor);
+        }
+
+        .submit-btn {
+            background-color: var(--buttonColor);
+            color: var(--buttonFontColor);
+        }
+
+        .submit-btn:hover {
+            background-color: var(--buttonHoverColor);
+        }
+
+        div.threadWrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        input[type="text"]#thread {
+            width: 200px;
+        }
+        
+        #threadButton {
+            width: 100px;
+        }
+
+        div.threadAddedWrapper {
+            display: none;
+        }
+
+        div.threadAddedLabelWrapper {
+            display: flex;
+            flex-direction: row;   
+            flex-wrap: wrap;    
+            gap: 10px;   
+            margin-top: 5px;
+        }
+
+        div.threadAddedLabelWrapper label {
+            font-weight: normal;
+            background-color:rgb(243, 243, 243);
+            border: 2px solid rgb(190, 190, 190);
+            word-wrap: break-word;
+            padding: 5px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        div.threadAddedLabelWrapper label:hover {
+            border: 2px solid gray;
+        }
     </style>
 </head>
 <body>

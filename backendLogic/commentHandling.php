@@ -11,7 +11,7 @@ require("../database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
-$readerId = $_SESSION['readerID'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username' 
 OR email = '$email' OR phone = '$contact'";
@@ -72,19 +72,19 @@ $user = $runSQL->fetch_assoc();
                 $post = $resultGetPostDetails->fetch_assoc();
 
                 $sqlComment = "INSERT INTO Comment_Rating (postCode, readerID, comment, dateComment, timeComment)
-                               VALUES ('{$post['postCode']}','$readerId','$comment','$todayDate','$todayTime')";
+                               VALUES ('{$post['postCode']}','$readerID','$comment','$todayDate','$todayTime')";
                 $resultSqlComment = $conn->query($sqlComment);
 
                 $sqlGetCommentDetails = "SELECT *
                                          FROM Comment_Rating
                                          WHERE postCode = '{$post['postCode']}' AND
-                                         readerID = '$readerId'
+                                         readerID = '$readerID'
                                          ORDER BY commentCode DESC";
                 $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
                 $commentDetails = $resultGetCommentDetails->fetch_assoc();
 
                 $sqlNotification = "INSERT INTO Notification (postCode, readerID, commentCode, status) 
-                                    VALUES ('{$post['postCode']}','$readerId','{$commentDetails['commentCode']}','UNREAD')";
+                                    VALUES ('{$post['postCode']}','$readerID','{$commentDetails['commentCode']}','UNREAD')";
                 $resultNotification = $conn->query($sqlNotification);
 
                 if ($resultSqlComment && $resultNotification) {

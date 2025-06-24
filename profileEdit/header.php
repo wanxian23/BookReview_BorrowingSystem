@@ -91,16 +91,18 @@
                                         $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
                                         $commentUser = $resultGetCommentUserHeader->fetch_assoc();
                                             
-                                        if ($notiRow['bookBorrowCode'] == null) {
-                                            echo '    <div class="notificationContent">';  
-                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                            echo '        <label for="bookSpare">Leave A New Comment!</label>';  
-                                            echo '    </div>';
-                                        } else {
-                                            echo '    <div class="notificationContent">';  
-                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                            echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
-                                            echo '    </div>';                                         
+                                        if ($commentUser['readerID'] != $readerID) {
+                                            if ($notiRow['bookBorrowCode'] == null) {
+                                                echo '    <div class="notificationContent">';  
+                                                echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                                echo '        <label for="bookSpare">Leave A New Comment!</label>';  
+                                                echo '    </div>';
+                                            } else {
+                                                echo '    <div class="notificationContent">';  
+                                                echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                                echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
+                                                echo '    </div>';                                         
+                                            }
                                         }
                                         
                                     }
@@ -122,11 +124,13 @@
                                         $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
                                         $commentUser = $resultGetCommentUserHeader->fetch_assoc();
                                             
-                                        if ($notiRow['nestedCommentCode'] != null) {
-                                            echo '    <div class="notificationContent">';  
-                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                            echo '        <label for="bookSpare">Reply Your Message!</label>';  
-                                            echo '    </div>';
+                                        if ($commentUser['readerID'] != $readerID) {
+                                            if ($notiRow['nestedCommentCode'] != null) {
+                                                echo '    <div class="notificationContent">';  
+                                                echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                                echo '        <label for="bookSpare">Reply Your Message!</label>';  
+                                                echo '    </div>';
+                                            }
                                         }
                                         
                                     }

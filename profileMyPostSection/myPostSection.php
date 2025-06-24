@@ -57,7 +57,7 @@
             echo '            <div class="description">';
             echo '                <p>';
             echo substr($row['ownerOpinion'], 0, 310);
-            echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
+            echo '                    <a href="../profilemypostBookDetails.php?postCode='.$row['postCode'].'">... Read More</a>';
             echo '                </p>';
             echo '            </div>';
             echo '        </div>';

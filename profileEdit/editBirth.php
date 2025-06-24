@@ -179,9 +179,12 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
             // U should use js to make delay
             echo "<script>
                     setTimeout(function() {
-                        window.location.href = '/BookReview_BorrowingSystem/profile.php';
+                        window.location.href = '../profile.php';
                     }, 3000);
                 </script>";    
+        } else {
+            echo "Birth Date Failed To Change! Please Try Again!";
+            echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
         }
     }
 

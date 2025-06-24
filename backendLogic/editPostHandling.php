@@ -11,7 +11,7 @@ require("../database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
-$readerId = $_SESSION['readerID'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username' 
 OR email = '$email' OR phone = '$contact'";
@@ -132,7 +132,7 @@ $post = $resultGetPostDetails->fetch_assoc();
             
             if ((isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) && (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0)) {
                 $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerId',
+                                SET readerID = '$readerID',
                                 bookID = '$bookCode',
                                 ownerOpinion = '$opinion',
                                 ownerRating = '$review',
@@ -146,7 +146,7 @@ $post = $resultGetPostDetails->fetch_assoc();
                 $runSqlCreatePost = $conn->query($sqlCreatePost);                 
             } else if ((isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) && (!isset($_FILES['back_cover']) || $_FILES['back_cover']['error'] != 0)) {
                 $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerId',
+                                SET readerID = '$readerID',
                                 bookID = '$bookCode',
                                 ownerOpinion = '$opinion',
                                 ownerRating = '$review',
@@ -159,7 +159,7 @@ $post = $resultGetPostDetails->fetch_assoc();
                 $runSqlCreatePost = $conn->query($sqlCreatePost); 
             } else if ((!isset($_FILES['front_cover']) || $_FILES['front_cover']['error'] != 0) && (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0)) {
                 $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerId',
+                                SET readerID = '$readerID',
                                 bookID = '$bookCode',
                                 ownerOpinion = '$opinion',
                                 ownerRating = '$review',
@@ -172,7 +172,7 @@ $post = $resultGetPostDetails->fetch_assoc();
                 $runSqlCreatePost = $conn->query($sqlCreatePost);   
             } else {
                 $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerId',
+                                SET readerID = '$readerID',
                                 bookID = '$bookCode',
                                 ownerOpinion = '$opinion',
                                 ownerRating = '$review',
@@ -207,7 +207,7 @@ $post = $resultGetPostDetails->fetch_assoc();
         } else {
 
             $sqlCreatePost = "UPDATE post_review 
-                              SET readerID = '$readerId',
+                              SET readerID = '$readerID',
                               bookID = '$bookCode',
                               ownerOpinion = '$opinion',
                               ownerRating = '$review',

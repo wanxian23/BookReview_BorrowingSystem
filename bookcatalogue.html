@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookSpare - Book Detail</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff8dc;
+        }
+
+        header {
+            background-color: #ffe96b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 30px;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .tab-bar {
+            background-color: #d3dbe3;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tabs span {
+            margin-right: 20px;
+            font-weight: bold;
+            border-bottom: 2px solid black;
+        }
+
+        .search input {
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            border: 2px solid black;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .book-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .book-details img {
+            width: 120px;
+            height: auto;
+        }
+
+        .book-info {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .rating {
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        .comments-section {
+            margin-top: 30px;
+        }
+
+        .comments-box {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .comment {
+            margin-bottom: 20px;
+        }
+
+        .comment .avatar {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #e5e5e5;
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">📖 BookSpare</div>
+        <div class="menu">
+            <div>Colour ▼</div>
+            <div>Font Size ▼</div>
+            <div>Support ▼</div>
+            <div>🔔</div>
+            <div>XXX</div>
+            <div class="avatar" style="background-color: #e2c3e9; border-radius: 50%; padding: 10px;">A</div>
+        </div>
+    </header>
+    <div class="tab-bar">
+        <div class="tabs">
+            <span>Main</span>
+            <span style="color: gray; font-weight: normal; border: none;">Genre</span>
+        </div>
+        <div class="search">
+            🔍 <input type="text" placeholder="Search">
+        </div>
+        <div>Logout</div>
+    </div>
+    <main>
+        <div class="back-button">⬅ Back</div>
+        <h2>Detail of the Book</h2>
+        <div class="book-details">
+            <img src="https://m.media-amazon.com/images/I/91XR5kYG1kL._AC_UF1000,1000_QL80_.jpg" alt="Book cover">
+            <div class="book-info">
+                <div><strong>The Woman in the Cabin</strong></div>
+                <div>Author: Becca Day</div>
+                <div>Genre: Horror</div>
+                <div>Available for borrowing?: Yes/No</div>
+            </div>
+            <div class="rating">7.5/10</div>
+        </div>
+        <div class="comments-section">
+            <h3>Comments:</h3>
+            <div class="comments-box">
+                <div class="comment">
+                    <div><span class="avatar">H</span> <strong>XXX</strong></div>
+                    <div>In my opinion, I think xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</div>
+                </div>
+                <div class="comment">
+                    <div><span class="avatar">H</span> <strong>XXX2</strong></div>
+                    <div>In my opinion, I think yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="footer">
+        <p>Follow Us At</p>
+        <p>📷</p>
+        <p>Copyright © 2025 BookSpare. All right reserved</p>
+    </div>
+</body>
+</html>

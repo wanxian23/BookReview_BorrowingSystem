@@ -468,6 +468,7 @@ $user = $runSQL->fetch_assoc();
                     document.getElementById("synopsis").setAttribute("required","required");
                 } else {
                     borrowDetailsSection.hide();
+                    document.getElementById("synopsis").removeAttribute("required");
                 }
             }
 

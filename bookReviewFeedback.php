@@ -315,7 +315,7 @@ $post = $resultGetPostDetails->fetch_assoc();
         $sqlInputBorrower = "INSERT INTO book_borrowed (readerID, postCode, ratingFeedback) VALUES ('$readerID','$postCode','$rating')";
         $resultInputBorrower = $conn->query($sqlInputBorrower);
 
-        $sqlGetBorrowerDetails = "SELECT * FROM book_borrowed WHERE readerID = '$D' AND postCode = '$postCode' ORDER BY bookBorrowCode DESC LIMIT 1";
+        $sqlGetBorrowerDetails = "SELECT * FROM book_borrowed WHERE readerID = '$readerID' AND postCode = '$postCode' ORDER BY bookBorrowCode DESC LIMIT 1";
         $resultGetBorrowerDetails = $conn->query($sqlGetBorrowerDetails);
         $borrower = $resultGetBorrowerDetails->fetch_assoc();
 

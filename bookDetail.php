@@ -618,7 +618,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                     echo '<div class="book-edit-container">';
                     echo '<div>';
                     echo '<label>Share Link For Borrower To Review: </label>';
-                    echo '<a shareLink="https://webapp.utem.edu.my/student/dcs/d032310439/BookReview_BorrowingSystem/bookreviewfeedback.php?postCode='.$postCode.'" target="_blank" id="shareLink">Click To Copy Link For Share</a>';
+                    echo '<a shareLink="http://localhost/BookReview_BorrowingSystem/bookreviewfeedback.php?postCode='.$postCode.'" target="_blank" id="shareLink">Click To Copy Link For Share</a>';
                     echo '</div>';
                     echo '<div>';
                     echo '<a href="editPost.php?postCode='.$post['postCode'].'">Edit Post</a>';

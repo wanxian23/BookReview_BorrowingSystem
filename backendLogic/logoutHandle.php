@@ -33,7 +33,10 @@
         // Destroy the session so that wont crash with others
         session_destroy();
         echo "Logout Successfully! Redirecting...";
-        echo "<meta http-equiv='refresh' content='3;URL=/BookReview_BorrowingSystem/login.php'>";
+        echo "<meta http-equiv='refresh' content='3;URL=../login.php'>";
+
+    } else {
+        header("Location: ../login.php");
     }
     ?>
 

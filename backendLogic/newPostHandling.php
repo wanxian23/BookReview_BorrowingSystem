@@ -11,7 +11,7 @@ require("../database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
-$readerId = $_SESSION['readerID'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username' 
 OR email = '$email' OR phone = '$contact'";
@@ -116,12 +116,12 @@ $user = $runSQL->fetch_assoc();
                 $synopsis = mysqli_real_escape_string($conn, $_POST['synopsis']);
                 
                 $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, ownerOpinion, ownerRating, frontCover_img, backCover_img, synopsis, statusPhone, author, genre)
-                VALUES ('$readerId', '$bookCode', '$opinion','$review','$frontCoverPath','$backCoverPath','$synopsis','$statusPhone','$author','$genre')";
+                VALUES ('$readerID', '$bookCode', '$opinion','$review','$frontCoverPath','$backCoverPath','$synopsis','$statusPhone','$author','$genre')";
                 $runSqlCreatePost = $conn->query($sqlCreatePost);
 
                 if ($runSqlCreatePost) {
                     // Return the most latest post
-                    $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerId' ORDER BY postCode DESC LIMIT 1;";
+                    $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerID' ORDER BY postCode DESC LIMIT 1;";
                     $resultGetPost = $conn->query($sqlGetPost);
                     $post = $resultGetPost->fetch_assoc();
                     $postCode = $post['postCode'];
@@ -146,13 +146,13 @@ $user = $runSQL->fetch_assoc();
             } else {
 
                 $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, ownerOpinion, ownerRating, statusPhone, author, genre)
-                VALUES ('$readerId', '$bookCode', '$opinion','$review','$statusPhone','$author','$genre')";
+                VALUES ('$readerID', '$bookCode', '$opinion','$review','$statusPhone','$author','$genre')";
                 $runSqlCreatePost = $conn->query($sqlCreatePost);
 
                 if ($runSqlCreatePost) {
 
                     // Return the most latest post
-                    $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerId' ORDER BY postCode DESC LIMIT 1;";
+                    $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerID' ORDER BY postCode DESC LIMIT 1;";
                     $resultGetPost = $conn->query($sqlGetPost);
                     $post = $resultGetPost->fetch_assoc();
                     $postCode = $post['postCode'];

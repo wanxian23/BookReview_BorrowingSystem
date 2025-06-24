@@ -167,22 +167,35 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $readerID = $_SESSION['readerID'];
         $newUsername = $_POST['username'];
 
-        $sql = "UPDATE Reader_User SET username = '$newUsername' WHERE readerID = '$readerID'";
-        $runSQL = $conn->query($sql);
+        $sqlCheck = "SELECT * FROM Reader_User WHERE username = '$newUsername'";
+        $runSQLCheck = $conn->query($sqlCheck);
 
-        if ($runSQL) {
-            $_SESSION['username'] = $newUsername;
-            echo "Username Changed Successfully! Back to profile....";
+        if ($runSQLCheck->num_rows > 0) {
+            echo "Fail to Create Account! Username Already Exist! Please Try Again....";
+            echo "<meta http-equiv='refresh' content='3; URL=../profile.php'>";   
+        } else {
+            $sql = "UPDATE Reader_User SET username = '$newUsername' WHERE readerID = '$readerID'";
+            $runSQL = $conn->query($sql);
 
-            // If u use meta, even has 3s load, but since it load every second
-            // So u cant apply css (display show or hide)
-            // U should use js to make delay
-            echo "<script>
-                    setTimeout(function() {
-                        window.location.href = '/BookReview_BorrowingSystem/profile.php';
-                    }, 3000);
-                </script>";    
+            if ($runSQL) {
+                $_SESSION['username'] = $newUsername;
+                echo "Username Changed Successfully! Back to profile....";
+
+                // If u use meta, even has 3s load, but since it load every second
+                // So u cant apply css (display show or hide)
+                // U should use js to make delay
+                echo "<script>
+                        setTimeout(function() {
+                            window.location.href = '../profile.php';
+                        }, 3000);
+                    </script>";    
+            } else {
+                echo "Username Failed To Change! Please Try Again!";
+                echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
+            }   
         }
+
+
     }
 
     ?>

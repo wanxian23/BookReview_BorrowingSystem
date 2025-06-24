@@ -13,7 +13,8 @@ require("database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
-$readerId = $_SESSION['readerID'];
+$readerID = $_SESSION['readerID'];
+
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username' 
 OR email = '$email' OR phone = '$contact'";
@@ -311,26 +312,26 @@ $post = $resultGetPostDetails->fetch_assoc();
         $todayDate = date("l, F j, Y");
         $todayTime = date("H:i:s");
 
-        $sqlInputBorrower = "INSERT INTO book_borrowed (readerID, postCode, ratingFeedback) VALUES ('$readerId','$postCode','$rating')";
+        $sqlInputBorrower = "INSERT INTO book_borrowed (readerID, postCode, ratingFeedback) VALUES ('$readerID','$postCode','$rating')";
         $resultInputBorrower = $conn->query($sqlInputBorrower);
 
-        $sqlGetBorrowerDetails = "SELECT * FROM book_borrowed WHERE readerID = '$readerId' AND postCode = '$postCode' ORDER BY bookBorrowCode DESC LIMIT 1";
+        $sqlGetBorrowerDetails = "SELECT * FROM book_borrowed WHERE readerID = '$D' AND postCode = '$postCode' ORDER BY bookBorrowCode DESC LIMIT 1";
         $resultGetBorrowerDetails = $conn->query($sqlGetBorrowerDetails);
         $borrower = $resultGetBorrowerDetails->fetch_assoc();
 
-        $sqlInputComment = "INSERT INTO comment_rating (postCode, readerID, comment, dateComment, timeComment, bookBorrowCode) VALUES ('$postCode', '$readerId', '$comment', '$todayDate', '$todayTime', '{$borrower['bookBorrowCode']}')";
+        $sqlInputComment = "INSERT INTO comment_rating (postCode, readerID, comment, dateComment, timeComment, bookBorrowCode) VALUES ('$postCode', '$readerID', '$comment', '$todayDate', '$todayTime', '{$borrower['bookBorrowCode']}')";
         $resultInputComment = $conn->query($sqlInputComment);
 
         $sqlGetCommentDetails = "SELECT *
                                  FROM Comment_Rating
                                  WHERE postCode = '{$post['postCode']}' AND
-                                 readerID = '$readerId'
+                                 readerID = '$readerID'
                                  ORDER BY commentCode DESC";
         $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
         $commentDetails = $resultGetCommentDetails->fetch_assoc();
 
         $sqlNotification = "INSERT INTO Notification (postCode, readerID, commentCode, status) 
-                            VALUES ('{$post['postCode']}','$readerId','{$commentDetails['commentCode']}','UNREAD')";
+                            VALUES ('{$post['postCode']}','$readerID','{$commentDetails['commentCode']}','UNREAD')";
         $resultNotification = $conn->query($sqlNotification);
 
         if ($resultInputBorrower && $resultInputComment) {

@@ -72,6 +72,7 @@ if (!empty($comment)) {
                 echo '  </div>';
                 echo '</div>';
             }
+            echo '</div>';
             $a++;
         }
     }

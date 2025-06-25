@@ -48,7 +48,7 @@ foreach ($post as $row) {
         echo '        <tr>';  
         echo '            <td><a href="genreDetail.php?book='.$row['bookTitle'].'">'.$row['bookTitle'].'</a></td>';  
         if ($averageRating != 0) {
-            echo '            <td>'.$averageRating.'</td>'; 
+            echo '            <td>'.number_format($averageRating, 1).'</td>'; 
         } else {
             echo '            <td>No Rating</td>'; 
         }

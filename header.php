@@ -12,6 +12,14 @@
     $resultGetPostDetailsHeader = $conn->query($sqlGetPostDetailsHeader);
     $getPost = $resultGetPostDetailsHeader->fetch_all(MYSQLI_ASSOC);
 
+    $sqlGetCommentDetailsHeader = "SELECT nestedComment.*,
+                            comment.*
+                            FROM Nested_Comment_Rating nestedComment
+                            INNER JOIN Comment_Rating comment USING (commentCode)
+                            WHERE comment.readerID = '$readerID'";
+    $resultGetCommentDetailsHeader = $conn->query($sqlGetCommentDetailsHeader);
+    $commentDetailsHeader = $resultGetCommentDetailsHeader->fetch_all(MYSQLI_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
@@ -83,18 +91,47 @@
                                         $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
                                         $commentUser = $resultGetCommentUserHeader->fetch_assoc();
                                             
-                                        if ($notiRow['bookBorrowCode'] == null) {
-                                            echo '    <div class="notificationContent">';  
-                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                            echo '        <label for="bookSpare">Leave A New Comment!</label>';  
-                                            echo '    </div>';
-                                        } else {
-                                            echo '    <div class="notificationContent">';  
-                                            echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                            echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
-                                            echo '    </div>';                                         
+                                        if ($commentUser['readerID'] != $readerID) {
+                                            if ($notiRow['bookBorrowCode'] == null) {
+                                                echo '    <div class="notificationContent">';  
+                                                echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                                echo '        <label for="bookSpare">Leave A New Comment!</label>';  
+                                                echo '    </div>';
+                                            } else {
+                                                echo '    <div class="notificationContent">';  
+                                                echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                                echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
+                                                echo '    </div>';                                         
+                                            }
                                         }
                                         
+                                    }
+                                }
+
+                                foreach ($commentDetailsHeader as $commentDetailsRow) {
+
+                                    $sqlGetNotificationHeader = "SELECT noti.*,
+                                                                        nestedComment.*
+                                                            FROM Notification noti
+                                                            INNER JOIN Nested_Comment_Rating nestedComment USING (nestedCommentCode)
+                                                            WHERE nestedComment.commentCode = '{$commentDetailsRow['commentCode']}'";
+                                    $resultGetNotificationHeader = $conn->query($sqlGetNotificationHeader);
+                                    $notification = $resultGetNotificationHeader->fetch_all(MYSQLI_ASSOC);
+                                    
+                                    foreach ($notification as $notiRow) {
+                                        
+                                        $sqlGetCommentUserHeader = "SELECT * FROM Reader_User WHERE readerID = '{$notiRow['readerID']}'";
+                                        $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
+                                        $commentUser = $resultGetCommentUserHeader->fetch_assoc();
+                                            
+                                        if ($commentUser['readerID'] != $readerID) {
+                                            if ($notiRow['nestedCommentCode'] != null) {
+                                                echo '    <div class="notificationContent">';  
+                                                echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                                echo '        <label for="bookSpare">Reply Your Message!</label>';  
+                                                echo '    </div>';
+                                            }
+                                        }
                                     }
                                 }
 

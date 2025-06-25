@@ -4,6 +4,7 @@ session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: login.php");
+    exit();
 }
 
 require("database/database.php");
@@ -97,7 +98,7 @@ $user = $runSQL->fetch_assoc();
 
         .form-container {
             background: var(--containerBgColor);
-            border: 1px solid var(--containercolor);
+            border: 1px solid var(--containerColor);
             color: var(--containerColor);
             box-shadow: var(--containerBoxShadow);
             border-radius: 10px;
@@ -144,17 +145,18 @@ $user = $runSQL->fetch_assoc();
         }
 
         input[type="number"] {
-          padding: 8px;
-          border-radius: 5px;
-          border: 1px solid #ccc;
-          font-size: 0.95rem;
-          width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+            width: 100%;
         }
 
         .toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            grid-column: span 2; 
         }
 
         .switch {
@@ -226,6 +228,8 @@ $user = $runSQL->fetch_assoc();
             background-color: #e0e0e0;
             color: #333;
             font-weight: normal;
+            width: 100%; /* Make button fill its column */
+            text-align: center;
         }
 
         .custom-file-upload:hover {
@@ -255,64 +259,109 @@ $user = $runSQL->fetch_assoc();
         }
 
         .clear-btn {
-            background-color: var(--buttonColor);
-            color: var(--buttonFontColor);
-            border: 2px solid #aaa;
+            background-color: black;
+            color: white;
         }
 
         .clear-btn:hover {
-            background-color: var(--buttonHoverColor);
+            background-color: #333;
         }
 
         .submit-btn {
-            background-color: var(--buttonColor);
-            color: var(--buttonFontColor);
+            background-color: black;
+            color: white;
         }
 
         .submit-btn:hover {
-            background-color: var(--buttonHoverColor);
+            background-color: #333;
         }
 
         div.threadWrapper {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+            align-items: flex-end; /* Align button with input */
+            gap: 10px;
         }
 
         input[type="text"]#thread {
-            width: 200px;
+            flex-grow: 1; /* Allow thread input to take available space */
         }
         
         #threadButton {
-            width: 100px;
+            width: auto; /* Allow button to size according to content */
+            padding: 8px 12px;
+            font-weight: normal;
+            border-radius: 5px;
+            background-color: #e0e0e0; /* Match custom-file-upload style */
+            color: #333;
+            border: 1px solid #ccc;
+            cursor: pointer;
         }
+        #threadButton:hover {
+            background-color: #d0d0d0;
+        }
+
 
         div.threadAddedWrapper {
             display: none;
+            margin-top: 10px; /* Add some space above added threads */
         }
 
         div.threadAddedLabelWrapper {
             display: flex;
-            flex-direction: row;   
+            flex-direction: row;  
             flex-wrap: wrap;    
-            gap: 10px;   
+            gap: 10px;  
             margin-top: 5px;
         }
 
         div.threadAddedLabelWrapper label {
             font-weight: normal;
-            background-color:rgb(243, 243, 243);
+            background-color: rgb(243, 243, 243);
             border: 2px solid rgb(190, 190, 190);
             word-wrap: break-word;
-            padding: 5px;
+            padding: 5px 8px;
             border-radius: 5px;
             transition: 0.3s;
+            cursor: pointer;
+            color: black;
         }
 
         div.threadAddedLabelWrapper label:hover {
             border: 2px solid gray;
         }
+
+        /* Adjustments for screenshot layout */
+        .grid-item-span-2 {
+            grid-column: span 2;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+            .form-container h2 {
+                margin-bottom: 10px;
+            }
+            .buttons-wrapper {
+                flex-direction: column;
+                gap: 10px;
+            }
+            #borrow_details_section {
+                grid-template-columns: 1fr;
+            }
+            .toggle {
+                grid-column: span 1; /* On small screens, allow toggle to be 1 column */
+            }
+            .custom-file-upload {
+                width: auto; /* Reset width for smaller screens if needed */
+            }
+        }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
     
@@ -320,36 +369,20 @@ $user = $runSQL->fetch_assoc();
 
     <main>
         <section class="form-container">
-            <h2><box-icon name='book-open'></box-icon> New Post</h2>
-            <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/newPostHandling.php"); ?>" enctype="multipart/form-data">
+            <h2><box-icon name='book-solid' ></box-icon> Add Book to Catalogue</h2>
+            <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/addBookHandling.php"); ?>" enctype="multipart/form-data">
+                
                 <div class="toggle">
-                    <span>Upload Book Covers?</span>
+                    <span>Available for Borrow?</span>
                     <label class="switch">
                         <input type="checkbox" id="available_for_borrow_checkbox" name="available_for_borrow">
                         <span class="slider round"></span>
                     </label>
                 </div>
-                <div class="toggle">
-                    <span>Public your Phone Number?</span>
-                    <label class="switch">
-                        <input type="checkbox" name="public_phone_number">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-
-                <div style="grid-row: span 4;">
+                
+                <div>
                     <label for="book_title">Book Title</label>
                     <input type="text" id="book_title" name="book_title" placeholder="Enter Title of the book" required>
-
-                    <label for="your_opinion" style="margin-top: 15px;">Your Opinion</label>
-                    <textarea id="your_opinion" name="your_opinion" placeholder="Opinion about the book...." required></textarea>
-
-                    
-                    <label for="thread" style="margin-top: 15px;">Thread</label>
-                    <div class="threadWrapper">
-                        <input type="text" id="thread" name="thread" placeholder="Add related thread">
-                        <button id="threadButton" type="button">Add Thread</button>
-                    </div>
                 </div>
 
                 <div>
@@ -367,142 +400,196 @@ $user = $runSQL->fetch_assoc();
                         <option value="Educational">Educational</option>
                         <option value="Crime">Crime</option>
                     </select>
+                </div>
 
-                    <label for="author" style="margin-top: 15px;">Author</label>
+                <div class="grid-item-span-2">
+                    <label for="author">Author</label>
                     <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
-
-                    <label for="review" style="margin-top: 15px;">Review</label>
-                    <input type="number" id="review" name="review" min="1" max="10" placeholder="1-10" required>
-
+                </div>
+                
+                <div class="grid-item-span-2">
+                    <label for="thread">Thread</label>
+                    <div class="threadWrapper">
+                        <input type="text" id="thread" placeholder="Add related thread">
+                        <button id="threadButton" type="button">Add Thread</button>
+                    </div>
                     <div class="threadAddedWrapper">
-                        <label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>
+                        <label style="margin-top: 15px;">Thread Added (Click to Remove)</label>
                         <div class="threadAddedLabelWrapper">
-
                         </div>
                     </div>
                 </div>
 
-                <div id="borrow_details_section" style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div id="cover_upload_section" style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                     <div class="file-upload-container">
                         <label for="front_cover">Front Cover</label>
                         <label for="front_cover" class="custom-file-upload">Upload File</label>
-                        <input type="file" id="front_cover" name="front_cover">
+                        <input type="file" id="front_cover" name="front_cover" accept="image/*">
                     </div>
 
                     <div class="file-upload-container">
                         <label for="back_cover">Back Cover</label>
                         <label for="back_cover" class="custom-file-upload">Upload File</label>
-                        <input type="file" id="back_cover" name="back_cover">
+                        <input type="file" id="back_cover" name="back_cover" accept="image/*">
                     </div>
+                </div>
 
-                    <div style="grid-column: span 2;">
-                        <label for="synopsis">Synopsis</label>
-                        <textarea id="synopsis" name="synopsis" placeholder="Synopsis of the Book... (Optional)"></textarea>
-                    </div>
+                <div class="grid-item-span-2">
+                    <label for="synopsis">Synopsis</label>
+                    <textarea id="synopsis" name="synopsis" placeholder="Synopsis of the Book... (Optional)"></textarea>
                 </div>
 
                 <div class="buttons-wrapper">
                     <input type="reset" class="clear-btn" value="CLEAR">
                     <input type="submit" class="submit-btn" value="SUBMIT">
                 </div>
-
             </form>
         </section>
     </main>
-    <?php include("footer.html"); ?>
+
+<?php include("footer.html"); ?>
 
     <script>
         $(document).ready(function() {
+            function setupFileUpload(inputId) {
+                const inputElement = document.getElementById(inputId);
+                const customUploadLabel = inputElement.previousElementSibling;
 
-            // Let user add thread
-            $("#threadButton").click(function (e) {
-                e.preventDefault(); 
-
-                let thread = document.getElementById("thread").value.trim();
-
-                if (thread === "") return; // Prevent adding empty thread
-
-                $(".threadAddedWrapper").css("display", "block");
-
-                let threadAdded = document.querySelector(".threadAddedLabelWrapper");
-
-                let label = document.createElement("label");
-                label.textContent = thread; 
-                label.setAttribute("class","removeThread");
-
-                threadAdded.appendChild(label);
-
-                let hiddenInput = document.createElement("input");
-                hiddenInput.type = "hidden";
-                hiddenInput.name = "removeThread[]";
-                hiddenInput.className = "removeThread";
-                hiddenInput.value = thread;
-                hiddenInput.value = thread; // thread is the value user added
-
-                document.getElementById("newPostForm").appendChild(hiddenInput);
-
-                document.getElementById("thread").value = "";
-            });
-
-            // If user wanna remove thread (Dynamic method cuz thread added after document load)
-            // Remove both on click (Label and hidden input)
-            $(document).on("click", ".removeThread", function () {
-                let valueToRemove = $(this).text(); // get the thread text
-
-                $(".removeThread").each(function () {
-                    if (
-                        $(this).is("input") && $(this).val() === valueToRemove || // hidden input
-                        $(this).is("label") && $(this).text() === valueToRemove    // label
-                    ) {
-                        $(this).remove();
+                inputElement.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        customUploadLabel.textContent = e.target.files[0].name;
+                    } else {
+                        customUploadLabel.textContent = 'Upload File';
                     }
                 });
-            });
+            }
+
+            setupFileUpload('front_cover');
+            setupFileUpload('back_cover');
 
             const borrowCheckbox = $('#available_for_borrow_checkbox');
-            const borrowDetailsSection = $('#borrow_details_section');
+            const coverUploadSection = $('#cover_upload_section');
+            const synopsisTextarea = $('#synopsis');
 
-            function toggleBorrowDetails() {
+            // Initial state based on checkbox
+            function toggleCoverUploadAndSynopsis() {
                 if (borrowCheckbox.is(':checked')) {
-                    borrowDetailsSection.show();
-                    document.getElementById("synopsis").setAttribute("required","required");
+                    coverUploadSection.show();
+                    // Set required for covers when available for borrow is checked
+                    $('#front_cover').prop('required', true);
+                    $('#back_cover').prop('required', true);
                 } else {
-                    borrowDetailsSection.hide();
-                    document.getElementById("synopsis").removeAttribute("required");
+                    coverUploadSection.hide();
+                    // Remove required for covers when not available for borrow
+                    $('#front_cover').prop('required', false);
+                    $('#back_cover').prop('required', false);
+                    // Clear file inputs and reset labels
+                    $('#front_cover').val('');
+                    $('#back_cover').val('');
+                    $('#front_cover').prev('label.custom-file-upload').text('Upload File');
+                    $('#back_cover').prev('label.custom-file-upload').text('Upload File');
                 }
             }
 
-            toggleBorrowDetails();
+            toggleCoverUploadAndSynopsis(); // Set initial state on page load
 
-            borrowCheckbox.on('change', toggleBorrowDetails);
+            borrowCheckbox.on('change', toggleCoverUploadAndSynopsis);
+
+            $("#threadButton").click(function (e) {
+                e.preventDefault(); 
+
+                let threadInput = $("#thread");
+                let thread = threadInput.val().trim();
+
+                if (thread === "") {
+                    alert("Please enter a thread name.");
+                    return; 
+                }
+
+                let duplicate = false;
+                $(".threadAddedLabelWrapper label").each(function() {
+                    if ($(this).text().toLowerCase() === thread.toLowerCase()) {
+                        duplicate = true;
+                        return false;
+                    }
+                });
+
+                if (duplicate) {
+                    alert("This thread has already been added.");
+                    return;
+                }
+
+                $(".threadAddedWrapper").css("display", "block");
+
+                let threadAddedContainer = $(".threadAddedLabelWrapper");
+
+                let label = $("<label>").text(thread).addClass("removeThread");
+                threadAddedContainer.append(label);
+
+                let hiddenInput = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "threads[]")
+                    .addClass("removeThread-hidden")
+                    .val(thread);
+
+                $("#newPostForm").append(hiddenInput);
+
+                threadInput.val("");
+            });
+
+            $(document).on("click", ".removeThread", function () {
+                const valueToRemove = $(this).text();
+
+                $(this).remove();
+
+                $(`input.removeThread-hidden[value="${valueToRemove}"]`).remove();
+
+                if ($(".threadAddedLabelWrapper label").length === 0) {
+                    $(".threadAddedWrapper").css("display", "none");
+                }
+            });
 
             $("#newPostForm").submit(function(event) {
-                
-                let frontCover = document.getElementById("front_cover");
-                let backCover = document.getElementById("back_cover");
                 let genreChoose = document.getElementById("genre");
 
                 if (genreChoose.selectedIndex === 0) {
-                    event.preventDefault(); // prevent form submission
-                    window.alert("Please choose a valid genre!");
-                    return;                   
+                    event.preventDefault();
+                    alert("Please choose a valid genre!");
+                    return;          
                 }
 
                 if (borrowCheckbox.is(':checked')) {
-                    if (frontCover.files.length === 0) {
-                        event.preventDefault(); // prevent form submission
-                        window.alert("Please upload the front cover file.");
+                    const frontCoverInput = document.getElementById("front_cover");
+                    const backCoverInput = document.getElementById("back_cover");
+
+                    if (frontCoverInput.files.length === 0) {
+                        event.preventDefault();
+                        alert("Please upload the front cover file.");
                         return;
                     }
 
-                    if (backCover.files.length === 0) {
-                        event.preventDefault(); // prevent form submission
-                        window.alert("Please upload the back cover file.");
+                    if (backCoverInput.files.length === 0) {
+                        event.preventDefault();
+                        alert("Please upload the back cover file.");
                         return;
                     }
                 }
+            });
+
+            $(".clear-btn").on("click", function() {
+                $("#newPostForm")[0].reset();
+                borrowCheckbox.prop('checked', false);
+                toggleCoverUploadAndSynopsis(); // Reset section visibility and required attributes
+                $(".threadAddedLabelWrapper").empty();
+                $(".removeThread-hidden").remove();
+                $(".threadAddedWrapper").css("display", "none");
             });
         });
     </script>
 </body>
 </html>
+<?php
+if (isset($conn) && $conn) {
+    $conn->close();
+}
+?>

@@ -312,14 +312,6 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             word-break: break-word;
             height: 120px;
         }
-        
-        .button-box a.phone {
-            color = var(--linkColor);
-        }
-        
-        .button-box a.phone:hover {
-            color = var(--borderColor);
-        }
 
         .synopsis-box {
             padding: 20px;
@@ -591,7 +583,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
     <script>
         $(document).ready(function () {
             $(".back-button").click(function () {
-                window.history.back();
+                window.location.href = "main.php";
             });
         });
     </script>
@@ -618,7 +610,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                     echo '<div class="book-edit-container">';
                     echo '<div>';
                     echo '<label>Share Link For Borrower To Review: </label>';
-                    echo '<a shareLink="http://localhost/BookReview_BorrowingSystem/bookreviewfeedback.php?postCode='.$postCode.'" target="_blank" id="shareLink">Click To Copy Link For Share</a>';
+                    echo '<a shareLink="https://webapp.utem.edu.my/student/dcs/d032310439/BookReview_BorrowingSystem/bookreviewfeedback.php?postCode='.$postCode.'" target="_blank" id="shareLink">Click To Copy Link For Share</a>';
                     echo '</div>';
                     echo '<div>';
                     echo '<a href="editPost.php?postCode='.$post['postCode'].'">Edit Post</a>';
@@ -650,7 +642,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '        <div class="button-box">';
                         if ($post['statusPhone'] == "YES") {
                             echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
-                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank' class='phone'>{$post['phone']}</a></label>";
+                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank'>{$post['phone']}</a></label>";
                         } else {
                             echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
                         }
@@ -691,7 +683,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '</div>';
     
                         echo '<div class="viewComment-box">';
-                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '<form class="commentOption" method="GET" action="mainBookDetails.php">';
                         echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
                         $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
                         $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
@@ -728,7 +720,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '        <div class="button-box">';
                         if ($post['statusPhone'] == "YES") {
                             echo "<label>Please Contact My Whatsapp Or Call Me If You Wanna Borrow This Book</label>";
-                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank' class='phone'>{$post['phone']}</a></label>";
+                            echo "<label>My Contact Number: <a href='https://wa.me/6{$post['phone']}' target='_blank' >{$post['phone']}</a></label>";
                         } else {
                             echo "<label>Book Owner Did Not Public His/ Her Contact Number. Therefore This Book Is Not Available For Borrow Currently!<label>";
                         }
@@ -769,7 +761,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '</div>';
     
                         echo '<div class="viewComment-box">';
-                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '<form class="commentOption" method="GET" action="reviewBookDetails.php">';
                         echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
                         $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
                         $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';
@@ -934,7 +926,7 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                         echo '</div>';
     
                         echo '<div class="viewComment-box">';
-                        echo '<form class="commentOption" method="GET" action="bookDetail.php">';
+                        echo '<form class="commentOption" method="GET" action="reviewBookDetails.php">';
                         echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
                         $userActive = (!isset($_GET['section']) || $_GET['section'] === 'user') ? 'active' : '';
                         $borrowerActive = (isset($_GET['section']) && $_GET['section'] === 'borrower') ? 'active' : '';

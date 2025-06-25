@@ -2,8 +2,8 @@
 
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
+    header("Location: ../login.php");
 }
 
 require("../database/database.php");
@@ -11,11 +11,11 @@ require("../database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
+$readerID = $_SESSION['readerID'];
 
-$sql = "SELECT * FROM Reader_User WHERE username = '$username' 
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
-$runSQL = $conn->query(query: $sql);
-
+$runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
 // Check if the form has submit (POST)

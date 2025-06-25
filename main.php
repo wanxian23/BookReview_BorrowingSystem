@@ -73,6 +73,8 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
 
             --buttonColor: #a9a1ee;
             --buttonFontColor: black;
@@ -81,15 +83,20 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --postHeaderBgColor: rgb(220, 196, 238);
             --postBgColor: white;
 
-            --bookBoxShadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.225);
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
 
-            --anchorColor: rgb(65, 116, 227);
+            --linkColor: blue;
         }
 
         [data-themeColor="lightColor"] {
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
 
             --buttonColor: black;
             --buttonFontColor: white;
@@ -98,26 +105,35 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --postHeaderBgColor: white;
             --postBgColor: white;
 
-            --bookBoxShadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.225);
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
 
-            --anchorColor: rgb(65, 116, 227);
+            --linkColor: blue;
         }
 
         [data-themeColor="darkColor"] {
-            --containerBgColor: rgb(40, 39, 39);
+            --containerBgColor: rgb(34, 34, 34);
             --containerColor: rgb(213, 213, 213);
             --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
 
             --buttonColor: black;
             --buttonFontColor: white;
             --buttonHoverColor: #8d8c8c;
 
+            
             --postHeaderBgColor: rgb(1, 1, 1);
             --postBgColor: rgb(45, 45, 45);
 
-            --bookBoxShadow: 1px 1px 10px 3px rgba(237, 237, 237, 0.225);
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
 
-            --anchorColor: rgb(149, 178, 241);
+            --linkColor: rgb(119, 167, 190);
         }
 
         main {
@@ -170,6 +186,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         main section.threadContainer {
             display: inline-block;
             width: 20%;
+            /* height: 500px; */
         }
 
         main section article {
@@ -194,7 +211,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         main section.threadContainer article div a {
             text-decoration: none;
-            color: var(--anchorColor);
+            color: var(--linkColor);
         }
 
         section.postContainer {
@@ -310,7 +327,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         section.postContainer article:nth-of-type(2) div.post div.body div.left div.description p a {
             text-decoration: none;
-            color: var(--anchorColor);
+            color: var(--linkColor);
         }
 
         section.postContainer article:nth-of-type(2) div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
@@ -571,7 +588,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '        <div class="left">';
                             echo '        </div>';
                             if ($averageRating != 0) {
-                                echo '<h3>Average Review: '.$averageRating.'</h3>';
+                                echo '<h3>Average Review: '.number_format($averageRating, 1).'</h3>';
                             } else {
                                 echo '<h3>Average Review: No Rating</h3>';
                             }

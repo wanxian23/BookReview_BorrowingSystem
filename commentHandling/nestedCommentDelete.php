@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: ../login.php");
+    header("Location: login.php");
 }
 
 require("../database/database.php");
@@ -18,10 +18,21 @@ OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
-// Check if the form has submit (POST)
-$showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
+$postCode = $_REQUEST['postCode'];
+$nestedCommentCode = $_REQUEST['nestedCommentCode'];
+
+$sqlGetComment = "SELECT nestedComment.*,
+                        reader.*,
+                        reader.readerID AS nestedCommentReaderID
+                        FROM Nested_Comment_Rating nestedComment
+                        INNER JOIN Comment_Rating comment USING (commentCode)
+                        INNER JOIN Reader_User reader ON nestedComment.readerID = reader.readerID
+                        WHERE nestedComment.nestedCommentCode = '$nestedCommentCode'";
+$resultGetComemnt = $conn->query($sqlGetComment);
+$userComment = $resultGetComemnt->fetch_assoc();
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
@@ -29,7 +40,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 <head>
 
     <?php include("headDetails.html"); ?>
-    <title>Edit Country</title>
+    <title>Edit Username</title>
 
     <style>
         :root {
@@ -66,6 +77,13 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
         main {
             margin: 5% 6%;
+        }
+
+        main label.output {
+            display: inline-block;
+            font-size: 1.3em;
+            width: 100%;
+            text-align: center;
         }
 
         .edit-container {
@@ -112,11 +130,10 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         }
 
         .formEdit p {
-            display: flex;
             gap: 20px;
-            width: 60%;
+            width: 80%;
             font-size: 1.3em;
-            text-align: left;
+            text-align: center;
             font-weight: bold;
         }
 
@@ -131,15 +148,28 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
             padding: 160px;
             font-size: 1.5em;           
         }
+
+        textarea {
+            width: 400px;
+            padding: 3px 10px;
+            min-height: 35px;
+            resize: vertical;
+        }
     </style>
 
     <script>
         $(document).ready(function() {
             $("#confirmBtn").click(function(event) {
-                let country = document.getElementById("country").value;
+                let username = document.getElementById("username").value;
 
-                if (country === "") {
-                    window.alert("Country Cannot Be Null!");
+                if (username === "") {
+                    window.alert("Username Cannot Be Null!");
+                    event.preventDefault();
+                    return;
+                }
+
+                if (username.length > 16) {
+                    window.alert("Username Cannot Exceed 16 Characters!");
                     event.preventDefault();
                     return;
                 }
@@ -152,72 +182,53 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 <body>
     <?php include("header.php"); ?>
 
-    <!-- Show the prompt out info if the form has submit -->
-    <div class="phpHandle" style="<?php echo $showPHPHandle ? 'display: flex;' : 'display: none;'; ?>">
+    <main>
+
     <?php 
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-        $readerID = $_SESSION['readerID'];
-        $newCountry = $_POST['country'];
-
-        $sql = "UPDATE Reader_User SET country = '$newCountry' WHERE readerID = '$readerID'";
+        $sql = "DELETE FROM Nested_Comment_Rating WHERE nestedCommentCode = '$nestedCommentCode'";
         $runSQL = $conn->query($sql);
 
         if ($runSQL) {
-            echo "Country Changed Successfully! Back to profile....";
+            echo "<label class='output'>Nested Comment Deleted Successfully! Back to post....</label>";
 
             // If u use meta, even has 3s load, but since it load every second
             // So u cant apply css (display show or hide)
             // U should use js to make delay
             echo "<script>
                     setTimeout(function() {
-                        window.location.href = '../profile.php';
+                        window.location.href = '../bookDetail.php?postCode={$postCode}';
                     }, 3000);
                 </script>";    
         } else {
-            echo "Country Failed To Change! Please Try Again!";
-            echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
+            echo "<label class='output'>Failed To Delete Nested Comment! Try Again!</label>";
+
+            // If u use meta, even has 3s load, but since it load every second
+            // So u cant apply css (display show or hide)
+            // U should use js to make delay
+            echo "<script>
+                    setTimeout(function() {
+                        window.location.href = '../nestedCommentDelete.php?postCode={$postCode}';
+                    }, 3000);
+                </script>";            
         }
-    }
+    } else {
 
     ?>
-    </div>
 
-    <!-- Hide the form if the form has submit -->
-    <main style="<?php echo $showPHPHandle ? 'display: none;' : 'display: block;'; ?>">
-        <div class="edit-container">
-            <div class="edit-header">
-                <h2
-                    style="text-align: center; font-size: 1.6em;">Edit Country
-                </h2>
-            </div>
-
-            <form class="formEdit" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <p>
-                    Old Country: <label for="" style="font-weight: normal;"><?php echo $user['country']; ?></label>
-                </p>
-
-                <p>
-                    New Country: <label for="" style="font-weight: normal;">
-                    <select id="country" name="country">
-                    <option value="" name="country">Select your country</option>
-                        <option value="Malaysia" name="country">Malaysia</option>
-                        <option value="Indonesia" name="country">Indonesia</option>
-                        <option value="Thailand" name="country">Thailand</option>
-                        <option value="Vietnam" name="country">Vietnam</option>
-                    </select>
-                    </label>
-                </p>
-
-                <input type="submit" class="confirm-btn" value="CONFIRM" id="confirmBtn">
-            </form>
-
+    <div class="edit-container">
+        <div class="edit-header">
+            <h2 style="text-align: center; font-size: 1.6em;">Delete Post Confirmation</h2>
         </div>
 
-
+        <form class="formEdit" action="<?php echo htmlspecialchars("nestedCommentDelete.php?nestedCommentCode={$userComment['nestedCommentCode']}&postCode={$postCode}"); ?>" method="post">
+            <p style="font-size: 1.3em;">Are you sure you want to delete this nested comment?</p>
+            <input type="submit" class="confirm-btn" value="CONFIRM">
         </form>
-        </div>
+
+    </div> <?php } ?>
 
     </main>
 

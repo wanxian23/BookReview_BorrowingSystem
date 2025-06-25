@@ -11,11 +11,12 @@ require("database/database.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
+$readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM Reader_User WHERE username = '$username'
 OR email = '$email' OR phone = '$contact'";
 
-$runSQL = $conn->query(query: $sql);
+$runSQL = $conn->query($sql);
 
 $user = $runSQL->fetch_assoc();
 
@@ -134,7 +135,7 @@ if (!$postCode) {
                 <h2 style="text-align: center; font-size: 1.6em;">Delete Post Confirmation</h2>
             </div>
 
-            <form class="formDelete" method="POST" action="deletepost.php">
+            <form class="formDelete" method="POST" action="<?php echo htmlspecialchars("backendLogic/deletepost.php"); ?>">
                 <p style="font-size: 1.3em;">Are you sure you want to delete this post?</p>
                 <input type="hidden" name="postCode" value="<?php echo $postCode; ?>">
                 <div style="display: flex; gap: 20px;">

@@ -43,10 +43,12 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
     <style>
 
-:root {
+        :root {
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
 
             --buttonColor: #a9a1ee;
             --buttonFontColor: black;
@@ -55,15 +57,20 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --postHeaderBgColor: rgb(220, 196, 238);
             --postBgColor: white;
 
-            --bookBoxShadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.225);
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
 
-            --anchorColor: rgb(65, 116, 227);
+            --linkColor: blue;
         }
 
         [data-themeColor="lightColor"] {
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
 
             --buttonColor: black;
             --buttonFontColor: white;
@@ -72,26 +79,35 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --postHeaderBgColor: white;
             --postBgColor: white;
 
-            --bookBoxShadow: 1px 1px 10px 3px rgba(0, 0, 0, 0.225);
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
 
-            --anchorColor: rgb(65, 116, 227);
+            --linkColor: blue;
         }
 
         [data-themeColor="darkColor"] {
-            --containerBgColor: rgb(40, 39, 39);
+            --containerBgColor: rgb(34, 34, 34);
             --containerColor: rgb(213, 213, 213);
             --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
 
             --buttonColor: black;
             --buttonFontColor: white;
             --buttonHoverColor: #8d8c8c;
 
+            
             --postHeaderBgColor: rgb(1, 1, 1);
             --postBgColor: rgb(45, 45, 45);
 
-            --bookBoxShadow: 1px 1px 10px 3px rgba(237, 237, 237, 0.225);
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
 
-            --anchorColor: rgb(149, 178, 241);
+            --linkColor: rgb(119, 167, 190);
         }
         
         main {
@@ -102,9 +118,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             max-width: 800px;
             margin: auto;
             padding: 20px;
-            background: #fff;
+            background-color: var(--containerBgColor);
+            color: var(--containerColor);
+            box-shadow: var(--bookBoxShadow);
             border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .profile-header {
@@ -170,6 +187,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             border: none;
             background: transparent;
             font-weight: bold;
+            color: var(--containerColor);
         }
 
          .tab.active {
@@ -188,12 +206,13 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         .review-card {
             border-radius: 15px;
             margin-bottom: 20px;
-            background: white;
+            color: var(--containerColor);
+            box-shadow: var(--bookBoxShadow);
             overflow: hidden;
         }
 
         .review-header {
-            background: #b19cd9;
+            background-color: var(--containerColor);
             padding: 50px 15px;
             display: flex;
             align-items: center;
@@ -291,7 +310,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
         div.post {
-            margin: 0 25px 15px 25px;
+            margin: 0 25px 35px 25px;
             border: 2px solid var(--containerColor);
             border-radius: 15px;
             width: 95%;
@@ -373,7 +392,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
     div.post div.body div.left div.description p a {
             text-decoration: none;
-            color: var(--anchorColor);
+            color: var(--linkColor);
         }
 
     div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
@@ -442,135 +461,33 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         <section class="editProfile">
             </div>
 
-            <div class="tabs">
-                <button class="tab active">My Posts</button>
-                <button class="tab">Reviews</button>
-            </div>
+            <form class="tabs" method="GET">
+            <?php
+
+                $mypostActive = (!isset($_GET['mypostSection']) || $_GET['mypostSection'] === 'myPost') ? 'active' : '';
+                $reviewActive = (isset($_GET['mypostSection']) && $_GET['mypostSection'] === 'review') ? 'active' : '';
+
+            ?>
+                <button type="submit" class="tab <?php echo $mypostActive; ?>" name="mypostSection" value="myPost">My Posts</button>
+                <button type="submit" class="tab <?php echo $reviewActive; ?>" name="mypostSection" value="review">Reviews</button>
+            </form>
 
             <div class="tab-content">
-                <div class="review-card">
-
+            
                 <?php
-
-                    foreach ($post as $row) {
-
-                        $sqlGetComment = "SELECT
-                            comment.*,
-                            post.*,
-                            reader.*,
-                            bookBorrow.*
-                        FROM Comment_Rating comment
-                        INNER JOIN Post_Review post ON comment.postCode = post.postCode
-                        INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                        INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-                        WHERE comment.postCode = '{$row['postCode']}'";
-                        $resultGetComemnt = $conn->query($sqlGetComment);
-                        $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-
-                        $averageRating = 0;
-                        if (!empty($comment)) {
-
-                                $i = 0;
-                                foreach($comment as $commentData) {
-
-                                    if ($commentData['bookBorrowCode'] != null) {
-                                        $averageRating += $commentData['ratingFeedback'];
-                                        $i++;
-                                    }
-
-                                }
-                                
-                                if ($i != 0) {
-                                    $averageRating = $averageRating / $i;
-                                }
-
-                        }
-
-                        if ($row['frontCover_img'] != null) {
-                            echo '<div class="post">';
-                            echo '    <div class="head">';
-                            echo '        <div class="postProfile">';
-                            if ($row['avatar'] != null) {
-                                echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '            <a href="">A</a>';                               
-                            }
-                            echo $row['username'];
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="body">';
-                            echo '        <div class="left">';
-                            echo '            <div class="review">';
-                            echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                            echo '            </div>';
-                            echo '            <div class="description">';
-                            echo '                <p>';
-                            echo substr($row['ownerOpinion'], 0, 310);
-                            echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                            echo '                </p>';
-                            echo '            </div>';
-                            echo '        </div>';
-                            echo '        <div class="right">';
-                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="bottom">';
-                            echo '        <div class="left">';
-                            echo '        </div>';
-                            if ($averageRating != 0) {
-                                echo '<h3>Average Review: '.$averageRating.'</h3>';
-                            } else {
-                                echo '<h3>Average Review: No Rating</h3>';
-                            }
-                            echo '    </div>';
-                            echo '</div>';
+                    if (isset($_GET['mypostSection'])) {
+                        
+                        if ($_GET['mypostSection'] === "myPost") {
+                            include("profileMyPostSection/myPostSection.php");
                         } else {
-
-                            echo '<div class="post">';
-                            echo '    <div class="head">';
-                            echo '        <div class="postProfile">';
-                            if ($row['avatar'] != null) {
-                                echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '            <a href="">A</a>';                               
-                            }
-                            echo $row['username'];
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="body">';
-                            echo '        <div class="left">';
-                            echo '            <div class="review">';
-                            echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                            echo '            </div>';
-                            echo '            <div class="description">';
-                            echo '                <p>';
-                            echo substr($row['ownerOpinion'], 0, 310);
-                            echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                            echo '                </p>';
-                            echo '            </div>';
-                            echo '        </div>';
-                            echo '        <div class="right">';
-                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                            echo '        </div>';
-                            echo '    </div>';
-                            echo '    <div class="bottom">';
-                            echo '        <div class="left">';
-                            echo '        </div>';
-                            if ($averageRating != 0) {
-                                echo '<h3>Average Review: '.$averageRating.'</h3>';
-                            } else {
-                                echo '<h3>Average Review: No Rating</h3>';
-                            }
-                            echo '    </div>';
-                            echo '</div>';
+                            include("profileMyPostSection/reviewSection.php");
                         }
-                                                
-                    }
 
-                    ?>
-                </div>
+                    } else {
+                        include("profileMyPostSection/myPostSection.php");
+                    }
+                ?>
+                
             </div>
         </section>
     </main>

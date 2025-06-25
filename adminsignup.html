@@ -17,7 +17,7 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Sign Up</title>
+    <title>Admin's Sign Up</title>
 
     <style>
         :root {
@@ -177,11 +177,9 @@
                     return;
                 }
 
-                let pass = document.getElementById("password").value;
-                let repass = document.getElementById("confirm-password").value;
                 if (!passwordValidation(pass, repass)) {
                     event.preventDefault();
-                    return;s
+                    return;
                 }
 
             });
@@ -323,7 +321,7 @@
 
     <main>
         <form class="signup-container" method="post" action="backendLogic/signupHandle.php">
-            <div class="signup-header">Sign Up</div>
+            <div class="signup-header">Admin's Sign Up</div>
 
             <div class="signup-form">
 

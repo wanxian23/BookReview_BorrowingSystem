@@ -56,6 +56,73 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="style.css">
     <title>User Profile</title>
     <style>
+        :root {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: #a9a1ee;
+            --buttonFontColor: black;
+            --buttonHoverColor: #d8d5ec;
+
+            --postHeaderBgColor: rgb(220, 196, 238);
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(161, 178, 238);
+            --commentButtonFontColor: black;
+            --commentButtonFontColorActive: black;
+            --commentButtonHoverColor: rgb(205, 212, 234);
+
+            --linkColor: blue;
+        }
+
+        [data-themeColor="lightColor"] {
+            --containerBgColor: #f5f5f5;
+            --containerColor: black;
+            --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
+            --contentBgColor: white;
+            --borderColor: black;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #646368;
+
+            --postHeaderBgColor: white;
+            --postBgColor: white;
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: rgb(134, 155, 195);
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: blue;
+        }
+
+        [data-themeColor="darkColor"] {
+            --containerBgColor: rgb(34, 34, 34);
+            --containerColor: rgb(213, 213, 213);
+            --containerBoxShadow: 1px 1px 20px 1px rgba(255, 255, 255, 0.822);
+            --contentBgColor: rgb(53, 53, 53);
+            --borderColor: white;
+
+            --buttonColor: black;
+            --buttonFontColor: white;
+            --buttonHoverColor: #8d8c8c;
+
+            
+            --postHeaderBgColor: rgb(1, 1, 1);
+            --postBgColor: rgb(45, 45, 45);
+
+            --commentButtonColor: rgb(23, 24, 25);
+            --commentButtonFontColor: white;
+            --commentButtonFontColorActive: white;
+            --commentButtonHoverColor: rgb(91, 87, 87);
+
+            --linkColor: rgb(119, 167, 190);
+        }
+
         .profile-header {
             display: flex;
             align-items: center;
@@ -103,9 +170,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             max-width: 800px;
             margin: auto;
             padding: 20px;
-            background: #fff;
             border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: var(--containerBgColor);
+            color: var(--containerColor);
+            box-shadow: var(--bookBoxShadow);
         }
 
         .tabs {
@@ -120,6 +188,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             border: none;
             background: transparent;
             font-weight: bold;
+            color: var(--containerColor);
         }
 
         .tab.active {
@@ -133,21 +202,24 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             overflow-y: auto;
             padding: 20px;
             border-radius: 12px;
+            background-color: var(--containerBgColor);
+            color: var(--containerColor);
+            box-shadow: var(--bookBoxShadow);
         }
 
         .post {
             width: 95%;
-            margin: 0 auto 15px auto;
-            border: 2px solid black;
+            margin: 0 auto 30px auto;
+            border: 2px solid var(--borderColor);
             border-radius: 15px;
-            background-color: white;
+            background-color: var(--postBgColor);
         }
 
 
         .head {
             border-bottom: 2px solid;
             padding: 15px;
-            background-color: #e4d7fa;
+            background-color: var(--postHeaderBgColor);
             border-radius: 15px 15px 0 0;
         }
 
@@ -225,7 +297,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         .bottom {
             padding: 10px;
-            margin-bottom
             display: flex;
             justify-content: space-between;
         }

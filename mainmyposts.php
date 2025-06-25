@@ -99,15 +99,15 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     }
 
     .search-results-header {
-    background: transparent;
-    border-radius: 0;
-    padding: 0 0 10px 0;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    color: #333;
-    margin-top: 10px;
-}
+        background: transparent;
+        border-radius: 0;
+        padding: 0 0 10px 0;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+        margin-top: 10px;
+    }
 
 .my-posts-header {
         padding: 15px 20px;
@@ -125,7 +125,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         left: 20px;
         font-size: 1.3em;
         font-weight: bold;
-        color: #333;
+        color: var(--containerColor);;
         display: flex;
         align-items: center;
         gap: 5px;
@@ -136,7 +136,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     .my-posts-title {
         font-size: 24px;
         font-weight: bold;
-        color: #333;
+        color: var(--containerColor);;
         text-align: center;
         flex-grow: 1;
         margin-right: 60px;
@@ -158,8 +158,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
 
     .results-container {
-        background: white;
-        border: 2px solid black;
+        background-color: var(--containerBgColor);
+        box-shadow: var(--bookBoxShadow);
+        border: 2px solid var(--containerColor);
+        color: var(--containerColor);
         border-radius: 15px;
         padding: 20px;
         height: 860px;
@@ -360,7 +362,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                         echo '    <div class="head">';
                         echo '        <div class="postProfile">';
                         if ($row['avatar'] != null) {
-                            echo '            <a href=""><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                            echo '            <a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
                         } else {
                             echo '            <a href="">A</a>';                               
                         }
@@ -392,7 +394,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                         echo '        <div class="left">';
                         echo '        </div>';
                         if ($averageRating != 0) {
-                            echo '<h3>Average Review: '.$averageRating.'</h3>';
+                            echo '<h3>Average Review: '.number_format($averageRating, 1).'</h3>';
                         } else {
                             echo '<h3>Average Review: No Rating</h3>';
                         }

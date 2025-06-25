@@ -256,26 +256,26 @@ header #secondHeader a label:hover{
 }
 
 header #secondHeader form.headerForm {
-    border-radius: 5px;
-    border: 1px solid;
-    margin: 12px 0;
-    width: 39%; 
-    background-color: white;
+    border-radius: 5px !important;
+    border: 1px solid !important;
+    margin: 12px 0 !important;
+    width: 39% !important; 
+    background-color: white !important;
 }
 
 header #secondHeader form.headerForm box-icon {
-    display: inline-block;
-    margin: 6px 10px;
-    fill: black;
+    display: inline-block !important;
+    margin: 6px 10px !important;
+    fill: black !important;
 }
 
 header #secondHeader form.headerForm input {
-    vertical-align: top;
-    height: 34px;
-    width: 88%;
-    border: none;
-    outline: none;
-    padding: 0 10px;
+    vertical-align: top !important;
+    height: 34px !important;
+    width: 88% !important;
+    border: none !important;
+    outline: none !important;
+    padding: 0 10px !important;
 }
 
 header .accessibility {
@@ -337,6 +337,8 @@ header .notification div.notificationContentContainer {
     width: 350px;
     padding: 20px 0;
     border-top: 1px solid;
+    overflow-y: scroll;
+    height: 400px;
 }
 
 header .notification div.notificationContentContainer div.notificationContent {

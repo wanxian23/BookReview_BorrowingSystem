@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3301
--- Generation Time: Jun 22, 2025 at 03:52 PM
+-- Generation Time: Jun 23, 2025 at 09:37 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,8 +32,18 @@ CREATE TABLE `book_borrowed` (
   `bookBorrowCode` int(11) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
   `postCode` int(11) DEFAULT NULL,
-  `ratingFeedback` longtext DEFAULT NULL
+  `ratingFeedback` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `book_borrowed`
+--
+
+INSERT INTO `book_borrowed` (`bookBorrowCode`, `readerID`, `postCode`, `ratingFeedback`) VALUES
+(11, 3, 15, 8),
+(12, 2, 6, 9),
+(13, 2, 15, 10),
+(14, 4, 15, 8);
 
 -- --------------------------------------------------------
 
@@ -64,7 +74,10 @@ INSERT INTO `book_record` (`bookID`, `bookTitle`) VALUES
 (10, 'Aladdin'),
 (11, 'Harry Potter'),
 (12, 'Love is everywhere, Snoopy!'),
-(13, 'Toy Story 2');
+(13, 'Toy Story 2'),
+(16, 'test'),
+(17, 'test2'),
+(18, 'Minions Little Golden Book');
 
 -- --------------------------------------------------------
 
@@ -88,11 +101,12 @@ CREATE TABLE `comment_rating` (
 --
 
 INSERT INTO `comment_rating` (`commentCode`, `postCode`, `readerID`, `comment`, `dateComment`, `bookBorrowCode`, `timeComment`) VALUES
-(1, 6, 1, 'Hello', 'Sunday, June 22, 202', NULL, '17:32:44'),
-(2, 6, 1, 'Mulan is crazyyyyy!', 'Sunday, June 22, 202', NULL, '17:33:59'),
-(3, 6, 1, 'Besttttttt story ever!', 'Sunday, June 22, 202', NULL, '17:35:46'),
-(4, 18, 1, 'Snoopy is real cute hehe', 'Sunday, June 22, 202', NULL, '17:36:58'),
-(5, 19, 1, 'Opps lmao', 'Sunday, June 22, 202', NULL, '18:05:50');
+(17, 15, 2, 'Best Book EVERRRR!!!', 'Monday, June 23, 202', NULL, '22:45:23'),
+(20, 18, 1, 'Cuteee!!', 'Monday, June 23, 202', NULL, '23:54:29'),
+(22, 15, 3, 'Not Bad!', 'Tuesday, June 24, 20', 11, '00:55:09'),
+(23, 6, 2, 'Mulan is a cool girl!', 'Tuesday, June 24, 20', 12, '01:26:14'),
+(24, 15, 2, 'Harry is handsome!!!!!', 'Tuesday, June 24, 20', 13, '01:28:57'),
+(25, 15, 4, 'Not Bad! So magical...', 'Tuesday, June 24, 20', 14, '01:31:29');
 
 -- --------------------------------------------------------
 
@@ -104,10 +118,23 @@ DROP TABLE IF EXISTS `nested_comment_rating`;
 CREATE TABLE `nested_comment_rating` (
   `nestedCommentCode` int(11) NOT NULL,
   `comment` longtext NOT NULL,
-  `dateComment` date NOT NULL,
+  `dateComment` varchar(20) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
-  `commentCode` int(11) DEFAULT NULL
+  `commentCode` int(11) DEFAULT NULL,
+  `timeComment` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `nested_comment_rating`
+--
+
+INSERT INTO `nested_comment_rating` (`nestedCommentCode`, `comment`, `dateComment`, `readerID`, `commentCode`, `timeComment`) VALUES
+(24, 'Yea Right!', 'Monday, June 23, 202', 1, 17, '22:53:29'),
+(29, 'YESSSSSS', 'Tuesday, June 24, 20', 3, 17, '00:55:28'),
+(30, 'Yepp!!!', 'Tuesday, June 24, 20', 2, 22, '00:57:35'),
+(32, 'yes bro', 'Tuesday, June 24, 20', 4, 22, '01:32:24'),
+(33, 'TRUEEEE!', 'Tuesday, June 24, 20', 4, 24, '01:32:34'),
+(34, 'YAAAAAAAA', 'Tuesday, June 24, 20', 4, 17, '01:32:48');
 
 -- --------------------------------------------------------
 
@@ -124,6 +151,25 @@ CREATE TABLE `notification` (
   `nestedCommentCode` int(11) DEFAULT NULL,
   `status` char(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`notificationCode`, `postCode`, `readerID`, `commentCode`, `nestedCommentCode`, `status`) VALUES
+(12, 15, 2, 17, NULL, 'UNREAD'),
+(13, 15, 1, NULL, 24, 'UNREAD'),
+(19, 18, 1, 20, NULL, 'UNREAD'),
+(22, 15, 3, 22, NULL, 'UNREAD'),
+(23, 15, 3, NULL, 29, 'UNREAD'),
+(24, 15, 2, NULL, 30, 'UNREAD'),
+(25, 15, 2, NULL, 30, 'UNREAD'),
+(26, 6, 2, 23, NULL, 'UNREAD'),
+(27, 15, 2, 24, NULL, 'UNREAD'),
+(28, 15, 4, 25, NULL, 'UNREAD'),
+(29, 15, 4, NULL, 32, 'UNREAD'),
+(30, 15, 4, NULL, 33, 'UNREAD'),
+(31, 15, 4, NULL, 34, 'UNREAD');
 
 -- --------------------------------------------------------
 
@@ -157,7 +203,9 @@ INSERT INTO `post_review` (`postCode`, `readerID`, `bookID`, `ownerOpinion`, `ow
 (17, 1, 5, 'Lovely', 8.0, 'bookUploads/img_6856834e49f9b_cinderella_frontCover.jpg', 'bookUploads/img_6856834e4a1bd_cinderella_backCover.jpg', 'Cinderella is a timeless fairy tale about a kind-hearted young woman who is mistreated by her cruel stepmother and jealous stepsisters after the death of her father. Forced to work as a servant in her own home, Cinderella\'s life changes when her fairy godmother appears and magically prepares her for the royal ball. Dressed in a beautiful gown and glass slippers, she attends the ball where she captures the heart of the prince. But as the clock strikes midnight, the magic fades, leaving behind only a single glass slipper. Determined to find her, the prince searches the kingdom, and when the slipper fits Cinderella, her true identity is revealed, leading to a happily ever after.\r\n\r\n', 'NO', 'Charles Perrault', 'Romance'),
 (18, 2, 12, 'Snoopy is cute!!!!', 10.0, 'bookUploads/img_6856c7e350cc7_snoopy_frontCover.jpg', 'bookUploads/img_6856c7e351308_snoopy_backCover.jpg', 'In Love Is Everywhere, Snoopy!, the beloved Peanuts gang returns to remind us that love is found in the most unexpected places — and sometimes in the most ordinary moments. As Valentine’s Day approaches, Charlie Brown once again wrestles with his nerves as he tries to express his feelings, while Lucy continues her determined (but often one-sided) efforts to win Schroeder’s heart. Meanwhile, Peppermint Patty and Marcie navigate the quirky ups and downs of friendship, and Linus clutches his blanket while quietly admiring his Sweet Babboo.\r\n\r\nAt the heart of it all is Snoopy — the imaginative, joyful beagle who sees the world with wide eyes and a loving spirit. Whether he\'s dancing with Woodstock, writing heartfelt letters atop his doghouse, or daydreaming of romantic adventures, Snoopy reminds everyone around him that love isn’t just about grand gestures or perfect timing — it’s about caring, connection, and showing up in little ways every day.\r\n\r\nFilled with gentle humor, sweet moments, and the timeless charm of Charles M. Schulz’s characters, Love Is Everywhere, Snoopy! is a warm and uplifting story that celebrates the many forms of love — romantic, friendly, and even silly. This book is a perfect reminder that love truly is all around us… if we just take the time to notice.', 'YES', 'Tina Gallo', 'Comedy'),
 (19, 2, 13, 'They are cute and funny!', 10.0, 'bookUploads/img_6856c9a3ac0d4_toystory_frontCover.jpg', 'bookUploads/img_6856c9a3ac600_toystory_backCover.jpg', 'In Pixar’s heartwarming sequel Toy Story 2, Woody finds himself at the center of a high-stakes rescue mission that challenges what it means to be a toy. When Andy heads off to cowboy camp, Woody is accidentally damaged and left behind. While trying to save another toy, Woody is stolen by a greedy toy collector named Al, who plans to sell him to a museum in Japan.\r\n\r\nAt Al’s apartment, Woody discovers that he was once the star of a popular 1950s TV show, Woody’s Roundup, and meets a new set of toys: Jessie the cowgirl, Bullseye the horse, and Stinky Pete the Prospector. While Jessie and Bullseye are thrilled at the idea of being admired in a museum, Woody begins to question his destiny — should he return to Andy, who will one day grow up, or embrace a future of being preserved forever?\r\n\r\nBack at home, Buzz Lightyear and the rest of the gang — Rex, Hamm, Mr. Potato Head, and Slinky Dog — launch a daring mission to rescue Woody. Their journey is filled with humor, action, and touching moments, including Buzz’s hilarious encounter with a newer, delusional Buzz Lightyear model and Woody’s realization of the importance of friendship and being there for a child who loves you.\r\n\r\nWith unforgettable new characters, emotional depth, and Pixar’s signature charm, Toy Story 2 is a powerful story about loyalty, identity, and the true value of being loved.', 'NO', 'Tom Hanks', 'Comedy'),
-(36, 1, 4, 'Their songs are nice!', 9.0, NULL, NULL, NULL, 'YES', 'Lee Unkrich', 'Fantasy');
+(36, 1, 4, 'Their songs are nice!', 9.0, NULL, NULL, NULL, 'YES', 'Lee Unkrich', 'Fantasy'),
+(42, 3, 6, 'This book is fun and cool!', 9.0, 'bookUploads/img_6858f5d38628a_mulan_frontCover.jpg', 'bookUploads/img_6858f5d386b12_mulan_backCover.png', 'When China is threatened by a Hun invasion, the Emperor calls upon every family to contribute one man to the army. To save her ailing father from going to war, Mulan, a brave and determined young woman, disguises herself as a man and secretly takes his place. With courage, intelligence, and the help of a mischievous dragon named Mushu, she must earn the respect of her fellow soldiers and prove herself in battle. As danger grows, Mulan must decide how far she’s willing to go to protect her family and honor her country — even if it means revealing her true identity.', 'NO', 'Grace Lin', 'Action'),
+(43, 4, 18, 'Bob is cute :)', 10.0, NULL, NULL, NULL, 'NO', 'John David Anderson', 'Comedy');
 
 -- --------------------------------------------------------
 
@@ -182,8 +230,11 @@ CREATE TABLE `reader_user` (
 --
 
 INSERT INTO `reader_user` (`readerID`, `username`, `email`, `phone`, `country`, `dateOfBirth`, `password`, `avatar`) VALUES
-(1, 'wanwan', 'wan@mail.com', '0122643499', 'Malaysia', '2005-04-23', '$2y$10$HNX9KP9WBi9vobIa3lthluZxFOAgnbvYy8RPBg/BoPqXVV3t9InGm', 'avatarUploads/img_68569347671d3_jingliu6_2.png'),
-(2, 'Felicia', 'felicia@mail.com', '0127701533', 'Malaysia', '2005-09-05', '$2y$10$zFUF.SJlmskrOld7CLV6H.sTvPWbCsu0O1EUE6RCwoTTrHGjt7BBa', 'avatarUploads/img_6856c11202cd7_snoopy.jpg');
+(1, 'wanwan', 'wan@mail.com', '0122643499', 'Malaysia', '2005-04-23', '$2y$10$HNX9KP9WBi9vobIa3lthluZxFOAgnbvYy8RPBg/BoPqXVV3t9InGm', 'avatarUploads/img_68580df4b87c8_jingliu6_2.png'),
+(2, 'Felicia', 'felicia@mail.com', '0127701533', 'Malaysia', '2005-09-05', '$2y$10$zFUF.SJlmskrOld7CLV6H.sTvPWbCsu0O1EUE6RCwoTTrHGjt7BBa', 'avatarUploads/img_6856c11202cd7_snoopy.jpg'),
+(3, 'orange', 'orange@mail.com', '0147172688', 'Malaysia', '2005-12-11', '$2y$10$d1I9ZuYjbl0OmQLMXL9eDONFTU4TWr79ZLikRxnI0n5nS.IXiIf5K', NULL),
+(4, 'MeiYeang', 'my@gmail.com', '0183872005', 'Malaysia', '2005-07-18', '$2y$10$xVUS.4NT/FVRnQ0cPE4JUOHwGDSobtcGyQu9tj9nFpbWgS0/QxZMe', 'avatarUploads/img_6858af42321e4_minion.jpg'),
+(5, 'Conan', 'conan@mail.com', '0135469875', 'Malaysia', '2005-10-11', '$2y$10$7SqgZcn77WIO43cJEf6.KuoWsCSlUF2DPdIBDnFIaezBfcHls7iwi', NULL);
 
 -- --------------------------------------------------------
 
@@ -229,7 +280,15 @@ INSERT INTO `thread` (`threadID`, `thread`) VALUES
 (25, 'MiniFigure'),
 (26, 'Pixar'),
 (27, 'Disney'),
-(28, 'Lovely');
+(28, 'Lovely'),
+(29, 'test'),
+(30, 'test2'),
+(31, 'girlPower'),
+(32, 'independent'),
+(33, 'brave'),
+(34, 'banana'),
+(35, 'Illumination'),
+(36, 'despicable me');
 
 -- --------------------------------------------------------
 
@@ -249,6 +308,7 @@ CREATE TABLE `thread_post` (
 --
 
 INSERT INTO `thread_post` (`threadPostCode`, `postCode`, `threadID`) VALUES
+(39, 6, 27),
 (12, 15, 15),
 (11, 15, 16),
 (13, 16, 17),
@@ -266,7 +326,16 @@ INSERT INTO `thread_post` (`threadPostCode`, `postCode`, `threadID`) VALUES
 (25, 36, 22),
 (28, 36, 26),
 (27, 36, 27),
-(26, 36, 28);
+(26, 36, 28),
+(36, 42, 27),
+(35, 42, 31),
+(37, 42, 32),
+(38, 42, 33),
+(42, 43, 21),
+(41, 43, 22),
+(40, 43, 34),
+(43, 43, 35),
+(44, 43, 36);
 
 --
 -- Indexes for dumped tables
@@ -349,55 +418,55 @@ ALTER TABLE `thread_post`
 -- AUTO_INCREMENT for table `book_borrowed`
 --
 ALTER TABLE `book_borrowed`
-  MODIFY `bookBorrowCode` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bookBorrowCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `book_record`
 --
 ALTER TABLE `book_record`
-  MODIFY `bookID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `bookID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `comment_rating`
 --
 ALTER TABLE `comment_rating`
-  MODIFY `commentCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `commentCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `nested_comment_rating`
 --
 ALTER TABLE `nested_comment_rating`
-  MODIFY `nestedCommentCode` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `nestedCommentCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationCode` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `notificationCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `post_review`
 --
 ALTER TABLE `post_review`
-  MODIFY `postCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `postCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `reader_user`
 --
 ALTER TABLE `reader_user`
-  MODIFY `readerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `readerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `thread`
 --
 ALTER TABLE `thread`
-  MODIFY `threadID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `threadID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `thread_post`
 --
 ALTER TABLE `thread_post`
-  MODIFY `threadPostCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `threadPostCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- Constraints for dumped tables
@@ -422,8 +491,8 @@ ALTER TABLE `comment_rating`
 -- Constraints for table `nested_comment_rating`
 --
 ALTER TABLE `nested_comment_rating`
-  ADD CONSTRAINT `nested_comment_rating_ibfk_1` FOREIGN KEY (`commentCode`) REFERENCES `comment_rating` (`commentCode`) ON DELETE CASCADE,
-  ADD CONSTRAINT `nested_comment_rating_ibfk_2` FOREIGN KEY (`readerID`) REFERENCES `reader_user` (`readerID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `nested_comment_rating_ibfk_2` FOREIGN KEY (`readerID`) REFERENCES `reader_user` (`readerID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `nested_comment_rating_ibfk_3` FOREIGN KEY (`commentCode`) REFERENCES `comment_rating` (`commentCode`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `notification`

@@ -139,71 +139,12 @@ $user = $runSQL->fetch_assoc();
             min-height: 115px;
         }
 
-        .form-container input[type="checkbox"] {
-            margin-right: 5px;
-        }
-
         input[type="number"] {
           padding: 8px;
           border-radius: 5px;
           border: 1px solid #ccc;
           font-size: 0.95rem;
           width: 100%;
-        }
-
-        .toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 42px;
-            height: 22px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            background-color: #ccc;
-            border-radius: 34px;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            transition: .4s;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #333;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        .slider.round {
-            border-radius: 34px;
         }
 
         .file-upload-container {
@@ -322,29 +263,14 @@ $user = $runSQL->fetch_assoc();
         <section class="form-container">
             <h2><box-icon name='book-open'></box-icon> New Post</h2>
             <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/newPostHandling.php"); ?>" enctype="multipart/form-data">
-                <div class="toggle">
-                    <span>Upload Book Covers?</span>
-                    <label class="switch">
-                        <input type="checkbox" id="available_for_borrow_checkbox" name="available_for_borrow">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <div class="toggle">
-                    <span>Public your Phone Number?</span>
-                    <label class="switch">
-                        <input type="checkbox" name="public_phone_number">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
 
                 <div style="grid-row: span 4;">
                     <label for="book_title">Book Title</label>
                     <input type="text" id="book_title" name="book_title" placeholder="Enter Title of the book" required>
 
-                    <label for="your_opinion" style="margin-top: 15px;">Your Opinion</label>
-                    <textarea id="your_opinion" name="your_opinion" placeholder="Opinion about the book...." required></textarea>
+                    <label for="synopsis" style="margin-top: 15px;">Synopsis</label>
+                    <textarea id="synopsis" name="synopsis" placeholder="Synopsis of the book.." required></textarea>
 
-                    
                     <label for="thread" style="margin-top: 15px;">Thread</label>
                     <div class="threadWrapper">
                         <input type="text" id="thread" name="thread" placeholder="Add related thread">
@@ -371,18 +297,7 @@ $user = $runSQL->fetch_assoc();
                     <label for="author" style="margin-top: 15px;">Author</label>
                     <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
 
-                    <label for="review" style="margin-top: 15px;">Review</label>
-                    <input type="number" id="review" name="review" min="1" max="10" placeholder="1-10" required>
-
-                    <div class="threadAddedWrapper">
-                        <label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>
-                        <div class="threadAddedLabelWrapper">
-
-                        </div>
-                    </div>
-                </div>
-
-                <div id="borrow_details_section" style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div id="borrow_details_section" style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                     <div class="file-upload-container">
                         <label for="front_cover">Front Cover</label>
                         <label for="front_cover" class="custom-file-upload">Upload File</label>
@@ -394,10 +309,13 @@ $user = $runSQL->fetch_assoc();
                         <label for="back_cover" class="custom-file-upload">Upload File</label>
                         <input type="file" id="back_cover" name="back_cover">
                     </div>
+                </div>
 
-                    <div style="grid-column: span 2;">
-                        <label for="synopsis">Synopsis</label>
-                        <textarea id="synopsis" name="synopsis" placeholder="Synopsis of the Book... (Optional)"></textarea>
+                    <div class="threadAddedWrapper">
+                        <label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>
+                        <div class="threadAddedLabelWrapper">
+
+                        </div>
                     </div>
                 </div>
 
@@ -458,23 +376,6 @@ $user = $runSQL->fetch_assoc();
                     }
                 });
             });
-
-            const borrowCheckbox = $('#available_for_borrow_checkbox');
-            const borrowDetailsSection = $('#borrow_details_section');
-
-            function toggleBorrowDetails() {
-                if (borrowCheckbox.is(':checked')) {
-                    borrowDetailsSection.show();
-                    document.getElementById("synopsis").setAttribute("required","required");
-                } else {
-                    borrowDetailsSection.hide();
-                    document.getElementById("synopsis").removeAttribute("required");
-                }
-            }
-
-            toggleBorrowDetails();
-
-            borrowCheckbox.on('change', toggleBorrowDetails);
 
             $("#newPostForm").submit(function(event) {
                 

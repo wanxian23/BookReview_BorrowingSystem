@@ -167,7 +167,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
         .editProfile {
-            max-width: 900px;
+            max-width: 800px;
             margin: auto;
             padding: 20px;
             border-radius: 12px;
@@ -200,15 +200,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         .tab-content {
             height: 400px;
             overflow-y: auto;
-            padding: 30px;
+            padding: 20px;
             border-radius: 12px;
             background-color: var(--containerBgColor);
             color: var(--containerColor);
             box-shadow: var(--bookBoxShadow);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: flex-start;
         }
 
         .post {
@@ -314,139 +310,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             text-align: center;
         }
 
-        div.post {
-            margin: 0 0 25px 0;
-            border: 2px solid var(--containerColor);
-            border-radius: 15px;
-            width: 30%;
-            height: 380px;
-            background-color: var(--postBgColor);
-        }
-
-
-        div.post div.head {
-            border-bottom: 2px solid;
-            padding: 15px;
-            background-color: var(--postHeaderBgColor);
-            border-radius: 15px 15px 0 0;
-        }
-
-        div.post div.head div.postProfile {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        div.post div.head div.postProfile img {
-            display: inline-block;
-            border-radius: 40px;
-            height: 100%;
-            width: 100%;    
-        }
-
-        div.post div.head div.postProfile a {
-            display: inline-flex;
-            text-decoration: none;
-            border-radius: 40px;
-            height: 40px;
-            width: 40px;
-            border: 4px solid var(--containerColor);
-            background-color: #d8d5ec;
-            align-items: center;
-            justify-content: center;
-            color: black;
-        }
-
-        div.post div.body {
-            display: flex;
-            border-bottom: 2px solid;
-            height: 230px;
-        }
-
-        div.post div.body div.left {
-            border-right: 2px solid;
-            width: 70%;
-        }
-
-        div.post div.body div.right {
-            padding: 20px 30px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        div.post div.body div.right img {
-            width: 90%;
-            height: 100%;
-            box-shadow: var(--bookBoxShadow);
-            border: 1px solid;
-        }
-
-        div.post div.body div.left div.review {
-            padding: 15px;
-            border-bottom: 2px solid;
-        }
-
-        div.post div.body div.left div.review h3 {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        div.post div.body div.left div.description {
-            overflow-wrap: anywhere;
-            padding: 15px;
-        }
-
-        div.post div.body div.left div.description p a {
-            text-decoration: none;
-            color: var(--linkColor);
-        }
-
-        div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
-            padding: 10px;
-        }
-
-        div.post div.bottom {
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        div.post div.bottom h3 {
-            font-size: 0.85em;
-        }
-
-        div.post div.bottom h4 {
-            font-weight: normal;
-            font-size: 0.75em;
-        }
-
-
-        div.post div.bottom div.left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        div.post div.bottom input {
-            width: 70%;
-            font-size: 0.7em;
-            border-radius: 5px;
-            padding: 5px;
-            border: 1px solid var(--postHeaderBgColor);
-            transition: 0.3s;
-        }
-
-        div.post div.bottom input:active {
-            border: 1px solid black;
-        }
-
-        label#trendingWord {
-            display: inline;
-        }
-
     </style>
 </head>
 
@@ -495,65 +358,59 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
             }
                 
-            
-                   echo '<div class="post">';
-                        echo '    <div class="head">';
-                        echo '        <div class="postProfile">';
-                        
-                        $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
+            ?>
+                <div class="post">
+                    <div class="head">
+                        <div class="postProfile">
+                            <?php 
+                                $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
 
-                        if ($row['readerID'] != $readerID) {
-                            if (!empty($row['avatar'])) {
-                                echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
-                            }
-                        } else {
-                            if (!empty($row['avatar'])) {
-                                echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
-                            }                                
-                        }
+                                if (!empty($row['avatar'])) {
+                                    echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                } else {
+                                    echo '<a href="'.$profileLink.'">'. strtoupper($row['username'][0]) .'</a>';
+                                }
+                                echo $row['username'];
+                            ?>
+                        </div>
+                    </div>
 
-                        echo $row['username'];
-                        echo '        </div>';
-                        echo '    </div>';
+                    <div class="body">
+                        <div class="left">
+                            <div class="review">
+                                <h2>Book Title: <?= $row['bookTitle']; ?></h2>
+                                <h3>
+                                    <label>Review: <?= $row['ownerRating']; ?>/10</label>
+                                    <label>Genre: <?= $row['genre']; ?></label>
+                                </h3>
+                            </div>
+                            <div class="description">
+                                <p>
+                                    <?= substr($row['ownerOpinion'], 0, 310); ?>
+                                    <a href="bookDetail.php?postCode=<?= $row['postCode']; ?>">... Read More</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <?php if (!empty($row['frontCover_img'])): ?>
+                                <img src="<?= $row['frontCover_img']; ?>" alt="Book Cover">
+                            <?php else: ?>
+                                <img src="bookUploads/noImageUploaded.png" alt="No Cover">
+                            <?php endif; ?>
+                        </div>
+                    </div>
 
-                        echo '    <div class="body">';
-                        // echo '        <div class="left">';
-                        // echo '            <div class="review">';
-                        // echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-                        // echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                        // echo '            </div>';
-                        // echo '            <div class="description">';
-                        // echo '                <p>';
-                        // echo substr($row['ownerOpinion'], 0, 180);
-                        // echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                        // echo '                </p>';
-                        // echo '            </div>';
-                        // echo '        </div>';
-                        echo '        <div class="right">';
-                        if ($row['frontCover_img'] != null) {
-                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-                        }  else {
-                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                        }
-                        echo '        </div>';
-                        echo '    </div>';
-
-                        echo '    <div class="bottom">';
-                        // echo '        <div class="left">';
-                        // echo '        </div>';
-                        echo '          <h3>'.$row['bookTitle'].'</h3>';
+                    <div class="bottom">
+                    <?php
                         if ($averageRating != 0) {
-                            echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
+                            echo '<h3>Average Review: '.$averageRating.'</h3>';
                         } else {
-                            echo '<h4>Average Review: No Rating</h4>';
+                            echo '<h3>Average Review: No Rating</h3>';
                         }
-                        echo '    </div>';
-                        echo '</div>';
-             endforeach; ?>
+                    ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </section>
 </main>

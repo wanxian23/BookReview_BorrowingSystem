@@ -220,12 +220,12 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         section.postContainer article:first-child {
             display: flex;
+            gap: 30px;
         }
 
         section.postContainer article:first-child div {
             text-align: center;
-            width: 150px;
-            cursor: pointer;
+            width: 200px;
         }
 
         section.postContainer article:first-child div:hover {
@@ -235,19 +235,20 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
         section.postContainer article:nth-of-type(2) {
             display: flex;
-            flex-wrap: wrap;     
             overflow-y: scroll;
             margin: 30px 0 10px 0;
             display: flex;
-            gap: 12px;
-            height: 410px;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            height: 350px;
         }
 
         section.postContainer article:nth-of-type(2) div.post {
             margin: 0 25px 15px 25px;
             border: 2px solid var(--containerColor);
             border-radius: 15px;
-            width: 27%;
+            width: 70%;
             background-color: var(--postBgColor);
         }
 
@@ -279,7 +280,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             height: 40px;
             width: 40px;
             border: 4px solid var(--containerColor);
-            background-color: #d8d5ec;
+            background-color: rgb(202, 28, 57);
             align-items: center;
             justify-content: center;
             color: black;
@@ -288,7 +289,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         section.postContainer article:nth-of-type(2) div.post div.body {
             display: flex;
             border-bottom: 2px solid;
-            height: 230px;
+            height: 200px;
         }
 
         section.postContainer article:nth-of-type(2) div.post div.body div.left {
@@ -297,17 +298,16 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
         section.postContainer article:nth-of-type(2) div.post div.body div.right {
-            padding: 20px 30px;
-            width: 100%;
+            padding: 20px;
+            width: 30%;
             display: flex;
             justify-content: center;
         }
 
         section.postContainer article:nth-of-type(2) div.post div.body div.right img {
-            width: 90%;
+            width: 80%;
             height: 100%;
             box-shadow: var(--bookBoxShadow);
-            border: 1px solid;
         }
 
         section.postContainer article:nth-of-type(2) div.post div.body div.left div.review {
@@ -337,18 +337,11 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         section.postContainer article:nth-of-type(2) div.post div.bottom {
             padding: 10px;
             display: flex;
-            gap: 10px;
-            flex-direction: column;
-            align-items: center;
+            justify-content: space-between;
         }
 
         section.postContainer article:nth-of-type(2) div.post div.bottom h3 {
-            font-size: 0.85em;
-        }
-
-        section.postContainer article:nth-of-type(2) div.post div.bottom h4 {
-            font-weight: normal;
-            font-size: 0.75em;
+            font-size: 0.8em;
         }
 
 
@@ -481,7 +474,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo "<label for=''>$i</label><a href='".htmlspecialchars("search.php?thread=$value")."'>#$value</a>";
                             echo "</div>";
                             $i++;
-                            if ($i === 11) {
+                            if ($i === 9) {
                                 break;
                             }
 
@@ -494,11 +487,16 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             <section class="postContainer">
                 <article style="border-bottom: 1px solid var(--containerColor);">
                     <div>
-                        General
+                        General <box-icon name='chevron-down' class="downArrow"></box-icon>
                     </div>
 
                     <div>
-                        <label for="" id="trendingWord">Trending</label>
+                        Top 10 <label for="" id="trendingWord">Trending</label> <box-icon name='chevron-down'
+                            class="downArrow"></box-icon>
+                    </div>
+
+                    <div>
+                        Newest <box-icon name='chevron-down' class="downArrow"></box-icon>
                     </div>
                 </article>
 
@@ -540,7 +538,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
                             }
 
-                            echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
+                            echo '<div class="post">';
                             echo '    <div class="head">';
                             echo '        <div class="postProfile">';
                             
@@ -550,13 +548,13 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                 if (!empty($row['avatar'])) {
                                     echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
                                 } else {
-                                    echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
+                                    echo '<a href="'.$profileLink.'">A</a>';
                                 }
                             } else {
                                 if (!empty($row['avatar'])) {
                                     echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
                                 } else {
-                                    echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
+                                    echo '<a href="profilemyposts.php">A</a>';
                                 }                                
                             }
 
@@ -565,18 +563,18 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '    </div>';
     
                             echo '    <div class="body">';
-                            // echo '        <div class="left">';
-                            // echo '            <div class="review">';
-                            // echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-                            // echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                            // echo '            </div>';
-                            // echo '            <div class="description">';
-                            // echo '                <p>';
-                            // echo substr($row['ownerOpinion'], 0, 180);
-                            // echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                            // echo '                </p>';
-                            // echo '            </div>';
-                            // echo '        </div>';
+                            echo '        <div class="left">';
+                            echo '            <div class="review">';
+                            echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
+                            echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
+                            echo '            </div>';
+                            echo '            <div class="description">';
+                            echo '                <p>';
+                            echo substr($row['ownerOpinion'], 0, 180);
+                            echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
+                            echo '                </p>';
+                            echo '            </div>';
+                            echo '        </div>';
                             echo '        <div class="right">';
                             if ($row['frontCover_img'] != null) {
                                 echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
@@ -587,13 +585,12 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                             echo '    </div>';
     
                             echo '    <div class="bottom">';
-                            // echo '        <div class="left">';
-                            // echo '        </div>';
-                            echo '          <h3>'.$row['bookTitle'].'</h3>';
+                            echo '        <div class="left">';
+                            echo '        </div>';
                             if ($averageRating != 0) {
-                                echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
+                                echo '<h3>Average Review: '.number_format($averageRating, 1).'</h3>';
                             } else {
-                                echo '<h4>Average Review: No Rating</h4>';
+                                echo '<h3>Average Review: No Rating</h3>';
                             }
                             echo '    </div>';
                             echo '</div>';
@@ -617,12 +614,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             $("#newPost").click(function() {
                 window.location = "newPost.php";
             });
-
-            $(".postCode").click(function () {
-                let postCode = this.getAttribute("data-postCode");
-                console.log(postCode);
-                window.location.href = "bookDetail.php?postCode=" + postCode;
-            })
         });
     </script>
 </body>

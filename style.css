@@ -190,12 +190,12 @@ header #firstHeader span.profile a {
     display: inline-flex;
     height: 50px;
     width: 50px;
-    border: 6px solid rgb(198, 198, 198);
-    background-color: purple;
+    border: 6px solid black;
+    background-color:#dddddd ;
     border-radius: 50px;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: black;
     cursor: pointer;
 }
 
@@ -233,6 +233,10 @@ header #secondHeader nav{
     padding: 0 0 0 10px;
 }
 
+header #secondHeader nav:first-child {
+    width: 45%;
+}
+
 header #secondHeader nav:nth-child(3) {
     text-align: right;
     padding: 0 50px;
@@ -245,10 +249,14 @@ header #secondHeader nav a{
 
 header #secondHeader a label{
     display: inline-block;
-    width: 20%;
+    padding: 0 20px;
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
+}
+
+header #secondHeader a label.admin {
+    width: 30%;
 }
 
 header #secondHeader a label:hover{

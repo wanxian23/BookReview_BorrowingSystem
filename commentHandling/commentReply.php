@@ -200,8 +200,8 @@ $userComment = $resultGetComemnt->fetch_assoc();
         $todayDate = date("l, F j, Y");
         $todayTime = date("H:i:s");
 
-        $sql = "INSERT INTO Nested_Comment_Rating (comment, dateComment, timeComment, readerID, commentCode)
-                VALUES ('$replyReader','$todayDate','$todayTime','$readerID','$commentCode')";
+        $sql = "INSERT INTO Nested_Comment_Rating (comment, dateComment, timeComment, readerID, commentCode, statusNestedComment)
+                VALUES ('$replyReader','$todayDate','$todayTime','$readerID','$commentCode', 'APPROVED')";
         $runSQL = $conn->query($sql);
 
         $sqlGetCommentDetails = "SELECT *

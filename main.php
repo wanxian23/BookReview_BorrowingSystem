@@ -18,46 +18,21 @@ OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
-// Thread Part --
 
-$sqlThread = "SELECT 
-              thread 
-              FROM Thread_Post threadPost
-              INNER JOIN Thread thread USING (threadID)
-              GROUP BY threadPost.threadID
-              ORDER BY COUNT(*) DESC";
-$runSQLThread = $conn->query($sqlThread);
-
-// If u use MYSQLI_ASSOC, it will return the name of the column
-// Like:
-// [
-//     ["thread" => "Book Talk"],
-//     ["thread" => "Recommendations"],
-//     ["thread" => "Off-topic"]
-// ]
-// So you can acceess them by $data['thread'] (Column name - Attribute)
-//
-// If u use fetch_all() only, it is equivalent to fetch_all(MYSQLI_NUM)
-// Which will return index
-// Like:
-// [
-//     [0 => "Book Talk"],
-//     [0 => "Recommendations"],
-//     [0 => "Off-topic"]
-// ]
-// So, u should access them use $data[0] (Index form)
-  
-$thread = $runSQLThread->fetch_all(MYSQLI_ASSOC);
-
-$sqlGetPostDetails = "SELECT 
-                          post.*,
-                          reader.*,
-                          book.*
-                      FROM post_review post
-                      INNER JOIN reader_user reader USING (readerID)
-                      INNER JOIN book_record book USING (bookID)";
-$resultGetPostDetails = $conn->query($sqlGetPostDetails);
-$post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+$sqlGetPostHighAvg = "SELECT 
+                        post.*, 
+                        reader.*, 
+                        book.*, 
+                        AVG(comment.rating) AS averageRating
+                    FROM post_review post
+                    INNER JOIN reader_user reader USING (readerID)
+                    INNER JOIN book_record book USING (bookID)
+                    LEFT JOIN comment_rating comment USING (postCode)
+                    WHERE post.statusApprove = 'APPROVED'
+                    GROUP BY post.postCode
+                    ORDER BY averageRating DESC, post.datePosted DESC";
+$resultGetPostighAvg = $conn->query($sqlGetPostHighAvg);
+$postHighAvg = $resultGetPostighAvg->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
@@ -218,22 +193,29 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             width: 75%;
         }
 
-        section.postContainer article:first-child {
+        section.postContainer form#mainSectionForm {
             display: flex;
+            border-bottom: 1px solid;
         }
 
-        section.postContainer article:first-child div {
+        section.postContainer form#mainSectionForm button {
             text-align: center;
             width: 150px;
-            cursor: pointer;
+            padding: 15px 20px;
+            background-color: transparent;
+            border: none;
         }
 
-        section.postContainer article:first-child div:hover {
+        section.postContainer form#mainSectionForm button:hover {
             font-weight: bold;
             cursor: pointer;
         }
 
-        section.postContainer article:nth-of-type(2) {
+        section.postContainer form#mainSectionForm button.active {
+            font-weight: bold;
+        }
+
+        section.postContainer article {
             display: flex;
             flex-wrap: wrap;     
             overflow-y: scroll;
@@ -243,7 +225,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             height: 410px;
         }
 
-        section.postContainer article:nth-of-type(2) div.post {
+        section.postContainer article div.post {
             margin: 0 25px 15px 25px;
             border: 2px solid var(--containerColor);
             border-radius: 15px;
@@ -252,27 +234,27 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
 
-        section.postContainer article:nth-of-type(2) div.post div.head {
+        section.postContainer article div.post div.head {
             border-bottom: 2px solid;
             padding: 15px;
             background-color: var(--postHeaderBgColor);
             border-radius: 15px 15px 0 0;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.head div.postProfile {
+        section.postContainer article div.post div.head div.postProfile {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.head div.postProfile img {
+        section.postContainer article div.post div.head div.postProfile img {
             display: inline-block;
             border-radius: 40px;
             height: 100%;
             width: 100%;    
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.head div.postProfile a {
+        section.postContainer article div.post div.head div.postProfile a {
             display: inline-flex;
             text-decoration: none;
             border-radius: 40px;
@@ -285,56 +267,55 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             color: black;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body {
+        section.postContainer article div.post div.body {
             display: flex;
             border-bottom: 2px solid;
             height: 230px;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.left {
+        section.postContainer article div.post div.body div.left {
             border-right: 2px solid;
             width: 70%;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.right {
+        section.postContainer article div.post div.body div.right {
             padding: 20px 30px;
             width: 100%;
             display: flex;
             justify-content: center;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.right img {
+        section.postContainer article div.post div.body div.right img {
             width: 90%;
             height: 100%;
             box-shadow: var(--bookBoxShadow);
-            border: 1px solid;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.left div.review {
+        section.postContainer article div.post div.body div.left div.review {
             padding: 15px;
             border-bottom: 2px solid;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.left div.review h3 {
+        section.postContainer article div.post div.body div.left div.review h3 {
             display: flex;
             justify-content: space-between;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.left div.description {
+        section.postContainer article div.post div.body div.left div.description {
             overflow-wrap: anywhere;
             padding: 15px;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.left div.description p a {
+        section.postContainer article div.post div.body div.left div.description p a {
             text-decoration: none;
             color: var(--linkColor);
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
+        section.postContainer article div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
             padding: 10px;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.bottom {
+        section.postContainer article div.post div.bottom {
             padding: 10px;
             display: flex;
             gap: 10px;
@@ -342,23 +323,23 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             align-items: center;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.bottom h3 {
+        section.postContainer article div.post div.bottom h3 {
             font-size: 0.85em;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.bottom h4 {
+        section.postContainer article div.post div.bottom h4 {
             font-weight: normal;
             font-size: 0.75em;
         }
 
 
-        section.postContainer article:nth-of-type(2) div.post div.bottom div.left {
+        section.postContainer article div.post div.bottom div.left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.bottom input {
+        section.postContainer article div.post div.bottom input {
             width: 70%;
             font-size: 0.7em;
             border-radius: 5px;
@@ -367,7 +348,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             transition: 0.3s;
         }
 
-        section.postContainer article:nth-of-type(2) div.post div.bottom input:active {
+        section.postContainer article div.post div.bottom input:active {
             border: 1px solid black;
         }
 
@@ -454,31 +435,30 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 <body>
 
     <?php include("header.php"); ?>
-   
 
     <main>
+
         <div class="postButton">
-            <button id="myPost">My Post</button>
             <button id="newPost">New Post</button>
         </div>
 
         <div class="threadPost">
             <section class="threadContainer">
                 <article style="border-bottom: 1px solid var(--containerColor);">
-                    <h1 class="center">Trending Threads</h1>
+                    <h1 class="center">Trending Book</h1>
                 </article>
 
                 <article>
                     <?php 
 
                         $i = 1;
-                        foreach ($thread as $data) {
+                        foreach ($postHighAvg as $data) {
 
                             // Since Im using MYSQLI_ASSOC just now
                             // So I can access by attribute name
-                            $value = $data['thread'];
+                            $value = $data['bookTitle'];
                             echo "<div>";
-                            echo "<label for=''>$i</label><a href='".htmlspecialchars("search.php?thread=$value")."'>#$value</a>";
+                            echo "<label for=''>$i</label><a href='".htmlspecialchars("search.php?bookTitle=$value")."'>$value</a>";
                             echo "</div>";
                             $i++;
                             if ($i === 11) {
@@ -492,111 +472,32 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             </section>
 
             <section class="postContainer">
-                <article style="border-bottom: 1px solid var(--containerColor);">
-                    <div>
-                        General
-                    </div>
+            <?php
 
-                    <div>
-                        <label for="" id="trendingWord">Trending</label>
-                    </div>
-                </article>
+                echo '<form id="mainSectionForm" method="GET">';
+                // echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
+                $generalActive = (!isset($_GET['section']) || $_GET['section'] === 'general') ? 'active' : '';
+                $trendingActive = (isset($_GET['section']) && $_GET['section'] === 'trending') ? 'active' : '';
+
+                echo '<button type="submit" name="section" value="general" class="' . $generalActive . '">General</button>';
+                echo '<button type="submit" name="section" value="trending" class="' . $trendingActive . '">Trending</button>';
+
+                echo '</form>';     
+        
+            ?>
 
                 <article class="post">
                     
                     <?php 
-
-                        foreach ($post as $row) {
-
-                            $sqlGetComment = "SELECT
-                                comment.*,
-                                post.*,
-                                reader.*,
-                                bookBorrow.*
-                            FROM Comment_Rating comment
-                            INNER JOIN Post_Review post ON comment.postCode = post.postCode
-                            INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                            INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-                            WHERE comment.postCode = '{$row['postCode']}'";
-                            $resultGetComemnt = $conn->query($sqlGetComment);
-                            $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-
-                            $averageRating = 0;
-                            if (!empty($comment)) {
-
-                                    $i = 0;
-                                    foreach($comment as $commentData) {
-
-                                        if ($commentData['bookBorrowCode'] != null) {
-                                            $averageRating += $commentData['ratingFeedback'];
-                                            $i++;
-                                        }
-
-                                    }
-                                    
-                                    if ($i != 0) {
-                                        $averageRating = $averageRating / $i;
-                                    }
-
-                            }
-
-                            echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
-                            echo '    <div class="head">';
-                            echo '        <div class="postProfile">';
-                            
-                            $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
-
-                            if ($row['readerID'] != $readerID) {
-                                if (!empty($row['avatar'])) {
-                                    echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                                } else {
-                                    echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
-                                }
+                    
+                        if (isset($_GET['section'])) {
+                            if ($_GET['section'] === 'general') {
+                                include('mainSection/generalPost.php');
                             } else {
-                                if (!empty($row['avatar'])) {
-                                    echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                                } else {
-                                    echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
-                                }                                
+                                include 'mainSection/trendingPost.php';
                             }
-
-                            echo $row['username'];
-                            echo '        </div>';
-                            echo '    </div>';
-    
-                            echo '    <div class="body">';
-                            // echo '        <div class="left">';
-                            // echo '            <div class="review">';
-                            // echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-                            // echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                            // echo '            </div>';
-                            // echo '            <div class="description">';
-                            // echo '                <p>';
-                            // echo substr($row['ownerOpinion'], 0, 180);
-                            // echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                            // echo '                </p>';
-                            // echo '            </div>';
-                            // echo '        </div>';
-                            echo '        <div class="right">';
-                            if ($row['frontCover_img'] != null) {
-                                echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-                            }  else {
-                                echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                            }
-                            echo '        </div>';
-                            echo '    </div>';
-    
-                            echo '    <div class="bottom">';
-                            // echo '        <div class="left">';
-                            // echo '        </div>';
-                            echo '          <h3>'.$row['bookTitle'].'</h3>';
-                            if ($averageRating != 0) {
-                                echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
-                            } else {
-                                echo '<h4>Average Review: No Rating</h4>';
-                            }
-                            echo '    </div>';
-                            echo '</div>';
+                        } else {
+                            include 'mainSection/generalPost.php'; // default section
                         }
 
                     ?>
@@ -610,9 +511,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
    <script>
         $(document).ready(function() {
-            $("#myPost").click(function() {
-                window.location = "mainmyposts.php";
-            });
 
             $("#newPost").click(function() {
                 window.location = "newPost.php";

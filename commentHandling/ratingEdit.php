@@ -205,13 +205,10 @@ $userComment = $resultGetComemnt->fetch_assoc();
         $editComment = $_POST['editComment'];
         $editRating = $_POST['editRating'];
 
-        $sql = "UPDATE Comment_Rating SET comment = '$editComment' WHERE commentCode = '$commentCode'";
+        $sql = "UPDATE Comment_Rating SET comment = '$editComment', rating = '$editRating' WHERE commentCode = '$commentCode'";
         $runSQL = $conn->query($sql);
 
-        $sqlRating = "UPDATE Book_Borrowed SET ratingFeedback = '$editRating' WHERE postCode = '$postCode'";
-        $runSQLRating = $conn->query($sqlRating);
-
-        if ($runSQL && $runSQLRating) {
+        if ($runSQL) {
             echo "<label class='output'>Comment Edited Successfully! Back to post....</label>";
 
             // If u use meta, even has 3s load, but since it load every second
@@ -264,7 +261,7 @@ $userComment = $resultGetComemnt->fetch_assoc();
                         </p>
                     </th>
                     <td>
-                        <label for="" style="font-weight: normal;"><?php echo $userComment['ratingFeedback']; ?> / 10</label>
+                        <label for="" style="font-weight: normal;"><?php echo $userComment['rating']; ?> / 10</label>
                     </td>
                 </tr>
                 <tr>
@@ -284,7 +281,7 @@ $userComment = $resultGetComemnt->fetch_assoc();
                         </p>
                     </th>
                     <td>
-                    <label for="" style="font-weight: normal;"><input type="number" placeholder="Reply" id="editRating" name="editRating" value="<?php echo $userComment['ratingFeedback']; ?>" autofocus required></label>
+                    <label for="" style="font-weight: normal;"><input type="number" placeholder="Reply" id="editRating" name="editRating" value="<?php echo $userComment['rating']; ?>" autofocus required></label>
                     </td>
                 </tr>
             </table>

@@ -40,6 +40,10 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'], $_SES
             WHERE username = '$username' OR email = '$email' OR phone = '$contact'";
     $runSQL = $conn->query($sql);
 
+    $sqlAdmin = "SELECT * FROM admin
+                 WHERE adminUsername = '$username' OR adminEmail = '$email' OR adminPhone = '$contact'";
+    $runSQLAdmin = $conn->query($sqlAdmin);
+
     if ($runSQL->num_rows === 1) {
         $user = $runSQL->fetch_assoc();
         $_SESSION['readerID'] = $user['readerID'];
@@ -54,6 +58,26 @@ if (isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'], $_SES
                 echo "<meta http-equiv='refresh' content='3; URL=$redirectURL'>";
             } else {
                 echo "<meta http-equiv='refresh' content='3; URL=../main.php'>";
+            }
+        } else {
+            echo "Login Failed! Wrong Password!";
+            echo "<meta http-equiv='refresh' content='3; URL=../login.php'>";
+        }
+        
+    } else if ($runSQLAdmin->num_rows === 1) {
+        $admin = $runSQLAdmin->fetch_assoc();
+        $_SESSION['readerID'] = $admin['adminID'];
+
+        if (password_verify($pass, $admin['password'])) {
+            echo "Admin Login Successful! Redirecting...";
+
+            // Redirect to intended page if set
+            if (isset($_SESSION['bookReviewLogin'])) {
+                $redirectURL = $_SESSION['bookReviewLogin'];
+                unset($_SESSION['redirectAfterLogin']);
+                echo "<meta http-equiv='refresh' content='3; URL=$redirectURL'>";
+            } else {
+                echo "<meta http-equiv='refresh' content='3; URL=../admin/adminMain.php'>";
             }
         } else {
             echo "Login Failed! Wrong Password!";

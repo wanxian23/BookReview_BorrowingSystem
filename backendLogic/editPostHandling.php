@@ -61,20 +61,20 @@ $post = $resultGetPostDetails->fetch_assoc();
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $bookTitle = trim($_POST['book_title']);
-        $genre = $_POST['genre'];
-        $opinion = $_POST['your_opinion'];
-        $author = $_POST['author'];
-        $review = $_POST['review'];
+        $genre = trim($_POST['genre']);
+        $author = trim($_POST['author']);
+        $synopsis = mysqli_real_escape_string($conn, $_POST['synopsis']);
+
+        $availableBorrow = "";
+        if (isset($_POST['available_for_borrow'])) {
+            $availableBorrow = "YES";
+        } else {
+            $availableBorrow = "NO";
+        }
 
         $thread = [];
         if (isset($_POST['removeThread'])) {
             $thread = $_POST['removeThread'];
-        }
-
-        if (isset($_POST['public_phone_number'])) {
-            $statusPhone = "YES";
-        } else {
-            $statusPhone = "NO";
         }
         
         $sqlCheckBook = "SELECT * FROM book_record WHERE bookTitle LIKE '$bookTitle'";
@@ -108,136 +108,58 @@ $post = $resultGetPostDetails->fetch_assoc();
         $bookTitleChoose = $book['bookTitle'];
         $bookCode = $book['bookID'];
 
-        if ($post['frontCover_img'] != null) { 
+        if (isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) {
+            $bookUploads = "bookUploads/";
+            if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
 
-            if (isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) {
-                $bookUploads = "bookUploads/";
-                if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
+            $frontCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['front_cover']['name']);
 
-                $frontCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['front_cover']['name']);
-
-                move_uploaded_file($_FILES['front_cover']['tmp_name'], "../".$frontCoverPath);
-            }
-
-            if (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0) {
-                $bookUploads = "bookUploads/";
-                if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
-
-                $backCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['back_cover']['name']);
-
-                move_uploaded_file($_FILES['back_cover']['tmp_name'], "../".$backCoverPath);
-            }
-
-            $synopsis = mysqli_real_escape_string($conn, $_POST['synopsis']);
-            
-            if ((isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) && (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0)) {
-                $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerID',
-                                bookID = '$bookCode',
-                                ownerOpinion = '$opinion',
-                                ownerRating = '$review',
-                                frontCover_img = '$frontCoverPath',
-                                backCover_img = '$backCoverPath',
-                                synopsis = '$synopsis',
-                                statusPhone = '$statusPhone',
-                                author = '$author',
-                                genre = '$genre'
-                                WHERE postCode = '$postCode'";
-                $runSqlCreatePost = $conn->query($sqlCreatePost);                 
-            } else if ((isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) && (!isset($_FILES['back_cover']) || $_FILES['back_cover']['error'] != 0)) {
-                $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerID',
-                                bookID = '$bookCode',
-                                ownerOpinion = '$opinion',
-                                ownerRating = '$review',
-                                frontCover_img = '$frontCoverPath',
-                                synopsis = '$synopsis',
-                                statusPhone = '$statusPhone',
-                                author = '$author',
-                                genre = '$genre'
-                                WHERE postCode = '$postCode'";
-                $runSqlCreatePost = $conn->query($sqlCreatePost); 
-            } else if ((!isset($_FILES['front_cover']) || $_FILES['front_cover']['error'] != 0) && (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0)) {
-                $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerID',
-                                bookID = '$bookCode',
-                                ownerOpinion = '$opinion',
-                                ownerRating = '$review',
-                                backCover_img = '$backCoverPath',
-                                synopsis = '$synopsis',
-                                statusPhone = '$statusPhone',
-                                author = '$author',
-                                genre = '$genre'
-                                WHERE postCode = '$postCode'";
-                $runSqlCreatePost = $conn->query($sqlCreatePost);   
-            } else {
-                $sqlCreatePost = "UPDATE post_review 
-                                SET readerID = '$readerID',
-                                bookID = '$bookCode',
-                                ownerOpinion = '$opinion',
-                                ownerRating = '$review',
-                                synopsis = '$synopsis',
-                                statusPhone = '$statusPhone',
-                                author = '$author',
-                                genre = '$genre'
-                                WHERE postCode = '$postCode'";
-                $runSqlCreatePost = $conn->query($sqlCreatePost);   
-            }
-            
-            if ($runSqlCreatePost) {
-
-                foreach ($thread as $threadData) {
-                    $data = trim($threadData);
-                    $sqlThreadCheck = "SELECT * FROM Thread WHERE thread LIKE '$data'";
-                    $resultCheckThread = $conn->query($sqlThreadCheck); 
-                    $threadData = $resultCheckThread->fetch_assoc();
-                    $threadChoose = $threadData['threadID'];
-
-                    $sqlLinkThread = "INSERT INTO Thread_Post (postCode, threadID) VALUES ('$postCode','$threadChoose')";
-                    $resultLinkThread = $conn->query($sqlLinkThread);            
-                }
-
-                echo "POST UPDATED SUCCESSFULLY!";
-                echo "<meta http-equiv='refresh' content='3; url=../mainmyposts.php'>";
-            } else {
-                echo "FAILED TO UPDATE POST! PLEASE TRY AGAIN!";
-                echo "<meta http-equiv='refresh' content='3; url=../newPost.php'>";
-            }
-            
-        } else {
-
-            $sqlCreatePost = "UPDATE post_review 
-                              SET readerID = '$readerID',
-                              bookID = '$bookCode',
-                              ownerOpinion = '$opinion',
-                              ownerRating = '$review',
-                              statusPhone = '$statusPhone',
-                              author = '$author',
-                              genre = '$genre'
-                              WHERE postCode = '$postCode'";
-            $runSqlCreatePost = $conn->query($sqlCreatePost); 
-
-            if ($runSqlCreatePost) {
-
-                foreach ($thread as $threadData) {
-                    $data = trim($threadData);
-                    $sqlThreadCheck = "SELECT * FROM Thread WHERE thread LIKE '$data'";
-                    $resultCheckThread = $conn->query($sqlThreadCheck); 
-                    $threadData = $resultCheckThread->fetch_assoc();
-                    $threadChoose = $threadData['threadID'];
-
-                    $sqlLinkThread = "INSERT INTO Thread_Post (postCode, threadID) VALUES ('$postCode','$threadChoose')";
-                    $resultLinkThread = $conn->query($sqlLinkThread);            
-                }
-
-                echo "POST UPDATED SUCCESSFULLY!";
-                echo "<meta http-equiv='refresh' content='3; url=../mainmyposts.php'>";
-            } else {
-                echo "FAILED TO UPDATE POST! PLEASE TRY AGAIN!";
-                echo "<meta http-equiv='refresh' content='3; url=../newPost.php'>";
-            }
-            
+            move_uploaded_file($_FILES['front_cover']['tmp_name'], "../".$frontCoverPath);
         }
+        
+        if ((isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0)) {
+            $sqlCreatePost = "UPDATE post_review 
+                            SET readerID = '$readerID',
+                            bookID = '$bookCode',
+                            frontCover_img = '$frontCoverPath',
+                            synopsis = '$synopsis',
+                            author = '$author',
+                            genre = '$genre',
+                            statusBorrow = '$availableBorrow'
+                            WHERE postCode = '$postCode'";
+            $runSqlCreatePost = $conn->query($sqlCreatePost);
+        } else {
+            $sqlCreatePost = "UPDATE post_review 
+                            SET readerID = '$readerID',
+                            bookID = '$bookCode',
+                            synopsis = '$synopsis',
+                            author = '$author',
+                            genre = '$genre',
+                            statusBorrow = '$availableBorrow'
+                            WHERE postCode = '$postCode'";
+            $runSqlCreatePost = $conn->query($sqlCreatePost);   
+        }
+        
+        if ($runSqlCreatePost) {
+
+            foreach ($thread as $threadData) {
+                $data = trim($threadData);
+                $sqlThreadCheck = "SELECT * FROM Thread WHERE thread LIKE '$data'";
+                $resultCheckThread = $conn->query($sqlThreadCheck); 
+                $threadData = $resultCheckThread->fetch_assoc();
+                $threadChoose = $threadData['threadID'];
+
+                $sqlLinkThread = "INSERT INTO Thread_Post (postCode, threadID) VALUES ('$postCode','$threadChoose')";
+                $resultLinkThread = $conn->query($sqlLinkThread);            
+            }
+
+            echo "POST UPDATED SUCCESSFULLY!";
+            echo "<meta http-equiv='refresh' content='3; url=../bookDetail.php?postCode=".$postCode."'>";
+        } else {
+            echo "FAILED TO UPDATE POST! PLEASE TRY AGAIN!";
+            echo "<meta http-equiv='refresh' content='3; url=../newPost.php'>";
+        }
+
     }
 
     ?>

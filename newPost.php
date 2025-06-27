@@ -28,7 +28,7 @@ $user = $runSQL->fetch_assoc();
 
     <style>
 
-:root {
+        :root {
             --containerBgColor: #f5f5f5;
             --containerColor: black;
             --containerBoxShadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.225);
@@ -101,7 +101,7 @@ $user = $runSQL->fetch_assoc();
             color: var(--containerColor);
             box-shadow: var(--containerBoxShadow);
             border-radius: 10px;
-            max-width: 700px;
+            max-width: 800px;
             margin: 50px auto;
             padding: 20px;
         }
@@ -114,13 +114,13 @@ $user = $runSQL->fetch_assoc();
             grid-column: 1 / -1;
         }
 
-        form {
+        form#newPostForm {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
-        form div, form label {
+        form#newPostForm > div:not(.buttons-wrapper):not(.toggle):not(#borrow_details_section):not(.threadWrapper):not(.threadAddedWrapper):not(.threadAddedLabelWrapper) {
             display: flex;
             flex-direction: column;
             font-weight: bold;
@@ -149,16 +149,12 @@ $user = $runSQL->fetch_assoc();
 
         .file-upload-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* force row */
             align-items: center;
-            gap: 5px;
+            gap: 10px;
         }
 
         .file-upload-container input[type="file"] {
-            display: none;
-        }
-
-        .custom-file-upload {
             border: 1px solid #ccc;
             display: inline-block;
             padding: 8px 12px;
@@ -167,10 +163,6 @@ $user = $runSQL->fetch_assoc();
             background-color: #e0e0e0;
             color: #333;
             font-weight: normal;
-        }
-
-        .custom-file-upload:hover {
-            background-color: #d0d0d0;
         }
 
         .buttons-wrapper {
@@ -182,6 +174,62 @@ $user = $runSQL->fetch_assoc();
             grid-column: span 2;
             margin-top: 30px;
             flex-wrap: nowrap;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 65px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            background-color: #ccc;
+            border-radius: 34px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #333;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
         }
 
         .clear-btn,
@@ -225,11 +273,12 @@ $user = $runSQL->fetch_assoc();
         }
         
         #threadButton {
-            width: 100px;
+            width: 90px;
         }
 
         div.threadAddedWrapper {
             display: none;
+            margin-top: 20px;
         }
 
         div.threadAddedLabelWrapper {
@@ -237,7 +286,6 @@ $user = $runSQL->fetch_assoc();
             flex-direction: row;   
             flex-wrap: wrap;    
             gap: 10px;   
-            margin-top: 5px;
         }
 
         div.threadAddedLabelWrapper label {
@@ -263,7 +311,13 @@ $user = $runSQL->fetch_assoc();
         <section class="form-container">
             <h2><box-icon name='book-open'></box-icon> New Post</h2>
             <form id="newPostForm" method="POST" action="<?php echo htmlspecialchars("backendLogic/newPostHandling.php"); ?>" enctype="multipart/form-data">
-
+                <div class="toggle">
+                    <span>Available For Borrow?</span>
+                    <label class="switch">
+                        <input type="checkbox" id="available_for_borrow_checkbox" name="available_for_borrow" value="YES">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
                 <div style="grid-row: span 4;">
                     <label for="book_title">Book Title</label>
                     <input type="text" id="book_title" name="book_title" placeholder="Enter Title of the book" required>
@@ -271,12 +325,13 @@ $user = $runSQL->fetch_assoc();
                     <label for="synopsis" style="margin-top: 15px;">Synopsis</label>
                     <textarea id="synopsis" name="synopsis" placeholder="Synopsis of the book.." required></textarea>
 
-                    <label for="thread" style="margin-top: 15px;">Thread</label>
-                    <div class="threadWrapper">
-                        <input type="text" id="thread" name="thread" placeholder="Add related thread">
-                        <button id="threadButton" type="button">Add Thread</button>
+                    <div id="borrow_details_section" style="margin-top: 15px;">
+                    <div class="file-upload-container">
+                        <label for="front_cover">Front Cover</label>
+                        <input type="file" id="front_cover" name="front_cover">
                     </div>
                 </div>
+            </div>
 
                 <div>
                     <label for="genre">Genre</label>
@@ -296,27 +351,21 @@ $user = $runSQL->fetch_assoc();
 
                     <label for="author" style="margin-top: 15px;">Author</label>
                     <input type="text" id="author" name="author" placeholder="Enter Author Name" required>
-
-                    <div id="borrow_details_section" style="grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-                    <div class="file-upload-container">
-                        <label for="front_cover">Front Cover</label>
-                        <label for="front_cover" class="custom-file-upload">Upload File</label>
-                        <input type="file" id="front_cover" name="front_cover">
+                   
+                    <label for="thread" style="margin-top: 15px;">Thread</label>
+                    <div class="threadWrapper">
+                        <input type="text" id="thread" name="thread" placeholder="Add related thread">
+                        <button id="threadButton" type="button">Add Thread</button>
                     </div>
-
-                    <div class="file-upload-container">
-                        <label for="back_cover">Back Cover</label>
-                        <label for="back_cover" class="custom-file-upload">Upload File</label>
-                        <input type="file" id="back_cover" name="back_cover">
-                    </div>
-                </div>
-
+                    
                     <div class="threadAddedWrapper">
                         <label for="" style="margin-top: 15px;">Thread Added (Click to Remove)</label>
                         <div class="threadAddedLabelWrapper">
 
                         </div>
                     </div>
+                </div>
+
                 </div>
 
                 <div class="buttons-wrapper">
@@ -380,7 +429,6 @@ $user = $runSQL->fetch_assoc();
             $("#newPostForm").submit(function(event) {
                 
                 let frontCover = document.getElementById("front_cover");
-                let backCover = document.getElementById("back_cover");
                 let genreChoose = document.getElementById("genre");
 
                 if (genreChoose.selectedIndex === 0) {
@@ -389,18 +437,10 @@ $user = $runSQL->fetch_assoc();
                     return;                   
                 }
 
-                if (borrowCheckbox.is(':checked')) {
-                    if (frontCover.files.length === 0) {
-                        event.preventDefault(); // prevent form submission
-                        window.alert("Please upload the front cover file.");
-                        return;
-                    }
-
-                    if (backCover.files.length === 0) {
-                        event.preventDefault(); // prevent form submission
-                        window.alert("Please upload the back cover file.");
-                        return;
-                    }
+                if (frontCover.files.length === 0) {
+                    event.preventDefault(); // prevent form submission
+                    window.alert("Please upload the front cover file.");
+                    return;
                 }
             });
         });

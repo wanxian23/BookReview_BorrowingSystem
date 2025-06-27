@@ -21,65 +21,70 @@ if (!empty($comment)) {
             
             echo '  <div class="commentContainer">';
             echo '      <div class="postProfile">';
-            echo '          <div>';          
+            echo '          <div>';  
             echo '              <a href="">';  
             if ($rowComment['avatar'] != null) {
                 echo '<img src="'.$rowComment['avatar'].'" alt="Profile Image">';
             } else {
                 echo $rowComment['username'][0];  
             }
-            echo '</a>';  
+            echo '</a>';   
             echo '              <label>'.$rowComment['username'].'</label>';   
-            echo '          </div>';   
+            echo '          </div>'; 
             echo '          <div>';  
             echo '              <a href="commentHandling/commentReply.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Reply</a>';
             if ($rowComment['commentReaderID'] == $readerID) {
-                echo '              <a href="commentHandling/commentEdit.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Edit</a>';
-                echo '              <a href="commentHandling/commentDelete.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Delete</a>';
+                echo '              <a href="commentHandling/ratingEdit.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Edit</a>';
+                echo '              <a href="commentHandling/ratingDelete.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Delete</a>';
             }
-            echo '          </div>';       
+            echo '          </div>';                            
             echo '      </div>';
             echo '      <div class="commentContent">';
             echo '          <label>';
-            echo '              <b>Comment:</b> '.$rowComment['comment'].'';
+            echo '              <b>Rating:</b> '.$rowComment['rating'].' / 10';
+            echo '          </label>';
+            echo '          <label>';
+            echo '              <b>Comment:</b>'.$rowComment['comment'].'';
             echo '          </label>';
             echo '      </div>';
-            
+
             foreach ($nestedComment as $rowNestedComment) {
                 echo '  <div class="nestedCommentContainer">';
                 echo '      <div class="postProfile">';
-                echo '          <div>';          
+                echo '          <div>';  
                 echo '              <a href="">';  
                 if ($rowNestedComment['avatar'] != null) {
                     echo '<img src="'.$rowNestedComment['avatar'].'" alt="Profile Image">';
                 } else {
                     echo $rowNestedComment['username'][0];  
                 }
-                echo '</a>';  
+                echo '</a>';   
                 echo '              <label>'.$rowNestedComment['username'].'</label>';   
-                echo '          </div>';   
+                echo '          </div>'; 
                 echo '          <div>';  
                 if ($rowNestedComment['nestedCommentReaderID'] == $readerID) {
                     echo '              <a href="commentHandling/nestedCommentEdit.php?nestedCommentCode='.$rowNestedComment['nestedCommentCode'].'&postCode='.$postCode.'">Edit</a>';
-                    echo '              <a href="commentHandling/nestedCommentDelete.php?commentCode='.$rowNestedComment['nestedCommentCode'].'&postCode='.$postCode.'">Delete</a>';
+                    echo '              <a href="commentHandling/nestedCommentDelete.php?nestedCommentCode='.$rowNestedComment['nestedCommentCode'].'&postCode='.$postCode.'">Delete</a>';
                 }
-                echo '          </div>';       
+                echo '          </div>';                            
                 echo '      </div>';
                 echo '      <div class="commentContent">';
                 echo '          <label>';
-                echo '              <b>Comment:</b> '.$rowNestedComment['comment'].'';
+                echo '              <b>Comment: </b>'.$rowNestedComment['comment'].'';
                 echo '          </label>';
-                echo '  </div>';
+                echo '      </div>';
                 echo '</div>';
             }
-            echo '</div>';
+
+            echo ' </div>';
             $a++;
+
         }
     }
 
     if ($a == 0) {
         echo '  <div class="commentContainer">';
-        echo "No Comment Here!";
+        echo "No Comment & Rating Here!";
         echo '  </div>';
     }
 } else {

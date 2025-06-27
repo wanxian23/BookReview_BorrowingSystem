@@ -18,18 +18,6 @@ OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
 $user = $runSQL->fetch_assoc();
 
-$sqlGetPostDetails = "SELECT 
-                          post.*,
-                          reader.*,
-                          book.*
-                      FROM post_review post
-                      INNER JOIN reader_user reader USING (readerID)
-                      INNER JOIN book_record book USING (bookID)
-                      WHERE post.readerID = '$readerID'
-                      ORDER BY post.postCode DESC";
-$resultGetPostDetails = $conn->query($sqlGetPostDetails);
-$post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -93,10 +81,49 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             --anchorColor: rgb(149, 178, 241);
         }
 
-    main {
-        padding: 20px 100px;
-        margin: 2% auto;
-    }
+        main {
+            display: flex;
+            gap: 50px;
+            margin: 0;
+        }
+
+        main section {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15%;
+            width: 100%;
+        }
+
+        main form#asideSection {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 100vh;
+            width: 250px;
+            background-color:rgb(212, 210, 229);
+            box-shadow: 1px 1px 10px darkgray;
+            position: fixed;
+            padding: 30px 0;
+        }
+
+        main form#asideSection button {
+            text-align: center;
+            text-decoration: none;
+            padding: 20px 50px;
+            transition: 0.2s;
+            color: black;
+            border: none;
+            background-color:rgb(212, 210, 229);
+        }
+
+        main form#asideSection button:hover {
+            box-shadow: 1px 1px 10px rgb(157, 132, 188);
+        }
+
+        main form#asideSection button.active {
+            font-weight: bold;
+            background-color: rgb(197, 193, 230);
+        } 
 
     .search-results-header {
         background: transparent;
@@ -109,7 +136,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         margin-top: 10px;
     }
 
-.my-posts-header {
+    .my-posts-header {
         padding: 15px 20px;
         display: flex;
         justify-content: center;
@@ -152,31 +179,19 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     }
 
 
-.result-post{
-    border-bottom: 2px solid black;
-}
+    .result-post{
+        border-bottom: 2px solid black;
+    }
 
 
     .results-container {
-        background-color: var(--containerBgColor);
-        box-shadow: var(--bookBoxShadow);
-        border: 2px solid var(--containerColor);
         color: var(--containerColor);
         border-radius: 15px;
-        padding: 25px;
-        height: 860px;
-    }
-
-    .results-grid {
+        width: 100%;
         display: flex;
-        justify-content:flex-start;
+        justify-content: flex-start;
         gap: 40px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-        margin-top: 30px;
-        overflow-y: scroll;
-        padding: 20px;
-        height: 86%;
+        padding: 50px 80px;
     }
 
     @media (max-width: 768px) {
@@ -186,7 +201,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     }
 
         div.post {
-            margin: 0 0 25px 0;
             border: 2px solid var(--containerColor);
             border-radius: 15px;
             width: 22%;
@@ -231,7 +245,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         div.post div.body {
             display: flex;
             border-bottom: 2px solid;
-            height: 230px;
+            height: 250px;
         }
 
         div.post div.body div.left {
@@ -250,7 +264,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             width: 90%;
             height: 100%;
             box-shadow: var(--bookBoxShadow);
-            border: 1px solid;
         }
 
         div.post div.body div.left div.review {
@@ -325,137 +338,74 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     <?php include("header.php"); ?>
 
     <main>
-        <div class="results-container">
-            <div class="my-posts-header">
-                <a class="back-button" onclick="window.history.back()">
-                <div class="back-button"><i class='bx bx-reply'></i>Back</div>
-                </a>
-                <span class="my-posts-title">My Posts</span>
-            </div>
 
-            <div class="results-grid">
+    <?php
 
-                <?php
+        echo '<form id="asideSection" method="GET">';
+        // echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
+        $pendingActive = (!isset($_GET['section']) || $_GET['section'] === 'pending') ? 'active' : '';
+        $approvedActive = (isset($_GET['section']) && $_GET['section'] === 'approved') ? 'active' : '';
+        $rejectedActive = (isset($_GET['section']) && $_GET['section'] === 'rejected') ? 'active' : '';
 
-                    foreach ($post as $row) {
+        echo '<button type="submit" name="section" value="pending" class="' . $pendingActive . '">Pending</button>';
+        echo '<button type="submit" name="section" value="approved" class="' . $approvedActive . '">Approved</button>';
+        echo '<button type="submit" name="section" value="rejected" class="' . $rejectedActive . '">Rejected</button>';
 
-                        $sqlGetComment = "SELECT
-                            comment.*,
-                            post.*,
-                            reader.*,
-                            bookBorrow.*
-                        FROM Comment_Rating comment
-                        INNER JOIN Post_Review post ON comment.postCode = post.postCode
-                        INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                        INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-                        WHERE comment.postCode = '{$row['postCode']}'";
-                        $resultGetComemnt = $conn->query($sqlGetComment);
-                        $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+        echo '</form>';     
+                
+    ?>
+        <section>
+            <div class="results-container">
 
-                        $averageRating = 0;
-                        if (!empty($comment)) {
+            <?php 
 
-                                $i = 0;
-                                foreach($comment as $commentData) {
+            if (isset($_GET['section'])) {
+                if ($_GET['section'] === 'pending') {
+                    include('postValidationSection/pendingPost.php');
+                } elseif ($_GET['section'] === 'approved') {
+                    include 'postValidationSection/approvalPost.php';
+                } else {
+                    include 'postValidationSection/rejectedPost.php';
+                }
+            } else {
+                include 'postValidationSection/pendingPost.php'; // default section
+            }
 
-                                    if ($commentData['bookBorrowCode'] != null) {
-                                        $averageRating += $commentData['ratingFeedback'];
-                                        $i++;
-                                    }
-
-                                }
-                                
-                                if ($i != 0) {
-                                    $averageRating = $averageRating / $i;
-                                }
-
-                        }
-
-                        echo '<div class="post">';
-                        echo '    <div class="head">';
-                        echo '        <div class="postProfile">';
-                        
-                        $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
-
-                        if ($row['readerID'] != $readerID) {
-                            if (!empty($row['avatar'])) {
-                                echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
-                            }
-                        } else {
-                            if (!empty($row['avatar'])) {
-                                echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
-                            } else {
-                                echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
-                            }                                
-                        }
-
-                        echo $row['username'];
-                        echo '        </div>';
-                        echo '    </div>';
-
-                        echo '    <div class="body">';
-                        // echo '        <div class="left">';
-                        // echo '            <div class="review">';
-                        // echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-                        // echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                        // echo '            </div>';
-                        // echo '            <div class="description">';
-                        // echo '                <p>';
-                        // echo substr($row['ownerOpinion'], 0, 180);
-                        // echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                        // echo '                </p>';
-                        // echo '            </div>';
-                        // echo '        </div>';
-                        echo '        <div class="right">';
-                        if ($row['frontCover_img'] != null) {
-                            echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-                        }  else {
-                            echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-                        }
-                        echo '        </div>';
-                        echo '    </div>';
-
-                        echo '    <div class="bottom">';
-                        // echo '        <div class="left">';
-                        // echo '        </div>';
-                        echo '          <h3>'.$row['bookTitle'].'</h3>';
-                        if ($averageRating != 0) {
-                            echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
-                        } else {
-                            echo '<h4>Average Review: No Rating</h4>';
-                        }
-                        echo '    </div>';
-                        echo '</div>';
-                                                
-                    }
-
-                ?>
+            ?>
 
             </div>
-        </div>
+
+            <?php include("footer.html"); ?>
+        </section>
     </main>
-
-    <?php include("footer.html"); ?>
 
     <script>
         // Add some interactivity
-        document.querySelectorAll('.read-more').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('Read more functionality would expand the review text');
-            });
-        });
+        // document.querySelectorAll('.read-more').forEach(link => {
+        //     link.addEventListener('click', function(e) {
+        //         e.preventDefault();
+        //         alert('Read more functionality would expand the review text');
+        //     });
+        // });
 
-        document.querySelectorAll('.comment-input').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    alert('Comment functionality would post the comment');
-                    this.value = '';
-                }
-            });
-        });
+        // document.querySelectorAll('.comment-input').forEach(input => {
+        //     input.addEventListener('keypress', function(e) {
+        //         if (e.key === 'Enter') {
+        //             alert('Comment functionality would post the comment');
+        //             this.value = '';
+        //         }
+        //     });
+        // });
+
+        $(document).ready(function() {
+            
+            $(".postCode").click(function () {
+                let postCode = this.getAttribute("data-postCode");
+                console.log(postCode);
+                window.location.href = "bookDetail.php?postCode=" + postCode;
+            })
+
+        })
     </script>
 </body>
 

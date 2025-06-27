@@ -379,7 +379,6 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             width: 90%;
             height: 100%;
             box-shadow: var(--bookBoxShadow);
-            border: 1px solid;
         }
 
         div.post div.body div.left div.review {
@@ -496,7 +495,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             }
                 
             
-                   echo '<div class="post">';
+                   echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
                         echo '    <div class="head">';
                         echo '        <div class="postProfile">';
                         
@@ -563,5 +562,17 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     <a href="https://www.instagram.com/bookspare_?igsh=NDJmMjl2aGtxdWQ0" target="_blank"></a>
     <p>&copy; 2025 BookSpare. All rights reserved</p>
 </footer>
+
+<script>
+        $(document).ready(function() {
+            
+            $(".postCode").click(function () {
+                let postCode = this.getAttribute("data-postCode");
+                console.log(postCode);
+                window.location.href = "bookDetail.php?postCode=" + postCode;
+            })
+
+        })
+    </script>
 </body>
 </html>

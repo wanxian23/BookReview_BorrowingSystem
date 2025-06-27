@@ -53,7 +53,8 @@ $user = $runSQL->fetch_assoc();
 
             if (!empty($_POST['comment'])) {
 
-                $comment = $_POST['comment'];
+                $comment = trim($_POST['comment']);
+                $rating = trim($_POST['rating']);
 
                 // Set Time Zone (Malaysia KL)
                 date_default_timezone_set("Asia/Kuala_Lumpur");
@@ -71,8 +72,8 @@ $user = $runSQL->fetch_assoc();
                 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
                 $post = $resultGetPostDetails->fetch_assoc();
 
-                $sqlComment = "INSERT INTO Comment_Rating (postCode, readerID, comment, dateComment, timeComment)
-                               VALUES ('{$post['postCode']}','$readerID','$comment','$todayDate','$todayTime')";
+                $sqlComment = "INSERT INTO Comment_Rating (postCode, readerID, comment, dateComment, timeComment, rating, statusComment)
+                               VALUES ('{$post['postCode']}','$readerID','$comment','$todayDate','$todayTime','$rating','APPROVED')";
                 $resultSqlComment = $conn->query($sqlComment);
 
                 $sqlGetCommentDetails = "SELECT *

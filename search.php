@@ -408,7 +408,6 @@ $user = $runSQL->fetch_assoc();
             width: 90%;
             height: 100%;
             box-shadow: var(--bookBoxShadow);
-            border: 1px solid;
         }
 
         div.post div.body div.left div.review {
@@ -551,7 +550,7 @@ $user = $runSQL->fetch_assoc();
 
                 }
 
-                echo '<div class="post">';
+                echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
                 echo '    <div class="head">';
                 echo '        <div class="postProfile">';
                 
@@ -618,21 +617,18 @@ $user = $runSQL->fetch_assoc();
             echo '</div>';
         }
 
-    } else if (isset($_REQUEST['thread'])) {
+    } else if (isset($_REQUEST['bookTitle'])) {
 
-        $thread = $_REQUEST['thread'];
+        $bookTitle = $_REQUEST['bookTitle'];
 
             $sqlGetPostDetails = "SELECT 
                 post.*,
                 reader.*,
-                book.*,
-                thread.*
+                book.*
             FROM post_review post
             INNER JOIN reader_user reader USING (readerID)
             INNER JOIN book_record book USING (bookID)
-            INNER JOIN thread_post threadPost USING (postCode)
-            INNER JOIN thread thread USING (threadID)
-            WHERE thread.thread ='$thread'
+            WHERE book.bookTitle ='$bookTitle'
             GROUP BY post.postCode";
         $resultGetPostDetails = $conn->query($sqlGetPostDetails);
         $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -640,7 +636,7 @@ $user = $runSQL->fetch_assoc();
         if ($resultGetPostDetails->num_rows > 0) {
             echo '<div class="header-row">';
             echo '    <div class="back-button"><i class="bx bx-reply"></i> Back</div>';
-            echo '    <h1>Result post based on thread &quot;' . htmlspecialchars($thread) . '&quot;</h1>';
+            echo '    <h1>Result post based on book title &quot;' . htmlspecialchars($bookTitle) . '&quot;</h1>';
             echo '</div>';
             echo '<hr class="header-line">';
             echo '<div class="book-posts-wrapper">';
@@ -679,7 +675,7 @@ $user = $runSQL->fetch_assoc();
 
                 }
 
-                echo '<div class="post">';
+                echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
                 echo '    <div class="head">';
                 echo '        <div class="postProfile">';
                 
@@ -753,6 +749,18 @@ $user = $runSQL->fetch_assoc();
     </main>
 
     <?php include("footer.html"); ?>
+
+    <script>
+        $(document).ready(function() {
+
+            $(".postCode").click(function () {
+                let postCode = this.getAttribute("data-postCode");
+                console.log(postCode);
+                window.location.href = "bookDetail.php?postCode=" + postCode;
+            })
+
+        });
+    </script>
 
 </body>
 

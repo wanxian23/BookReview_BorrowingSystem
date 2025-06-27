@@ -17,7 +17,7 @@
 
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Admin's Sign Up</title>
+    <title>Admin Sign Up</title>
 
     <style>
         :root {
@@ -135,116 +135,6 @@
         }
     </style>
 
-    <script>
-        $(document).ready(function () {
-            $("#submit").click(function (event) {
-
-                let inputInfoName = [
-                    "Username", "Country", "Email", "Contact", "Date Of Birth", "Password", "Re-Enter Password", "Policy & Terms"
-                ];
-
-                let inputInfo = [
-                    document.getElementById("username").value,
-                    document.getElementById("country").value,
-                    document.getElementById("email").value,
-                    document.getElementById("contact").value,
-                    document.getElementById("dob").value,
-                    document.getElementById("password").value,
-                    document.getElementById("confirm-password").value,
-                    document.getElementById("terms")
-                ];
-
-                if (!nullValidation(inputInfo, inputInfoName)) {
-                    // If put this command on top
-                    // It will prevent the form by submitting
-                    // So, put it here, the form only restricted from submit when error occur
-                    event.preventDefault();
-                    return;
-                }
-
-                if (!usernameValidation(inputInfo[0])) {
-                    event.preventDefault();
-                    return;
-                }
-
-                if (!contactValidation(inputInfo[3])) {
-                    event.preventDefault();
-                    return;
-                }
-
-                if (!dateValidation(inputInfo[4])) {
-                    event.preventDefault();
-                    return;
-                }
-
-                if (!passwordValidation(pass, repass)) {
-                    event.preventDefault();
-                    return;
-                }
-
-            });
-
-            function nullValidation(inputInfo, inputInfoName) {
-                for (let i = 0; i < inputInfo.length; i++) {
-                    if (inputInfo[i] === "" && i != inputInfo.length - 1) {
-                        window.alert(inputInfoName[i] + " Cannot Be Null!");
-                        return false;
-                    } else if (!inputInfo[inputInfo.length - 1].checked) {
-                        window.alert(inputInfoName[inputInfo.length - 1] + " Must Be Tick!");
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            function usernameValidation(username) {
-                if (username.length > 16) {
-                    window.alert("Username Cannot Exceed 16 Characters!");
-                    return false;
-                }
-
-                return true;
-            }
-
-            function contactValidation(contact) {
-                if (contact.length > 15 || contact.length < 10) {
-                    window.alert("Contact Number Must be In The Range 11 to 15!");
-                    return false;
-
-                    // Check if the contact is digit
-                } else if (!/^\d+$/.test(contact)) {
-                    window.alert("Contact Number Must be Number Only!");
-                    return false;
-                }
-
-                return true;
-            }
-
-            function dateValidation(birth) {
-
-                // Initial format is YYYY-MM-DD
-                // So, split it by - to get year (index 0)
-                let birthYear = parseInt(birth.split("-")[0]);
-
-                if (birthYear < 1910 || birthYear > 2025) {
-                    window.alert("Birth Year Can Only In The Range 1910 To 2025!");
-                    return false;
-                }
-
-                return true;
-            }
-
-            function passwordValidation(pass, repass) {
-                if (pass !== repass) {
-                    window.alert("Password Must Be The Same! Please Try Again!");
-                    return false;
-                }
-
-                return true;
-            }
-        });
-    </script>
 </head>
 
 <body>
@@ -320,7 +210,7 @@
     </header>
 
     <main>
-        <form class="signup-container" method="post" action="backendLogic/signupHandle.php">
+        <form id="signupForm" class="signup-container" method="post" action="<?php echo htmlspecialchars("backendLogic/adminSignupHandling.php") ?>">
             <div class="signup-header">Admin's Sign Up</div>
 
             <div class="signup-form">
@@ -330,30 +220,14 @@
                     <input type="text" id="username" name="username" autofocus required>
                 </div>
 
-                <div class="form-group">
-                    <label for="country">Country/Region</label>
-                    <select id="country" name="country">
-                        <option value="" name="country">Select your country</option>
-                        <option value="Malaysia" name="country">Malaysia</option>
-                        <option value="Indonesia" name="country">Indonesia</option>
-                        <option value="Thailand" name="country">Thailand</option>
-                        <option value="Vietnam" name="country">Vietnam</option>
-                    </select>
-                </div>
-
                 <div class="form-group full-width">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="contact">Contact Number</label>
                     <input type="tel" id="contact" name="contact" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" name="dateBirth" required>
                 </div>
 
                 <div class="form-group">
@@ -364,11 +238,6 @@
                 <div class="form-group">
                     <label for="confirm-password">Re-enter Password</label>
                     <input type="password" id="confirm-password" required>
-                </div>
-
-                <div class="checkbox-container">
-                    <input type="checkbox" value="terms" id="terms" required>
-                    <label for="terms">Agree to <a href="#">Terms & Conditions</a></label>
                 </div>
 
                 <input type="submit" class="signup-button" id="submit" value="Sign Up">
@@ -386,54 +255,105 @@
         <p>Copyright &copy; 2025 BookSpare. All right reserved</p>
     </footer>
 
-    <!-- <script>
+    <script>
         $(document).ready(function () {
-            $(".signup-button").click(function (e) {
+            $("#signupForm").submit(function (event) {
 
-                let username = $("#username").val().trim();
-                let country = $("#country").val();
-                let email = $("#email").val().trim();
-                let contact = $("#contact").val().trim();
-                let dob = $("#dob").val();
-                let password = $("#password").val();
-                let rePassword = $("#confirm-password").val();
-                let termsChecked = $("#terms").is(":checked");
+                let inputInfoName = [
+                    "Username", "Country", "Email", "Contact", "Date Of Birth", "Password", "Re-Enter Password", "Policy & Terms"
+                ];
 
-                let isValid = true;
+                let inputInfo = [
+                    document.getElementById("username").value,
+                    document.getElementById("email").value,
+                    document.getElementById("contact").value,
+                    document.getElementById("password").value,
+                    document.getElementById("confirm-password").value,
+                ];
 
-                $("input, select").css("border-color", "#ccc");
-
-                if (!username || !country || !email || !contact || !dob || !password || !rePassword) {
-                    alert("Please fill in all fields.");
-                    $("input, select").each(function () {
-                        if (!$(this).val()) {
-                            $(this).css("border-color", "red");
-                        }
-                    });
-                    isValid = false;
+                if (!nullValidation(inputInfo, inputInfoName)) {
+                    // If put this command on top
+                    // It will prevent the form by submitting
+                    // So, put it here, the form only restricted from submit when error occur
+                    event.preventDefault();
+                    return;
                 }
 
-                if (password && rePassword && password !== rePassword) {
-                    alert("Passwords do not match. Please re-enter your password.");
-                    $("#password, #confirm-password").css("border-color", "red");
-                    isValid = false;
+                if (!usernameValidation(inputInfo[0])) {
+                    event.preventDefault();
+                    return;
                 }
 
-                if (!termsChecked) {
-                    alert("You must agree to the terms and conditions.");
-                    isValid = false;
+                if (!contactValidation(inputInfo[2])) {
+                    event.preventDefault();
+                    return;
                 }
 
-                if (!isValid) {
-                    e.preventDefault();
-                } else {
-                    alert("Signed Up successfully!");
+                if (!passwordValidation(inputInfo[3], inputInfo[4])) {
+                    event.preventDefault();
+                    return;
                 }
+
             });
+
+            function nullValidation(inputInfo, inputInfoName) {
+                for (let i = 0; i < inputInfo.length; i++) {
+                    if (inputInfo[i] === "") {
+                        window.alert(inputInfoName[i] + " Cannot Be Null!");
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            function usernameValidation(username) {
+                if (username.length > 16) {
+                    window.alert("Username Cannot Exceed 16 Characters!");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function contactValidation(contact) {
+                if (contact.length > 15 || contact.length < 10) {
+                    window.alert("Contact Number Must be In The Range 11 to 15!");
+                    return false;
+
+                    // Check if the contact is digit
+                } else if (!/^\d+$/.test(contact)) {
+                    window.alert("Contact Number Must be Number Only!");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function dateValidation(birth) {
+
+                // Initial format is YYYY-MM-DD
+                // So, split it by - to get year (index 0)
+                let birthYear = parseInt(birth.split("-")[0]);
+
+                if (birthYear < 1910 || birthYear > 2025) {
+                    window.alert("Birth Year Can Only In The Range 1910 To 2025!");
+                    return false;
+                }
+
+                return true;
+            }
+
+            function passwordValidation(pass, repass) {
+                if (pass !== repass) {
+                    window.alert("Password Must Be The Same! Please Try Again!");
+                    return false;
+                }
+
+                return true;
+            }
         });
-    </script> -->
-
-
+    </script>
 
 </body>
 

@@ -47,19 +47,18 @@ $user = $runSQL->fetch_assoc();
 
             $bookTitle = trim($_POST['book_title']);
             $genre = $_POST['genre'];
-            $opinion = $_POST['your_opinion'];
-            $author = $_POST['author'];
-            $review = $_POST['review'];
+            $author = trim($_POST['author']);
+            $availableBorrow = "";
 
             $thread = [];
             if (isset($_POST['removeThread'])) {
                 $thread = $_POST['removeThread'];
             }
 
-            if (isset($_POST['public_phone_number'])) {
-                $statusPhone = "YES";
+            if (isset($_POST['available_for_borrow'])) {
+                $availableBorrow = "YES";
             } else {
-                $statusPhone = "NO";
+                $availableBorrow = "NO";
             }
 
             $sqlCheckBook = "SELECT * FROM book_record WHERE bookTitle LIKE '$bookTitle'";
@@ -93,89 +92,51 @@ $user = $runSQL->fetch_assoc();
             $bookTitleChoose = $book['bookTitle'];
             $bookCode = $book['bookID'];
 
-            if (isset($_POST['available_for_borrow'])) { 
-                
-                if (isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) {
-                    $bookUploads = "bookUploads/";
-                    if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
+            if (isset($_FILES['front_cover']) && $_FILES['front_cover']['error'] == 0) {
+                $bookUploads = "bookUploads/";
+                if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
 
-                    $frontCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['front_cover']['name']);
+                $frontCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['front_cover']['name']);
 
-                    move_uploaded_file($_FILES['front_cover']['tmp_name'], "../".$frontCoverPath);
-                }
-
-                if (isset($_FILES['back_cover']) && $_FILES['back_cover']['error'] == 0) {
-                    $bookUploads = "bookUploads/";
-                    if (!is_dir("../".$bookUploads)) mkdir("../".$bookUploads, "0755", true);
-
-                    $backCoverPath = $bookUploads . uniqid("img_") . "_" . basename($_FILES['back_cover']['name']);
-
-                    move_uploaded_file($_FILES['back_cover']['tmp_name'], "../".$backCoverPath);
-                }
-
-                $synopsis = mysqli_real_escape_string($conn, $_POST['synopsis']);
-                
-                $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, ownerOpinion, ownerRating, frontCover_img, backCover_img, synopsis, statusPhone, author, genre)
-                VALUES ('$readerID', '$bookCode', '$opinion','$review','$frontCoverPath','$backCoverPath','$synopsis','$statusPhone','$author','$genre')";
-                $runSqlCreatePost = $conn->query($sqlCreatePost);
-
-                if ($runSqlCreatePost) {
-                    // Return the most latest post
-                    $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerID' ORDER BY postCode DESC LIMIT 1;";
-                    $resultGetPost = $conn->query($sqlGetPost);
-                    $post = $resultGetPost->fetch_assoc();
-                    $postCode = $post['postCode'];
-
-                    foreach ($thread as $threadData) {
-                        $data = trim($threadData);
-                        $sqlThreadCheck = "SELECT * FROM Thread WHERE thread LIKE '$data'";
-                        $resultCheckThread = $conn->query($sqlThreadCheck); 
-                        $threadData = $resultCheckThread->fetch_assoc();
-                        $threadChoose = $threadData['threadID'];
-
-                        $sqlLinkThread = "INSERT INTO Thread_Post (postCode, threadID) VALUES ('$postCode','$threadChoose')";
-                        $resultLinkThread = $conn->query($sqlLinkThread);            
-                    }
-
-                    echo "POST CREATED SUCCESSFULLY!";
-                    echo "<meta http-equiv='refresh' content='3; url=../mainmyposts.php'>";
-                } else {
-                    echo "FAILED TO CREATE POST! PLEASE TRY AGAIN!";
-                    echo "<meta http-equiv='refresh' content='3; url=../newPost.php'>";
-                }
-            } else {
-
-                $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, ownerOpinion, ownerRating, statusPhone, author, genre)
-                VALUES ('$readerID', '$bookCode', '$opinion','$review','$statusPhone','$author','$genre')";
-                $runSqlCreatePost = $conn->query($sqlCreatePost);
-
-                if ($runSqlCreatePost) {
-
-                    // Return the most latest post
-                    $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerID' ORDER BY postCode DESC LIMIT 1;";
-                    $resultGetPost = $conn->query($sqlGetPost);
-                    $post = $resultGetPost->fetch_assoc();
-                    $postCode = $post['postCode'];
-
-                    foreach ($thread as $threadData) {
-                        $data = trim($threadData);
-                        $sqlThreadCheck = "SELECT * FROM Thread WHERE thread LIKE '$data'";
-                        $resultCheckThread = $conn->query($sqlThreadCheck); 
-                        $threadData = $resultCheckThread->fetch_assoc();
-                        $threadChoose = $threadData['threadID'];
-
-                        $sqlLinkThread = "INSERT INTO Thread_Post (postCode, threadID) VALUES ('$postCode','$threadChoose')";
-                        $resultLinkThread = $conn->query($sqlLinkThread);            
-                    }
-
-                    echo "POST CREATED SUCCESSFULLY!";
-                    echo "<meta http-equiv='refresh' content='3; url=../mainmyposts.php'>";
-                } else {
-                    echo "FAILED TO CREATE POST! PLEASE TRY AGAIN!";
-                    echo "<meta http-equiv='refresh' content='3; url=../newPost.php'>";
-                }
-
+                move_uploaded_file($_FILES['front_cover']['tmp_name'], "../".$frontCoverPath);
             }
+
+            $synopsis = mysqli_real_escape_string($conn, $_POST['synopsis']);
+
+            // Set Time Zone (Malaysia KL)
+            date_default_timezone_set("Asia/Kuala_Lumpur");
+            $todayDate = date("Y-m-d H:i:s");
+            $todayTime = date("H:i:s");
+
+            $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, frontCover_img, synopsis, statusBorrow, author, genre, datePosted)
+            VALUES ('$readerID', '$bookCode','$frontCoverPath','$synopsis','$availableBorrow','$author','$genre','$todayDate')";
+            $runSqlCreatePost = $conn->query($sqlCreatePost);
+
+            if ($runSqlCreatePost) {
+                // Return the most latest post
+                $sqlGetPost = "SELECT * FROM post_review WHERE readerID = '$readerID' ORDER BY postCode DESC LIMIT 1;";
+                $resultGetPost = $conn->query($sqlGetPost);
+                $post = $resultGetPost->fetch_assoc();
+                $postCode = $post['postCode'];
+
+                foreach ($thread as $threadData) {
+                    $data = trim($threadData);
+                    $sqlThreadCheck = "SELECT * FROM Thread WHERE thread LIKE '$data'";
+                    $resultCheckThread = $conn->query($sqlThreadCheck); 
+                    $threadData = $resultCheckThread->fetch_assoc();
+                    $threadChoose = $threadData['threadID'];
+
+                    $sqlLinkThread = "INSERT INTO Thread_Post (postCode, threadID) VALUES ('$postCode','$threadChoose')";
+                    $resultLinkThread = $conn->query($sqlLinkThread);            
+                }
+
+                echo "POST CREATED SUCCESSFULLY!";
+                echo "<meta http-equiv='refresh' content='3; url=../mainmyposts.php'>";
+            } else {
+                echo "FAILED TO CREATE POST! PLEASE TRY AGAIN!";
+                echo "<meta http-equiv='refresh' content='3; url=../newPost.php'>";
+            }
+
         } ?>   
 
     </main>

@@ -59,7 +59,7 @@
 
 <body>
 
-<!-- ─────────── FULL ACCESSIBILITY HEADER (copied from login.php) ─────────── -->
+
 <header>
   <div id="firstHeader">
     <a href="index.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>

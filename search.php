@@ -505,7 +505,8 @@ $user = $runSQL->fetch_assoc();
                 LEFT JOIN thread thread USING (threadID)
                 WHERE (book.bookTitle LIKE '%$search%'
                 OR thread.thread LIKE '%$search%')
-                AND post.statusApprove = 'APPROVED'
+                AND post.statusApprove != 'BANNED'
+                AND post.statusApprove != 'SUSPICIOUS'
                 GROUP BY post.postCode";
             $resultGetPostDetails = $conn->query($sqlGetPostDetails);
             $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -622,7 +623,8 @@ $user = $runSQL->fetch_assoc();
             INNER JOIN reader_user reader USING (readerID)
             INNER JOIN book_record book USING (bookID)
             WHERE book.bookTitle = '$bookTitle'
-            AND post.statusApprove = 'APPROVED'
+            AND post.statusApprove != 'BANNED'
+            AND post.statusApprove != 'SUSPICIOUS'
             GROUP BY post.postCode";
         $resultGetPostDetails = $conn->query($sqlGetPostDetails);
         $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);

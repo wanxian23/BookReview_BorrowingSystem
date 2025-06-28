@@ -1,19 +1,16 @@
 <?php
 
-$sqlGetPostDetails = "SELECT 
-                          post.*,
-                          reader.*,
-                          book.*
-                      FROM post_review post
-                      INNER JOIN reader_user reader USING (readerID)
-                      INNER JOIN book_record book USING (bookID)
-                      INNER JOIN book_borrowed borrow USING (postCode)
-                      WHERE borrow.readerID = '$readerID'
-                      AND borrow.statusBorrow = 'APPROVED'
-                      AND (borrow.fullname IS NULL OR TRIM(borrow.fullname = ''))
-                      ORDER BY borrow.dateRequestSent DESC";
-$resultGetPostDetails = $conn->query($sqlGetPostDetails);
-$post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+$sqlAllPost = "SELECT 
+                post.*,
+                reader.*,
+                book.*
+            FROM post_review post
+            INNER JOIN reader_user reader USING (readerID)
+            INNER JOIN book_record book USING (bookID)
+            WHERE post.statusApprove = 'SUSPICIOUS'
+            ORDER BY post.datePosted DESC";
+$runSQLAllPost = $conn->query($sqlAllPost);
+$post = $runSQLAllPost->fetch_all(MYSQLI_ASSOC);
 
 foreach ($post as $row) {
 
@@ -41,7 +38,7 @@ foreach ($post as $row) {
     }
 
 
-    echo '<div id="replyForm" class="post postCode" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 190px;">';
+    echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     
@@ -49,13 +46,13 @@ foreach ($post as $row) {
 
     if ($row['readerID'] != $readerID) {
         if (!empty($row['avatar'])) {
-            echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+            echo '<a href="'.$profileLink.'"><img src="../'.$row['avatar'].'" alt="Profile Image"></a>';
         } else {
             echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
         }
     } else {
         if (!empty($row['avatar'])) {
-            echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+            echo '<a href="profilemyposts.php"><img src="../'.$row['avatar'].'" alt="Profile Image"></a>';
         } else {
             echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
         }                                
@@ -66,20 +63,26 @@ foreach ($post as $row) {
     echo '    </div>';
 
     echo '    <div class="body">';
-    echo '    </div>';
-
-    echo '    <div class="bottom" style="border-bottom: 2px solid;">';
-    // echo '        <div class="left">';
-    // echo '        </div>';
+    echo '        <div class="right">';
+    if ($row['frontCover_img'] != null) {
+        echo '            <img src="../'.$row['frontCover_img'].'" alt="Book Cover">';
+    }  else {
+        echo '            <img src="../bookUploads/noImageUploaded.png" alt="Book Cover">';
+    }
+    echo '        </div>';
+    echo '        <div class="right">';
     echo '          <h3>'.$row['bookTitle'].'</h3>';
     if ($averageRating != 0) {
         echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
     } else {
         echo '<h4>Average Review: No Rating</h4>';
     }
+    echo '        </div>';
     echo '    </div>';
-    echo '    <div class="bottom">';
-    echo '      <h3 style="color: red;">Fill In Reply Form To Proceeed!</h3>';
+
+    echo '    <div class="bottom statusButton">';
+    echo '        <a href="postValidationSection/approvalHandling.php?postCode='.$row['postCode'].'">Approve</a>';
+    echo '        <a href="postValidationSection/bannedHandling.php?postCode='.$row['postCode'].'">Ban</a>';
     echo '    </div>';
     echo '</div>';
                             

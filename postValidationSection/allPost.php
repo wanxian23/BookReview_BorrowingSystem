@@ -1,16 +1,17 @@
 <?php
 
-$sqlAllPost = "SELECT 
-                post.*,
-                reader.*,
-                book.*
-            FROM post_review post
-            INNER JOIN reader_user reader USING (readerID)
-            INNER JOIN book_record book USING (bookID)
-            WHERE post.statusApprove = 'REJECTED'
-            ORDER BY post.datePosted DESC";
-$runSQLAllPost = $conn->query($sqlAllPost);
-$post = $runSQLAllPost->fetch_all(MYSQLI_ASSOC);
+$sqlGetPostDetails = "SELECT 
+                          post.*,
+                          reader.*,
+                          book.*
+                      FROM post_review post
+                      INNER JOIN reader_user reader USING (readerID)
+                      INNER JOIN book_record book USING (bookID)
+                      WHERE post.readerID = '$readerID'
+                      AND post.statusApprove != 'BANNED'
+                      ORDER BY post.datePosted DESC";
+$resultGetPostDetails = $conn->query($sqlGetPostDetails);
+$post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
 foreach ($post as $row) {
 
@@ -46,13 +47,13 @@ foreach ($post as $row) {
 
     if ($row['readerID'] != $readerID) {
         if (!empty($row['avatar'])) {
-            echo '<a href="'.$profileLink.'"><img src="../'.$row['avatar'].'" alt="Profile Image"></a>';
+            echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
         } else {
             echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
         }
     } else {
         if (!empty($row['avatar'])) {
-            echo '<a href="profilemyposts.php"><img src="../'.$row['avatar'].'" alt="Profile Image"></a>';
+            echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
         } else {
             echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
         }                                
@@ -65,23 +66,22 @@ foreach ($post as $row) {
     echo '    <div class="body">';
     echo '        <div class="right">';
     if ($row['frontCover_img'] != null) {
-        echo '            <img src="../'.$row['frontCover_img'].'" alt="Book Cover">';
+        echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
     }  else {
-        echo '            <img src="../bookUploads/noImageUploaded.png" alt="Book Cover">';
+        echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
     }
     echo '        </div>';
-    echo '        <div class="right">';
+    echo '    </div>';
+
+    echo '    <div class="bottom">';
+    // echo '        <div class="left">';
+    // echo '        </div>';
     echo '          <h3>'.$row['bookTitle'].'</h3>';
     if ($averageRating != 0) {
         echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
     } else {
         echo '<h4>Average Review: No Rating</h4>';
     }
-    echo '        </div>';
-    echo '    </div>';
-
-    echo '    <div class="bottom statusButton" style="justify-content: center;">';
-    echo '        <a href="postValidationSection/approvalHandling.php?postCode='.$row['postCode'].'">Approve</a>';
     echo '    </div>';
     echo '</div>';
                             

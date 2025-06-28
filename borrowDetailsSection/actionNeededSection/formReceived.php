@@ -7,12 +7,13 @@ $sqlGetPostDetails = "SELECT
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
+                      INNER JOIN book_borrowed borrow USING (postCode)
                       WHERE post.readerID = '$readerID'
-                      AND post.statusApprove = 'APPROVED' 
-                      ORDER BY post.datePosted DESC";
+                      AND borrow.statusBorrow = 'APPROVED'
+                      AND borrow.fullname != ''
+                      ORDER BY borrow.dateRequestSent DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
-
 
 foreach ($post as $row) {
 
@@ -40,7 +41,19 @@ foreach ($post as $row) {
     }
 
 
-    echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
+    $sqlBorrowerDetails = "SELECT 
+                          reader.*,
+                          borrow.statusBorrow
+                      FROM book_borrowed borrow
+                      INNER JOIN reader_user reader USING (readerID)
+                      WHERE borrow.postCode = '{$row['postCode']}'
+                      AND borrow.statusBorrow = 'APPROVED'
+                      AND borrow.fullname != ''";
+    $resultGetBorrowerDetails = $conn->query($sqlBorrowerDetails);
+    $borrower = $resultGetBorrowerDetails->fetch_assoc();
+
+
+    echo '<div id="viewReplyForm" class="post postCode" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 220px; width: 350px;">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     
@@ -65,28 +78,9 @@ foreach ($post as $row) {
     echo '    </div>';
 
     echo '    <div class="body">';
-    // echo '        <div class="left">';
-    // echo '            <div class="review">';
-    // echo '                <h2>Book Title: '.$row['bookTitle'].'</h2>';
-    // echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-    // echo '            </div>';
-    // echo '            <div class="description">';
-    // echo '                <p>';
-    // echo substr($row['ownerOpinion'], 0, 180);
-    // echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-    // echo '                </p>';
-    // echo '            </div>';
-    // echo '        </div>';
-    echo '        <div class="right">';
-    if ($row['frontCover_img'] != null) {
-        echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
-    }  else {
-        echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
-    }
-    echo '        </div>';
     echo '    </div>';
 
-    echo '    <div class="bottom">';
+    echo '    <div class="bottom" style="border-bottom: 2px solid;">';
     // echo '        <div class="left">';
     // echo '        </div>';
     echo '          <h3>'.$row['bookTitle'].'</h3>';
@@ -95,6 +89,10 @@ foreach ($post as $row) {
     } else {
         echo '<h4>Average Review: No Rating</h4>';
     }
+    echo '    </div>';
+    echo '    <div class="bottom">';
+    echo '      <h3 style="color: red;">\''.$borrower['username'].'\' Has Answer The Borrow Form!</h3>';
+    echo '      <h3 style="color: red;">Click To View!</h3>';
     echo '    </div>';
     echo '</div>';
                             

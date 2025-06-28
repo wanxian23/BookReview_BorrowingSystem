@@ -7,7 +7,8 @@ $sqlGetPostDetails = "SELECT
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
-                      WHERE post.statusApprove = 'APPROVED'
+                      WHERE post.statusApprove != 'BANNED'
+                      AND post.statusApprove != 'SUSPICIOUS'
                       ORDER BY post.datePosted DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);

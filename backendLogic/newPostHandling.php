@@ -108,8 +108,8 @@ $user = $runSQL->fetch_assoc();
             $todayDate = date("Y-m-d H:i:s");
             $todayTime = date("H:i:s");
 
-            $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, frontCover_img, synopsis, statusBorrow, author, genre, datePosted)
-            VALUES ('$readerID', '$bookCode','$frontCoverPath','$synopsis','$availableBorrow','$author','$genre','$todayDate')";
+            $sqlCreatePost = "INSERT INTO post_review (readerID, bookID, frontCover_img, synopsis, statusPostBorrow, author, genre, datePosted, statusApprove)
+            VALUES ('$readerID', '$bookCode','$frontCoverPath','$synopsis','$availableBorrow','$author','$genre','$todayDate','APPROVED')";
             $runSqlCreatePost = $conn->query($sqlCreatePost);
 
             if ($runSqlCreatePost) {

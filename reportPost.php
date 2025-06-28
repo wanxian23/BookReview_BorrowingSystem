@@ -93,7 +93,21 @@ $post = $resultGetPostDetails->fetch_assoc();
             border-bottom: 1px solid var(--containerColor);
         }
 
-        .formDelete {
+        .edit-container p {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 50%;
+        }
+
+        .edit-container p textarea {
+            width: 60%;
+            resize: vertical;
+            min-height: 30px;
+            padding: 2px 5px;
+        }
+
+        .formReport {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -137,15 +151,29 @@ $post = $resultGetPostDetails->fetch_assoc();
     <main>
         <div class="edit-container">
             <div class="edit-header">
-                <h2 style="text-align: center; font-size: 1.6em;">Book Borrow Confirmation</h2>
+                <h2 style="text-align: center; font-size: 1.6em;">Post Report</h2>
             </div>
 
-            <form class="formDelete" method="POST" action="<?php echo htmlspecialchars("backendLogic/bookBorrowHandling.php?postCode=$postCode"); ?>">
-                <p style="font-size: 1.3em;">Are you sure you want to borrow this book?</p>
-                <p style="font-size: 1.3em; background-color: lightgray; padding: 10px 20px; border-radius: 5px;">'<?php echo $post['bookTitle']; ?>' From User '<?php echo $post['username'] ?>'</p>
+            <form class="formReport" method="POST" action="<?php echo htmlspecialchars("backendLogic/reportPostHandling.php?postCode=$postCode"); ?>">
                 <input type="hidden" name="postCode" value="<?php echo $postCode; ?>">
+                <p style="font-size: 1.3em; background-color: lightgray; padding: 10px 20px; border-radius: 5px;">'<?php echo $post['bookTitle']; ?>' From User '<?php echo $post['username'] ?>'</p>
+                <p style="font-size: 1.3em;">Report Reason:
+                <select id="reportReason" name="reportReason" required>
+                    <option value="" disabled selected>Select a reason</option>
+                    <option value="inappropriate">Inappropriate content</option>
+                    <option value="spam">Spam or misleading</option>
+                    <option value="hate">Hate speech or offensive</option>
+                    <option value="harassment">Harassment or bullying</option>
+                    <option value="falseInfo">False information</option>
+                    <option value="copyright">Copyright violation</option>
+                    <option value="offTopic">Off-topic</option>
+                </select>
+                </p>
+                <p style="font-size: 1.3em;">Other Reason:
+                    <textarea name="extraReason" placeholder="Extra Reason (Optional)" id="extraReason"></textarea>
+                </p>
                 <div style="display: flex; gap: 20px;">
-                    <button type="submit" class="confirm-btn">Yes, Borrow</button>
+                    <button type="submit" class="confirm-btn">Report</button>
                     <a href="bookDetail.php?postCode=<?php echo $postCode; ?>" class="cancel-btn">Cancel</a>
                 </div>
             </form>

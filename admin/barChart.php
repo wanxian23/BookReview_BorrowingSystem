@@ -2,8 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: login.php");
-    exit;
+    header("Location: ../login.php");
 }
 
 require("database/database.php");

@@ -125,7 +125,7 @@ $post = $resultGetPostDetails->fetch_assoc();
                             synopsis = '$synopsis',
                             author = '$author',
                             genre = '$genre',
-                            statusBorrow = '$availableBorrow'
+                            statusPostBorrow = '$availableBorrow'
                             WHERE postCode = '$postCode'";
             $runSqlCreatePost = $conn->query($sqlCreatePost);
         } else {
@@ -135,7 +135,7 @@ $post = $resultGetPostDetails->fetch_assoc();
                             synopsis = '$synopsis',
                             author = '$author',
                             genre = '$genre',
-                            statusBorrow = '$availableBorrow'
+                            statusPostBorrow = '$availableBorrow'
                             WHERE postCode = '$postCode'";
             $runSqlCreatePost = $conn->query($sqlCreatePost);   
         }

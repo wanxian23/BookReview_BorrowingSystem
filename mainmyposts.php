@@ -344,13 +344,11 @@ $user = $runSQL->fetch_assoc();
 
         echo '<form id="asideSection" method="GET">';
         // echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
-        $pendingActive = (!isset($_GET['section']) || $_GET['section'] === 'pending') ? 'active' : '';
-        $approvedActive = (isset($_GET['section']) && $_GET['section'] === 'approved') ? 'active' : '';
-        $rejectedActive = (isset($_GET['section']) && $_GET['section'] === 'rejected') ? 'active' : '';
+        $postActive = (!isset($_GET['section']) || $_GET['section'] === 'allPost') ? 'active' : '';
+        $bannedActive = (isset($_GET['section']) && $_GET['section'] === 'banned') ? 'active' : '';
 
-        echo '<button type="submit" name="section" value="pending" class="' . $pendingActive . '">Pending</button>';
-        echo '<button type="submit" name="section" value="approved" class="' . $approvedActive . '">Approved</button>';
-        echo '<button type="submit" name="section" value="rejected" class="' . $rejectedActive . '">Rejected</button>';
+        echo '<button type="submit" name="section" value="allPost" class="' . $postActive . '">All Post</button>';
+        echo '<button type="submit" name="section" value="banned" class="' . $bannedActive . '">Banned</button>';
 
         echo '</form>';     
                 
@@ -361,15 +359,13 @@ $user = $runSQL->fetch_assoc();
             <?php 
 
             if (isset($_GET['section'])) {
-                if ($_GET['section'] === 'pending') {
-                    include('postValidationSection/pendingPost.php');
-                } elseif ($_GET['section'] === 'approved') {
-                    include 'postValidationSection/approvalPost.php';
+                if ($_GET['section'] === 'allPost') {
+                    include('postValidationSection/allPost.php');
                 } else {
-                    include 'postValidationSection/rejectedPost.php';
+                    include 'postValidationSection/bannedPost.php';
                 }
             } else {
-                include 'postValidationSection/pendingPost.php'; // default section
+                include('postValidationSection/allPost.php');
             }
 
             ?>
@@ -381,23 +377,6 @@ $user = $runSQL->fetch_assoc();
     </main>
 
     <script>
-        // Add some interactivity
-        // document.querySelectorAll('.read-more').forEach(link => {
-        //     link.addEventListener('click', function(e) {
-        //         e.preventDefault();
-        //         alert('Read more functionality would expand the review text');
-        //     });
-        // });
-
-        // document.querySelectorAll('.comment-input').forEach(input => {
-        //     input.addEventListener('keypress', function(e) {
-        //         if (e.key === 'Enter') {
-        //             alert('Comment functionality would post the comment');
-        //             this.value = '';
-        //         }
-        //     });
-        // });
-
         $(document).ready(function() {
             
             $(".postCode").click(function () {

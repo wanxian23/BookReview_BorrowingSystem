@@ -44,9 +44,28 @@ $sqlGetPostDetails = "SELECT
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
                       WHERE post.readerID = '$userReaderID'
+                      AND post.statusApprove != 'BANNED'
+                      AND post.statusApprove != 'SUSPICIOUS'
                       ORDER BY post.postCode DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
+
+
+$postCode = "";
+if (isset($_REQUEST['postCode'])) {
+
+    $postCode = $_REQUEST['postCode'];
+
+    $sqlBorrowerDetails = "SELECT
+                        borrow.*,
+                        reader.*
+                    FROM Book_Borrowed borrow
+                    INNER JOIN Reader_User reader USING (readerID)
+                    WHERE borrow.postCode = '$postCode'";
+    $resultBorrowDetails = $conn->query($sqlBorrowerDetails);
+    $borrow = $resultBorrowDetails->fetch_assoc();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -128,8 +147,8 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             align-items: center;
             justify-content: center;
             gap: 235px; 
-            margin-top: 30px;
-            margin-bottom: 30px;
+            margin: 30px auto;
+            width: 50%;
         }
 
         .profile-left {
@@ -139,8 +158,42 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             justify-content: center;
         }
 
+        .borrower-profile-left {
+            width:90%;
+            display: flex; 
+            align-items: center;
+            justify-content: space-between;
+        }
 
-        .profile-left img {
+        .borrower-profile-left div:first-child {
+            display: flex; 
+            align-items: center;
+            gap: 20px;
+        }
+
+        .borrower-profile-left div:last-child {
+            display: flex; 
+            align-items: center;
+            gap: 20px;
+        }
+
+        .borrower-profile-left div:last-child a {
+            padding: 5px 0;
+            text-align: center;
+            width: 100px;
+            background-color:rgb(186, 180, 242);
+            border-radius: 5px;
+            transition: 0.2s;
+            text-decoration: none;
+            border: 2px solid;
+            color: black;
+        }
+
+        .borrower-profile-left div:last-child a:hover {
+            background-color:rgb(206, 203, 234);
+        }
+
+        .profile-left img, .borrower-profile-left img {
             width: 110px;
             height: 110px; 
             border-radius: 50%;
@@ -453,16 +506,43 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 <?php include("header.php"); ?>
 
 <div class="profile-header">
-    <div class="profile-left">
-        <?php 
+
+<?php
+    if (isset($_REQUEST['postCode'])) {
+
+        echo '
+        <div class="borrower-profile-left">';
+    
+            echo '<div>';
             if (!empty($viewedUser['avatar'])) {
-                echo "<img src='".$viewedUser['avatar']."' alt='Profile Image'>";
+                echo "<img src='" . $viewedUser['avatar'] . "' alt='Profile Image'>";
             } else {
-                echo '<div class="profile-picture">'. strtoupper($viewedUser['username'][0]) .'</div>';
+                echo "<div class='profile-picture'>" . strtoupper($viewedUser['username'][0]) . "</div>";
             }
-        ?>
-        <div class="profile-name"><?php echo htmlspecialchars($viewedUser['username']); ?></div>
-    </div>
+            echo '<div class="profile-name">' . htmlspecialchars($viewedUser['username']) . '</div>';
+            echo '</div>';
+
+            echo '<div>';
+            echo "<a href=''>Approve</a>";
+            echo "<a href=''>Reject</a>";
+            echo '</div>';
+        echo '</div>';
+
+    } else {
+        echo '
+        <div class="profile-left">';
+    
+        if (!empty($viewedUser['avatar'])) {
+            echo "<img src='" . $viewedUser['avatar'] . "' alt='Profile Image'>";
+        } else {
+            echo "<div class='profile-picture'>" . strtoupper($viewedUser['username'][0]) . "</div>";
+        }
+    
+        echo '<div class="profile-name">' . htmlspecialchars($viewedUser['username']) . '</div>';
+        echo '</div>';
+    }
+?>
+
 </div>
 
 <main>

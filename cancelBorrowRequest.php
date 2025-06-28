@@ -137,15 +137,15 @@ $post = $resultGetPostDetails->fetch_assoc();
     <main>
         <div class="edit-container">
             <div class="edit-header">
-                <h2 style="text-align: center; font-size: 1.6em;">Book Borrow Confirmation</h2>
+                <h2 style="text-align: center; font-size: 1.6em;">Book Borrow Cancellation Confirmation</h2>
             </div>
 
-            <form class="formDelete" method="POST" action="<?php echo htmlspecialchars("backendLogic/bookBorrowHandling.php?postCode=$postCode"); ?>">
-                <p style="font-size: 1.3em;">Are you sure you want to borrow this book?</p>
+            <form class="formDelete" method="POST" action="<?php echo htmlspecialchars("backendLogic/cancelBorrowRequestHandling.php?postCode=$postCode"); ?>">
+                <p style="font-size: 1.3em;">Are you sure you want to cancel your book borrow request for this book?</p>
                 <p style="font-size: 1.3em; background-color: lightgray; padding: 10px 20px; border-radius: 5px;">'<?php echo $post['bookTitle']; ?>' From User '<?php echo $post['username'] ?>'</p>
                 <input type="hidden" name="postCode" value="<?php echo $postCode; ?>">
                 <div style="display: flex; gap: 20px;">
-                    <button type="submit" class="confirm-btn">Yes, Borrow</button>
+                    <button type="submit" class="confirm-btn">Yes, Cancel</button>
                     <a href="bookDetail.php?postCode=<?php echo $postCode; ?>" class="cancel-btn">Cancel</a>
                 </div>
             </form>

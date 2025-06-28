@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: ../login.php");
+    header("Location: login.php");
 }
 
 require("../database/database.php");
@@ -13,23 +13,26 @@ $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
 $readerID = $_SESSION['readerID'];
 
-$sql = "SELECT * FROM admin WHERE adminUsername = '$username'
-OR adminEmail = '$email' OR adminPhone = '$contact'";
+$sql = "SELECT * FROM Reader_User WHERE username = '$username'
+OR email = '$email' OR phone = '$contact'";
 $runSQL = $conn->query($sql);
-$admin = $runSQL->fetch_assoc();
+$user = $runSQL->fetch_assoc();
+
 
 $postCode = $_REQUEST['postCode'];
-
 $sqlGetPostDetails = "SELECT 
                           post.*,
                           reader.*,
-                          book.*
+                          book.*,
+                          borrow.statusBorrow
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
+                      INNER JOIN book_borrowed borrow USING (postCode)
                       WHERE post.postCode = '$postCode'";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_assoc();
+
 
 $sqlGetThreads = "SELECT
                     thread.*
@@ -39,6 +42,7 @@ $sqlGetThreads = "SELECT
                   WHERE threadPost.postCode = '$postCode'";
 $resultGetThreads = $conn->query($sqlGetThreads);
 $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
+
 
 $sqlGetComment = "SELECT
                     comment.*,
@@ -55,9 +59,28 @@ $resultGetComemnt = $conn->query($sqlGetComment);
 $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
 
-$sqlGetReport = "SELECT * FROM post_report WHERE postCode = '$postCode' ORDER BY reportDateTime DESC LIMIT 1";
-$resultGetReport = $conn->query(($sqlGetReport));
-$report = $resultGetReport->fetch_assoc();
+$sqlAvgComment = "SELECT rating as averageRating
+                  FROM Comment_Rating
+                  WHERE postCode = '$postCode'";
+$resultGetAvgComemnt = $conn->query($sqlAvgComment);
+$commentAvg = $resultGetAvgComemnt->fetch_all(MYSQLI_ASSOC);
+
+$averageRating = 0;
+if (!empty($commentAvg)) {
+
+    $i = 0;
+    foreach($commentAvg as $commentData) {
+
+        $averageRating += $commentData['averageRating'];
+        $i++;
+
+    }
+
+    if ($i != 0) {
+        $averageRating = $averageRating / $i;
+    }
+
+}
 
 ?>
 
@@ -179,12 +202,11 @@ $report = $resultGetReport->fetch_assoc();
             display: flex;
             gap: 20px;
             justify-content: space-between;
+            align-items: center;
             border-radius: 9px;
             margin: 30px;
             overflow: hidden;
-            background-color: var(--contentBgColor);
-            border: 1px solid var(--borderColor);
-            padding: 20px 20px;
+            padding: 10px 20px;
         }
 
         .book-edit-container div {
@@ -199,13 +221,13 @@ $report = $resultGetReport->fetch_assoc();
         .book-edit-container div.status:first-child {
             flex-direction: column;
             width:80%;
+            color: red;
         }
 
         .book-edit-container div:nth-child(2) a {
             text-decoration: none;
             text-align: center;
-            width: 100px;
-            height: 40px;
+            width: 200px;
             padding: 10px 20px;
             background-color: var(--buttonColor);
             border-radius: 8px;
@@ -303,7 +325,7 @@ $report = $resultGetReport->fetch_assoc();
 
         .book-rating {
             float: inline-end;
-            font-size: 1.9rem;
+            font-size: 1.8rem;
             font-weight: bold;
         }
 
@@ -564,7 +586,7 @@ $report = $resultGetReport->fetch_assoc();
             height: 40px;
             width: 40px;
             border: 4px solid var(--containerColor);
-            background-color: rgb(202, 28, 57);
+            background-color:#d8d5ec ;
             align-items: center;
             justify-content: center;
             color: black;
@@ -626,7 +648,7 @@ $report = $resultGetReport->fetch_assoc();
 
 <body>
     
-<?php include("adminHeader.php"); ?>
+<?php include("header.php"); ?>
 
     <main>
         <article>
@@ -640,58 +662,21 @@ $report = $resultGetReport->fetch_assoc();
 
             <?php
 
+                // If the post belongs to reader yg login
+                // Display this
 
                 echo '<div class="book-edit-container">';
                 echo '<div class="status">';
-                if ($post['statusApprove'] === "SUSPICIOUS") {
-   
-                    echo '<div><h2>Status:</h2><label style="color: red;">Suspicious</label></div>';
-                    echo '<div><h2>Reported Reason:</h2>';
-                    
-                            $reason = $report['reason'];
-                        
-                            echo '<label style="color: red;">';
-                            switch ($reason) {
-                                case "inappropriate":
-                                    echo 'Post involves inappropriate content.';
-                                    break;
-                                case "spam":
-                                    echo 'Post involves spam or misleading.';
-                                    break;
-                                case "hate":
-                                    echo 'Post involves hate speech or offensive material.';
-                                    break;
-                                case "harassment":
-                                    echo 'Post involves harassment or bullying.';
-                                    break;
-                                case "falseInfo":
-                                    echo 'Post involves false or misleading information.';
-                                    break;
-                                case "copyright":
-                                    echo 'Post may involves violate copyright laws.';
-                                    break;
-                                case "offTopic":
-                                    echo 'Post is off-topic.';
-                                    break;
-                            }
-                            echo '</label></div>';
-
-                            if (!empty($report['extraReason'])) {
-                                echo '<div><h2>Extra Reason:</h2><label style="color: red;">'.$report['extraReason'].'</label></div>';
-                            }
-                    
-                } else if ($post['statusApprove'] === "BANNED") {
-                    echo '<div><h2>Status:</h2><label style="color: red;">Banned</label></div>';
-                    echo '<div><h2>Reason Banned:</h2><label style="color: red;">'.$post['statusApproveMessage'].'</label></div>';
+                if ($post['statusBorrow'] ===  "PENDING") {
+                    echo '<div><h2>Book Borrow Request Status:</h2><label>Pending</label></div>';
+                } else if ($post['statusBorrow'] === "APPROVED") {
+                    echo '<div><h2>Book Borrow Request Status:</h2><label>Approved</label></div>';
+                } else {
+                    echo '<div><h2>Book Borrow Request Status:</h2><label>Rejected</label></div>';
                 }
                 echo '</div>';
                 echo '<div>';
-                if ($post['statusApprove'] === "BANNED") {
-                    echo '<a href="postValidationSection/approvalHandling.php?postCode='.$post['postCode'].'">Approve</a>';
-                } else {
-                    echo '<a href="postValidationSection/approvalHandling.php?postCode='.$post['postCode'].'">Approve</a>';
-                    echo '<a href="postValidationSection/bannedHandling.php?postCode='.$post['postCode'].'">Ban</a>';
-                }
+                echo '<a href="cancelBorrowRequest.php?postCode='.$post['postCode'].'">Cancel Borrow Request</a>';
                 echo '</div>';
                 echo '</div>';
 
@@ -714,17 +699,17 @@ $report = $resultGetReport->fetch_assoc();
                 echo '        </div>';
                 echo '        <div class="bookTitleReview">';
                 echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
-                echo '            <span class="book-rating">0/10</span><br>';
+                if ($averageRating != 0) {
+                    echo '            <span class="book-rating">'.$averageRating.'/10</span><br>';
+                } else {
+                    echo '            <span class="book-rating">No Rating</span><br>';
+                }
                 echo '            <span class="book-author">Author: '.$post['author'].'</span><br>';
                 echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
                 echo '        </div>';
-                echo '        <div class="button-box">';
-                if ($post['statusBorrow'] == "YES") {
-                    echo "<label>Please Click On This Button, If You Are Interested To Borrow This Book!</label>";
-                    echo "<a href='' class='availableBorrow'>Borrow</a>";
-                } else {
-                    echo "<label>This Book Is Not Available For Borrow Currently!<label>";
-                }
+                echo '        <div class="button-box" style="color: red;">';
+                echo "          <label>You Already Sent A Borrow Request For Book Owner!<label><br>";
+                echo "          <label>Please Kindly Wait For Respond!<label>";
                 echo '        </div>';
                 echo '    </div>';
                 echo '</div>';
@@ -744,23 +729,23 @@ $report = $resultGetReport->fetch_assoc();
                 }
                 echo '</div>';
 
-                // echo '<div class="comment-box">';
-                // echo '  <form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
-                // echo '      <div class="inputContainer">';
-                // echo '          <div>';
-                // echo '              <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
-                // echo '              <textarea name="comment" id="comment" placeholder="Comment"></textarea>';
-                // echo '              <input type="number" name="rating" id="rating" placeholder="Rate x/10"></input>';
-                // echo '          </div>';
-                // echo '          <div>';
-                // echo '              <input type="submit" name="addComment" value="Add Comment">';
-                // echo '          </div>';
-                // echo '      </div>';
-                // echo '  </form>';
-                // echo '</div>';
+                echo '<div class="comment-box">';
+                echo '  <form id="commentForm" method="POST" action="' . htmlspecialchars("backendLogic/commentHandling.php?postCode=" . $postCode) . '">';
+                echo '      <div class="inputContainer">';
+                echo '          <div>';
+                echo '              <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
+                echo '              <textarea name="comment" id="comment" placeholder="Comment"></textarea>';
+                echo '              <input type="number" name="rating" id="rating" placeholder="Rate x/10"></input>';
+                echo '          </div>';
+                echo '          <div>';
+                echo '              <input type="submit" name="addComment" value="Add Comment">';
+                echo '          </div>';
+                echo '      </div>';
+                echo '  </form>';
+                echo '</div>';
 
                 echo '<div class="viewComment-box">';
-                        include 'adminBookDetailsSection/commentSection.php';
+                        include '../bookDetailsSection/commentSection.php';
                 echo '</div>';
             echo '</div>';
 

@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
 }
 
 require("../database/database.php");
@@ -320,13 +320,11 @@ $admin = $runSQL->fetch_assoc();
 
         echo '<form id="section" method="GET" action="adminMain.php">';
         // echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
-        $pendingActive = (!isset($_GET['section']) || $_GET['section'] === 'pending') ? 'active' : '';
-        $approvedActive = (isset($_GET['section']) && $_GET['section'] === 'approved') ? 'active' : '';
-        $rejectedActive = (isset($_GET['section']) && $_GET['section'] === 'rejected') ? 'active' : '';
+        $reportedActive = (!isset($_GET['section']) || $_GET['section'] === 'reported') ? 'active' : '';
+        $bannedActive = (isset($_GET['section']) && $_GET['section'] === 'banned') ? 'active' : '';
 
-        echo '<button type="submit" name="section" value="pending" class="' . $pendingActive . '">Pending</button>';
-        echo '<button type="submit" name="section" value="approved" class="' . $approvedActive . '">Approved</button>';
-        echo '<button type="submit" name="section" value="rejected" class="' . $rejectedActive . '">Rejected</button>';
+        echo '<button type="submit" name="section" value="reported" class="' . $reportedActive . '">Reported Posts</button>';
+        echo '<button type="submit" name="section" value="banned" class="' . $bannedActive . '">Banned</button>';
 
         echo '</form>';     
                       
@@ -338,15 +336,13 @@ $admin = $runSQL->fetch_assoc();
             <?php 
 
                 if (isset($_GET['section'])) {
-                    if ($_GET['section'] === 'pending') {
-                        include('postValidationSection/pendingPost.php');
-                    } elseif ($_GET['section'] === 'approved') {
-                        include 'postValidationSection/approvalPost.php';
-                    } else {
-                        include 'postValidationSection/rejectedPost.php';
+                    if ($_GET['section'] === 'reported') {
+                        include('postValidationSection/reportedPost.php');
+                    }else {
+                        include 'postValidationSection/bannedPost.php';
                     }
                 } else {
-                    include 'postValidationSection/pendingPost.php'; // default section
+                    include('postValidationSection/reportedPost.php');
                 }
 
             ?>

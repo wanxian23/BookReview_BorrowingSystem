@@ -7,7 +7,7 @@ $sqlAllPost = "SELECT
             FROM post_review post
             INNER JOIN reader_user reader USING (readerID)
             INNER JOIN book_record book USING (bookID)
-            WHERE post.statusApprove IS NULL OR post.statusApprove = ''
+            WHERE post.statusApprove = 'BANNED'
             ORDER BY post.datePosted DESC";
 $runSQLAllPost = $conn->query($sqlAllPost);
 $post = $runSQLAllPost->fetch_all(MYSQLI_ASSOC);
@@ -80,9 +80,8 @@ foreach ($post as $row) {
     echo '        </div>';
     echo '    </div>';
 
-    echo '    <div class="bottom statusButton">';
+    echo '    <div class="bottom statusButton" style="justify-content: center;">';
     echo '        <a href="postValidationSection/approvalHandling.php?postCode='.$row['postCode'].'">Approve</a>';
-    echo '        <a href="postValidationSection/rejectionHandling.php?postCode='.$row['postCode'].'">Reject</a>';
     echo '    </div>';
     echo '</div>';
                             

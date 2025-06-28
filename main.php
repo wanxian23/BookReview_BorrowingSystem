@@ -28,7 +28,8 @@ $sqlGetPostHighAvg = "SELECT
                     INNER JOIN reader_user reader USING (readerID)
                     INNER JOIN book_record book USING (bookID)
                     LEFT JOIN comment_rating comment USING (postCode)
-                    WHERE post.statusApprove = 'APPROVED'
+                    WHERE post.statusApprove != 'BANNED' AND
+                    post.statusApprove != 'SUSPICIOUS'
                     GROUP BY post.postCode
                     ORDER BY averageRating DESC, post.datePosted DESC";
 $resultGetPostighAvg = $conn->query($sqlGetPostHighAvg);
@@ -461,7 +462,7 @@ $postHighAvg = $resultGetPostighAvg->fetch_all(MYSQLI_ASSOC);
                             echo "<label for=''>$i</label><a href='".htmlspecialchars("search.php?bookTitle=$value")."'>$value</a>";
                             echo "</div>";
                             $i++;
-                            if ($i === 11) {
+                            if ($i === 10) {
                                 break;
                             }
 

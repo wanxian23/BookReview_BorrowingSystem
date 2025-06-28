@@ -33,6 +33,13 @@ $sqlGetPostDetails = "SELECT
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_assoc();
 
+
+$sqlBorrowerDetails = "SELECT *
+                      FROM book_borrowed borrow
+                      WHERE postCode = '$postCode'";
+$resultGetBorrowerDetails = $conn->query($sqlBorrowerDetails);
+$borrower = $resultGetBorrowerDetails->fetch_assoc();
+
 ?>
 
 <!DOCTYPE html>
@@ -115,40 +122,38 @@ $post = $resultGetPostDetails->fetch_assoc();
 
       <div class="field">
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" value="<?php echo $borrower['fullname']; ?>" readonly>
       </div>
 
       <div class="field">
         <label for="phone">Phone Number</label>
-        <input type="text" id="phone" name="phone" required>
+        <input type="text" id="phone" name="phone" value="<?php echo $borrower['phone']; ?>" readonly>
       </div>
 
       <div class="field">
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" value="<?php echo $borrower['email']; ?>" readonly>
       </div>
 
       <div class="field">
         <label for="address">Full Address</label>
-        <textarea id="address" name="address" rows="3" required></textarea>
+        <textarea id="address" name="address" rows="3" readonly><?php echo $borrower['address']; ?></textarea>
       </div>
 
       <div class="field">
         <label for="borrowDate">Preferred Borrow Date</label>
-        <input type="date" id="borrowDate" name="borrowDate" required>
+        <input type="date" id="borrowDate" name="borrowDate" value="<?php echo date('Y-m-d', strtotime($borrower['borrowDate'])); ?>" readonly>
       </div>
 
       <div class="field">
         <label for="returnDate">Expected Return Date</label>
-        <input type="date" id="returnDate" name="returnDate" required>
+        <input type="date" id="returnDate" name="returnDate" value="<?php echo date('Y-m-d', strtotime($borrower['expectedReturnDate'])); ?>" readonly>
       </div>
 
       <div class="field">
         <label for="reason">Reason for Borrowing (optional)</label>
-        <textarea id="reason" name="reason" rows="2"></textarea>
+        <textarea id="reason" name="reason" rows="2" readonly><?php echo $borrower['reasonBorrow']; ?></textarea>
       </div>
-
-      <input type="submit" name="submit">
     </div>
   </form>
 </main>

@@ -341,7 +341,7 @@ $thread = $resultGetThreads->fetch_all(MYSQLI_ASSOC);
                     <span>Available For Borrow?</span>
                     <label class="switch">
                         <?php
-                            if ($post['statusBorrow'] === "YES") {
+                            if ($post['statusPostBorrow'] === "YES") {
                                 echo '<input type="checkbox" id="available_for_borrow_checkbox" name="available_for_borrow" value="YES" checked>';
                             } else {
                                 echo '<input type="checkbox" id="available_for_borrow_checkbox" name="available_for_borrow" value="YES">';

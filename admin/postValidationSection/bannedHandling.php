@@ -165,16 +165,16 @@ $post = $runSQLAllPost->fetch_assoc();
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-            $rejectMessage = $_POST['rejectMessage'];
+            $bannedMessage = $_POST['bannedMessage'];
 
-            $sqlReject = "UPDATE Post_Review SET statusApprove = 'REJECTED', statusApproveMessage = '$rejectMessage' WHERE postCode = '$postCode'";
+            $sqlReject = "UPDATE Post_Review SET statusApprove = 'BANNED', statusApproveMessage = '$bannedMessage' WHERE postCode = '$postCode'";
             $resultSqlReject = $conn->query($sqlReject);
 
             if ($resultSqlReject) {
-                echo "<label class='statusNote'>Post Rejected Successfully!</label>";
-                echo "<meta http-equiv='refresh' content='3 ;url=../adminMain.php?section=rejected'>";
+                echo "<label class='statusNote'>Post Banned Successfully!</label>";
+                echo "<meta http-equiv='refresh' content='3 ;url=../adminMain.php?section=banned'>";
             } else {
-                echo "<label class='statusNote'>Post Failed To Reject!</label>";
+                echo "<label class='statusNote'>Post Failed To Ban!</label>";
                 echo "<meta http-equiv='refresh' content='3 ;url=../adminBookDetail.php?postCode=".$postCode."'>";
             }
 
@@ -183,22 +183,22 @@ $post = $runSQLAllPost->fetch_assoc();
         <div class="review-container">
             <div class="review-header">
                 <h2 class="review-success"
-                    style="text-align: center; font-size: 1.6em;">Confirmation Rejection Of Post
+                    style="text-align: center; font-size: 1.6em;">Confirmation Ban Of Post
                 </h2>
             </div>
 
             <div>
                 <p
                     style="display: inline-block; margin-bottom: auto; margin-top:auto; font-weight: bold; text-align: center; font-size: 1.6em;">
-                    Reject This Post?
+                    Ban This Post?
                 </p>
                 <label for="">'<?php echo $post['bookTitle'] ?>' That Made By '<?php echo $post['username'] ?>'</label>
             </div>
 
 
-            <form id="rejectForm" method="POST" class="confirm-container" action="<?php echo htmlspecialchars("rejectionHandling.php?postCode=".$postCode); ?>">
+            <form id="rejectForm" method="POST" class="confirm-container" action="<?php echo htmlspecialchars("bannedHandling.php?postCode=".$postCode); ?>">
                 <div>
-                    <label for="">Reason To Reject: </label><textarea name="rejectMessage" id="rejectMessage" placeholder="A Note/ Warning For Book Owner" autofocus required></textarea>
+                    <label for="">Reason To Ban: </label><textarea name="bannedMessage" id="bannedMessage" placeholder="A Note/ Warning For Book Owner" autofocus required></textarea>
                 </div>
                 <input type="submit" class="confirm-btn" value="CONFIRM">
             </form>

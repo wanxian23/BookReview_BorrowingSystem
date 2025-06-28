@@ -8,9 +8,7 @@ $sqlGetPostDetails = "SELECT
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
                       INNER JOIN book_borrowed borrow USING (postCode)
-                      WHERE borrow.readerID = '$readerID'
-                      AND borrow.statusBorrow = 'APPROVED'
-                      AND (borrow.fullname IS NULL OR TRIM(borrow.fullname = ''))
+                      WHERE post.readerID = '$readerID'
                       ORDER BY borrow.dateRequestSent DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -40,8 +38,18 @@ foreach ($post as $row) {
 
     }
 
+    $sqlBorrowerDetails = "SELECT
+                       borrow.*,
+                       reader.*
+                       FROM Book_Borrowed borrow
+                       INNER JOIN Reader_User reader USING (readerID)
+                       WHERE borrow.postCode = '{$row['postCode']}'";
+    $resultBorrowDetails = $conn->query($sqlBorrowerDetails);
+    $borrow = $resultBorrowDetails->fetch_assoc();
 
-    echo '<div id="replyForm" class="post postCode" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 190px;">';
+    if ($borrow['statusBorrow'] === "REJECTED") {
+
+        echo '<div id="borrowerProfile" data-readerID="'.$borrow['readerID'].'" class="post postCode received" data-postCode="'.$row['postCode'].'">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     
@@ -66,22 +74,32 @@ foreach ($post as $row) {
     echo '    </div>';
 
     echo '    <div class="body">';
+    echo '        <div class="right">';
+    if ($row['frontCover_img'] != null) {
+        echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
+    }  else {
+        echo '            <img src="bookUploads/noImageUploaded.png" alt="Book Cover">';
+    }
+    echo '        </div>';
+    echo '        <div class="right">';
+    echo '              <h1>Book Requested By</h1>';
+    echo '              <img src="'.$borrow['avatar'].'" alt="Borrower Profile Image">';
+    echo '              <h1>'.$borrow['username'].'</h1>';
+    echo '        </div>';
     echo '    </div>';
-
-    echo '    <div class="bottom" style="border-bottom: 2px solid;">';
-    // echo '        <div class="left">';
-    // echo '        </div>';
+    echo '        <div class="bottom" style="border-bottom: 2px solid;">';
     echo '          <h3>'.$row['bookTitle'].'</h3>';
     if ($averageRating != 0) {
         echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
     } else {
         echo '<h4>Average Review: No Rating</h4>';
     }
-    echo '    </div>';
-    echo '    <div class="bottom">';
-    echo '      <h3 style="color: red;">Fill In Reply Form To Proceeed!</h3>';
-    echo '    </div>';
+    echo '        </div>';
+    echo '        <div class="bottom">';
+    echo '<h2 style="color: red;">You Have Reject The Book Request That Made by \''.$borrow['username'].'\'</h2>';
+    echo '        </div>';
     echo '</div>';
+    }
                             
 }
 

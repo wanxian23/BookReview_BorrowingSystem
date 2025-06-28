@@ -268,6 +268,10 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
             line-height: 25px;
         }
 
+        .bookTitleReview:first-child {
+            text-align: right;
+        }
+
         .arrow-icon {
             font-size: 1.8rem;
             color: #000;
@@ -668,6 +672,10 @@ $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
                 echo '    <div class="vertical-line"></div>';
 
                 echo '    <div class="book-content">';
+                echo '        <div class="bookTitleReview">';
+                echo '<span class="book-date">' . date("F j, Y H:i", strtotime($post['datePosted'])) . '</span>';
+
+                echo '        </div>';
                 echo '        <div class="bookTitleReview">';
                 echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
                 echo '            <span class="book-rating">0/10</span><br>';

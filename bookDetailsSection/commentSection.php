@@ -83,12 +83,12 @@ if (!empty($comment)) {
     }
 
     if ($a == 0) {
-        echo '  <div class="commentContainer">';
-        echo "No Comment & Rating Here!";
+        echo '  <div class="commentContainer" style="border: none;">';
+        echo "No Comment Here!";
         echo '  </div>';
     }
 } else {
-    echo '  <div class="commentContainer">';
+    echo '  <div class="commentContainer"  style="border: none;">';
     echo "No Comment Here!";
     echo '  </div>';
 }

@@ -144,6 +144,7 @@ $admin = $runSQL->fetch_assoc();
             display: flex;
             gap: 40px;
             justify-content: flex-start;
+            flex-wrap: wrap;
         }
 
         div.post {

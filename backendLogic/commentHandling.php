@@ -84,11 +84,11 @@ $user = $runSQL->fetch_assoc();
                 $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
                 $commentDetails = $resultGetCommentDetails->fetch_assoc();
 
-                $sqlNotification = "INSERT INTO Notification (postCode, readerID, commentCode, status) 
-                                    VALUES ('{$post['postCode']}','$readerID','{$commentDetails['commentCode']}','UNREAD')";
-                $resultNotification = $conn->query($sqlNotification);
+                // $sqlNotification = "INSERT INTO Notification (postCode, readerID, commentCode, status) 
+                //                     VALUES ('{$post['postCode']}','$readerID','{$commentDetails['commentCode']}','UNREAD')";
+                // $resultNotification = $conn->query($sqlNotification);
 
-                if ($resultSqlComment && $resultNotification) {
+                if ($resultSqlComment) {
                     echo "Comment Posted Successfully!";
                     echo "<meta http-equiv='refresh' content='3; url=../bookDetail.php?postCode=$postCode'>";
                 } else {

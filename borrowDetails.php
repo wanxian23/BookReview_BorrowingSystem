@@ -195,6 +195,36 @@ $user = $runSQL->fetch_assoc();
         padding: 50px 80px;
     }
 
+    form.asideMainButtonContainer {
+        color: var(--containerColor);
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        padding: 30px 80px 0 80px;   
+        background-color:rgb(228, 237, 238);  
+        box-shadow: var(--bookBoxShadow);  
+    }
+
+    form.asideMainButtonContainer button {
+            text-align: center;
+            text-decoration: none;
+            padding: 20px 10px;
+            width: 130px;
+            transition: 0.2s;
+            color: black;
+            border: none;
+            background-color:rgb(228, 237, 238);  
+    }
+
+    form.asideMainButtonContainer button:hover {
+            box-shadow: 1px 1px 10px rgb(157, 132, 188);
+        }
+
+    form.asideMainButtonContainer button.active {
+            font-weight: bold;
+            background-color: rgb(212, 225, 235);
+        } 
+
     @media (max-width: 768px) {
         .results-grid {
             grid-template-columns: 1fr;
@@ -344,60 +374,151 @@ $user = $runSQL->fetch_assoc();
 
         echo '<form id="asideSection" method="GET">';
         // echo '    <input type="hidden" name="postCode" value="' . $postCode . '">';
-        $pendingActive = (!isset($_GET['section']) || $_GET['section'] === 'pending') ? 'active' : '';
-        $approvedActive = (isset($_GET['section']) && $_GET['section'] === 'approved') ? 'active' : '';
-        $rejectedActive = (isset($_GET['section']) && $_GET['section'] === 'rejected') ? 'active' : '';
+        $borrowRequestActive = (!isset($_GET['section']) || $_GET['section'] === 'borrowRequest') ? 'active' : '';
+        $pendingApproveActive = (isset($_GET['section']) && $_GET['section'] === 'pendingApprove') ? 'active' : '';
+        $actionNeededActive = (isset($_GET['section']) && $_GET['section'] === 'actionNeeded') ? 'active' : '';
 
-        echo '<button type="submit" name="section" value="pending" class="' . $pendingActive . '">Pending</button>';
-        echo '<button type="submit" name="section" value="approved" class="' . $approvedActive . '">Approved</button>';
-        echo '<button type="submit" name="section" value="rejected" class="' . $rejectedActive . '">Rejected</button>';
+        echo '<button type="submit" name="section" value="borrowRequest" class="' . $borrowRequestActive . '">Borrow Request</button>';
+        echo '<button type="submit" name="section" value="pendingApprove" class="' . $pendingApproveActive . '">Pending Approval</button>';
+        echo '<button type="submit" name="section" value="actionNeeded" class="' . $actionNeededActive . '">Action Needed</button>';
 
         echo '</form>';     
                 
     ?>
         <section>
-            <div class="results-container">
 
             <?php 
 
             if (isset($_GET['section'])) {
-                if ($_GET['section'] === 'pending') {
-                    include('postValidationSection/pendingPost.php');
-                } elseif ($_GET['section'] === 'approved') {
-                    include 'postValidationSection/approvalPost.php';
+                if ($_GET['section'] === 'borrowRequest') {
+
+                    echo '<form class="asideMainButtonContainer" method="GET">';
+                    echo '<input type="hidden" name="section" value="borrowRequest">';
+
+                    $receiveActive = (!isset($_GET['sectionAside']) || $_GET['sectionAside'] === 'receivedRequest') ? 'active' : '';
+                    $sentActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'sentRequest') ? 'active' : '';
+            
+                    echo '<button type="submit" name="sectionAside" value="receivedRequest" class="' . $receiveActive . '">Received</button>';
+                    echo '<button type="submit" name="sectionAside" value="sentRequest" class="' . $sentActive . '">Sent</button>';
+    
+                    echo '</form>';
+
+                    echo '<div class="results-container">';
+                    
+                    if (isset($_GET['sectionAside'])) {
+
+                        if ($_GET['sectionAside'] === 'receivedRequest') {
+                            include 'borrowDetailsSection/borrowRequestSection/receivedRequest.php';
+                        } else {
+                            include 'borrowDetailsSection/borrowRequestSection/sentRequest.php';
+                        }
+
+                    } else {
+                        include 'borrowDetailsSection/borrowRequestSection/receivedRequest.php';
+                    }
+
+                    echo '</div>';
+
+                } elseif ($_GET['section'] === 'pendingApprove') {
+
+                    echo '<form class="asideMainButtonContainer" method="GET">';
+                    echo '<input type="hidden" name="section" value="pendingApprove">';
+
+                    $pendingRequestActive = (!isset($_GET['sectionAside']) || $_GET['sectionAside'] === 'pendingRequest') ? 'active' : '';
+                    $approveRequestActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'approveRequest') ? 'active' : '';
+                    $rejectRequestActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'rejectRequest') ? 'active' : '';
+            
+                    echo '<button type="submit" name="sectionAside" value="pendingRequest" class="' . $pendingRequestActive . '">Pending</button>';
+                    echo '<button type="submit" name="sectionAside" value="approveRequest" class="' . $approveRequestActive . '">Approved</button>';
+                    echo '<button type="submit" name="sectionAside" value="rejectRequest" class="' . $rejectRequestActive . '">Rejected</button>';
+    
+                    echo '</form>';
+
+                    echo '<div class="results-container">';
+                    
+                    if (isset($_GET['sectionAside'])) {
+
+                        if ($_GET['sectionAside'] === 'pendingRequest') {
+                            include 'borrowDetailsSection/pendingApprovalSection/pendingRequest.php';
+                        } else if ($_GET['sectionAside'] === 'approveRequest') {
+                            include 'borrowDetailsSection/pendingApprovalSection/approvedRequest.php';
+                        } else {
+                            include 'borrowDetailsSection/pendingApprovalSection/rejectedRequest.php';
+                        }
+
+                    } else {
+                        include 'borrowDetailsSection/pendingApprovalSection/pendingRequest.php';
+                    }
+
+                    echo '</div>';
+
                 } else {
-                    include 'postValidationSection/rejectedPost.php';
+
+                    echo '<form class="asideMainButtonContainer" method="GET">';
+                    echo '<input type="hidden" name="section" value="actionNeeded">';
+
+                    $toCompleteActive = (!isset($_GET['sectionAside']) || $_GET['sectionAside'] === 'toComplete') ? 'active' : '';
+                    $formSentActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'formSent') ? 'active' : '';
+            
+                    echo '<button type="submit" name="sectionAside" value="toComplete" class="' . $toCompleteActive . '">To Complete</button>';
+                    echo '<button type="submit" name="sectionAside" value="formSent" class="' . $formSentActive . '">Form Sent</button>';
+    
+                    echo '</form>';
+
+                    echo '<div class="results-container">';
+                    
+                    if (isset($_GET['sectionAside'])) {
+
+                        if ($_GET['sectionAside'] === 'receivedRequest') {
+                            include 'borrowDetailsSection/actionNeededSection/toComplete.php';
+                        } else {
+                            include('borrowDetailsSection/actionNeededSection/formSent.php');
+                        }
+
+                    } else {
+                        include 'borrowDetailsSection/actionNeededSection/toComplete.php';
+                    }
+
+                    echo '</div>';
+
                 }
             } else {
-                include 'postValidationSection/pendingPost.php'; // default section
+
+                echo '<form class="asideMainButtonContainer" method="GET" action="">';
+
+                $receiveActive = (!isset($_GET['sectionAside']) || $_GET['sectionAside'] === 'receivedRequest') ? 'active' : '';
+                $sentActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'sentRequest') ? 'active' : '';
+        
+                echo '<button type="submit" name="sectionAside" value="receivedRequest" class="' . $receiveActive . '">Received</button>';
+                echo '<button type="submit" name="sectionAside" value="sentRequest" class="' . $sentActive . '">Sent</button>';
+
+                echo '</form>';
+
+                echo '<div class="results-container">';
+                
+                if (isset($_GET['sectionAside'])) {
+
+                    if ($_GET['sectionAside'] === 'receivedRequest') {
+                        include 'postValidationSection/approvalPost.php';
+                    } else {
+                        include 'postValidationSection/pendingPost.php';
+                    }
+
+                } else {
+                    include 'postValidationSection/approvalPost.php';
+                }
+
+                echo '</div>';
+
             }
 
             ?>
-
-            </div>
 
             <?php include("footer.html"); ?>
         </section>
     </main>
 
     <script>
-        // Add some interactivity
-        // document.querySelectorAll('.read-more').forEach(link => {
-        //     link.addEventListener('click', function(e) {
-        //         e.preventDefault();
-        //         alert('Read more functionality would expand the review text');
-        //     });
-        // });
-
-        // document.querySelectorAll('.comment-input').forEach(input => {
-        //     input.addEventListener('keypress', function(e) {
-        //         if (e.key === 'Enter') {
-        //             alert('Comment functionality would post the comment');
-        //             this.value = '';
-        //         }
-        //     });
-        // });
-
         $(document).ready(function() {
             
             $(".postCode").click(function () {

@@ -503,8 +503,9 @@ $user = $runSQL->fetch_assoc();
                 INNER JOIN book_record book USING (bookID)
                 LEFT JOIN thread_post threadPost USING (postCode)
                 LEFT JOIN thread thread USING (threadID)
-                WHERE book.bookTitle LIKE '%$search%'
-                OR thread.thread LIKE '%$search%'
+                WHERE (book.bookTitle LIKE '%$search%'
+                OR thread.thread LIKE '%$search%')
+                AND post.statusApprove = 'APPROVED'
                 GROUP BY post.postCode";
             $resultGetPostDetails = $conn->query($sqlGetPostDetails);
             $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -518,37 +519,29 @@ $user = $runSQL->fetch_assoc();
 
             foreach ($post as $row) {
 
-                $sqlGetComment = "SELECT
-                    comment.*,
-                    post.*,
-                    reader.*,
-                    bookBorrow.*
-                FROM Comment_Rating comment
-                INNER JOIN Post_Review post ON comment.postCode = post.postCode
-                INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-                WHERE comment.postCode = '{$row['postCode']}'";
-                $resultGetComemnt = $conn->query($sqlGetComment);
-                $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-
-                $averageRating = 0;
-                if (!empty($comment)) {
-
-                        $i = 0;
-                        foreach($comment as $commentData) {
-
-                            if ($commentData['bookBorrowCode'] != null) {
-                                $averageRating += $commentData['ratingFeedback'];
-                                $i++;
-                            }
-
-                        }
-                        
-                        if ($i != 0) {
-                            $averageRating = $averageRating / $i;
-                        }
-
+                $sqlAvgComment = "SELECT rating as averageRating
+                FROM Comment_Rating
+                WHERE postCode = '{$row['postCode']}'";
+            $resultGetAvgComemnt = $conn->query($sqlAvgComment);
+            $commentAvg = $resultGetAvgComemnt->fetch_all(MYSQLI_ASSOC);
+        
+            $averageRating = 0;
+            if (!empty($commentAvg)) {
+        
+                $x = 0;
+                foreach($commentAvg as $commentData) {
+        
+                    $averageRating += $commentData['averageRating'];
+                    $x++;
+        
                 }
+        
+                if ($x != 0) {
+                    $averageRating = $averageRating / $x;
+                }
+        
+            }
+        
 
                 echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
                 echo '    <div class="head">';
@@ -628,7 +621,8 @@ $user = $runSQL->fetch_assoc();
             FROM post_review post
             INNER JOIN reader_user reader USING (readerID)
             INNER JOIN book_record book USING (bookID)
-            WHERE book.bookTitle ='$bookTitle'
+            WHERE book.bookTitle = '$bookTitle'
+            AND post.statusApprove = 'APPROVED'
             GROUP BY post.postCode";
         $resultGetPostDetails = $conn->query($sqlGetPostDetails);
         $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
@@ -643,37 +637,29 @@ $user = $runSQL->fetch_assoc();
 
             foreach ($post as $row) {
 
-                $sqlGetComment = "SELECT
-                    comment.*,
-                    post.*,
-                    reader.*,
-                    bookBorrow.*
-                FROM Comment_Rating comment
-                INNER JOIN Post_Review post ON comment.postCode = post.postCode
-                INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-                WHERE comment.postCode = '{$row['postCode']}'";
-                $resultGetComemnt = $conn->query($sqlGetComment);
-                $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-
-                $averageRating = 0;
-                if (!empty($comment)) {
-
-                        $i = 0;
-                        foreach($comment as $commentData) {
-
-                            if ($commentData['bookBorrowCode'] != null) {
-                                $averageRating += $commentData['ratingFeedback'];
-                                $i++;
-                            }
-
-                        }
-                        
-                        if ($i != 0) {
-                            $averageRating = $averageRating / $i;
-                        }
-
+                $sqlAvgComment = "SELECT rating as averageRating
+                FROM Comment_Rating
+                WHERE postCode = '{$row['postCode']}'";
+            $resultGetAvgComemnt = $conn->query($sqlAvgComment);
+            $commentAvg = $resultGetAvgComemnt->fetch_all(MYSQLI_ASSOC);
+        
+            $averageRating = 0;
+            if (!empty($commentAvg)) {
+        
+                $x = 0;
+                foreach($commentAvg as $commentData) {
+        
+                    $averageRating += $commentData['averageRating'];
+                    $x++;
+        
                 }
+        
+                if ($x != 0) {
+                    $averageRating = $averageRating / $x;
+                }
+        
+            }
+        
 
                 echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
                 echo '    <div class="head">';

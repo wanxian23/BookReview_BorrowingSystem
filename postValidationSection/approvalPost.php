@@ -9,44 +9,36 @@ $sqlGetPostDetails = "SELECT
                       INNER JOIN book_record book USING (bookID)
                       WHERE post.readerID = '$readerID'
                       AND post.statusApprove = 'APPROVED' 
-                      ORDER BY post.postCode DESC";
+                      ORDER BY post.datePosted DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
 
 foreach ($post as $row) {
 
-    $sqlGetComment = "SELECT
-        comment.*,
-        post.*,
-        reader.*,
-        bookBorrow.*
-    FROM Comment_Rating comment
-    INNER JOIN Post_Review post ON comment.postCode = post.postCode
-    INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-    INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-    WHERE comment.postCode = '{$row['postCode']}'";
-    $resultGetComemnt = $conn->query($sqlGetComment);
-    $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+    $sqlAvgComment = "SELECT rating as averageRating
+        FROM Comment_Rating
+        WHERE postCode = '{$row['postCode']}'";
+    $resultGetAvgComemnt = $conn->query($sqlAvgComment);
+    $commentAvg = $resultGetAvgComemnt->fetch_all(MYSQLI_ASSOC);
 
     $averageRating = 0;
-    if (!empty($comment)) {
+    if (!empty($commentAvg)) {
 
-            $i = 0;
-            foreach($comment as $commentData) {
+        $x = 0;
+        foreach($commentAvg as $commentData) {
 
-                if ($commentData['bookBorrowCode'] != null) {
-                    $averageRating += $commentData['ratingFeedback'];
-                    $i++;
-                }
+            $averageRating += $commentData['averageRating'];
+            $x++;
 
-            }
-            
-            if ($i != 0) {
-                $averageRating = $averageRating / $i;
-            }
+        }
+
+        if ($x != 0) {
+            $averageRating = $averageRating / $x;
+        }
 
     }
+
 
     echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
     echo '    <div class="head">';

@@ -212,11 +212,11 @@ $userComment = $resultGetComemnt->fetch_assoc();
         $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
         $commentDetails = $resultGetCommentDetails->fetch_assoc();
 
-        $sqlNotification = "INSERT INTO Notification (postCode, readerID, nestedCommentCode, status) 
-                            VALUES ('$postCode','$readerID','{$commentDetails['nestedCommentCode']}','UNREAD')";
-        $resultNotification = $conn->query($sqlNotification);
+        // $sqlNotification = "INSERT INTO Notification (postCode, readerID, nestedCommentCode, status) 
+        //                     VALUES ('$postCode','$readerID','{$commentDetails['nestedCommentCode']}','UNREAD')";
+        // $resultNotification = $conn->query($sqlNotification);
 
-        if ($runSQL && $resultNotification) {
+        if ($runSQL) {
             echo "<label class='output'>Reply to {$userComment['username']}  Successfully! Back to post...</label>";
 
             // If u use meta, even has 3s load, but since it load every second

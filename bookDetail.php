@@ -20,8 +20,6 @@ $user = $runSQL->fetch_assoc();
 
 
 $postCode = $_REQUEST['postCode'];
-
-
 $sqlGetPostDetails = "SELECT 
                           post.*,
                           reader.*,
@@ -59,7 +57,7 @@ $resultGetComemnt = $conn->query($sqlGetComment);
 $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
 
-$sqlAvgComment = "SELECT AVG(rating) as averageRating
+$sqlAvgComment = "SELECT rating as averageRating
                   FROM Comment_Rating
                   WHERE postCode = '$postCode'";
 $resultGetAvgComemnt = $conn->query($sqlAvgComment);
@@ -293,6 +291,10 @@ if (!empty($commentAvg)) {
             padding: 15px;
             border-bottom: 1px solid;
             line-height: 25px;
+        }
+
+        .bookTitleReview:first-child {
+            text-align: right;
         }
 
         .arrow-icon {
@@ -694,6 +696,10 @@ if (!empty($commentAvg)) {
 
                 echo '    <div class="book-content">';
                 echo '        <div class="bookTitleReview">';
+                echo '<span class="book-date">' . date("F j, Y H:i", strtotime($post['datePosted'])) . '</span>';
+
+                echo '        </div>';
+                echo '        <div class="bookTitleReview">';
                 echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
                 if ($averageRating != 0) {
                     echo '            <span class="book-rating">'.$averageRating.'/10</span><br>';
@@ -706,7 +712,7 @@ if (!empty($commentAvg)) {
                 echo '        <div class="button-box">';
                 if ($post['statusBorrow'] == "YES") {
                     echo "<label>Please Click On This Button, If You Are Interested To Borrow This Book!</label>";
-                    echo "<a href='' class='availableBorrow'>Borrow</a>";
+                    echo "<a href='confirmationBorrow.php?postCode=".$postCode."' class='availableBorrow'>Borrow</a>";
                 } else {
                     echo "<label>This Book Is Not Available For Borrow Currently!<label>";
                 }

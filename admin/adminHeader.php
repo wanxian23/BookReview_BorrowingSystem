@@ -1,5 +1,6 @@
 <?php
 
+    if (isset($readerID)) {
     $sqlGetPostDetailsHeader = "SELECT 
                             post.*,
                             reader.*,
@@ -19,7 +20,7 @@
                             WHERE comment.readerID = '$readerID'";
     $resultGetCommentDetailsHeader = $conn->query($sqlGetCommentDetailsHeader);
     $commentDetailsHeader = $resultGetCommentDetailsHeader->fetch_all(MYSQLI_ASSOC);
-
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en" data-themeColor="defaultColor" data-fontSize="defaultFontSize">
@@ -185,7 +186,7 @@
         <div id="secondHeader">
             <nav>
                 <a href="adminMain.php"><label for="" class="admin">Post&nbsp;Validation</label></a>
-                <a href="barChart.php"><label for="" class="admin">Insights</label></a>
+                <a href="adminInsights.php"><label for="" class="admin">Insights</label></a>
             </nav>
             <form method="POST" action="adminSearch.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>

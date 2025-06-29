@@ -211,7 +211,7 @@
                 <a href="genre.php"><label for="">Genre</label></a>
                 <a href="mainmyposts.php"><label for="">My Post</label></a>
                 <a href="borrowDetails.php"><label for="">Borrow Details</label></a>
-                <a href="barChart.php"><label for="">Insights</label></a>
+                <a href="userInsights.php"><label for="">Insights</label></a>
             </nav>
             <form method="POST" action="search.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>

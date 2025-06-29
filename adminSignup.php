@@ -217,7 +217,7 @@
 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" autofocus required>
+                    <input type="text" id="username" name="username" maxlength="10" autofocus required>
                 </div>
 
                 <div class="form-group full-width">

@@ -115,10 +115,10 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
             display: flex;      
             align-items: center; 
             justify-content: center;   
-            background-color: purple;
+            background-color:rgb(225, 225, 225);
             font-size: 3em;
             font-weight: bold;
-            color: white;
+            color: black;
         }
 
         .confirm-btn {

@@ -24,12 +24,10 @@ $commentCode = $_REQUEST['commentCode'];
 $sqlGetComment = "SELECT
                     comment.*,
                     post.*,
-                    reader.*,
-                    bookBorrow.*
+                    reader.*
                   FROM Comment_Rating comment
                   INNER JOIN Post_Review post ON comment.postCode = post.postCode
                   INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                  LEFT JOIN Book_Borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
                   WHERE comment.postCode = '$postCode' AND
                   comment.commentCode = '$commentCode'";
 $resultGetComemnt = $conn->query($sqlGetComment);
@@ -212,9 +210,9 @@ $userComment = $resultGetComemnt->fetch_assoc();
         $resultGetCommentDetails = $conn->query($sqlGetCommentDetails);
         $commentDetails = $resultGetCommentDetails->fetch_assoc();
 
-        // $sqlNotification = "INSERT INTO Notification (postCode, readerID, nestedCommentCode, status) 
-        //                     VALUES ('$postCode','$readerID','{$commentDetails['nestedCommentCode']}','UNREAD')";
-        // $resultNotification = $conn->query($sqlNotification);
+        $sqlNotification = "INSERT INTO Notification (postCode, readerID, nestedCommentCode, status) 
+                            VALUES ('$postCode','$readerID','{$commentDetails['nestedCommentCode']}','UNREAD')";
+        $resultNotification = $conn->query($sqlNotification);
 
         if ($runSQL) {
             echo "<label class='output'>Reply to {$userComment['username']}  Successfully! Back to post...</label>";

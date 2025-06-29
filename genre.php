@@ -233,7 +233,7 @@ $user = $runSQL->fetch_assoc();
             $mysteryActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Mystery') ? 'active' : '';
             $actionActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Action') ? 'active' : '';
             $dramaActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Drama') ? 'active' : '';
-            $historicalActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Historical') ? 'active' : '';
+            $educationalActive = (isset($_GET['genreSection']) && $_GET['genreSection'] === 'Educational') ? 'active' : '';
 
         ?>
             <button type="submit" value="Romance" name="genreSection" class="<?php echo $romanceActive ?>">ROMANCE</button>
@@ -245,7 +245,7 @@ $user = $runSQL->fetch_assoc();
             <button type="submit" value="Mystery" name="genreSection" class="<?php echo $mysteryActive ?>">MYSTERY</button>
             <button type="submit" value="Action" name="genreSection" class="<?php echo $actionActive ?>">ACTION</button>
             <button type="submit" value="Drama" name="genreSection" class="<?php echo $dramaActive ?>">DRAMA</button>
-            <button type="submit" value="Historical" name="genreSection" class="<?php echo $historicalActive ?>">HISTORICAL</button>
+            <button type="submit" value="Educational" name="genreSection" class="<?php echo $educationalActive ?>">EDUCATIONAL</button>
         </form>
 
         <?php 

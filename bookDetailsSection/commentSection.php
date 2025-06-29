@@ -1,9 +1,9 @@
 
 <?php
 
+$a = 0;
 if (!empty($comment)) {
 
-    $a = 0;
     foreach ($comment as $rowComment) {
 
         $sqlGetNestedComment = "SELECT nestedComment.*,
@@ -16,8 +16,6 @@ if (!empty($comment)) {
                         WHERE nestedComment.commentCode = '{$rowComment['commentCode']}'";
         $resultsqlGetNestedComment = $conn->query($sqlGetNestedComment);
         $nestedComment = $resultsqlGetNestedComment->fetch_all(MYSQLI_ASSOC);
-
-        if ($rowComment['bookBorrowCode'] == null) {
             
             echo '  <div class="commentContainer">';
             echo '      <div class="postProfile">';
@@ -87,10 +85,5 @@ if (!empty($comment)) {
         echo "No Comment Here!";
         echo '  </div>';
     }
-} else {
-    echo '  <div class="commentContainer"  style="border: none;">';
-    echo "No Comment Here!";
-    echo '  </div>';
-}
 
 ?>

@@ -141,7 +141,7 @@ $user = $runSQL->fetch_assoc();
             align-items: center;
             font-size: 24px;
             font-weight: bold;
-            background-color: rgb(179, 160, 216);
+            background-color:rgb(217, 217, 217);
             border: 6px solid var(--containerColor);
         }
 

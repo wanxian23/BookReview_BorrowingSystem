@@ -16,8 +16,6 @@ if (!empty($comment)) {
                         WHERE nestedComment.commentCode = '{$rowComment['commentCode']}'";
         $resultsqlGetNestedComment = $conn->query($sqlGetNestedComment);
         $nestedComment = $resultsqlGetNestedComment->fetch_all(MYSQLI_ASSOC);
-
-        if ($rowComment['bookBorrowCode'] == null) {
             
             echo '  <div class="commentContainer">';
             echo '      <div class="postProfile">';
@@ -72,7 +70,6 @@ if (!empty($comment)) {
             echo ' </div>';
             $a++;
 
-        }
     }
 
     if ($a == 0) {

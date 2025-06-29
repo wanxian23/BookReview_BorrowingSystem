@@ -169,6 +169,9 @@ while ($row = $mostReportedResult->fetch_assoc()) {
         </tbody>
     </table>
 
+    <!-- Bar Graph -->
+    <canvas id="reportChart" style="display: none; max-width: 500px; margin: auto;"></canvas><br><br>
+
     <!-- Most Reported Posts -->
     <table class="insight-table" id="table-reported" style="display:none;">
         <thead><tr><th>USERNAME</th><th>BOOK TITLE</th><th>REPORT COUNT</th></tr></thead>
@@ -182,9 +185,6 @@ while ($row = $mostReportedResult->fetch_assoc()) {
         <?php endforeach; ?>
         </tbody>
     </table>
-
-    <!-- Bar Graph -->
-    <canvas id="reportChart" style="display: none; max-width: 500px; margin: auto;"></canvas>
 </main>
 
 <?php include("../footer.html"); ?>

@@ -205,7 +205,6 @@ $user = $runSQL->fetch_assoc();
             border: 2px solid var(--containerColor);
             border-radius: 15px;
             width: 22%;
-            height: 380px;
             background-color: var(--postBgColor);
         }
 

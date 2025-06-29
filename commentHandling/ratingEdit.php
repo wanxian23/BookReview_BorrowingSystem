@@ -24,12 +24,10 @@ $commentCode = $_REQUEST['commentCode'];
 $sqlGetComment = "SELECT
                     comment.*,
                     post.*,
-                    reader.*,
-                    bookBorrow.*
+                    reader.*
                   FROM Comment_Rating comment
                   INNER JOIN Post_Review post ON comment.postCode = post.postCode
                   INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                  LEFT JOIN Book_Borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
                   WHERE comment.postCode = '$postCode' AND
                   comment.commentCode = '$commentCode'";
 $resultGetComemnt = $conn->query($sqlGetComment);

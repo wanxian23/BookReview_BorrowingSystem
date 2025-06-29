@@ -42,7 +42,7 @@ foreach ($post as $row) {
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     
-    $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
+    $profileLink = "adminViewUsersProfile.php?readerID=" . $row['readerID'];
 
     if ($row['readerID'] != $readerID) {
         if (!empty($row['avatar'])) {
@@ -52,9 +52,9 @@ foreach ($post as $row) {
         }
     } else {
         if (!empty($row['avatar'])) {
-            echo '<a href="profilemyposts.php"><img src="../'.$row['avatar'].'" alt="Profile Image"></a>';
+            echo '<a href="'.$profileLink.'"><img src="../'.$row['avatar'].'" alt="Profile Image"></a>';
         } else {
-            echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
+            echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
         }                                
     }
 

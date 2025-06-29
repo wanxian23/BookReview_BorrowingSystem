@@ -219,7 +219,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                 </p>
 
                 <p>
-                    New Username: <label for="" style="font-weight: normal;"><input type="text" placeholder="New Username" id="username" name="username" autofocus required></label>
+                    New Username: <label for="" style="font-weight: normal;"><input type="text" placeholder="New Username" id="username" name="username" maxlength="10" autofocus required></label>
                 </p>
 
                 <input type="submit" class="confirm-btn" value="CONFIRM" id="confirmBtn">

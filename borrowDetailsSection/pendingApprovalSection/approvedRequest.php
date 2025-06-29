@@ -40,7 +40,7 @@ foreach ($post as $row) {
     }
 
 
-    echo '<div class="post postCode" data-postCode="'.$row['postCode'].'"  style="height: 440px;">';
+    echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     

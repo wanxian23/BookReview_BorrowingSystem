@@ -44,12 +44,10 @@ $sqlGetComment = "SELECT
                     comment.*,
                     post.*,
                     reader.*,
-                    bookBorrow.*,
                     reader.readerID AS commentReaderID
                   FROM Comment_Rating comment
                   INNER JOIN Post_Review post ON comment.postCode = post.postCode
                   INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                  LEFT JOIN Book_Borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
                   WHERE comment.postCode = '$postCode'";
 $resultGetComemnt = $conn->query($sqlGetComment);
 $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
@@ -564,7 +562,7 @@ $report = $resultGetReport->fetch_assoc();
             height: 40px;
             width: 40px;
             border: 4px solid var(--containerColor);
-            background-color: rgb(202, 28, 57);
+            background-color:rgb(228, 228, 228);
             align-items: center;
             justify-content: center;
             color: black;
@@ -719,7 +717,7 @@ $report = $resultGetReport->fetch_assoc();
                 echo '            <span class="book-genre">Genre: '.$post['genre'].'</span>';
                 echo '        </div>';
                 echo '        <div class="button-box">';
-                if ($post['statusBorrow'] == "YES") {
+                if ($post['statusPostBorrow'] == "YES") {
                     echo "<label>Please Click On This Button, If You Are Interested To Borrow This Book!</label>";
                     echo "<a href='' class='availableBorrow'>Borrow</a>";
                 } else {

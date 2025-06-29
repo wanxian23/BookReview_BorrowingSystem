@@ -465,6 +465,10 @@ if (!empty($commentAvg)) {
             gap: 30px;    
         }
 
+        .comment-box form div.inputContainer div:first-child {
+            width: 65%;
+        }
+
         .comment-box form div.inputContainer box-icon {
             width: 8%;
         }
@@ -475,6 +479,9 @@ if (!empty($commentAvg)) {
             padding: 3px 10px;
             resize: vertical;
             overflow: auto; 
+        }
+
+        .comment-box textarea {
             width: 80%;  
         }
 
@@ -757,7 +764,8 @@ if (!empty($commentAvg)) {
                 echo '        <div class="bookTitleReview">';
                 echo '            <span class="book-title">Book Title: '.$post['bookTitle'].'</span>';
                 if ($averageRating != 0) {
-                    echo '            <span class="book-rating">'.$averageRating.'/10</span><br>';
+                    echo '            <span class="book-rating">'.number_format($averageRating, 1).'/10</span><br>';
+
                 } else {
                     echo '            <span class="book-rating">No Rating</span><br>';
                 }
@@ -840,7 +848,7 @@ if (!empty($commentAvg)) {
                 echo '          <div>';
                 echo '              <box-icon name="message-minus" id="burgerIcon" size="10"></box-icon>';
                 echo '              <textarea name="comment" id="comment" placeholder="Comment"></textarea>';
-                echo '              <input type="number" name="rating" id="rating" placeholder="Rate x/10"></input>';
+                echo '              <input type="number" name="rating" id="rating"  min="1" max="10"  placeholder="Rate x/10"></input>';
                 echo '          </div>';
                 echo '          <div>';
                 echo '              <input type="submit" name="addComment" value="Add Comment">';

@@ -46,13 +46,14 @@ $sqlRated = "
 ";
 $highestRatedResult = $conn->query($sqlRated);
 
-// Most Reported Posts (show bookTitle)
+// Most Reported Posts
 $sqlReported = "
-    SELECT br.bookTitle, COUNT(*) AS reportCount
+    SELECT ru.username, br.bookTitle, COUNT(*) AS reportCount
     FROM post_report pr
     INNER JOIN post_review po ON pr.postCode = po.postCode
     INNER JOIN book_record br ON po.bookID = br.bookID
-    GROUP BY br.bookTitle
+    INNER JOIN reader_user ru ON po.readerID = ru.readerID
+    GROUP BY ru.username, br.bookTitle
     ORDER BY reportCount DESC
     LIMIT 3
 ";
@@ -170,10 +171,14 @@ while ($row = $mostReportedResult->fetch_assoc()) {
 
     <!-- Most Reported Posts -->
     <table class="insight-table" id="table-reported" style="display:none;">
-        <thead><tr><th>BOOK TITLE</th><th>REPORT COUNT</th></tr></thead>
+        <thead><tr><th>USERNAME</th><th>BOOK TITLE</th><th>REPORT COUNT</th></tr></thead>
         <tbody>
         <?php foreach ($reportData as $row): ?>
-            <tr><td><?= htmlspecialchars($row['bookTitle']) ?></td><td><?= $row['reportCount'] ?></td></tr>
+            <tr>
+                <td><?= htmlspecialchars($row['username']) ?></td>
+                <td><?= htmlspecialchars($row['bookTitle']) ?></td>
+                <td><?= $row['reportCount'] ?></td>
+            </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
@@ -203,7 +208,9 @@ const ctx = document.getElementById('reportChart').getContext('2d');
 const reportChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: <?= json_encode(array_column($reportData, 'bookTitle')) ?>,
+        labels: <?= json_encode(array_map(function($row) {
+            return $row['username'] . " - " . $row['bookTitle'];
+        }, $reportData)) ?>,
         datasets: [{
             label: 'Report Count',
             data: <?= json_encode(array_column($reportData, 'reportCount')) ?>,
@@ -213,17 +220,18 @@ const reportChart = new Chart(ctx, {
     options: {
         responsive: true,
         scales: {
-    y: {
-        beginAtZero: true,
-        ticks: {
-            stepSize: 1,
-            precision: 0,
-            callback: function(value) {
-                return Number.isInteger(value) ? value : null;
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1,
+                    precision: 0,
+                    callback: function(value) {
+                        return Number.isInteger(value) ? value : null;
+                    }
+                }
             }
         }
     }
-}    }
 });
 </script>
 </body>

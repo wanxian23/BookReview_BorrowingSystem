@@ -254,39 +254,24 @@ $user = $runSQL->fetch_assoc();
                 $genreSelection = $_GET['genreSection'];
 
                 $sqlGetPostDetails = "SELECT 
-                                        post.*,
-                                        reader.*,
-                                        book.*
+                                        post.*, 
+                                        reader.*, 
+                                        book.*, 
+                                        AVG(comment.rating) AS averageRating
                                     FROM post_review post
                                     INNER JOIN reader_user reader USING (readerID)
                                     INNER JOIN book_record book USING (bookID)
-                                    WHERE post.genre LIKE '%$genreSelection%'";
+                                    LEFT JOIN comment_rating comment USING (postCode)
+                                    WHERE post.statusApprove != 'BANNED' AND
+                                        post.statusApprove != 'SUSPICIOUS' AND
+                                        post.genre LIKE '%$genreSelection%'
+                                    GROUP BY post.postCode
+                                    ORDER BY averageRating DESC, post.datePosted DESC";
                 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
                 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
                 include 'genreSection.php';
 
-                // if ($_GET['genreSection'] === 'Romance') {
-                //     include 'genreSection/romanceSection.php';
-                // } elseif ($_GET['genreSection'] === 'Horror') {
-                //     include 'genreSection/horrorSection.php';
-                // } elseif ($_GET['genreSection'] === 'Fantasy') {
-                //     include 'genreSection/fantasySection.php';
-                // } elseif ($_GET['genreSection'] === 'Scifi') {
-                //     include 'genreSection/scifiSection.php';
-                // } elseif ($_GET['genreSection'] === 'Crime') {
-                //     include 'genreSection/crimeSection.php';
-                // } elseif ($_GET['genreSection'] === 'Comedy') {
-                //     include 'genreSection/comedySection.php';
-                // } elseif ($_GET['genreSection'] === 'Mystery') {
-                //     include 'genreSection/mysterySection.php';
-                // } elseif ($_GET['genreSection'] === 'Action') {
-                //     include 'genreSection/actionSection.php';
-                // } elseif ($_GET['genreSection'] === 'Drama') {
-                //     include 'genreSection/dramaSection.php';
-                // } elseif ($_GET['genreSection'] === 'Historical') {
-                //     include 'genreSection/historicalSection.php';
-                // }
             } else {
 
                 echo '<table class="genre-table">';  

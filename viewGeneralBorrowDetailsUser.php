@@ -24,7 +24,7 @@ $sqlGetPostDetails = "SELECT
                           post.*,
                           reader.*,
                           book.*,
-                          borrow.statusBorrow, borrow.readerID as borrowerID
+                          borrow.statusBorrow
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
@@ -33,12 +33,12 @@ $sqlGetPostDetails = "SELECT
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_assoc();
 
-$borrowerID = $_REQUEST['borrowerReaderID'];
-$sqlBorrowerDetails = "SELECT borrow.*, reader.* 
+$borrowID = $_REQUEST['readerID'];
+$sqlBorrowerDetails = "SELECT *
                       FROM book_borrowed borrow
-                      INNER JOIN reader_user reader USING (readerID)
-                      WHERE borrow.postCode = '$postCode'
-                      AND borrow.readerID = '$borrowerID'";
+                      INNER JOIN reader_user USING (readerID)
+                      WHERE postCode = '$postCode'
+                      AND borrow.readerID = '$borrowID'";
 $resultGetBorrowerDetails = $conn->query($sqlBorrowerDetails);
 $borrower = $resultGetBorrowerDetails->fetch_assoc();
 
@@ -74,21 +74,134 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
       --shadow:  var(--loginContainerBoxShadow,1px 1px 10px rgba(0,0,0,.25));
     }
     main{display:flex;justify-content:center;align-items:center;padding:70px 0;}
-    .form-box{background:var(--formBg);color:var(--formCol);width:45%;margin: 0 auto;
+    .form-box{background:var(--formBg);color:var(--formCol);width:45%;
               border-radius:10px;box-shadow:var(--shadow);}
     .header{padding:20px 0;text-align:center;font-size:24px;font-weight:bold;
             border-bottom:1px solid #ddd;}
     .body{padding:25px 35px;}
-    .field{margin-bottom:18px;}
+    .field{margin-bottom:18px; display: flex; flex-direction: column;}
     .field:first-child {margin-bottom:30px; text-align: center;}
     .field:first-child label {background-color:rgb(230, 230, 230); padding: 10px; border-radius: 8px; word-break: break-all;}
     .field label{display:block;margin-bottom:6px;font-weight:500;}
     .field input,.field textarea{width:100%;padding:12px;border:1px solid #ccc;
                                  border-radius:5px;font-size:15px;}
-    input[type="submit"]{width:100%;padding:14px;border:none;border-radius:5px;
-           background:var(--btnBg);color:var(--btnCol);font-size:16px;cursor:pointer;}
-           input[type="submit"]:hover{background:var(--btnBgH);}
+    a.submit{
+        width:100%;
+        padding:14px;
+        border:none;
+        border-radius:5px;
+        background-color:rgb(186, 180, 242);
+        color: black;
+        font-size: 1.2em;
+        cursor:pointer;
+        text-decoration: none;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: 0.2s;
+    }
+
+    a.submit:hover {
+        background-color:rgb(206, 203, 234);
+    }
+        
+    input[type="submit"]:hover{
+        background:var(--btnBgH);
+    }
     @media(max-width:650px){.form-box{width:90%;}}
+
+    .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 235px; 
+            margin: 30px auto;
+            width: 50%;
+        }
+
+        .profile-left {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+        }
+
+        .borrower-profile-left {
+            width:100%;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .borrower-profile-left div:first-child {
+            display: flex; 
+            align-items: center;
+            gap: 20px;
+        }
+
+        .borrower-profile-left div:last-child {
+            display: flex; 
+            align-items: center;
+            gap: 20px;
+        }
+
+        .borrower-profile-left div:last-child label {
+            color: red;
+            width: 400px;
+            word-wrap: break-word;
+        }
+
+        .borrower-profile-left div:last-child a {
+            padding: 5px 0;
+            text-align: center;
+            width: 100px;
+            background-color:rgb(186, 180, 242);
+            border-radius: 5px;
+            transition: 0.2s;
+            text-decoration: none;
+            border: 2px solid;
+            color: black;
+        }
+
+        .borrower-profile-left div:last-child a:hover {
+            background-color:rgb(206, 203, 234);
+        }
+
+        .profile-left img, .borrower-profile-left img {
+            width: 110px;
+            height: 110px; 
+            border-radius: 50%;
+            border: 8px solid black;          
+        }
+
+        .profile-picture {
+            width: 110px;
+            height: 110px;
+            background: #e0c5ff;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 8px solid black;
+        }
+
+        .profile-name {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .editProfile {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: var(--containerBgColor);
+            color: var(--containerColor);
+            box-shadow: var(--bookBoxShadow);
+        }
   </style>
 
   <!-- quick JS validation
@@ -114,33 +227,27 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
         method="POST"
         onsubmit="return validateBorrow();">
 
-    <div class="header">Completed Borrow Request Form (View)</div>
+    <div class="header">Borrow Request Form (General)</div>
     <div class="body">
     <?php
-      echo "<div class='field'>
-              <label for=''>This Borrow Form Is Answered By <b>'{$borrower['username']}'</b><br>For Borrow Book <b>'{$post['bookTitle']}'</b><br>
-              <label style='color: red;'>Below Are Personal Details of <b>'{$borrower['username']}'</b></label>
-              </label>
-            </div>";
+           echo '<div class="borrower-profile-left">';
+    
+           echo '<div>';
+           if (!empty($borrower['avatar'])) {
+               echo "<img class='borrowerProfile' data-readerID='{$borrower['readerID']}' data-postCode='{$post['postCode']}' src='" . $borrower['avatar'] . "' alt='Profile Image'>";
+           } else {
+               echo "<div class='profile-picture borrowerProfile' data-readerID='{$borrower['readerID']}' data-postCode='{$post['postCode']}'>" . strtoupper($borrower['username'][0]) . "</div>";
+           }
+           echo '<div class="profile-name">' . htmlspecialchars($borrower['username']) . '</div>';
+           echo '</div>';
+           echo "<div class='field' style='text-align: center; margin: 20px auto; background-color: lightgray; border-radius: 8px; padding: 10px 30px; display: inline-block;'>
+           <label for=''>This General Borrow Request Form Is Answered By <b>'{$borrower['username']}'</b><br>For Borrow Book <b>'{$post['bookTitle']}'</b></label>
+       </div>";   
+           echo '</div>';
     ?>
 
       <div class="field">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" value="<?php echo $borrower['fullname']; ?>" readonly>
-      </div>
-
-      <div class="field">
-        <label for="phone">Phone Number</label>
-        <input type="text" id="phone" name="phone" value="<?php echo $borrower['phone']; ?>" readonly>
-      </div>
-
-      <div class="field">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" value="<?php echo $borrower['email']; ?>" readonly>
-      </div>
-
-      <div class="field">
-        <label for="address">Full Address</label>
+        <label for="address">General Address</label>
         <textarea id="address" name="address" rows="3" readonly><?php echo $borrower['address']; ?></textarea>
       </div>
 
@@ -162,6 +269,19 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
       <div class="field">
         <label for="reason">Reason for Borrowing (optional)</label>
         <textarea id="reason" name="reason" rows="2" readonly><?php echo $borrower['reasonBorrow']; ?></textarea>
+      </div>
+
+      <div class="field" style="flex-direction: row; gap: 20px; justify-content: center; font-size: 1.3em; color: red; text-align: center;">
+           <?php
+                if ($borrower['statusBorrow'] === "PENDING") {
+                    echo '<a class="submit" href="backendLogic/bookApprovalHandling.php?postCode='.$post['postCode'].'&borrowerReaderID='.$borrower['readerID'].'">Approve</a>';
+                    echo '<a class="submit" href="backendLogic/bookRejectionHandling.php?postCode='.$post['postCode'].'&borrowerReaderID='.$borrower['readerID'].'">Reject</a>';
+                } else if ($borrower['statusBorrow'] === "APPROVED") {
+                    echo '<div>You Have Approved <b>\''.$borrower['username'].'\'</b><br>To Borrow Book <b>\''.$post['bookTitle'].'\'</b></div>';
+                } else {
+                    echo '<div>You Have Rejected <b>\''.$borrower['username'].'\'</b><br>To Borrow Book <b>\''.$post['bookTitle'].'\'</b></div>';
+                }
+           ?>
       </div>
     </div>
   </form>
@@ -193,6 +313,13 @@ $(document).ready(function () {
       return;
     }
   });
+
+  
+  $(".borrowerProfile").click(function() {
+    let postCode = this.getAttribute("data-postCode");
+    let readerID = this.getAttribute("data-readerID");
+    window.location.href = "viewUsersProfile.php?postCode=" + postCode + "&readerID=" + readerID;               
+   });
 });
 </script>
 </body>

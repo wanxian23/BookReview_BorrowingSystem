@@ -6,17 +6,17 @@ if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
     header("Location: ../login.php");
 }
 
-require("../database/database.php");
+require("../../database/database.php");
 
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $contact = $_SESSION['contact'];
 $readerID = $_SESSION['readerID'];
 
-$sql = "SELECT * FROM Reader_User WHERE username = '$username'
-OR email = '$email' OR phone = '$contact'";
+$sql = "SELECT * FROM admin WHERE adminUsername = '$username'
+OR adminEmail = '$email' OR adminPhone = '$contact'";
 $runSQL = $conn->query($sql);
-$user = $runSQL->fetch_assoc();
+$admin = $runSQL->fetch_assoc();
 
 // Check if the form has submit (POST)
 $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
@@ -151,7 +151,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 </head>
 
 <body>
-    <?php include("header.php"); ?>
+    <?php include("adminHeader.php"); ?>
 
     <!-- Show the prompt out info if the form has submit -->
     <div class="phpHandle" style="<?php echo $showPHPHandle ? 'display: flex;' : 'display: none;'; ?>">
@@ -164,7 +164,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
         $hashedNewPass = password_hash($newPass, PASSWORD_DEFAULT);
 
-        $sql = "UPDATE Reader_User SET password = '$hashedNewPass' WHERE readerID = '$readerID'";
+        $sql = "UPDATE admin SET password = '$hashedNewPass' WHERE adminID = '$readerID'";
         $runSQL = $conn->query($sql);
 
         if ($runSQL) {
@@ -176,9 +176,12 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
             // U should use js to make delay
             echo "<script>
                     setTimeout(function() {
-                        window.location.href = '../profile.php';
+                        window.location.href = '../adminProfile.php';
                     }, 3000);
                 </script>";    
+        } else {
+            echo "Password Failed To Change! Please Try Again!";
+            echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
         }
     }
 
@@ -190,7 +193,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         <div class="edit-container">
             <div class="edit-header">
                 <h2
-                    style="text-align: center; font-size: 1.6em;">Edit Country
+                    style="text-align: center; font-size: 1.6em;">Edit Password
                 </h2>
             </div>
 
@@ -218,7 +221,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
     </main>
 
-    <?php include("../footer.html"); ?>
+    <?php include("../../footer.html"); ?>
 </body>
 
 </html>

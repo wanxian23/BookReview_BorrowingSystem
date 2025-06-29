@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: ../login.php");
+    header("Location: ../../login.php");
 }
 
 require("../../database/database.php");
@@ -150,7 +150,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 </head>
 
 <body>
-    <?php include("header.php"); ?>
+    <?php include("adminHeader.php"); ?>
 
     <!-- Show the prompt out info if the form has submit -->
     <div class="phpHandle" style="<?php echo $showPHPHandle ? 'display: flex;' : 'display: none;'; ?>">
@@ -161,14 +161,14 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $readerID = $_SESSION['readerID'];
         $newEmail = $_POST['email'];
 
-        $sqlCheck = "SELECT * FROM Reader_User WHERE email = '$newEmail'";
+        $sqlCheck = "SELECT * FROM admin WHERE adminEmail = '$newEmail'";
         $runSQLCheck = $conn->query($sqlCheck);
 
         if ($runSQLCheck->num_rows > 0) {
             echo "Fail to Create Account! Email Already Exist! Please Try Again....";
-            echo "<meta http-equiv='refresh' content='3; URL=../profile.php'>";   
+            echo "<meta http-equiv='refresh' content='3; URL=../adminProfile.php'>";   
         } else {
-            $sql = "UPDATE Reader_User SET email = '$newEmail' WHERE readerID = '$readerID'";
+            $sql = "UPDATE admin SET adminEmail = '$newEmail' WHERE adminID = '$readerID'";
             $runSQL = $conn->query($sql);
 
             if ($runSQL) {
@@ -180,12 +180,12 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                 // U should use js to make delay
                 echo "<script>
                         setTimeout(function() {
-                            window.location.href = '../profile.php';
+                            window.location.href = '../adminProfile.php';
                         }, 3000);
                     </script>";    
             } else {
                 echo "Email Failed To Change! Please Try Again!";
-                echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
+                echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
             }   
         }
 
@@ -206,7 +206,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
             <form class="formEdit" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <p>
-                    Old Email: <label for="" style="font-weight: normal;"><?php echo $user['email']; ?></label>
+                    Old Email: <label for="" style="font-weight: normal;"><?php echo $admin['adminEmail']; ?></label>
                 </p>
 
                 <p>
@@ -224,7 +224,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
     </main>
 
-    <?php include("../footer.html"); ?>
+    <?php include("../../footer.html"); ?>
 </body>
 
 </html>

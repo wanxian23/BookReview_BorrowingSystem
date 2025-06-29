@@ -32,12 +32,15 @@
 
                 $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
-                $sql = "SELECT * FROM Reader_User WHERE username = '$username' OR email = '$email' OR phone = '$contact'";
+                $sqlAdminChecking = "SELECT * FROM Reader_User WHERE username = '$username' OR email = '$email' OR phone = '$contact'";
+                $runSQLAdminChecking = $conn->query($sqlAdminChecking);
+
+                $sql = "SELECT * FROM admin WHERE adminUsername = '$username' OR adminEmail = '$email' OR adminPhone = '$contact'";
                 $runSQL = $conn->query($sql);
 
-                if ($runSQL->num_rows > 0) {
+                if ($runSQL->num_rows > 0 || $runSQLAdminChecking->num_rows > 0) {
                     echo "Fail to Create Account! Username/ Email/ Phone Already Exist! Please Try Again....";
-                    echo "<meta http-equiv='refresh' content='3; URL=../signup.php'>";    
+                    echo "<meta http-equiv='refresh' content='3; URL=../signup.html'>";    
                 } else {
                     $sql = "INSERT INTO Reader_User(username, country, email, phone, dateOfBirth, password)
                         VALUES ('$username', '$country', '$email', '$contact', '$dateBirth', '$hashedPass')";
@@ -48,7 +51,7 @@
                         echo "<meta http-equiv='refresh' content='3; URL=../login.php'>";
                     } else {
                         echo "Fail to Create Account! Please Try Again....";
-                        echo "<meta http-equiv='refresh' content='3; URL=../signup.php'>";                 
+                        echo "<meta http-equiv='refresh' content='3; URL=../signup.html'>";                 
                     }
                 }
             }

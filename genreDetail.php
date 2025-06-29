@@ -21,13 +21,13 @@ $user = $runSQL->fetch_assoc();
 $bookSelected = $_GET['book'];
 
 $sqlGetPostDetails = "SELECT 
-post.*,
-reader.*,
-book.*
-FROM post_review post
-INNER JOIN reader_user reader USING (readerID)
-INNER JOIN book_record book USING (bookID)
-WHERE book.bookTitle LIKE '%$bookSelected%'";
+                        post.*,
+                        reader.*,
+                        book.*
+                    FROM post_review post
+                    INNER JOIN reader_user reader USING (readerID)
+                    INNER JOIN book_record book USING (bookID)
+                    WHERE book.bookTitle LIKE '%$bookSelected%'";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
@@ -116,7 +116,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         article {
             margin: 0px auto;
             max-width: 1250px;
-            padding: 20px;
+            padding: 20px 50px;
             background-color: var(--containerBgColor);
             color: var(--containerColor);
             box-shadow: var(--containerBoxShadow);
@@ -165,9 +165,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
         .book-posts-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            gap: 30px;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 40px;
             max-height: 430px; 
             overflow-y: auto;
             padding-right: 15px;
@@ -359,114 +360,121 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         }
 
         div.post {
-            margin: 0 25px 15px 25px;
+            margin: 0 0 25px 0;
             border: 2px solid var(--containerColor);
             border-radius: 15px;
-            width: 95%;
+            width: 22%;
+            height: 380px;
             background-color: var(--postBgColor);
-            height: 320px;
         }
 
 
-    div.head {
+        div.post div.head {
             border-bottom: 2px solid;
             padding: 15px;
             background-color: var(--postHeaderBgColor);
             border-radius: 15px 15px 0 0;
         }
 
-    div.post div.head div.postProfile {
+        div.post div.head div.postProfile {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-    div.post div.head div.postProfile img {
-        display: inline-block;
-        border-radius: 40px;
-        height: 100%;
-        width: 100%;    
-    }
+        div.post div.head div.postProfile img {
+            display: inline-block;
+            border-radius: 40px;
+            height: 100%;
+            width: 100%;    
+        }
 
-    div.post div.head div.postProfile a {
+        div.post div.head div.postProfile a {
             display: inline-flex;
             text-decoration: none;
             border-radius: 40px;
             height: 40px;
             width: 40px;
             border: 4px solid var(--containerColor);
-            background-color: rgb(202, 28, 57);
+            background-color: #d8d5ec;
             align-items: center;
             justify-content: center;
             color: black;
         }
 
-    div.post div.body {
+        div.post div.body {
             display: flex;
             border-bottom: 2px solid;
-            height: 200px;
+            height: 230px;
         }
 
-    div.post div.body div.left {
+        div.post div.body div.left {
             border-right: 2px solid;
             width: 70%;
         }
 
-    div.post div.body div.right {
-            padding: 20px;
-            width: 30%;
+        div.post div.body div.right {
+            padding: 20px 30px;
+            width: 100%;
             display: flex;
             justify-content: center;
         }
 
-    div.post div.body div.right img {
-            width: 80%;
+        div.post div.body div.right img {
+            width: 90%;
             height: 100%;
             box-shadow: var(--bookBoxShadow);
         }
 
-    div.post div.body div.left div.review {
+        div.post div.body div.left div.review {
             padding: 15px;
             border-bottom: 2px solid;
         }
 
-    div.post div.body div.left div.review h3 {
+        div.post div.body div.left div.review h3 {
             display: flex;
             justify-content: space-between;
         }
 
-    div.post div.body div.left div.description {
+        div.post div.body div.left div.description {
             overflow-wrap: anywhere;
             padding: 15px;
         }
 
-    div.post div.body div.left div.description p a {
+        div.post div.body div.left div.description p a {
             text-decoration: none;
-            color: var(--anchorColor);
+            color: var(--linkColor);
         }
 
-    div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
+        div.post div.body div.left div.review section.postContainer article:nth-of-type(2) div.post div.bottom {
             padding: 10px;
         }
 
-    div.post div.bottom {
+        div.post div.bottom {
             padding: 10px;
             display: flex;
-            justify-content: space-between;
+            gap: 10px;
+            flex-direction: column;
+            align-items: center;
         }
 
-    div.post div.bottom h3 {
-            font-size: 0.8em;
+        div.post div.bottom h3 {
+            font-size: 0.85em;
+        }
+
+        div.post div.bottom h4 {
+            font-weight: normal;
+            font-size: 0.75em;
         }
 
 
-    div.post div.bottom div.left {
+        div.post div.bottom div.left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-    div.post div.bottom input {
+        div.post div.bottom input {
             width: 70%;
             font-size: 0.7em;
             border-radius: 5px;
@@ -475,7 +483,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
             transition: 0.3s;
         }
 
-    div.post div.bottom input:active {
+        div.post div.bottom input:active {
             border: 1px solid black;
         }
     </style>
@@ -489,7 +497,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     <main>
         <article>
             <div class="header-row">
-                <div class="back-button"><i class='bx bx-reply'></i> Back</div>
+                <div onclick="" class="back-button"><i class='bx bx-reply'></i> Back</div>
                 <h1><?php echo $bookSelected ?></h1> 
             </div>
 
@@ -501,62 +509,54 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
                     foreach($post as $row) {
 
-                        $sqlGetComment = "SELECT
-                                            comment.*,
-                                            post.*,
-                                            reader.*,
-                                            bookBorrow.*
-                                        FROM Comment_Rating comment
-                                        INNER JOIN Post_Review post ON comment.postCode = post.postCode
-                                        INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-                                        INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-                                        WHERE post.postCode LIKE '{$row['postCode']}'";
-                                        $resultGetComemnt = $conn->query($sqlGetComment);
-                                        $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
-                                
-                                        $averageRating = 0;
-                                        if (!empty($comment)) {
-                                
-                                                $i = 0;
-                                                foreach($comment as $commentData) {
-                                
-                                                    if ($commentData['bookBorrowCode'] != null) {
-                                                        $averageRating += $commentData['ratingFeedback'];
-                                                        $i++;
-                                                    }
-                                
-                                                }
-                                                
-                                                if ($i != 0) {
-                                                    $averageRating = $averageRating / $i;
-                                                }
-                                
-                                        }
+                        $sqlAvgComment = "SELECT rating as averageRating
+                        FROM Comment_Rating
+                        WHERE postCode = '{$row['postCode']}'";
+                    $resultGetAvgComemnt = $conn->query($sqlAvgComment);
+                    $commentAvg = $resultGetAvgComemnt->fetch_all(MYSQLI_ASSOC);
+                
+                    $averageRating = 0;
+                    if (!empty($commentAvg)) {
+                
+                        $x = 0;
+                        foreach($commentAvg as $commentData) {
+                
+                            $averageRating += $commentData['averageRating'];
+                            $x++;
+                
+                        }
+                
+                        if ($x != 0) {
+                            $averageRating = $averageRating / $x;
+                        }
+                
+                    }
 
-                                        echo '<div class="post">';
+                                        echo '<div class="post postCode" data-postCode="'.$row['postCode'].'">';
                                         echo '    <div class="head">';
                                         echo '        <div class="postProfile">';
-                                        if ($row['avatar'] != null) {
-                                            echo '            <a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                        
+                                        $profileLink = "viewUsersProfile.php?readerID=" . $row['readerID'];
+                        
+                                        if ($row['readerID'] != $readerID) {
+                                            if (!empty($row['avatar'])) {
+                                                echo '<a href="'.$profileLink.'"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                            } else {
+                                                echo '<a href="'.$profileLink.'">'.$row['username'][0].'</a>';
+                                            }
                                         } else {
-                                            echo '            <a href="">A</a>';                               
+                                            if (!empty($row['avatar'])) {
+                                                echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
+                                            } else {
+                                                echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
+                                            }                                
                                         }
+                        
                                         echo $row['username'];
                                         echo '        </div>';
                                         echo '    </div>';
+                        
                                         echo '    <div class="body">';
-                                        echo '        <div class="left">';
-                                        echo '            <div class="review">';
-                                        echo '                <h2>Book Title: '.$row['bookTitle']. '</h2>';
-                                        echo '                <h3><label for="">Review: '.$row['ownerRating'].'/10</label><label for="">Genre: '.$row['genre'].'</label></h3>';
-                                        echo '            </div>';
-                                        echo '            <div class="description">';
-                                        echo '                <p>';
-                                        echo substr($row['ownerOpinion'], 0, 260);
-                                        echo '                    <a href="bookDetail.php?postCode='.$row['postCode'].'">... Read More</a>';
-                                        echo '                </p>';
-                                        echo '            </div>';
-                                        echo '        </div>';
                                         echo '        <div class="right">';
                                         if ($row['frontCover_img'] != null) {
                                             echo '            <img src="'.$row['frontCover_img'].'" alt="Book Cover">';
@@ -565,16 +565,17 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                                         }
                                         echo '        </div>';
                                         echo '    </div>';
+                        
                                         echo '    <div class="bottom">';
-                                        echo '        <div class="left">';
-                                        echo '        </div>';
+                                        echo '          <h3>'.$row['bookTitle'].'</h3>';
                                         if ($averageRating != 0) {
-                                            echo '<h3>Average Review: '.number_format($averageRating, 1).'</h3>';
+                                            echo '<h4>Average Review: '.number_format($averageRating, 1).'</h4>';
                                         } else {
-                                            echo '<h3>Average Review: No Rating</h3>';
+                                            echo '<h4>Average Review: No Rating</h4>';
                                         }
                                         echo '    </div>';
                                         echo '</div>';
+            
                     }
 
                 ?>
@@ -584,6 +585,19 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     </main>
 
     <?php include("footer.html"); ?>
+
+    
+    <script>
+        $(document).ready(function() {
+
+            $(".postCode").click(function () {
+                let postCode = this.getAttribute("data-postCode");
+                console.log(postCode);
+                window.location.href = "bookDetail.php?postCode=" + postCode;
+            })
+
+        });
+    </script>
 
 </body>
 

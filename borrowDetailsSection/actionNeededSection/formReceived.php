@@ -3,7 +3,8 @@
 $sqlGetPostDetails = "SELECT 
                           post.*,
                           reader.*,
-                          book.*
+                          book.*,
+                          borrow.readerID as borrowerID
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
@@ -43,17 +44,18 @@ foreach ($post as $row) {
 
     $sqlBorrowerDetails = "SELECT 
                           reader.*,
-                          borrow.statusBorrow
+                          borrow.*
                       FROM book_borrowed borrow
                       INNER JOIN reader_user reader USING (readerID)
                       WHERE borrow.postCode = '{$row['postCode']}'
                       AND borrow.statusBorrow = 'APPROVED'
+                      AND borrow.readerID = '{$row['borrowerID']}'
                       AND borrow.fullname != ''";
     $resultGetBorrowerDetails = $conn->query($sqlBorrowerDetails);
     $borrower = $resultGetBorrowerDetails->fetch_assoc();
 
 
-    echo '<div class="post viewReplyForm" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 220px; width: 350px;">';
+    echo '<div class="post viewReplyForm" data-readerID="'.$borrower['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 220px; width: 350px;">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     
@@ -69,7 +71,7 @@ foreach ($post as $row) {
         if (!empty($row['avatar'])) {
             echo '<a href="profilemyposts.php"><img src="'.$row['avatar'].'" alt="Profile Image"></a>';
         } else {
-            echo '<a href="profilemyposts.php">'.$row['username'][0].'</a>';
+            echo '<a href="profilemyposts.php">'.$row['readerID'][0].'</a>';
         }                                
     }
 

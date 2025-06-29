@@ -184,15 +184,15 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="adminMain.php"><label for="" class="admin">Post&nbsp;Validation</label></a>
-                <a href="barChart.php"><label for="" class="admin">Insights</label></a>
+                <a href="../adminMain.php"><label for="" class="admin">Post&nbsp;Validation</label></a>
+                <a href="../barChart.php"><label for="" class="admin">Insights</label></a>
             </nav>
             <form method="POST" action="adminSearch.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread" name="search">
             </form>
             <nav>
-                <a href="adminLogout.php"><label for="main">Logout</label></a>
+                <a href="../adminLogout.php"><label for="main">Logout</label></a>
             </nav>
         </div>
     </header>

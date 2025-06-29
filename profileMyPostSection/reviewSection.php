@@ -5,30 +5,21 @@ $user = $runSQL->fetch_assoc();
 $sqlGetPostDetails = "SELECT 
                           post.*,
                           reader.*,
-                          book.*,
-                          bookBorrow.*
+                          book.*
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
-                      INNER JOIN book_borrowed bookBorrow USING (postCode)
-                      WHERE post.readerID != '$readerID'
-                      AND bookBorrow.readerID = '$readerID'
-                      ORDER BY post.postCode DESC";
+                      INNER JOIN comment_rating comment USING (postCode)
+                      WHERE comment.readerID = '$readerID'
+                      ORDER BY post.datePosted DESC";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
     foreach ($post as $row) {
 
-        $sqlGetComment = "SELECT
-            comment.*,
-            post.*,
-            reader.*,
-            bookBorrow.*
-        FROM Comment_Rating comment
-        INNER JOIN Post_Review post ON comment.postCode = post.postCode
-        INNER JOIN Reader_User reader ON comment.readerID = reader.readerID
-        INNER JOIN book_borrowed bookBorrow ON comment.bookBorrowCode = bookBorrow.bookBorrowCode
-        WHERE comment.postCode = '{$row['postCode']}'";
+        $sqlGetComment = "SELECT rating as averageRating
+        FROM Comment_Rating
+        WHERE postCode = '{$row['postCode']}'";
         $resultGetComemnt = $conn->query($sqlGetComment);
         $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
 
@@ -38,10 +29,8 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
                 $i = 0;
                 foreach($comment as $commentData) {
 
-                    if ($commentData['bookBorrowCode'] != null) {
-                        $averageRating += $commentData['ratingFeedback'];
-                        $i++;
-                    }
+                    $averageRating += $commentData['averageRating'];
+                    $i++;
 
                 }
                 

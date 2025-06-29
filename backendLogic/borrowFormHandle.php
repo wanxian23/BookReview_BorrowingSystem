@@ -67,6 +67,7 @@ $postCode = $_REQUEST['postCode'];
             display: flex;
             justify-content: center;
             margin: 5% 6%;
+            font-size: 1.3em;
         }
         </style>
 
@@ -86,10 +87,6 @@ $postCode = $_REQUEST['postCode'];
             $phone      = $_POST['phone']      ?? '';
             $email      = $_POST['email']      ?? '';
             $address    = $_POST['address']    ?? '';
-            $deliveryMethod    = $_POST['deliveryMethod']    ?? '';
-            $borrowDate = $_POST['borrowDate'] ?? '';
-            $returnDate = $_POST['returnDate'] ?? '';
-            $reason     = $_POST['reason']     ?? '';
 
             // (optional) semak kosong
             if (!$name || !$phone || !$email || !$address) {
@@ -99,11 +96,11 @@ $postCode = $_REQUEST['postCode'];
 
             // masukkan ke table `borrow_request`
             $sql = "UPDATE book_borrowed
-                    SET fullname = ?, phone = ?, email = ?, address = ?, borrowDate = ?, expectedReturnDate = ?, reasonBorrow = ?, deliveryMethod = ?
+                    SET fullname = ?, phone = ?, email = ?, address = ?
                     WHERE postCode = '$postCode' AND readerID = '$readerID'";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssssss",
-                $name, $phone, $email, $address, $borrowDate, $returnDate, $reason, $deliveryMethod);
+            $stmt->bind_param("ssss",
+                $name, $phone, $email, $address);
 
                 $sqlGetBorrowRequestInfo = "SELECT * FROM book_borrowed
                                             WHERE postCode = '$postCode' AND readerID = '$readerID'

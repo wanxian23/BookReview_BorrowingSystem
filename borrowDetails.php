@@ -605,10 +605,9 @@ $user = $runSQL->fetch_assoc();
             })
 
             $(".borrowerProfile").click(function() {
-               
                 let postCode = this.getAttribute("data-postCode");
                 let readerID = this.getAttribute("data-readerID");
-                window.location.href = "viewUsersProfile.php?postCode=" + postCode + "&readerID=" + readerID;               
+                window.location.href = "viewGeneralBorrowDetailsUser.php?postCode=" + postCode + "&readerID=" + readerID;               
             });
 
             $(".replyForm").click(function() {

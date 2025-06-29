@@ -3,10 +3,10 @@
 session_start();
 
 if (!isset($_SESSION['username'], $_SESSION['email'], $_SESSION['contact'])) {
-    header("Location: ../login.php");
+    header("Location: ../../login.php");
 }
 
-require("../database/database.php");
+require("../../database/database.php");
 
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
@@ -156,7 +156,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 </head>
 
 <body>
-    <?php include("header.php"); ?>
+    <?php include("adminHeader.php"); ?>
 
     <!-- Show the prompt out info if the form has submit -->
     <div class="phpHandle" style="<?php echo $showPHPHandle ? 'display: flex;' : 'display: none;'; ?>">
@@ -167,14 +167,14 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $readerID = $_SESSION['readerID'];
         $newUsername = $_POST['username'];
 
-        $sqlCheck = "SELECT * FROM Reader_User WHERE username = '$newUsername'";
+        $sqlCheck = "SELECT * FROM admin WHERE adminUsername = '$newUsername'";
         $runSQLCheck = $conn->query($sqlCheck);
 
         if ($runSQLCheck->num_rows > 0) {
             echo "Fail to Create Account! Username Already Exist! Please Try Again....";
-            echo "<meta http-equiv='refresh' content='3; URL=../profile.php'>";   
+            echo "<meta http-equiv='refresh' content='3; URL=../adminProfile.php'>";   
         } else {
-            $sql = "UPDATE Reader_User SET username = '$newUsername' WHERE readerID = '$readerID'";
+            $sql = "UPDATE admin SET adminUsername = '$newUsername' WHERE adminID = '$readerID'";
             $runSQL = $conn->query($sql);
 
             if ($runSQL) {
@@ -186,12 +186,12 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                 // U should use js to make delay
                 echo "<script>
                         setTimeout(function() {
-                            window.location.href = '../profile.php';
+                            window.location.href = '../adminProfile.php';
                         }, 3000);
                     </script>";    
             } else {
                 echo "Username Failed To Change! Please Try Again!";
-                echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
+                echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
             }   
         }
 
@@ -212,7 +212,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
             <form class="formEdit" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <p>
-                    Old Username: <label for="" style="font-weight: normal;"><?php echo $user['username']; ?></label>
+                    Old Username: <label for="" style="font-weight: normal;"><?php echo $admin['adminUsername']; ?></label>
                 </p>
 
                 <p>
@@ -230,7 +230,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
 
     </main>
 
-    <?php include("../footer.html"); ?>
+    <?php include("../../footer.html"); ?>
 </body>
 
 </html>

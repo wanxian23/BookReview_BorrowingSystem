@@ -38,7 +38,7 @@ $sqlBorrowerDetails = "SELECT
                           post.*,
                           reader.*,
                           book.*,
-                          borrow.statusBorrow
+                          borrow.statusBorrow, borrow.fullname
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
@@ -711,15 +711,20 @@ if (!empty($commentAvg)) {
                         echo '<div class="status">';
                         if ($borrower['statusBorrow'] ===  "PENDING") {
                             echo '<div><h2>Book Borrow Request Status:</h2><label>Pending</label></div>';
+                            echo '</div>';
+                            echo '<div>';
+                            echo '<a href="cancelBorrowRequest.php?postCode='.$borrower['postCode'].'" style="width: 200px;">Cancel Borrow Request</a>';
+                            echo '</div>';
                         } else if ($borrower['statusBorrow'] === "APPROVED") {
                             echo '<div><h2>Book Borrow Request Status:</h2><label>Approved</label></div>';
                         } else {
                             echo '<div><h2>Book Borrow Request Status:</h2><label>Rejected</label></div>';
+                            echo '</div>';
+                            echo '<div>';
+                            echo '<a href="cancelBorrowRequest.php?postCode='.$borrower['postCode'].'" style="width: 200px;">Cancel Borrow Request</a>';
+                            echo '</div>';
                         }
-                        echo '</div>';
-                        echo '<div>';
-                        echo '<a href="cancelBorrowRequest.php?postCode='.$borrower['postCode'].'" style="width: 200px;">Cancel Borrow Request</a>';
-                        echo '</div>';
+                        echo '</div>';                        
                         echo '</div>';                        
                     } else {
                         echo '<div class="book-edit-container">';
@@ -769,7 +774,10 @@ if (!empty($commentAvg)) {
                             echo "          <label style='color: red;'>Please Kindly Wait For Book Owner To Respond!<label>";
                         } else if ($borrower['statusBorrow'] === "APPROVED") {
                             echo "          <label style='color: red;'>Your Borrow Request Has Been Approved By '{$post['username']}'!<label><br>";
-                            echo "          <label style='color: red;'>Please Fill In The Relevant Form!<label>";
+                            if (empty($borrower['fullname']))
+                                echo "          <label style='color: red;'>Please Fill In The Relevant Form!<label>";
+                            else 
+                                echo "          <label style='color: red;'>Your Form Has Submitted! Owner Will Get Back Soon For More Information!<label><br>";
                         } else {
                             echo "          <label style='color: red;'>Your Borrow Request Has Been Rejected By '{$post['username']}'!<label><br>";
                             echo "          <label style='color: red;'>Please Cancel Your Borrow Request If You Wanna Make Request Again!<label>";
@@ -787,18 +795,23 @@ if (!empty($commentAvg)) {
 
                 } else {
             
-                    if ($post['statusBorrow'] == "PENDING") {
-                        echo "<label>You Are The Owner Of This Book!<label><br>";
-                        echo "<label style='color: red;'>A Borrow Request Has Made By Someone, Don't Forget To Check!<label>";
-                    } else if ($post['statusBorrow'] == "APPROVED") {
-                        echo "<label>You Are The Owner Of This Book!<label><br>";
-                        echo "<label style='color: red;'>You Have Approved A Borrow Request, So This Post Is Not Available To Borrow Currently!<label>";
-                    } else if ($post['statusPostBorrow'] == "YES") {
-                        echo "<label>You Are The Owner Of This Book!<label><br>";
-                        echo "<label style='color: red;'>This Post Is Available For Borrow!<label>";
+                    if ($post['statusPostBorrow'] === "NO") {
+                        if ($post['statusBorrow'] == "PENDING") {
+                            echo "<label>You Are The Owner Of This Book!<label><br>";
+                            echo "<label style='color: red;'>A Borrow Request Has Made By Someone, Don't Forget To Check!<label>";
+                        } else if ($post['statusBorrow'] == "APPROVED") {
+                            echo "<label>You Are The Owner Of This Book!<label><br>";
+                            echo "<label style='color: red;'>You Have Approved A Borrow Request, So This Post Is Not Available To Borrow Currently!<label>";
+                        } else if ($post['statusPostBorrow'] == "YES") {
+                            echo "<label>You Are The Owner Of This Book!<label><br>";
+                            echo "<label style='color: red;'>This Post Is Available For Borrow!<label>";
+                        } else {
+                            echo "<label>You Are The Owner Of This Book!<label><br>";
+                            echo "<label style='color: red;'>This Post Is NOT Available For Borrow!<label>";
+                        }
                     } else {
                         echo "<label>You Are The Owner Of This Book!<label><br>";
-                        echo "<label style='color: red;'>This Post Is NOT Available For Borrow!<label>";
+                        echo "<label style='color: red;'>This Post Is Available For Borrow!<label>";            
                     }
                 }
 

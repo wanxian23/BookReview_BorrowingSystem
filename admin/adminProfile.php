@@ -272,7 +272,7 @@ $admin = $runSQL->fetch_assoc();
                     <h3>Security</h3>
                 </div>
                 <p><span class="info-text">Passwords: <label for="">********</label> </span>
-                <a href="profileEdit/editPass.php"
+                <a href="adminProfileEdit/editPass.php"
                         class="edit-link">Edit Password</a></p>
             </div>
 

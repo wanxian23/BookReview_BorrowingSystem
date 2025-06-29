@@ -484,12 +484,10 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
                 $mypostActive = (!isset($_GET['mypostSection']) || $_GET['mypostSection'] === 'myPost') ? 'active' : '';
                 $reviewActive = (isset($_GET['mypostSection']) && $_GET['mypostSection'] === 'review') ? 'active' : '';
-                $pendingActive = (isset($_GET['mypostSection']) && $_GET['mypostSection'] === 'pending') ? 'active' : '';
 
             ?>
                 <button type="submit" class="tab <?php echo $mypostActive; ?>" name="mypostSection" value="myPost">My Posts</button>
                 <button type="submit" class="tab <?php echo $reviewActive; ?>" name="mypostSection" value="review">Reviews</button>
-                <button type="submit" class="tab <?php echo $pendingActive; ?>" name="mypostSection" value="pending">Pending</button>
             </form>
 
             <div class="tab-content">

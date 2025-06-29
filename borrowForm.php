@@ -24,7 +24,7 @@ $sqlGetPostDetails = "SELECT
                           post.*,
                           reader.*,
                           book.*,
-                          borrow.statusBorrow
+                          borrow.statusBorrow, borrow.address
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
@@ -32,6 +32,16 @@ $sqlGetPostDetails = "SELECT
                       WHERE post.postCode = '$postCode'";
 $resultGetPostDetails = $conn->query($sqlGetPostDetails);
 $post = $resultGetPostDetails->fetch_assoc();
+
+
+$borrowID = $_REQUEST['borrowerReaderID'];
+$sqlBorrowerDetails = "SELECT *
+                      FROM book_borrowed borrow
+                      INNER JOIN reader_user USING (readerID)
+                      WHERE postCode = '$postCode'
+                      AND borrow.readerID = '$readerID'";
+$resultGetBorrowerDetails = $conn->query($sqlBorrowerDetails);
+$borrower = $resultGetBorrowerDetails->fetch_assoc();
 
 ?>
 
@@ -72,7 +82,7 @@ $post = $resultGetPostDetails->fetch_assoc();
     .body{padding:25px 35px;}
     .field{margin-bottom:18px;}
     .field:first-child {margin-bottom:18px; text-align: center;}
-    .field:first-child label {display:inline; background-color:rgb(230, 230, 230); padding: 10px; border-radius: 8px;}
+    .field:first-child label {background-color:rgb(230, 230, 230); padding: 10px; border-radius: 8px;}
     .field label{display:block;margin-bottom:6px;font-weight:500;}
     .field input,.field textarea, .field #deliveryMethod{width:100%;padding:12px;border:1px solid #ccc;
                                  border-radius:5px;font-size:15px;}
@@ -105,51 +115,35 @@ $post = $resultGetPostDetails->fetch_assoc();
         method="POST"
         onsubmit="return validateBorrow();">
 
-    <div class="header">Borrow Request Form</div>
+    <div class="header">Personal Details To Be Sent To Owner</div>
     <div class="body">
     <?php
       echo "<div class='field'>
-              <label for=''>You Are Replying <b>'{$post['username']}'</b> For Borrow Book <b>'{$post['bookTitle']}'</b></label>
+              <label for='' style='line-height: 1.5;'>Book Owner <b>'{$post['username']}'</b> Has Approved Your Request<br>
+              The Book You Borrowed Was <b>'{$post['bookTitle']}'</b><br>
+              You Need To Submit Your <b>Personal Details</b> For Book Owner To Proceed<br>
+              </label>
             </div>";
     ?>
 
       <div class="field">
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" value="<?php echo $borrower['username']; ?>" required>
       </div>
 
       <div class="field">
         <label for="phone">Phone Number</label>
-        <input type="text" id="phone" name="phone" required>
+        <input type="text" id="phone" name="phone" value="<?php echo $borrower['phone']; ?>" required>
       </div>
 
       <div class="field">
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" value="<?php echo $borrower['email']; ?>" required>
       </div>
 
       <div class="field">
-        <label for="deliveryMethod">Delivery Method</label>
-        <select id="deliveryMethod" name="deliveryMethod" required>
-          <option value="">-- Select Method --</option>
-          <option value="Meet In Person">Meet In Person</option>
-          <option value="Postal Delivery">Postal Delivery</option>
-        </select>
-    </div>
-
-      <div class="field">
-        <label for="borrowDate">Preferred Borrow Date</label>
-        <input type="date" id="borrowDate" name="borrowDate" required>
-      </div>
-
-      <div class="field">
-        <label for="returnDate">Expected Return Date</label>
-        <input type="date" id="returnDate" name="returnDate" required>
-      </div>
-
-      <div class="field">
-        <label for="reason">Reason for Borrowing (optional)</label>
-        <textarea id="reason" name="reason" rows="2"></textarea>
+        <label for="address">DetailsAddress</label>
+        <textarea name="address" id="address" placeholder="Details Address"><?php echo $borrower['address']; ?></textarea>
       </div>
 
       <input type="submit" name="submit">

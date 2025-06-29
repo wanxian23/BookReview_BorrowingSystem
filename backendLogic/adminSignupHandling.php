@@ -30,12 +30,15 @@
 
                 $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
+                $sqlUserChecking = "SELECT * FROM Reader_User WHERE username = '$username' OR email = '$email' OR phone = '$contact'";
+                $runSQLUserChecking = $conn->query($sqlUserChecking);
+
                 $sql = "SELECT * FROM admin WHERE adminUsername = '$username' OR adminEmail = '$email' OR adminPhone = '$contact'";
                 $runSQL = $conn->query($sql);
 
-                if ($runSQL->num_rows > 0) {
+                if ($runSQL->num_rows > 0 || $runSQLUserChecking->num_rows > 0) {
                     echo "Fail to Create Account! Username/ Email/ Phone Already Exist! Please Try Again....";
-                    echo "<meta http-equiv='refresh' content='3; URL=../admin/adminSignup.php'>";    
+                    echo "<meta http-equiv='refresh' content='3; URL=../adminSignup.php'>";    
                 } else {
                     $sql = "INSERT INTO admin(adminUsername, adminEmail, adminPhone, password)
                         VALUES ('$username', '$email', '$contact', '$hashedPass')";
@@ -46,7 +49,7 @@
                         echo "<meta http-equiv='refresh' content='3; URL=../login.php'>";
                     } else {
                         echo "Fail to Create Account! Please Try Again....";
-                        echo "<meta http-equiv='refresh' content='3; URL=../admin/adminSignup.php'>";                 
+                        echo "<meta http-equiv='refresh' content='3; URL=../adminSignup.php'>";    
                     }
                 }
             }

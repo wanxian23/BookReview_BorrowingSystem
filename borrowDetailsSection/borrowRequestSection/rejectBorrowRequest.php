@@ -88,7 +88,7 @@ foreach ($post as $row) {
     if (!empty($borrow['avatar'])) {
         echo '              <img src="'.$borrow['avatar'].'" alt="Borrower Profile Image">';
     } else {
-        echo '              <a href="viewUsersProfile.php?postCode='.$row['postCode'].'&readerID='.$borrow['readerID'].'">'.$borrow['username'][0].'</a>';
+        echo '              <a>'.$borrow['username'][0].'</a>';
     }
     echo '              <h1>'.$borrow['username'].'</h1>';
     echo '        </div>';

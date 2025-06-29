@@ -190,7 +190,7 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         <div class="edit-container">
             <div class="edit-header">
                 <h2
-                    style="text-align: center; font-size: 1.6em;">Edit Country
+                    style="text-align: center; font-size: 1.6em;">Edit Password
                 </h2>
             </div>
 

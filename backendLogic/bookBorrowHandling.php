@@ -49,6 +49,13 @@ $user = $runSQL->fetch_assoc();
 
         if (isset($_REQUEST['postCode'])) {
 
+            // Get the submitted values
+            $address = isset($_POST['address']) ? trim($_POST['address']) : '';
+            $deliveryMethod = isset($_POST['deliveryMethod']) ? trim($_POST['deliveryMethod']) : '';
+            $borrowDate = isset($_POST['borrowDate']) ? trim($_POST['borrowDate']) : '';
+            $returnDate = isset($_POST['returnDate']) ? trim($_POST['returnDate']) : '';
+            $reason = isset($_POST['reason']) ? trim($_POST['reason']) : '';
+
             $postCode = $_REQUEST['postCode'];
             $sqlGetPostDetails = "SELECT 
                                     post.*,
@@ -65,8 +72,8 @@ $user = $runSQL->fetch_assoc();
                 date_default_timezone_set("Asia/Kuala_Lumpur");
                 $todayDateTime = date("Y-m-d H:i:s"); 
 
-                $sqlBorrowRequest = "INSERT INTO book_borrowed (readerID, postCode, statusBorrow, dateRequestSent)
-                                      VALUES ('$readerID','$postCode','PENDING','$todayDateTime')";
+                $sqlBorrowRequest = "INSERT INTO book_borrowed (readerID, postCode, statusBorrow, dateRequestSent, address, borrowDate, expectedReturnDate, reasonBorrow, deliveryMethod)
+                                      VALUES ('$readerID','$postCode','PENDING','$todayDateTime','$address','$borrowDate','$returnDate','$reason','$deliveryMethod')";
                 $resultSqlBorrowRequest = $conn->query($sqlBorrowRequest);
 
                 $sqlGetBorrowRequestInfo = "SELECT * FROM book_borrowed

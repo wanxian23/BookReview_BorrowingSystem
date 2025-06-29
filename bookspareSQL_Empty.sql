@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3301
--- Generation Time: Jun 23, 2025 at 09:36 PM
+-- Generation Time: Jun 29, 2025 at 12:34 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,6 +24,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `adminID` int(11) NOT NULL,
+  `adminUsername` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `adminEmail` varchar(75) NOT NULL,
+  `adminPhone` varchar(15) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `book_borrowed`
 --
 
@@ -32,7 +48,16 @@ CREATE TABLE `book_borrowed` (
   `bookBorrowCode` int(11) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
   `postCode` int(11) DEFAULT NULL,
-  `ratingFeedback` int(10) DEFAULT NULL
+  `fullname` varchar(50) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `email` varchar(75) DEFAULT NULL,
+  `address` varchar(100) NOT NULL,
+  `borrowDate` datetime NOT NULL,
+  `expectedReturnDate` datetime NOT NULL,
+  `reasonBorrow` longtext DEFAULT NULL,
+  `statusBorrow` char(15) DEFAULT NULL,
+  `dateRequestSent` datetime NOT NULL,
+  `deliveryMethod` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -60,8 +85,9 @@ CREATE TABLE `comment_rating` (
   `readerID` int(11) DEFAULT NULL,
   `comment` longtext NOT NULL,
   `dateComment` varchar(20) NOT NULL,
-  `bookBorrowCode` int(11) DEFAULT NULL,
-  `timeComment` time DEFAULT NULL
+  `timeComment` time DEFAULT NULL,
+  `rating` int(10) DEFAULT NULL,
+  `statusComment` char(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -77,7 +103,8 @@ CREATE TABLE `nested_comment_rating` (
   `dateComment` varchar(20) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
   `commentCode` int(11) DEFAULT NULL,
-  `timeComment` time DEFAULT NULL
+  `timeComment` time DEFAULT NULL,
+  `statusNestedComment` char(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -93,7 +120,25 @@ CREATE TABLE `notification` (
   `readerID` int(11) DEFAULT NULL,
   `commentCode` int(11) DEFAULT NULL,
   `nestedCommentCode` int(11) DEFAULT NULL,
-  `status` char(8) DEFAULT NULL
+  `status` char(8) DEFAULT NULL,
+  `bookBorrowCode` int(11) DEFAULT NULL,
+  `notificationDate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_report`
+--
+
+DROP TABLE IF EXISTS `post_report`;
+CREATE TABLE `post_report` (
+  `reportCode` int(11) NOT NULL,
+  `reason` varchar(50) NOT NULL,
+  `extraReason` longtext DEFAULT NULL,
+  `postCode` int(11) DEFAULT NULL,
+  `readerID` int(11) DEFAULT NULL,
+  `reportDateTime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -107,14 +152,14 @@ CREATE TABLE `post_review` (
   `postCode` int(11) NOT NULL,
   `readerID` int(11) DEFAULT NULL,
   `bookID` int(11) DEFAULT NULL,
-  `ownerOpinion` longtext NOT NULL,
-  `ownerRating` decimal(3,1) NOT NULL,
   `frontCover_img` varchar(255) DEFAULT NULL,
-  `backCover_img` varchar(255) DEFAULT NULL,
   `synopsis` longtext DEFAULT NULL,
-  `statusPhone` varchar(10) DEFAULT NULL,
   `author` varchar(50) DEFAULT NULL,
-  `genre` varchar(50) DEFAULT NULL
+  `genre` varchar(50) DEFAULT NULL,
+  `datePosted` datetime DEFAULT NULL,
+  `statusPostBorrow` varchar(10) DEFAULT NULL,
+  `statusApprove` char(20) DEFAULT NULL,
+  `statusApproveMessage` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -165,6 +210,12 @@ CREATE TABLE `thread_post` (
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`adminID`);
+
+--
 -- Indexes for table `book_borrowed`
 --
 ALTER TABLE `book_borrowed`
@@ -183,9 +234,8 @@ ALTER TABLE `book_record`
 --
 ALTER TABLE `comment_rating`
   ADD PRIMARY KEY (`commentCode`),
-  ADD KEY `postCode` (`postCode`,`readerID`,`bookBorrowCode`),
-  ADD KEY `readerID` (`readerID`),
-  ADD KEY `bookBorrowCode` (`bookBorrowCode`);
+  ADD KEY `postCode` (`postCode`,`readerID`),
+  ADD KEY `readerID` (`readerID`);
 
 --
 -- Indexes for table `nested_comment_rating`
@@ -203,7 +253,16 @@ ALTER TABLE `notification`
   ADD KEY `postCode` (`postCode`,`readerID`,`commentCode`,`nestedCommentCode`),
   ADD KEY `readerID` (`readerID`),
   ADD KEY `commentCode` (`commentCode`),
-  ADD KEY `nestedCommentCode` (`nestedCommentCode`);
+  ADD KEY `nestedCommentCode` (`nestedCommentCode`),
+  ADD KEY `bookBorrowCode` (`bookBorrowCode`);
+
+--
+-- Indexes for table `post_report`
+--
+ALTER TABLE `post_report`
+  ADD PRIMARY KEY (`reportCode`),
+  ADD KEY `postCode` (`postCode`,`readerID`),
+  ADD KEY `readerID` (`readerID`);
 
 --
 -- Indexes for table `post_review`
@@ -238,6 +297,12 @@ ALTER TABLE `thread_post`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `adminID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `book_borrowed`
 --
 ALTER TABLE `book_borrowed`
@@ -266,6 +331,12 @@ ALTER TABLE `nested_comment_rating`
 --
 ALTER TABLE `notification`
   MODIFY `notificationCode` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `post_report`
+--
+ALTER TABLE `post_report`
+  MODIFY `reportCode` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `post_review`
@@ -307,8 +378,7 @@ ALTER TABLE `book_borrowed`
 --
 ALTER TABLE `comment_rating`
   ADD CONSTRAINT `comment_rating_ibfk_1` FOREIGN KEY (`readerID`) REFERENCES `reader_user` (`readerID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_rating_ibfk_2` FOREIGN KEY (`postCode`) REFERENCES `post_review` (`postCode`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_rating_ibfk_3` FOREIGN KEY (`bookBorrowCode`) REFERENCES `book_borrowed` (`bookBorrowCode`);
+  ADD CONSTRAINT `comment_rating_ibfk_2` FOREIGN KEY (`postCode`) REFERENCES `post_review` (`postCode`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `nested_comment_rating`
@@ -324,7 +394,15 @@ ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`postCode`) REFERENCES `post_review` (`postCode`) ON DELETE CASCADE,
   ADD CONSTRAINT `notification_ibfk_2` FOREIGN KEY (`readerID`) REFERENCES `reader_user` (`readerID`) ON DELETE CASCADE,
   ADD CONSTRAINT `notification_ibfk_3` FOREIGN KEY (`commentCode`) REFERENCES `comment_rating` (`commentCode`) ON DELETE CASCADE,
-  ADD CONSTRAINT `notification_ibfk_4` FOREIGN KEY (`nestedCommentCode`) REFERENCES `nested_comment_rating` (`nestedCommentCode`) ON DELETE CASCADE;
+  ADD CONSTRAINT `notification_ibfk_4` FOREIGN KEY (`nestedCommentCode`) REFERENCES `nested_comment_rating` (`nestedCommentCode`) ON DELETE CASCADE,
+  ADD CONSTRAINT `notification_ibfk_5` FOREIGN KEY (`bookBorrowCode`) REFERENCES `book_borrowed` (`bookBorrowCode`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `post_report`
+--
+ALTER TABLE `post_report`
+  ADD CONSTRAINT `post_report_ibfk_1` FOREIGN KEY (`readerID`) REFERENCES `reader_user` (`readerID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `post_report_ibfk_2` FOREIGN KEY (`postCode`) REFERENCES `post_review` (`postCode`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `post_review`

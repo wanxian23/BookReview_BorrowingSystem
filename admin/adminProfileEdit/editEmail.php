@@ -15,6 +15,7 @@ $readerID = $_SESSION['readerID'];
 
 $sql = "SELECT * FROM admin WHERE adminUsername = '$username'
 OR adminEmail = '$email' OR adminPhone = '$contact'";
+
 $runSQL = $conn->query($sql);
 $admin = $runSQL->fetch_assoc();
 
@@ -164,8 +165,11 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $sqlCheck = "SELECT * FROM admin WHERE adminEmail = '$newEmail'";
         $runSQLCheck = $conn->query($sqlCheck);
 
-        if ($runSQLCheck->num_rows > 0) {
-            echo "Fail to Create Account! Email Already Exist! Please Try Again....";
+        $sqlUserCheck = "SELECT * FROM Reader_User WHERE email = '$newEmail'";
+        $runSQLUserCheck = $conn->query($sqlUserCheck);
+
+        if ($runSQLCheck->num_rows > 0 || $runSQLUserCheck->num_rows > 0) {
+            echo "Fail to modify email! Email Already Exist! Please Try Again....";
             echo "<meta http-equiv='refresh' content='3; URL=../adminProfile.php'>";   
         } else {
             $sql = "UPDATE admin SET adminEmail = '$newEmail' WHERE adminID = '$readerID'";

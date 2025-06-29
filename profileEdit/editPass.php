@@ -179,6 +179,9 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                         window.location.href = '../profile.php';
                     }, 3000);
                 </script>";    
+        } else {
+            echo "Password Failed To Change! Please Try Again!";
+            echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
         }
     }
 

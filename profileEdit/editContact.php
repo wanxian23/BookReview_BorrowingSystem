@@ -173,11 +173,14 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $readerID = $_SESSION['readerID'];
         $newContact = $_POST['contact'];
 
+        $sqlAdminChecking = "SELECT * FROM admin WHERE adminPhone = '$newContact'";
+        $runSQLAdminChecking = $conn->query($sqlAdminChecking);
+
         $sqlCheck = "SELECT * FROM Reader_User WHERE phone = '$newContact'";
         $runSQLCheck = $conn->query($sqlCheck);
 
-        if ($runSQLCheck->num_rows > 0) {
-            echo "Fail to Create Account! Phone Already Exist! Please Try Again....";
+        if ($runSQLCheck->num_rows > 0 || $runSQLAdminChecking->num_rows > 0) {
+            echo "Fail to modify contact number! Phone Already Exist! Please Try Again....";
             echo "<meta http-equiv='refresh' content='3; URL=../profile.php'>";   
         } else {
             $sql = "UPDATE Reader_User SET phone = '$newContact' WHERE readerID = '$readerID'";

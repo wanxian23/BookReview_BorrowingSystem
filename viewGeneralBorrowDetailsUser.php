@@ -50,18 +50,8 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
       data-fontSize="defaultFontSize">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Borrow Request Form</title>
-
-  <!-- icon & js libs -->
-  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-  <!-- main shared stylesheet -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="image/logo.png">
+  <?php include "headDetails.html"; ?>
+  <title>General Request Form</title>
 
   <!-- small page-specific css (inherits colour vars from style.css) -->
   <style>

@@ -41,7 +41,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
 
     <?php include("headDetails.html") ?>
     <link rel="stylesheet" href="style.css">
-    <title>Login Page</title>
+    <title>Profile</title>
 
     <style>
 

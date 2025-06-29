@@ -167,11 +167,14 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $readerID = $_SESSION['readerID'];
         $newUsername = $_POST['username'];
 
+        $sqlAdminChecking = "SELECT * FROM admin WHERE adminUsername = '$newUsername'";
+        $runSQLAdminChecking = $conn->query($sqlAdminChecking);
+
         $sqlCheck = "SELECT * FROM Reader_User WHERE username = '$newUsername'";
         $runSQLCheck = $conn->query($sqlCheck);
 
-        if ($runSQLCheck->num_rows > 0) {
-            echo "Fail to Create Account! Username Already Exist! Please Try Again....";
+        if ($runSQLCheck->num_rows > 0 || $runSQLAdminChecking->num_rows > 0) {
+            echo "Fail to modify username! Username Already Exist! Please Try Again....";
             echo "<meta http-equiv='refresh' content='3; URL=../profile.php'>";   
         } else {
             $sql = "UPDATE Reader_User SET username = '$newUsername' WHERE readerID = '$readerID'";

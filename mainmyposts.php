@@ -26,7 +26,7 @@ $user = $runSQL->fetch_assoc();
 <head>
 
     <?php include("headDetails.html"); ?>
-    <title>BookSpare - Search Results</title>
+    <title>My Posts</title>
 
     <style>
     

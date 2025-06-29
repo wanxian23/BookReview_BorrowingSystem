@@ -227,15 +227,18 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                     $updateSQL = "UPDATE Reader_User SET avatar = '$targetFile' WHERE username = '$username'";
                     if ($conn->query($updateSQL)) {
                         echo "Avatar updated successfully! Redirecting...";
-                        echo "<script>setTimeout(() => window.location.href = '../profile.php', 3000);</script>";
+                        echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
                     } else {
                         echo "Database update failed.";
+                        echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
                     }
                 } else {
                     echo "Failed to upload file.";
+                    echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
                 }
             } else {
                 echo "Invalid file type or size exceeds 2MB.";
+                echo "<meta http-equiv='refresh' content='3; url=../profile.php'>";
             }
         }
     ?>

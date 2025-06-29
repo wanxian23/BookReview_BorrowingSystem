@@ -161,11 +161,14 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
         $readerID = $_SESSION['readerID'];
         $newEmail = $_POST['email'];
 
+        $sqlAdminChecking = "SELECT * FROM admin WHERE adminEmail = '$newEmail'";
+        $runSQLAdminChecking = $conn->query($sqlAdminChecking);
+
         $sqlCheck = "SELECT * FROM Reader_User WHERE email = '$newEmail'";
         $runSQLCheck = $conn->query($sqlCheck);
 
-        if ($runSQLCheck->num_rows > 0) {
-            echo "Fail to Create Account! Email Already Exist! Please Try Again....";
+        if ($runSQLCheck->num_rows > 0 || $runSQLAdminChecking->num_rows > 0) {
+            echo "Fail to modify email! Email Already Exist! Please Try Again....";
             echo "<meta http-equiv='refresh' content='3; URL=../profile.php'>";   
         } else {
             $sql = "UPDATE Reader_User SET email = '$newEmail' WHERE readerID = '$readerID'";

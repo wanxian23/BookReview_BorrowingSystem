@@ -56,7 +56,7 @@
                         <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
                     </div>
                 </div>
-                <!-- <div>
+                <div>
                     <span class="notificationButton"><label for="notification"><i class='bx  bx-bell' ></i> </label></span>
                     <div class="accessibility notification">
                         <span style="color: black;">Notification</span>
@@ -128,7 +128,7 @@
                             
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <div>
                     <span class="profile">
                         <?php echo $admin['adminUsername']; ?>
@@ -176,7 +176,7 @@
             <div class="accessibility support">
                 <span style="color: black;">Follow Us At Instagram!</span>
                 <div>
-                    <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
+                    <img src="../../image/socialMedia/ig_clicked.png" alt="IG Logo">
                     <label for="bookSpare">@BookSpare</label>
                 </div>
             </div>
@@ -185,9 +185,9 @@
         <div id="secondHeader">
             <nav>
                 <a href="../adminMain.php"><label for="" class="admin">Post&nbsp;Validation</label></a>
-                <a href="../barChart.php"><label for="" class="admin">Insights</label></a>
+                <a href="../adminInsights.php"><label for="" class="admin">Insights</label></a>
             </nav>
-            <form method="POST" action="adminSearch.php" class="headerForm">
+            <form method="POST" action="search.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread" name="search">
             </form>

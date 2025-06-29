@@ -227,18 +227,18 @@ $showPHPHandle = ($_SERVER['REQUEST_METHOD'] === "POST");
                     $updateSQL = "UPDATE admin SET avatar = '$targetFile' WHERE adminUsername = '$username'";
                     if ($conn->query($updateSQL)) {
                         echo "Avatar updated successfully! Redirecting...";
-                        echo "<script>setTimeout(() => window.location.href = '../adminProfile.php', 3000);</script>";
+                        echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
                     } else {
                         echo "Database update failed.";
-                        echo "<script>setTimeout(() => window.location.href = '../adminProfile.php', 3000);</script>";
+                        echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
                     }
                 } else {
                     echo "Failed to upload file.";
-                    echo "<script>setTimeout(() => window.location.href = '../adminProfile.php', 3000);</script>";
+                    echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
                 }
             } else {
                 echo "Invalid file type or size exceeds 2MB.";
-                echo "<script>setTimeout(() => window.location.href = '../adminProfile.php', 3000);</script>";
+                echo "<meta http-equiv='refresh' content='3; url=../adminProfile.php'>";
             }
         }
     ?>

@@ -109,7 +109,7 @@ header {
     z-index: 999; /* High value */
 }
 
-box-icon {
+header box-icon {
     fill: var(--iconColor);
 }
 

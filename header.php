@@ -109,7 +109,7 @@
                                         if (empty($notiRow['readerID']) && empty($notiRow['bookBorrowCode'])) {
                                                 echo '    <div class="notificationContent" data-postCode="'.$notiRow['postCode'].'">';  
                                                 echo '        <label>Trending Book On ' . strtoupper(date("j F Y", strtotime($notiRow['notificationDate']))) . '</label>';
-                                                echo '        <label for="bookSpare">\''.$notiRow['bookTitle'].'\' With High Avg Rate!</label>';  
+                                                echo '        <label for="bookSpare">\''.$notiRow['bookTitle'].'\'With High Avg Rate!</label>';  
                                                 echo '    </div>';                  
                                         }
                                         

@@ -200,7 +200,7 @@ if (!empty($commentAvg)) {
             cursor: pointer;
         }
 
-        i {
+        main i {
             font-size: 1.5em;
             color: var(--containerColor);
         }

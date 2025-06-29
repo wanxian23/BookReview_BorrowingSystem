@@ -576,18 +576,20 @@ if (isset($_REQUEST['postCode'])) {
         <div class="tab-content">
             <?php foreach ($post as $row): 
             
-            
+            $sqlGetComment = "SELECT rating as averageRating
+            FROM Comment_Rating
+            WHERE postCode = '{$row['postCode']}'";
+            $resultGetComemnt = $conn->query($sqlGetComment);
+            $comment = $resultGetComemnt->fetch_all(MYSQLI_ASSOC);
+    
             $averageRating = 0;
+
             if (!empty($comment)) {
 
                     $i = 0;
                     foreach($comment as $commentData) {
-
-                        if ($commentData['bookBorrowCode'] != null) {
-                            $averageRating += $commentData['ratingFeedback'];
-                            $i++;
-                        }
-
+                        $averageRating += $commentData['averageRating'];
+                        $i++;
                     }
                     
                     if ($i != 0) {

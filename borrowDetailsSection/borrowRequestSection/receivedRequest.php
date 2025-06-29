@@ -3,7 +3,8 @@
 $sqlGetPostDetails = "SELECT 
                           post.*,
                           reader.*,
-                          book.*
+                          book.*,
+                          borrow.readerID AS borrowerID
                       FROM post_review post
                       INNER JOIN reader_user reader USING (readerID)
                       INNER JOIN book_record book USING (bookID)
@@ -43,13 +44,14 @@ foreach ($post as $row) {
                        reader.*
                        FROM Book_Borrowed borrow
                        INNER JOIN Reader_User reader USING (readerID)
-                       WHERE borrow.postCode = '{$row['postCode']}'";
+                       WHERE borrow.postCode = '{$row['postCode']}'
+                       AND borrow.readerID = '{$row['borrowerID']}'";
     $resultBorrowDetails = $conn->query($sqlBorrowerDetails);
     $borrow = $resultBorrowDetails->fetch_assoc();
 
     if ($borrow['statusBorrow'] === "PENDING") {
         
-        echo '<div id="borrowerProfile" data-readerID="'.$borrow['readerID'].'" class="post postCode received" data-postCode="'.$row['postCode'].'">';
+        echo '<div data-readerID="'.$borrow['readerID'].'" class="post borrowerProfile received" data-postCode="'.$row['postCode'].'">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     
@@ -83,7 +85,11 @@ foreach ($post as $row) {
     echo '        </div>';
     echo '        <div class="right">';
     echo '              <h1>Book Requested By</h1>';
-    echo '              <img src="'.$borrow['avatar'].'" alt="Borrower Profile Image">';
+    if (!empty($borrow['avatar'])) {
+        echo '              <img src="'.$borrow['avatar'].'" alt="Borrower Profile Image">';
+    } else {
+        echo '              <a href="viewUsersProfile.php?postCode='.$row['postCode'].'&readerID='.$borrow['readerID'].'">'.$borrow['username'][0].'</a>';
+    }
     echo '              <h1>'.$borrow['username'].'</h1>';
     echo '        </div>';
     echo '    </div>';

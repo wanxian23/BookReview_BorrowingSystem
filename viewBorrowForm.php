@@ -36,6 +36,7 @@ $post = $resultGetPostDetails->fetch_assoc();
 
 $sqlBorrowerDetails = "SELECT *
                       FROM book_borrowed borrow
+                      INNER JOIN reader_user USING (readerID)
                       WHERE postCode = '$postCode'";
 $resultGetBorrowerDetails = $conn->query($sqlBorrowerDetails);
 $borrower = $resultGetBorrowerDetails->fetch_assoc();
@@ -72,14 +73,14 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
       --shadow:  var(--loginContainerBoxShadow,1px 1px 10px rgba(0,0,0,.25));
     }
     main{display:flex;justify-content:center;align-items:center;padding:70px 0;}
-    .form-box{background:var(--formBg);color:var(--formCol);width:100%;max-width:650px;
+    .form-box{background:var(--formBg);color:var(--formCol);width:45%;margin: 0 auto;
               border-radius:10px;box-shadow:var(--shadow);}
     .header{padding:20px 0;text-align:center;font-size:24px;font-weight:bold;
             border-bottom:1px solid #ddd;}
     .body{padding:25px 35px;}
     .field{margin-bottom:18px;}
-    .field:first-child {margin-bottom:18px; text-align: center;}
-    .field:first-child label {display:inline; background-color:rgb(230, 230, 230); padding: 10px; border-radius: 8px;}
+    .field:first-child {margin-bottom:30px; text-align: center;}
+    .field:first-child label {background-color:rgb(230, 230, 230); padding: 10px; border-radius: 8px; word-break: break-all;}
     .field label{display:block;margin-bottom:6px;font-weight:500;}
     .field input,.field textarea{width:100%;padding:12px;border:1px solid #ccc;
                                  border-radius:5px;font-size:15px;}
@@ -112,11 +113,11 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
         method="POST"
         onsubmit="return validateBorrow();">
 
-    <div class="header">Borrow Request Form</div>
+    <div class="header">Borrow Request Form (View)</div>
     <div class="body">
     <?php
       echo "<div class='field'>
-              <label for=''>You Are Replying <b>'{$post['username']}'</b> For Borrow Book <b>'{$post['bookTitle']}'</b></label>
+              <label for=''>This Borrow Form Is Answered By <b>'{$borrower['username']}'</b><br>For Borrow Book <b>'{$post['bookTitle']}'</b></label>
             </div>";
     ?>
 
@@ -139,6 +140,11 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
         <label for="address">Full Address</label>
         <textarea id="address" name="address" rows="3" readonly><?php echo $borrower['address']; ?></textarea>
       </div>
+
+      <div class="field">
+      <label for="email">Delivery Method</label>
+      <input type="text" id="deliveryMethod" name="deliveryMethod" value="<?php echo $borrower['deliveryMethod']; ?>" readonly>
+    </div>
 
       <div class="field">
         <label for="borrowDate">Preferred Borrow Date</label>

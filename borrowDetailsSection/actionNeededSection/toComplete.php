@@ -41,7 +41,7 @@ foreach ($post as $row) {
     }
 
 
-    echo '<div id="replyForm" class="post postCode" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 190px;">';
+    echo '<div class="post replyForm" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 190px;  width: 350px;">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     

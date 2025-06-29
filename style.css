@@ -368,7 +368,7 @@ header .notification div.notificationContentContainer div.notificationContent:ho
 header .notification div.notificationContentContainer div.notificationContent label {
     text-align: left;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 0.8em;
 }
 
 header .notification div.notificationContentContainer div.notificationContent label:nth-child(2) {

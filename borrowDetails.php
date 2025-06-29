@@ -326,6 +326,19 @@ $user = $runSQL->fetch_assoc();
             border: 7px solid;
             border-radius: 50px;
         }
+
+        div.post.received div.body div.right:nth-child(2) a {
+            width: 90px;
+            height: 90px;
+            border: 7px solid black;
+            border-radius: 50px;
+            text-decoration: none;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            background-color: #d8d5ec;
+            color: black;
+        }
         
         div.post div.right h3 {
             font-size: 0.85em;
@@ -591,21 +604,21 @@ $user = $runSQL->fetch_assoc();
                 window.location.href = "bookDetail.php?postCode=" + postCode;
             })
 
-            $("#borrowerProfile").click(function() {
-                event.stopPropagation(); // Prevent triggering parent click
+            $(".borrowerProfile").click(function() {
+               
                 let postCode = this.getAttribute("data-postCode");
                 let readerID = this.getAttribute("data-readerID");
                 window.location.href = "viewUsersProfile.php?postCode=" + postCode + "&readerID=" + readerID;               
             });
 
-            $("#replyForm").click(function() {
+            $(".replyForm").click(function() {
                 event.stopPropagation(); // Prevent triggering parent click
                 let postCode = this.getAttribute("data-postCode");
                 let readerID = this.getAttribute("data-readerID");
                 window.location.href = "borrowForm.php?postCode=" + postCode + "&borrowerReaderID=" + readerID;        
             });
 
-            $("#viewReplyForm").click(function() {
+            $(".viewReplyForm").click(function() {
                 event.stopPropagation(); // Prevent triggering parent click
                 let postCode = this.getAttribute("data-postCode");
                 let readerID = this.getAttribute("data-readerID");

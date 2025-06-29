@@ -793,9 +793,12 @@ if (!empty($commentAvg)) {
                     } else if ($post['statusBorrow'] == "APPROVED") {
                         echo "<label>You Are The Owner Of This Book!<label><br>";
                         echo "<label style='color: red;'>You Have Approved A Borrow Request, So This Post Is Not Available To Borrow Currently!<label>";
-                    } else {
+                    } else if ($post['statusPostBorrow'] == "YES") {
                         echo "<label>You Are The Owner Of This Book!<label><br>";
                         echo "<label style='color: red;'>This Post Is Available For Borrow!<label>";
+                    } else {
+                        echo "<label>You Are The Owner Of This Book!<label><br>";
+                        echo "<label style='color: red;'>This Post Is NOT Available For Borrow!<label>";
                     }
                 }
 

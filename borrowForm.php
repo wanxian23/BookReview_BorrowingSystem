@@ -74,7 +74,7 @@ $post = $resultGetPostDetails->fetch_assoc();
     .field:first-child {margin-bottom:18px; text-align: center;}
     .field:first-child label {display:inline; background-color:rgb(230, 230, 230); padding: 10px; border-radius: 8px;}
     .field label{display:block;margin-bottom:6px;font-weight:500;}
-    .field input,.field textarea{width:100%;padding:12px;border:1px solid #ccc;
+    .field input,.field textarea, .field #deliveryMethod{width:100%;padding:12px;border:1px solid #ccc;
                                  border-radius:5px;font-size:15px;}
     input[type="submit"]{width:100%;padding:14px;border:none;border-radius:5px;
            background:var(--btnBg);color:var(--btnCol);font-size:16px;cursor:pointer;}
@@ -129,9 +129,13 @@ $post = $resultGetPostDetails->fetch_assoc();
       </div>
 
       <div class="field">
-        <label for="address">Full Address</label>
-        <textarea id="address" name="address" rows="3" required></textarea>
-      </div>
+        <label for="deliveryMethod">Delivery Method</label>
+        <select id="deliveryMethod" name="deliveryMethod" required>
+          <option value="">-- Select Method --</option>
+          <option value="Meet In Person">Meet In Person</option>
+          <option value="Postal Delivery">Postal Delivery</option>
+        </select>
+    </div>
 
       <div class="field">
         <label for="borrowDate">Preferred Borrow Date</label>

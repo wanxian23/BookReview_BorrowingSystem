@@ -86,22 +86,7 @@ $postCode = $_REQUEST['postCode'];
             $phone      = $_POST['phone']      ?? '';
             $email      = $_POST['email']      ?? '';
             $address    = $_POST['address']    ?? '';
-            $borrowDate = $_POST['borrowDate'] ?? '';
-            $returnDate = $_POST['returnDate'] ?? '';
-            $reason     = $_POST['reason']     ?? '';
-
-            // (optional) semak kosong
-            if (!$name || !$phone || !$email || !$address) {
-                echo "<script>alert('Isi semua ruang wajib.');history.back();</script>";
-                exit;
-            }
-            include('../database/database.php');
-
-            // ambil data POST
-            $name       = $_POST['name']       ?? '';
-            $phone      = $_POST['phone']      ?? '';
-            $email      = $_POST['email']      ?? '';
-            $address    = $_POST['address']    ?? '';
+            $deliveryMethod    = $_POST['deliveryMethod']    ?? '';
             $borrowDate = $_POST['borrowDate'] ?? '';
             $returnDate = $_POST['returnDate'] ?? '';
             $reason     = $_POST['reason']     ?? '';
@@ -114,13 +99,22 @@ $postCode = $_REQUEST['postCode'];
 
             // masukkan ke table `borrow_request`
             $sql = "UPDATE book_borrowed
-                    SET fullname = ?, phone = ?, email = ?, address = ?, borrowDate = ?, expectedReturnDate = ?, reasonBorrow = ?
+                    SET fullname = ?, phone = ?, email = ?, address = ?, borrowDate = ?, expectedReturnDate = ?, reasonBorrow = ?, deliveryMethod = ?
                     WHERE postCode = '$postCode' AND readerID = '$readerID'";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssssss",
-                $name, $phone, $email, $address, $borrowDate, $returnDate, $reason);
+            $stmt->bind_param("ssssssss",
+                $name, $phone, $email, $address, $borrowDate, $returnDate, $reason, $deliveryMethod);
 
-            if ($stmt->execute()) {
+                $sqlGetBorrowRequestInfo = "SELECT * FROM book_borrowed
+                                            WHERE postCode = '$postCode' AND readerID = '$readerID'
+                                            ORDER BY bookBorrowCode DESC LIMIT 1";
+                $resultGetBorrowRequestInfo = $conn->query($sqlGetBorrowRequestInfo);
+                $borrowRequest = $resultGetBorrowRequestInfo->fetch_assoc();
+
+                $sqlUpdatePostBorrowAvailability = "UPDATE post_review SET statusPostBorrow = 'NO' WHERE postCode = '{$borrowRequest['postCode']}'";
+                $resultUpdatePostBorrowAvailability = $conn->query($sqlUpdatePostBorrowAvailability);
+
+            if ($stmt->execute() && $resultUpdatePostBorrowAvailability) {
                 echo "Borrow Request Form Submitted Successfully!";
                 echo "<meta http-equiv='refresh' content='3 ;url=../borrowDetails.php?section=actionNeeded&sectionAside=toComplete'>";
             } else {

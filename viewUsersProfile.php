@@ -55,13 +55,18 @@ $postCode = "";
 if (isset($_REQUEST['postCode'])) {
 
     $postCode = $_REQUEST['postCode'];
+    $borrowID = $_REQUEST['readerID'];
 
     $sqlBorrowerDetails = "SELECT
                         borrow.*,
-                        reader.*
+                        reader.*,
+                        book.bookTitle
                     FROM Book_Borrowed borrow
                     INNER JOIN Reader_User reader USING (readerID)
-                    WHERE borrow.postCode = '$postCode'";
+                    INNER JOIN Post_Review post USING (postCode)
+                    INNER JOIN book_record book USING (bookID)
+                    WHERE borrow.postCode = '$postCode'
+                    AND borrow.readerID = '$borrowID'";
     $resultBorrowDetails = $conn->query($sqlBorrowerDetails);
     $borrow = $resultBorrowDetails->fetch_assoc();
 }
@@ -159,7 +164,7 @@ if (isset($_REQUEST['postCode'])) {
         }
 
         .borrower-profile-left {
-            width:90%;
+            width:100%;
             display: flex; 
             align-items: center;
             justify-content: space-between;
@@ -175,6 +180,12 @@ if (isset($_REQUEST['postCode'])) {
             display: flex; 
             align-items: center;
             gap: 20px;
+        }
+
+        .borrower-profile-left div:last-child label {
+            color: red;
+            width: 400px;
+            word-wrap: break-word;
         }
 
         .borrower-profile-left div:last-child a {
@@ -510,22 +521,33 @@ if (isset($_REQUEST['postCode'])) {
 <?php
     if (isset($_REQUEST['postCode'])) {
 
-        echo '
-        <div class="borrower-profile-left">';
+        echo '<div class="borrower-profile-left">';
     
-            echo '<div>';
-            if (!empty($viewedUser['avatar'])) {
-                echo "<img src='" . $viewedUser['avatar'] . "' alt='Profile Image'>";
-            } else {
-                echo "<div class='profile-picture'>" . strtoupper($viewedUser['username'][0]) . "</div>";
-            }
-            echo '<div class="profile-name">' . htmlspecialchars($viewedUser['username']) . '</div>';
-            echo '</div>';
+        echo '<div>';
+        if (!empty($viewedUser['avatar'])) {
+            echo "<img src='" . $viewedUser['avatar'] . "' alt='Profile Image'>";
+        } else {
+            echo "<div class='profile-picture'>" . strtoupper($viewedUser['username'][0]) . "</div>";
+        }
+        echo '<div class="profile-name">' . htmlspecialchars($viewedUser['username']) . '</div>';
+        echo '</div>';
+
+        if ($borrow['statusBorrow'] === "PENDING") {
 
             echo '<div>';
-            echo "<a href=''>Approve</a>";
-            echo "<a href=''>Reject</a>";
+            echo '<a href="backendLogic/bookApprovalHandling.php?postCode='.$postCode.'&borrowerReaderID='.$borrow['readerID'].'">Approve</a>';
+            echo '<a href="backendLogic/bookRejectionHandling.php?postCode='.$postCode.'&borrowerReaderID='.$borrow['readerID'].'">Reject</a>';
             echo '</div>';
+        } else if ($borrow['statusBorrow'] === "APPROVED") {
+            echo '<div>';
+            echo '<label>You Have Approved <b>\''.$borrow['username'].'\'</b><br>To Borrow Book <b>\''.$borrow['bookTitle'].'\'</b></label>';
+            echo '</div>';
+        } else {
+            echo '<div>';
+            echo '<label>You Have Reject <b>\''.$borrow['username'].'\'</b><br>To Borrow Book <b>\''.$borrow['bookTitle'].'\'</b></label>';
+            echo '</div>';
+        }
+ 
         echo '</div>';
 
     } else {

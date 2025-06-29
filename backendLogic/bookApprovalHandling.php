@@ -179,13 +179,10 @@ $borrow = $resultBorrowDetails->fetch_assoc();
             $postCode = $_REQUEST['postCode'];
             $borrowReaderID = $_REQUEST['borrowerReaderID'];
 
-            // $sqlApprovePost = "UPDATE post_review SET statusPostBorrow = 'NO' WHERE postCode = '$postCode'";
-            // $resultSqlPost = $conn->query($sqlApprovePost);
-
             $sqlApproveBorrower = "UPDATE book_borrowed SET statusBorrow = 'APPROVED' WHERE postCode = '$postCode' AND readerID = '$borrowReaderID'";
             $resultSqlBorrower = $conn->query($sqlApproveBorrower);
 
-            if ($resultSqlBorrower && $resultSqlPost) {
+            if ($resultSqlBorrower) {
                 echo "<label class='statusNote'>Book Request Approved Successfully!</label>";
                 echo "<meta http-equiv='refresh' content='3 ;url=../borrowDetails.php?section=borrowRequest&sectionAside=approveBorrowRequest'>";
             } else {

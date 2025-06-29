@@ -33,7 +33,7 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="../main.php" id="logo"><img src="../image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="main.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -132,7 +132,6 @@
                                                 echo '    </div>';
                                             }
                                         }
-                                        
                                     }
                                 }
 
@@ -150,7 +149,7 @@
                             if ($user['avatar'] == null) {
                                 echo $user['username'][0]; 
                             } else {
-                                echo "<img src=../".$user['avatar']." alt='Profile Image'>";
+                                echo "<img src='../".$user['avatar']."' alt='Profile Image'>";
                             }
                         ?>
                         </a>
@@ -171,6 +170,7 @@
             </div>
             <span id="mainButton"><label for="color">Main</label></span>
             <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
+            <span id="mainButton"><label for="color" id="mypostButton">My Post</label></span>
             <span id="mainButton"><label for="color" id="InsightsButton">Insights</label></span>
 
             <div class="accessibility colorAccessibility">
@@ -201,9 +201,11 @@
             <nav>
                 <a href="../main.php"><label for="">Main</label></a>
                 <a href="../genre.php"><label for="">Genre</label></a>
+                <a href="../mainmyposts.php"><label for="">My Post</label></a>
+                <a href="../borrowDetails.php"><label for="">Borrow Details</label></a>
                 <a href="../barChart.php"><label for="">Insights</label></a>
             </nav>
-            <form method="POST" action="../search.php" class="headerForm">
+            <form method="POST" action="search.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread" name="search">
             </form>

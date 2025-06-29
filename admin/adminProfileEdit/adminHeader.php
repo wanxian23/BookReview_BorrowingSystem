@@ -33,7 +33,7 @@
 <body>
     <header>
         <div id="firstHeader">
-            <a href="main.php" id="logo"><img src="image/logoTitle.png" alt="logo" id="logoImage"></a>
+            <a href="../adminMain.php" id="logo"><img src="../../image/logoTitle.png" alt="logo" id="logoImage"></a>
 
             <nav>
                 <div>
@@ -56,18 +56,7 @@
                         <div class="option" data-setFontSize="veryLargeFontSize">Very Large</div>
                     </div>
                 </div>
-                <div>
-                    <span class="supportButton"><label for="support">Support<box-icon name='chevron-down'
-                                class="downArrow"></box-icon></label></span>
-                    <div class="accessibility support">
-                        <span style="color: black;">Follow Us At Instagram!</span>
-                        <div>
-                            <img src="image/socialMedia/ig_clicked.png" alt="IG Logo">
-                            <label for="bookSpare">@BookSpare</label>
-                        </div>
-                    </div>
-                </div>
-                <div>
+                <!-- <div>
                     <span class="notificationButton"><label for="notification"><i class='bx  bx-bell' ></i> </label></span>
                     <div class="accessibility notification">
                         <span style="color: black;">Notification</span>
@@ -77,43 +66,35 @@
 
                                 // foreach ($getPost as $postRow) {
 
-                                    $sqlGetNotificationHeader = "SELECT noti.*, post.postCode, book.bookTitle
-                                                            FROM Notification noti
-                                                            INNER JOIN post_review post USING (postCode)
-                                                            INNER JOIN book_record book USING (bookID)
-                                                            WHERE noti.readerID IS NULL AND noti.bookBorrowCode IS NULL
-                                                            ORDER BY noti.notificationCode DESC";
-                                    $resultGetNotificationHeader = $conn->query($sqlGetNotificationHeader);
-                                    $notification = $resultGetNotificationHeader->fetch_all(MYSQLI_ASSOC);
+                                //     $sqlGetNotificationHeader = "SELECT *
+                                //                             FROM Notification noti
+                                //                             INNER JOIN Post_Review post USING (postCode)
+                                //                             INNER JOIN Comment_Rating comment USING (commentCode)
+                                //                             WHERE noti.postCode = '{$postRow['postCode']}'";
+                                //     $resultGetNotificationHeader = $conn->query($sqlGetNotificationHeader);
+                                //     $notification = $resultGetNotificationHeader->fetch_all(MYSQLI_ASSOC);
 
-                                    foreach ($notification as $notiRow) {
+                                //     foreach ($notification as $notiRow) {
                                         
-                                        // $sqlGetCommentUserHeader = "SELECT * FROM Reader_User WHERE readerID = '{$notiRow['readerID']}'";
-                                        // $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
-                                        // $commentUser = $resultGetCommentUserHeader->fetch_assoc();
+                                //         $sqlGetCommentUserHeader = "SELECT * FROM Reader_User WHERE readerID = '{$notiRow['readerID']}'";
+                                //         $resultGetCommentUserHeader = $conn->query($sqlGetCommentUserHeader);
+                                //         $commentUser = $resultGetCommentUserHeader->fetch_assoc();
                                             
-                                        // if ($commentUser['readerID'] != $readerID) {
-                                        //     if ($notiRow['bookBorrowCode'] == null) {
-                                        //         echo '    <div class="notificationContent">';  
-                                        //         echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                        //         echo '        <label for="bookSpare">Leave A New Comment!</label>';  
-                                        //         echo '    </div>';
-                                        //     } else {
-                                        //         echo '    <div class="notificationContent">';  
-                                        //         echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
-                                        //         echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
-                                        //         echo '    </div>';                                         
-                                        //     }
-                                        // }
-
-                                        if (empty($notiRow['readerID']) && empty($notiRow['bookBorrowCode'])) {
-                                                echo '    <div class="notificationContent" data-postCode="'.$notiRow['postCode'].'">';  
-                                                echo '        <label>Trending Book On ' . strtoupper(date("j F Y", strtotime($notiRow['notificationDate']))) . '</label>';
-                                                echo '        <label for="bookSpare">\''.$notiRow['bookTitle'].'\' With High Avg Rate!</label>';  
-                                                echo '    </div>';                  
-                                        }
+                                //         if ($commentUser['readerID'] != $readerID) {
+                                //             if ($notiRow['bookBorrowCode'] == null) {
+                                //                 echo '    <div class="notificationContent">';  
+                                //                 echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                //                 echo '        <label for="bookSpare">Leave A New Comment!</label>';  
+                                //                 echo '    </div>';
+                                //             } else {
+                                //                 echo '    <div class="notificationContent">';  
+                                //                 echo '        <label for="bookSpare">'.$commentUser['username'].'</label>';  
+                                //                 echo '        <label for="bookSpare">Leave A New Comemnt & Rating!</label>';  
+                                //                 echo '    </div>';                                         
+                                //             }
+                                //         }
                                         
-                                    }
+                                //     }
                                 // }
 
                                 // foreach ($commentDetailsHeader as $commentDetailsRow) {
@@ -147,17 +128,17 @@
                             
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div>
                     <span class="profile">
-                        <?php echo $user['username']; ?>
+                        <?php echo $admin['adminUsername']; ?>
                         <a>
                         <?php 
                             
-                            if ($user['avatar'] == null) {
-                                echo $user['username'][0]; 
+                            if ($admin['avatar'] == null) {
+                                echo $admin['adminUsername'][0]; 
                             } else {
-                                echo "<img src=".$user['avatar']." alt='Profile Image'>";
+                                echo "<img src='../../".$admin['avatar']."' alt='Profile Image'>";
                             }
                         ?>
                         </a>
@@ -170,16 +151,12 @@
         <aside>
             <div id="profile">
                 <span class="profile">
-                    <?php echo $user['username']; ?>
+                    <?php echo $admin['adminUsername']; ?>
                     <a>
-                        <?php echo $user['username'][0]; ?>
+                        <?php echo $admin['adminUsername'][0]; ?>
                     </a>
                 </span>
             </div>
-            <span id="mainButton"><label for="color">Main</label></span>
-            <span id="mainButton"><label for="color" id="genreButton">Genre</label></span>
-            <span id="mainButton"><label for="color" id="mypostButton">My Post</label></span>
-            <span id="mainButton"><label for="color" id="InsightsButton">Insights</label></span>
 
             <div class="accessibility colorAccessibility">
                 <div class="default option" data-color="defaultColor">Default</div>
@@ -207,30 +184,19 @@
         </aside>
         <div id="secondHeader">
             <nav>
-                <a href="main.php"><label for="">Main</label></a>
-                <a href="genre.php"><label for="">Genre</label></a>
-                <a href="mainmyposts.php"><label for="">My Post</label></a>
-                <a href="borrowDetails.php"><label for="">Borrow Details</label></a>
-                <a href="barChart.php"><label for="">Insights</label></a>
+                <a href="adminMain.php"><label for="" class="admin">Post&nbsp;Validation</label></a>
+                <a href="barChart.php"><label for="" class="admin">Insights</label></a>
             </nav>
-            <form method="POST" action="search.php" class="headerForm">
+            <form method="POST" action="adminSearch.php" class="headerForm">
                 <box-icon name='search-alt'></box-icon>
                 <input type="text" placeholder="Search by book name/ thread" name="search">
             </form>
             <nav>
-                <a href="logout.php"><label for="main">Logout</label></a>
+                <a href="adminLogout.php"><label for="main">Logout</label></a>
             </nav>
         </div>
     </header>
 
-    <script>
-        $(document).ready(function() {
-            $(".notificationContent").click(function() {
-                let postCode = this.getAttribute("data-postCode");
-                window.location.href = "bookDetail.php?postCode=" + postCode;
-            });
-        })
-    </script>
 </body>
 
 </html>

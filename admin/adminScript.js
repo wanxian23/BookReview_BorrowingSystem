@@ -108,6 +108,6 @@ $(document).ready(function() {
     });
 
     $(".profile").click(function() {
-        window.location = "../profilemyposts.php";
+        window.location = "adminProfile.php";
     });
 });

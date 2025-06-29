@@ -53,7 +53,7 @@ foreach ($post as $row) {
     $borrower = $resultGetBorrowerDetails->fetch_assoc();
 
 
-    echo '<div id="viewReplyForm" class="post postCode" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 220px; width: 350px;">';
+    echo '<div class="post viewReplyForm" data-readerID="'.$row['readerID'].'" data-postCode="'.$row['postCode'].'"  style="height: 220px; width: 350px;">';
     echo '    <div class="head">';
     echo '        <div class="postProfile">';
     

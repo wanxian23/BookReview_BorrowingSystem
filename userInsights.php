@@ -165,6 +165,7 @@ $activeUsersResult = $conn->query($sqlActive);
     </table>
 
     <!-- Most Borrowed Books -->
+    <canvas id="borrowChart" style="display:none;"></canvas><br><br>
     <table class="insight-table" id="table-borrowed" style="display:none;">
         <thead><tr><th>BOOK TITLE</th><th>TOTAL BORROWED</th></tr></thead>
         <tbody>
@@ -176,7 +177,6 @@ $activeUsersResult = $conn->query($sqlActive);
         <?php endforeach; ?>
         </tbody>
     </table>
-    <canvas id="borrowChart" style="display:none;"></canvas>
 </main>
 
 <script>

@@ -107,10 +107,17 @@ $borrower = $resultGetBorrowerDetails->fetch_assoc();
     <div class="header">Completed Borrow Request Form (View)</div>
     <div class="body">
     <?php
-      echo "<div class='field'>
-              <label for=''>This Borrow Form Is Answered By <b>'{$borrower['username']}'</b><br>For Borrow Book <b>'{$post['bookTitle']}'</b><br>
-              <label style='color: red;'>Below Are Personal Details of <b>'{$borrower['username']}'</b></label>
-              </label>
+      echo "<div class='field'>";
+            if ($post['borrowerID'] == $readerID) {
+              echo "<label for=''>You Have Complete This Borrow Form!</b><br>";
+              echo "For Borrow Book <b>'{$post['bookTitle']}'</b> From User <b>'{$post['username']}'</b><br>";
+              echo "<label style='color: red;'>Below Are Your Personal Details That Display To Book Owner</b></label>";       
+            } else {
+              echo "<label for=''>This Borrow Form Is Answered By <b>'{$borrower['username']}'</b><br>";
+              echo "For Borrow Book <b>'{$post['bookTitle']}'</b><br>";
+              echo "<label style='color: red;'>Below Are Personal Details of <b>'{$borrower['username']}'</b></label>";
+            }
+      echo "   </label>
             </div>";
     ?>
 

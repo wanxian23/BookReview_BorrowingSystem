@@ -442,7 +442,7 @@ if (isset($_REQUEST['postCode'])) {
         div.post div.body div.right img {
             width: 90%;
             height: 100%;
-            box-shadow: var(--bookBoxShadow);
+            box-shadow: var(--containerBoxShadow);
         }
 
         div.post div.body div.left div.review {

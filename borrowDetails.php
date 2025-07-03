@@ -531,9 +531,11 @@ $user = $runSQL->fetch_assoc();
 
                     $toCompleteActive = (!isset($_GET['sectionAside']) || $_GET['sectionAside'] === 'toComplete') ? 'active' : '';
                     $formReceivedActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'formReceived') ? 'active' : '';
+                    $formSentActive = (isset($_GET['sectionAside']) && $_GET['sectionAside'] === 'formSent') ? 'active' : '';
             
                     echo '<button type="submit" name="sectionAside" value="toComplete" class="' . $toCompleteActive . '">To Complete</button>';
                     echo '<button type="submit" name="sectionAside" value="formReceived" class="' . $formReceivedActive . '">Form Received</button>';
+                    echo '<button type="submit" name="sectionAside" value="formSent" class="' . $formSentActive . '">Form Sent</button>';
     
                     echo '</form>';
 
@@ -543,8 +545,10 @@ $user = $runSQL->fetch_assoc();
 
                         if ($_GET['sectionAside'] === 'toComplete') {
                             include 'borrowDetailsSection/actionNeededSection/toComplete.php';
-                        } else {
+                        } else if ($_GET['sectionAside'] === 'formReceived') {
                             include('borrowDetailsSection/actionNeededSection/formReceived.php');
+                        } else {
+                            include('borrowDetailsSection/actionNeededSection/formSent.php');
                         }
 
                     } else {

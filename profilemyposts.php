@@ -379,7 +379,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
         div.post div.body div.right img {
             width: 90%;
             height: 100%;
-            box-shadow: var(--bookBoxShadow);
+            box-shadow: var(--containerBoxShadow);
         }
 
         div.post div.body div.left div.review {

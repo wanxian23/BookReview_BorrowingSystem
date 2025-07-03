@@ -778,6 +778,12 @@ if (!empty($commentAvg)) {
 
                     if (!empty($borrower)) {
 
+                        if ($post['statusPostBorrow'] == "YES") {
+                            if ($borrower['statusBorrow'] !== "PENDING") {
+                                echo "<label>Please Click On This Button, If You Are Interested To Borrow This Book!</label>";
+                                echo "<a href='confirmationBorrow.php?postCode=".$postCode."' class='availableBorrow'>Borrow</a>";
+                            }
+                        } else {
                             if ($borrower['statusBorrow'] === "PENDING") {
                                 echo "          <label style='color: red;'>You Already Sent A Borrow Request To '{$post['username']}'!<label><br>";
                                 echo "          <label style='color: red;'>Please Kindly Wait For Book Owner To Respond!<label>";
@@ -791,6 +797,7 @@ if (!empty($commentAvg)) {
                                 echo "          <label style='color: red;'>Your Borrow Request Has Been Rejected By '{$post['username']}'!<label><br>";
                                 echo "          <label style='color: red;'>Please Cancel Your Borrow Request If You Wanna Make Request Again!<label>";
                             }
+                        }
 
                     } else {
                         

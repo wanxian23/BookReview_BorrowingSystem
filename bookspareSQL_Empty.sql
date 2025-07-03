@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3301
--- Generation Time: Jun 29, 2025 at 12:34 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Jul 02, 2025 at 12:41 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bookspare`
+-- Database: `student_bookspare`
 --
 
 -- --------------------------------------------------------
@@ -87,7 +87,8 @@ CREATE TABLE `comment_rating` (
   `dateComment` varchar(20) NOT NULL,
   `timeComment` time DEFAULT NULL,
   `rating` int(10) DEFAULT NULL,
-  `statusComment` char(20) DEFAULT NULL
+  `statusComment` char(20) DEFAULT NULL,
+  `reasonBan` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -104,7 +105,8 @@ CREATE TABLE `nested_comment_rating` (
   `readerID` int(11) DEFAULT NULL,
   `commentCode` int(11) DEFAULT NULL,
   `timeComment` time DEFAULT NULL,
-  `statusNestedComment` char(20) DEFAULT NULL
+  `statusNestedComment` char(20) DEFAULT NULL,
+  `reasonBan` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

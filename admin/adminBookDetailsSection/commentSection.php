@@ -30,7 +30,7 @@ if (!empty($comment)) {
             echo '              <label>'.$rowComment['username'].'</label>';   
             echo '          </div>'; 
             echo '          <div>';  
-            echo '              <a href="commentHandling/commentReply.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Ban Comment</a>';
+            echo '              <a href="postValidationSection/confirmationCommentBan.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Ban Comment</a>';
             echo '          </div>';                            
             echo '      </div>';
             echo '      <div class="commentContent">';
@@ -56,7 +56,7 @@ if (!empty($comment)) {
                 echo '              <label>'.$rowNestedComment['username'].'</label>';   
                 echo '          </div>'; 
                 echo '          <div>';  
-                echo '              <a href="commentHandling/commentReply.php?commentCode='.$rowComment['commentCode'].'&postCode='.$postCode.'">Ban Comment</a>';
+                echo '              <a href="postValidationSection/confirmationCommentBan.php?nestedCommentCode='.$rowNestedComment['commentCode'].'&postCode='.$postCode.'">Ban Comment</a>';
                 echo '          </div>';                            
                 echo '      </div>';
                 echo '      <div class="commentContent">';

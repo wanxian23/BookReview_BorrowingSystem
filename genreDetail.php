@@ -497,7 +497,7 @@ $post = $resultGetPostDetails->fetch_all(MYSQLI_ASSOC);
     <main>
         <article>
             <div class="header-row">
-                <div onclick="" class="back-button"><i class='bx bx-reply'></i> Back</div>
+                <div onclick="window.history.back()" class="back-button"><i class='bx bx-reply'></i> Back</div>
                 <h1><?php echo $bookSelected ?></h1> 
             </div>
 
